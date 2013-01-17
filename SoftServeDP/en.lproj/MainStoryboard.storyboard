@@ -9,123 +9,144 @@
         <scene sceneID="QWJ-gf-DFg">
             <objects>
                 <tableViewController id="w5v-Jb-8zU" customClass="SlideMenuImplementor" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zcx-gr-ROf">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zcx-gr-ROf">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.15686275064945221" green="0.15686275064945221" blue="0.15686275064945221" alpha="1" colorSpace="deviceRGB"/>
                         <sections>
                             <tableViewSection id="sHt-cD-8qr">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="l64-Hg-7Fp">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="l64-Hg-7Fp">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Мапа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZ2-s4-oZr">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="xYe-dW-F2S"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Мапа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FLD-nv-g8D">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="fZ2-s4-oZr" firstAttribute="top" secondItem="l64-Hg-7Fp" secondAttribute="top" constant="11" id="r4m-Vq-Xu6"/>
-                                            <constraint firstItem="fZ2-s4-oZr" firstAttribute="leading" secondItem="l64-Hg-7Fp" secondAttribute="leading" constant="20" type="default" id="reM-j4-SH9"/>
+                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="top" secondItem="l64-Hg-7Fp" secondAttribute="top" type="default" id="CIe-B8-TCK"/>
+                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="trailing" secondItem="l64-Hg-7Fp" secondAttribute="trailing" type="default" id="FTp-QB-hoN"/>
+                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="leading" secondItem="l64-Hg-7Fp" secondAttribute="leading" type="default" id="Hct-Go-pcW"/>
+                                            <constraint firstItem="FLD-nv-g8D" firstAttribute="leading" secondItem="l64-Hg-7Fp" secondAttribute="leading" constant="20" type="default" id="IVv-Ab-uIo"/>
+                                            <constraint firstItem="FLD-nv-g8D" firstAttribute="top" secondItem="l64-Hg-7Fp" secondAttribute="top" constant="11" id="lZd-Gd-puk"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="tgl-kW-LwA" kind="custom" identifier="map" customClass="SASlideMenuStaticStoryboardSegue" id="BgU-Wo-CuE"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgd-AA-Bbu">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="Fgd-AA-Bbu">
                                         <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Списком" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhY-0d-Bs9">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="siY-HK-hCx"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iur-Ag-wUM">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="VhY-0d-Bs9" firstAttribute="leading" secondItem="Fgd-AA-Bbu" secondAttribute="leading" constant="20" type="default" id="DBh-XS-VzY"/>
-                                            <constraint firstItem="VhY-0d-Bs9" firstAttribute="top" secondItem="Fgd-AA-Bbu" secondAttribute="top" constant="11" id="l8b-9o-VhT"/>
+                                            <constraint firstItem="siY-HK-hCx" firstAttribute="centerY" secondItem="Iur-Ag-wUM" secondAttribute="centerY" type="default" id="MHr-cc-9Lf"/>
+                                            <constraint firstItem="siY-HK-hCx" firstAttribute="trailing" secondItem="Fgd-AA-Bbu" secondAttribute="trailing" type="default" id="fvj-mI-sZh"/>
+                                            <constraint firstItem="Iur-Ag-wUM" firstAttribute="leading" secondItem="Fgd-AA-Bbu" secondAttribute="leading" constant="20" type="default" id="jTI-Mb-Vlj"/>
+                                            <constraint firstItem="siY-HK-hCx" firstAttribute="top" secondItem="Fgd-AA-Bbu" secondAttribute="top" type="default" id="lT9-SF-xNn"/>
+                                            <constraint firstItem="siY-HK-hCx" firstAttribute="leading" secondItem="Fgd-AA-Bbu" secondAttribute="leading" type="default" id="n2c-L4-BCJ"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="KRb-2u-7IQ" kind="custom" identifier="list" customClass="SASlideMenuStaticStoryboardSegue" id="uW6-g6-Hbf"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="7RL-a8-xip">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="7RL-a8-xip">
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qrp-X2-m2p"/>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Обране" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHY-mh-SUD">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="sHY-mh-SUD" firstAttribute="top" secondItem="7RL-a8-xip" secondAttribute="top" constant="11" id="8jF-Ya-ook"/>
+                                            <constraint firstItem="sHY-mh-SUD" firstAttribute="centerY" secondItem="Qrp-X2-m2p" secondAttribute="centerY" type="default" id="BRj-dI-asy"/>
+                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="trailing" secondItem="7RL-a8-xip" secondAttribute="trailing" type="default" id="SbL-Z8-sRZ"/>
+                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="leading" secondItem="7RL-a8-xip" secondAttribute="leading" type="default" id="bFQ-5x-xR8"/>
                                             <constraint firstItem="sHY-mh-SUD" firstAttribute="leading" secondItem="7RL-a8-xip" secondAttribute="leading" constant="20" type="default" id="bOv-jK-TGz"/>
+                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="top" secondItem="7RL-a8-xip" secondAttribute="top" type="default" id="ceW-AJ-ajz"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="FOu-2c-2fD" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="sG6-QJ-HMF"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pxY-1t-U6g">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="pxY-1t-U6g">
                                         <rect key="frame" x="0.0" y="132" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="2TL-7s-1pM"/>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Новини" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3w-dF-F0K">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="o3w-dF-F0K" firstAttribute="top" secondItem="pxY-1t-U6g" secondAttribute="top" constant="11" id="CNG-Hr-RNV"/>
+                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="trailing" secondItem="pxY-1t-U6g" secondAttribute="trailing" type="default" id="QpK-Gv-gvL"/>
+                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="centerY" secondItem="o3w-dF-F0K" secondAttribute="centerY" type="default" id="biH-Kx-n05"/>
+                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="top" secondItem="pxY-1t-U6g" secondAttribute="top" type="default" id="mfp-pz-6DM"/>
                                             <constraint firstItem="o3w-dF-F0K" firstAttribute="leading" secondItem="pxY-1t-U6g" secondAttribute="leading" constant="20" type="default" id="n1I-dc-8q8"/>
+                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="leading" secondItem="pxY-1t-U6g" secondAttribute="leading" type="default" id="ygX-H7-9IL"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="0gr-qL-Whh" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="ZUf-CT-sj4"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="36Z-rc-bgX">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="36Z-rc-bgX">
                                         <rect key="frame" x="0.0" y="176" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="gC1-dC-vpi"/>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Налаштування" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMG-e3-WLX">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" red="0.15686275064945221" green="0.15686275064945221" blue="0.15686275064945221" alpha="1" colorSpace="deviceRGB"/>
                                         <constraints>
-                                            <constraint firstItem="sMG-e3-WLX" firstAttribute="top" secondItem="36Z-rc-bgX" secondAttribute="top" constant="11" id="CQV-4V-EOj"/>
+                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="centerY" secondItem="sMG-e3-WLX" secondAttribute="centerY" type="default" id="BiK-9D-3Fj"/>
+                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="leading" secondItem="36Z-rc-bgX" secondAttribute="leading" type="default" id="FoA-cM-CcY"/>
+                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="top" secondItem="36Z-rc-bgX" secondAttribute="top" type="default" id="OOo-7w-67b"/>
                                             <constraint firstItem="sMG-e3-WLX" firstAttribute="leading" secondItem="36Z-rc-bgX" secondAttribute="leading" constant="20" type="default" id="bJr-dd-Gig"/>
+                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="trailing" secondItem="36Z-rc-bgX" secondAttribute="trailing" type="default" id="cxc-oU-UFM"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="uK2-5X-gB4" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="0Fk-GU-USg"/>
@@ -307,6 +328,9 @@
             <point key="canvasLocation" x="600" y="-1003"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="row.png" width="1" height="44"/>
+    </resources>
     <classes>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
