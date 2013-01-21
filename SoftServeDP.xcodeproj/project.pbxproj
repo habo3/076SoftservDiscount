@@ -28,6 +28,7 @@
 		432CC60E16A4843300A50F1D /* menuhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 432CC60C16A4843300A50F1D /* menuhighlighted@2x.png */; };
 		433D824716A8753400FD6A5A /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824516A8753400FD6A5A /* row.png */; };
 		433D824816A8753400FD6A5A /* row@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824616A8753400FD6A5A /* row@2x.png */; };
+		900C254816AD700D006C501A /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C254716AD700D006C501A /* myDetailViewController.m */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
 		90487C8F16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */; };
@@ -67,6 +68,8 @@
 		432CC60C16A4843300A50F1D /* menuhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuhighlighted@2x.png"; sourceTree = "<group>"; };
 		433D824516A8753400FD6A5A /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
 		433D824616A8753400FD6A5A /* row@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "row@2x.png"; sourceTree = "<group>"; };
+		900C254616AD700D006C501A /* myDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myDetailViewController.h; path = ImageAnnotation/myDetailViewController.h; sourceTree = SOURCE_ROOT; };
+		900C254716AD700D006C501A /* myDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = myDetailViewController.m; path = ImageAnnotation/myDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		90487C6D16A843460090F60E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "00-softserve-discount-ios-splash-568h@2x.png"; path = "ImageAnnotation/00-softserve-discount-ios-splash-568h@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -175,11 +178,13 @@
 		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
 			isa = PBXGroup;
 			children = (
+				900C254616AD700D006C501A /* myDetailViewController.h */,
+				900C254716AD700D006C501A /* myDetailViewController.m */,
 				90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */,
 				90487C8D16A84CD60090F60E /* 00-softserve-discount-ios-splash.png */,
 				90487C8E16A84CD60090F60E /* eatpin.png */,
-				90487C4E16A8407C0090F60E /* MapAnnotation */,
 				90487C4916A8407C0090F60E /* Annotation */,
+				90487C4E16A8407C0090F60E /* MapAnnotation */,
 			);
 			name = ImageAnnotation;
 			path = ../../ImageAnnotation;
@@ -289,6 +294,7 @@
 				432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */,
 				90487C9416A84D020090F60E /* ViewController.m in Sources */,
 				90487CA816A8531D0090F60E /* CafeAnnotation.m in Sources */,
+				900C254816AD700D006C501A /* myDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

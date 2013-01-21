@@ -10,13 +10,13 @@
 
 @implementation CafeAnnotation
 
-@synthesize title,subtitle,coordinate;
+@synthesize title,subtitle,coordinate,pintype;
 
 /*-(NSString *)pinImage
 {
  return @"cafepin.png"; //pin
 }*/
-- (CLLocationCoordinate2D)coordinate;
+/*- (CLLocationCoordinate2D)coordinate;
 {
     CLLocationCoordinate2D theCoordinate;
     theCoordinate.latitude = 49.836744;
@@ -34,5 +34,5 @@
 {
     return @"Whiskey pub";
 }
-
+*/
 @end

@@ -321,11 +321,38 @@
                     <navigationItem key="navigationItem" title="Мапа" id="JNa-R7-id8"/>
                     <connections>
                         <outlet property="mapView" destination="LjC-Vo-AEY" id="rwH-VQ-Gtj"/>
+                        <segue destination="yvR-nY-cUI" kind="push" identifier="myDetailView" id="WPW-0H-5DB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1R-KH-fAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="-1003"/>
+            <point key="canvasLocation" x="625" y="-1015"/>
+        </scene>
+        <!--My Detail View Controller-->
+        <scene sceneID="7U3-r8-pFd">
+            <objects>
+                <viewController id="yvR-nY-cUI" customClass="myDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WUy-pl-pvi">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ірландський паб" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ryp-mQ-iFi">
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="top" secondItem="WUy-pl-pvi" secondAttribute="top" constant="112" id="hk8-pV-y1l"/>
+                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="leading" secondItem="WUy-pl-pvi" secondAttribute="leading" constant="83" id="m7W-kV-QVy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5nr-Yv-5dy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HpE-tp-kL4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1090" y="-1015"/>
         </scene>
     </scenes>
     <resources>
@@ -346,6 +373,9 @@
             <relationships>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
+        </class>
+        <class className="myDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/myDetailViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

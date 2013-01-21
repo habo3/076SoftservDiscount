@@ -8,8 +8,8 @@
 
 #import "ViewController.h"
 #import "CafeAnnotation.h"
-//1
-
+#import "myDetailViewController.h"
+//#import <CoreGraphics/CoreGraphics.h>
 enum
 {
     kCityAnnotationIndex = 0,
@@ -20,7 +20,7 @@ enum
 @interface ViewController ()<MKAnnotation>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
-//@property (nonatomic, strong) IBOutlet DetailViewController *detailViewController;
+
 
 @property (nonatomic, strong) NSMutableArray *mapAnnotations;
 
@@ -56,7 +56,7 @@ enum
 - (void)viewWillAppear:(BOOL)animated
 {
     // restore the nav bar to translucent
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    //self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
     [super viewDidAppear:animated];
     [self gotoLocation];
@@ -70,13 +70,32 @@ enum
 {
     
     self.mapView.delegate = self;
-
-    self.mapAnnotations = [[NSMutableArray alloc] initWithCapacity:2];
     
-    // annotation for the City of San Francisco
-    CafeAnnotation *sfAnnotation = [[CafeAnnotation alloc] init];
-    [self.mapAnnotations insertObject:sfAnnotation atIndex:kCityAnnotationIndex];
+    self.mapAnnotations = [[NSMutableArray alloc] init];
+    CLLocationCoordinate2D tmpCoord;
+    
+    // annotation for the 
+    CafeAnnotation *myAnnotation;
+    myAnnotation= [[CafeAnnotation alloc]init];
+    tmpCoord.latitude = 49.8285155;
+    tmpCoord.longitude = 23.9921021;
+    myAnnotation.coordinate = tmpCoord;
+    myAnnotation.title = @"Чисто";
+    myAnnotation.subtitle = @"Мережа хімчисток";
+    myAnnotation.pintype = @"eatpin.png";
+    [self.mapAnnotations addObject:myAnnotation];//atIndex:kAnnotationIndex];
 
+    //CafeAnnotation *myAnnotation;
+    myAnnotation= [[CafeAnnotation alloc]init];
+    tmpCoord.latitude = 49.836744;
+    tmpCoord.longitude = 24.031359;
+    myAnnotation.coordinate = tmpCoord;
+    myAnnotation.title = @"4Friends";
+    myAnnotation.subtitle = @"Irish pub";
+    myAnnotation.pintype = @"eatpin.png";
+    
+    [self.mapAnnotations addObject:myAnnotation];
+    
     [self gotoLocation];   
 }
 
@@ -96,7 +115,7 @@ enum
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    if ([annotation isKindOfClass:[CafeAnnotation class]])   // for City of San Francisco
+    if ([annotation isKindOfClass:[CafeAnnotation class]])   // for CafeAnnotation
     {
         static NSString *SFAnnotationIdentifier = @"SFAnnotationIdentifier";
         
@@ -109,14 +128,22 @@ enum
             MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                                             reuseIdentifier:SFAnnotationIdentifier];
             annotationView.canShowCallout = YES;
-            annotationView.image = [UIImage imageNamed:[NSString stringWithFormat:@"eatpin.png"]];
             
-            UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"softicon.png"]];
+             // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
+            annotationView.image = [UIImage imageNamed:[NSString stringWithFormat:@"eatpin.png"]];
+           
+            
+            
+            //==========================Changes pin background, but not Annotation ===================
+            //UIColor * rgbColor = [UIColor  colorWithRed:0.99 green: 0.71  blue: 0.08  alpha:1.0];
+            //annotationView.backgroundColor = rgbColor;
+            
+            UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"eatpin.png"/*@"softicon.png"*/]];
             annotationView.leftCalloutAccessoryView = sfIconView;
-            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            [rightButton addTarget:self action:@selector(writeSomething:) forControlEvents:UIControlEventTouchUpInside];
-            [rightButton setTitle:annotation.title forState:UIControlStateNormal];
-            annotationView.rightCalloutAccessoryView = rightButton;
+            UIButton* detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [detailButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
+            [detailButton setTitle:annotation.title forState:UIControlStateNormal];
+            annotationView.rightCalloutAccessoryView = detailButton;
             //annotationView.canShowCallout = YES;
             //annotationView.draggable = NO;
             return annotationView;
@@ -126,5 +153,11 @@ enum
 
     return nil;
 }
+
+- (void)showDetails:(id)sender
+{
+    [self performSegueWithIdentifier:@"myDetailView" sender:self];
+}
+
 
 @end
