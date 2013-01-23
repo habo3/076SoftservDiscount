@@ -13,9 +13,6 @@
 		432CC5DF16A467E000A50F1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432CC5DD16A467E000A50F1D /* InfoPlist.strings */; };
 		432CC5E116A467E000A50F1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5E016A467E000A50F1D /* main.m */; };
 		432CC5E516A467E000A50F1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5E416A467E000A50F1D /* AppDelegate.m */; };
-		432CC5E716A467E000A50F1D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 432CC5E616A467E000A50F1D /* Default.png */; };
-		432CC5E916A467E000A50F1D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 432CC5E816A467E000A50F1D /* Default@2x.png */; };
-		432CC5EB16A467E000A50F1D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 432CC5EA16A467E000A50F1D /* Default-568h@2x.png */; };
 		432CC5EE16A467E000A50F1D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */; };
 		432CC5FE16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FB16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m */; };
 		432CC5FF16A4697C00A50F1D /* SASlideMenuStaticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */; };
@@ -31,11 +28,12 @@
 		900C254816AD700D006C501A /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C254716AD700D006C501A /* myDetailViewController.m */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
-		90487C8F16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */; };
-		90487C9016A84CD60090F60E /* 00-softserve-discount-ios-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8D16A84CD60090F60E /* 00-softserve-discount-ios-splash.png */; };
 		90487C9116A84CD60090F60E /* eatpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8E16A84CD60090F60E /* eatpin.png */; };
 		90487C9416A84D020090F60E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487C9316A84D020090F60E /* ViewController.m */; };
 		90487CA816A8531D0090F60E /* CafeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487CA716A8531D0090F60E /* CafeAnnotation.m */; };
+		906800DC16B01CEA0053F50C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800D916B01CEA0053F50C /* Default-568h@2x.png */; };
+		906800DD16B01CEA0053F50C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DA16B01CEA0053F50C /* Default.png */; };
+		906800DE16B01CEA0053F50C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DB16B01CEA0053F50C /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,9 +47,6 @@
 		432CC5E216A467E000A50F1D /* SoftServeDP-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoftServeDP-Prefix.pch"; sourceTree = "<group>"; };
 		432CC5E316A467E000A50F1D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		432CC5E416A467E000A50F1D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		432CC5E616A467E000A50F1D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		432CC5E816A467E000A50F1D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		432CC5EA16A467E000A50F1D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		432CC5ED16A467E000A50F1D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		432CC5F816A4697C00A50F1D /* SASlideMenuDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SASlideMenuDataSource.h; sourceTree = "<group>"; };
 		432CC5FA16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SASlideMenuStaticStoryboardSegue.h; sourceTree = "<group>"; };
@@ -72,13 +67,14 @@
 		900C254716AD700D006C501A /* myDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = myDetailViewController.m; path = ImageAnnotation/myDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		90487C6D16A843460090F60E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "00-softserve-discount-ios-splash-568h@2x.png"; path = "ImageAnnotation/00-softserve-discount-ios-splash-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		90487C8D16A84CD60090F60E /* 00-softserve-discount-ios-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "00-softserve-discount-ios-splash.png"; path = "ImageAnnotation/00-softserve-discount-ios-splash.png"; sourceTree = SOURCE_ROOT; };
 		90487C8E16A84CD60090F60E /* eatpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eatpin.png; path = ImageAnnotation/eatpin.png; sourceTree = SOURCE_ROOT; };
 		90487C9216A84D020090F60E /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ImageAnnotation/ViewController.h; sourceTree = SOURCE_ROOT; };
 		90487C9316A84D020090F60E /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ImageAnnotation/ViewController.m; sourceTree = SOURCE_ROOT; };
 		90487CA616A8531D0090F60E /* CafeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CafeAnnotation.h; path = ImageAnnotation/CafeAnnotation.h; sourceTree = SOURCE_ROOT; };
 		90487CA716A8531D0090F60E /* CafeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CafeAnnotation.m; path = ImageAnnotation/CafeAnnotation.m; sourceTree = SOURCE_ROOT; };
+		906800D916B01CEA0053F50C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		906800DA16B01CEA0053F50C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		906800DB16B01CEA0053F50C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,21 +140,21 @@
 		432CC5DB16A467E000A50F1D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				906800D916B01CEA0053F50C /* Default-568h@2x.png */,
+				906800DA16B01CEA0053F50C /* Default.png */,
+				906800DB16B01CEA0053F50C /* Default@2x.png */,
 				433D824516A8753400FD6A5A /* row.png */,
 				433D824616A8753400FD6A5A /* row@2x.png */,
 				432CC5DC16A467E000A50F1D /* SoftServeDP-Info.plist */,
 				432CC5DD16A467E000A50F1D /* InfoPlist.strings */,
 				432CC5E016A467E000A50F1D /* main.m */,
 				432CC5E216A467E000A50F1D /* SoftServeDP-Prefix.pch */,
-				432CC5E616A467E000A50F1D /* Default.png */,
 				432CC60316A483FE00A50F1D /* menuicon.png */,
 				432CC60416A483FE00A50F1D /* menuicon@2x.png */,
 				432CC60B16A4843300A50F1D /* menuhighlighted.png */,
 				432CC60C16A4843300A50F1D /* menuhighlighted@2x.png */,
 				432CC60716A4842400A50F1D /* menu.png */,
 				432CC60816A4842400A50F1D /* menu@2x.png */,
-				432CC5E816A467E000A50F1D /* Default@2x.png */,
-				432CC5EA16A467E000A50F1D /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -180,8 +176,6 @@
 			children = (
 				900C254616AD700D006C501A /* myDetailViewController.h */,
 				900C254716AD700D006C501A /* myDetailViewController.m */,
-				90487C8C16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png */,
-				90487C8D16A84CD60090F60E /* 00-softserve-discount-ios-splash.png */,
 				90487C8E16A84CD60090F60E /* eatpin.png */,
 				90487C4916A8407C0090F60E /* Annotation */,
 				90487C4E16A8407C0090F60E /* MapAnnotation */,
@@ -262,9 +256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				432CC5DF16A467E000A50F1D /* InfoPlist.strings in Resources */,
-				432CC5E716A467E000A50F1D /* Default.png in Resources */,
-				432CC5E916A467E000A50F1D /* Default@2x.png in Resources */,
-				432CC5EB16A467E000A50F1D /* Default-568h@2x.png in Resources */,
 				432CC5EE16A467E000A50F1D /* MainStoryboard.storyboard in Resources */,
 				432CC60516A483FE00A50F1D /* menuicon.png in Resources */,
 				432CC60616A483FE00A50F1D /* menuicon@2x.png in Resources */,
@@ -272,11 +263,12 @@
 				432CC60A16A4842400A50F1D /* menu@2x.png in Resources */,
 				432CC60D16A4843300A50F1D /* menuhighlighted.png in Resources */,
 				432CC60E16A4843300A50F1D /* menuhighlighted@2x.png in Resources */,
-				90487C8F16A84CD60090F60E /* 00-softserve-discount-ios-splash-568h@2x.png in Resources */,
-				90487C9016A84CD60090F60E /* 00-softserve-discount-ios-splash.png in Resources */,
 				90487C9116A84CD60090F60E /* eatpin.png in Resources */,
 				433D824716A8753400FD6A5A /* row.png in Resources */,
 				433D824816A8753400FD6A5A /* row@2x.png in Resources */,
+				906800DC16B01CEA0053F50C /* Default-568h@2x.png in Resources */,
+				906800DD16B01CEA0053F50C /* Default.png in Resources */,
+				906800DE16B01CEA0053F50C /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,7 +34,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UILaunchImageFile~iphone</key>
-	<string>00-softserve-discount-ios-splash.png</string>
 </dict>
 </plist>
