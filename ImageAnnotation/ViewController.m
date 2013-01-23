@@ -94,6 +94,7 @@ enum
     myAnnotation.subtitle = @"Irish pub";
     myAnnotation.pintype = @"eatpin.png";
     
+    
     [self.mapAnnotations addObject:myAnnotation];
     
     [self gotoLocation];   
@@ -111,12 +112,18 @@ enum
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
+    
     // in case it's the user location, we already have an annotation, so just return nil
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
+    CafeAnnotation *newAnnotation;
+    newAnnotation = (CafeAnnotation *)annotation;
+    
     if ([annotation isKindOfClass:[CafeAnnotation class]])   // for CafeAnnotation
     {
+        //NSEnumerator *enumerator = [_mapAnnotations objectEnumerator];
+        //enumerator.nextObject
         static NSString *SFAnnotationIdentifier = @"SFAnnotationIdentifier";
         
         MKAnnotationView *annotationView =
@@ -126,9 +133,9 @@ enum
         else     //== nil)
         {
             MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+            
                                                                             reuseIdentifier:SFAnnotationIdentifier];
             annotationView.canShowCallout = YES;
-            
              // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
             annotationView.image = [UIImage imageNamed:[NSString stringWithFormat:@"eatpin.png"]];
            
@@ -138,7 +145,7 @@ enum
             //UIColor * rgbColor = [UIColor  colorWithRed:0.99 green: 0.71  blue: 0.08  alpha:1.0];
             //annotationView.backgroundColor = rgbColor;
             
-            UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"eatpin.png"/*@"softicon.png"*/]];
+            UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:newAnnotation.pintype]];// @"eatpin.png"/*@"softicon.png"*/]];
             annotationView.leftCalloutAccessoryView = sfIconView;
             UIButton* detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
             [detailButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
