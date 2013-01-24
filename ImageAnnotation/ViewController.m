@@ -21,6 +21,7 @@ enum
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
+- (IBAction)GetLocation:(id)sender;
 
 @property (nonatomic, strong) NSMutableArray *mapAnnotations;
 
@@ -85,13 +86,24 @@ enum
     
     [self.mapAnnotations addObject:myAnnotation];//atIndex:kAnnotationIndex];
 
+    myAnnotation= [[CafeAnnotation alloc]init];
+    tmpCoord.latitude = 49.840681;
+    tmpCoord.longitude = 24.026327;
+    myAnnotation.coordinate = tmpCoord;
+    myAnnotation.title = @"Дублін";
+    myAnnotation.subtitle = @"Irish pub";
+    myAnnotation.pintype = @"eatpin.png";
+    myAnnotation.leftImage = @"emptyLeftImage.png";
+    
+    [self.mapAnnotations addObject:myAnnotation];
+    
     //CafeAnnotation *myAnnotation;
     myAnnotation= [[CafeAnnotation alloc]init];
     tmpCoord.latitude = 49.836744;
     tmpCoord.longitude = 24.031359;
     myAnnotation.coordinate = tmpCoord;
     myAnnotation.title = @"4Friends";
-    myAnnotation.subtitle = @"Irish pub";
+    myAnnotation.subtitle = @"Whiskey pub";
     myAnnotation.pintype = @"eatpin.png";
     myAnnotation.leftImage = @"emptyLeftImage.png";
     
@@ -174,4 +186,6 @@ enum
 }
 
 
+- (IBAction)GetLocation:(id)sender {
+}
 @end
