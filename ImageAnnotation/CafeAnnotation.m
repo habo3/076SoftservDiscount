@@ -10,7 +10,7 @@
 
 @implementation CafeAnnotation
 
-@synthesize title,subtitle,coordinate,pintype;
+@synthesize title,subtitle,coordinate,pintype,leftImage;
 
 /*-(NSString *)pinImage
 {

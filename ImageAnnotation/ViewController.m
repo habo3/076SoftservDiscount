@@ -31,7 +31,7 @@ enum
 
 @implementation ViewController
 
-+ (CGFloat)annotationPadding;
+/*+ (CGFloat)annotationPadding;
 {
     return 10.0f;
 }
@@ -40,15 +40,14 @@ enum
 {
     return 40.0f;
 }
-
+*/
 - (void)gotoLocation
 {
-
     MKCoordinateRegion newRegion;
     newRegion.center.latitude = 49.836744;
     newRegion.center.longitude = 24.031359;
-    newRegion.span.latitudeDelta = 0.112872;
-    newRegion.span.longitudeDelta = 0.109863;
+    newRegion.span.latitudeDelta = 0.0512872;
+    newRegion.span.longitudeDelta = 0.0509863;
     
     [self.mapView setRegion:newRegion animated:YES];
 }
@@ -80,9 +79,10 @@ enum
     tmpCoord.latitude = 49.8285155;
     tmpCoord.longitude = 23.9921021;
     myAnnotation.coordinate = tmpCoord;
-    myAnnotation.title = @"Чисто";
-    myAnnotation.subtitle = @"Мережа хімчисток";
-    myAnnotation.pintype = @"eatpin.png";
+    myAnnotation.title = @"SoftServe";//@"Чисто";
+    myAnnotation.subtitle = @"yeap,wrong coords for test";//Мережа хімчисток";
+    myAnnotation.pintype = @"technicalpin.png";
+    
     [self.mapAnnotations addObject:myAnnotation];//atIndex:kAnnotationIndex];
 
     //CafeAnnotation *myAnnotation;
@@ -93,7 +93,18 @@ enum
     myAnnotation.title = @"4Friends";
     myAnnotation.subtitle = @"Irish pub";
     myAnnotation.pintype = @"eatpin.png";
+    myAnnotation.leftImage = @"emptyLeftImage.png";
     
+    [self.mapAnnotations addObject:myAnnotation];
+    
+    myAnnotation= [[CafeAnnotation alloc]init];
+    tmpCoord.latitude = 49.835744;
+    tmpCoord.longitude = 24.051359;
+    myAnnotation.coordinate = tmpCoord;
+    myAnnotation.title = @"Фотостудія";
+    myAnnotation.subtitle = @"Фото на вагу золота)";
+    myAnnotation.pintype = @"photopin.png";
+    myAnnotation.leftImage = @"emptyLeftImage.png";
     
     [self.mapAnnotations addObject:myAnnotation];
     
@@ -117,44 +128,40 @@ enum
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
-    CafeAnnotation *newAnnotation;
-    newAnnotation = (CafeAnnotation *)annotation;
     
     if ([annotation isKindOfClass:[CafeAnnotation class]])   // for CafeAnnotation
     {
-        //NSEnumerator *enumerator = [_mapAnnotations objectEnumerator];
-        //enumerator.nextObject
+        // type cast for property use
+        CafeAnnotation *newAnnotation;
+        newAnnotation = (CafeAnnotation *)annotation;
+        
         static NSString *SFAnnotationIdentifier = @"SFAnnotationIdentifier";
         
         MKAnnotationView *annotationView =
         [_mapView dequeueReusableAnnotationViewWithIdentifier:SFAnnotationIdentifier];
-        if (annotationView)
-            return annotationView;
-        else     //== nil)
-        {
-            MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-            
-                                                                            reuseIdentifier:SFAnnotationIdentifier];
-            annotationView.canShowCallout = YES;
-             // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
-            annotationView.image = [UIImage imageNamed:[NSString stringWithFormat:@"eatpin.png"]];
-           
-            
-            
-            //==========================Changes pin background, but not Annotation ===================
-            //UIColor * rgbColor = [UIColor  colorWithRed:0.99 green: 0.71  blue: 0.08  alpha:1.0];
-            //annotationView.backgroundColor = rgbColor;
-            
-            UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:newAnnotation.pintype]];// @"eatpin.png"/*@"softicon.png"*/]];
-            annotationView.leftCalloutAccessoryView = sfIconView;
-            UIButton* detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            [detailButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
-            [detailButton setTitle:annotation.title forState:UIControlStateNormal];
-            annotationView.rightCalloutAccessoryView = detailButton;
-            //annotationView.canShowCallout = YES;
-            //annotationView.draggable = NO;
-            return annotationView;
-       }
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:SFAnnotationIdentifier];
+        }
+        
+        annotationView.canShowCallout = YES;
+         // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
+        annotationView.image = [UIImage imageNamed:newAnnotation.pintype];
+       
+        
+        
+        //==========================Changes pin background, but not Annotation ===================
+        //UIColor * rgbColor = [UIColor  colorWithRed:0.99 green: 0.71  blue: 0.08  alpha:1.0];
+        //annotationView.backgroundColor = rgbColor;
+        
+        UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:newAnnotation.leftImage]];// @"eatpin.png"/*@"softicon.png"*/]];
+        annotationView.leftCalloutAccessoryView = sfIconView;
+        UIButton* detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [detailButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
+        [detailButton setTitle:annotation.title forState:UIControlStateNormal];
+        annotationView.rightCalloutAccessoryView = detailButton;
+        //annotationView.canShowCallout = YES;
+        //annotationView.draggable = NO;
         return annotationView;
     }
 

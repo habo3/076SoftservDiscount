@@ -309,13 +309,29 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="LjC-Vo-AEY"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpq-04-ahf">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="9pp-a3-E4v"/>
+                                    <constraint firstAttribute="width" constant="53" id="mf9-eq-Bc0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="geobutton.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LjC-Vo-AEY" firstAttribute="bottom" secondItem="R06-R3-C2M" secondAttribute="bottom" type="default" id="2ri-W9-nxw"/>
+                            <constraint firstAttribute="bottom" secondItem="fpq-04-ahf" secondAttribute="bottom" constant="6" id="71T-gq-c7g"/>
                             <constraint firstItem="LjC-Vo-AEY" firstAttribute="top" secondItem="R06-R3-C2M" secondAttribute="top" type="default" id="Ctp-SJ-peV"/>
                             <constraint firstItem="LjC-Vo-AEY" firstAttribute="leading" secondItem="R06-R3-C2M" secondAttribute="leading" type="default" id="YLF-m9-zN9"/>
                             <constraint firstItem="LjC-Vo-AEY" firstAttribute="trailing" secondItem="R06-R3-C2M" secondAttribute="trailing" type="default" id="sjQ-bl-zmU"/>
+                            <constraint firstItem="fpq-04-ahf" firstAttribute="leading" secondItem="R06-R3-C2M" secondAttribute="leading" constant="7" id="vaM-LO-sSb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Мапа" id="JNa-R7-id8"/>
@@ -344,8 +360,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="top" secondItem="WUy-pl-pvi" secondAttribute="top" constant="112" id="hk8-pV-y1l"/>
-                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="leading" secondItem="WUy-pl-pvi" secondAttribute="leading" constant="83" id="m7W-kV-QVy"/>
+                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="top" secondItem="WUy-pl-pvi" secondAttribute="top" constant="46" id="CpL-UL-qC7"/>
+                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="leading" secondItem="WUy-pl-pvi" secondAttribute="leading" constant="103" id="VCG-mX-9Qv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5nr-Yv-5dy"/>
@@ -356,8 +372,29 @@
         </scene>
     </scenes>
     <resources>
+        <image name="geobutton.png" width="40" height="29"/>
         <image name="row.png" width="1" height="44"/>
     </resources>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
+        </class>
+        <class className="SlideMenuImplementor" superclassName="SASlideMenuStaticViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenuImplementor.h"/>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="myDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/myDetailViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
