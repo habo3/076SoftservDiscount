@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="w5v-Jb-8zU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="w5v-Jb-8zU">
     <dependencies>
         <deployment version="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
@@ -23,8 +23,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="xYe-dW-F2S"/>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Мапа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FLD-nv-g8D">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="xYe-dW-F2S">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Мапа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FLD-nv-g8D">
+                                                    <rect key="frame" x="20" y="11" width="43" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -32,13 +35,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="top" secondItem="l64-Hg-7Fp" secondAttribute="top" type="default" id="CIe-B8-TCK"/>
-                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="trailing" secondItem="l64-Hg-7Fp" secondAttribute="trailing" type="default" id="FTp-QB-hoN"/>
-                                            <constraint firstItem="xYe-dW-F2S" firstAttribute="leading" secondItem="l64-Hg-7Fp" secondAttribute="leading" type="default" id="Hct-Go-pcW"/>
-                                            <constraint firstItem="FLD-nv-g8D" firstAttribute="leading" secondItem="l64-Hg-7Fp" secondAttribute="leading" constant="20" type="default" id="IVv-Ab-uIo"/>
-                                            <constraint firstItem="FLD-nv-g8D" firstAttribute="top" secondItem="l64-Hg-7Fp" secondAttribute="top" constant="11" id="lZd-Gd-puk"/>
-                                        </constraints>
                                         <connections>
                                             <segue destination="tgl-kW-LwA" kind="custom" identifier="map" customClass="SASlideMenuStaticStoryboardSegue" id="BgU-Wo-CuE"/>
                                         </connections>
@@ -50,8 +46,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="siY-HK-hCx"/>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iur-Ag-wUM">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="siY-HK-hCx">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iur-Ag-wUM">
+                                                    <rect key="frame" x="20" y="12" width="89" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -59,13 +58,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="siY-HK-hCx" firstAttribute="centerY" secondItem="Iur-Ag-wUM" secondAttribute="centerY" type="default" id="MHr-cc-9Lf"/>
-                                            <constraint firstItem="siY-HK-hCx" firstAttribute="trailing" secondItem="Fgd-AA-Bbu" secondAttribute="trailing" type="default" id="fvj-mI-sZh"/>
-                                            <constraint firstItem="Iur-Ag-wUM" firstAttribute="leading" secondItem="Fgd-AA-Bbu" secondAttribute="leading" constant="20" type="default" id="jTI-Mb-Vlj"/>
-                                            <constraint firstItem="siY-HK-hCx" firstAttribute="top" secondItem="Fgd-AA-Bbu" secondAttribute="top" type="default" id="lT9-SF-xNn"/>
-                                            <constraint firstItem="siY-HK-hCx" firstAttribute="leading" secondItem="Fgd-AA-Bbu" secondAttribute="leading" type="default" id="n2c-L4-BCJ"/>
-                                        </constraints>
                                         <connections>
                                             <segue destination="KRb-2u-7IQ" kind="custom" identifier="list" customClass="SASlideMenuStaticStoryboardSegue" id="uW6-g6-Hbf"/>
                                         </connections>
@@ -77,8 +69,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qrp-X2-m2p"/>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Обране" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHY-mh-SUD">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="Qrp-X2-m2p">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Обране" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sHY-mh-SUD">
+                                                    <rect key="frame" x="20" y="12" width="61" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -86,13 +81,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="sHY-mh-SUD" firstAttribute="centerY" secondItem="Qrp-X2-m2p" secondAttribute="centerY" type="default" id="BRj-dI-asy"/>
-                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="trailing" secondItem="7RL-a8-xip" secondAttribute="trailing" type="default" id="SbL-Z8-sRZ"/>
-                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="leading" secondItem="7RL-a8-xip" secondAttribute="leading" type="default" id="bFQ-5x-xR8"/>
-                                            <constraint firstItem="sHY-mh-SUD" firstAttribute="leading" secondItem="7RL-a8-xip" secondAttribute="leading" constant="20" type="default" id="bOv-jK-TGz"/>
-                                            <constraint firstItem="Qrp-X2-m2p" firstAttribute="top" secondItem="7RL-a8-xip" secondAttribute="top" type="default" id="ceW-AJ-ajz"/>
-                                        </constraints>
                                         <connections>
                                             <segue destination="FOu-2c-2fD" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="sG6-QJ-HMF"/>
                                         </connections>
@@ -104,8 +92,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="2TL-7s-1pM"/>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Новини" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3w-dF-F0K">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="2TL-7s-1pM">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Новини" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o3w-dF-F0K">
+                                                    <rect key="frame" x="20" y="12" width="61" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,13 +104,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="trailing" secondItem="pxY-1t-U6g" secondAttribute="trailing" type="default" id="QpK-Gv-gvL"/>
-                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="centerY" secondItem="o3w-dF-F0K" secondAttribute="centerY" type="default" id="biH-Kx-n05"/>
-                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="top" secondItem="pxY-1t-U6g" secondAttribute="top" type="default" id="mfp-pz-6DM"/>
-                                            <constraint firstItem="o3w-dF-F0K" firstAttribute="leading" secondItem="pxY-1t-U6g" secondAttribute="leading" constant="20" type="default" id="n1I-dc-8q8"/>
-                                            <constraint firstItem="2TL-7s-1pM" firstAttribute="leading" secondItem="pxY-1t-U6g" secondAttribute="leading" type="default" id="ygX-H7-9IL"/>
-                                        </constraints>
                                         <connections>
                                             <segue destination="0gr-qL-Whh" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="ZUf-CT-sj4"/>
                                         </connections>
@@ -131,8 +115,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" translatesAutoresizingMaskIntoConstraints="NO" id="gC1-dC-vpi"/>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Налаштування" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMG-e3-WLX">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="gC1-dC-vpi">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Налаштування" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMG-e3-WLX">
+                                                    <rect key="frame" x="20" y="12" width="119" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -141,13 +128,6 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" red="0.15686275064945221" green="0.15686275064945221" blue="0.15686275064945221" alpha="1" colorSpace="deviceRGB"/>
-                                        <constraints>
-                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="centerY" secondItem="sMG-e3-WLX" secondAttribute="centerY" type="default" id="BiK-9D-3Fj"/>
-                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="leading" secondItem="36Z-rc-bgX" secondAttribute="leading" type="default" id="FoA-cM-CcY"/>
-                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="top" secondItem="36Z-rc-bgX" secondAttribute="top" type="default" id="OOo-7w-67b"/>
-                                            <constraint firstItem="sMG-e3-WLX" firstAttribute="leading" secondItem="36Z-rc-bgX" secondAttribute="leading" constant="20" type="default" id="bJr-dd-Gig"/>
-                                            <constraint firstItem="gC1-dC-vpi" firstAttribute="trailing" secondItem="36Z-rc-bgX" secondAttribute="trailing" type="default" id="cxc-oU-UFM"/>
-                                        </constraints>
                                         <connections>
                                             <segue destination="uK2-5X-gB4" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="0Fk-GU-USg"/>
                                         </connections>
@@ -308,12 +288,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="LjC-Vo-AEY"/>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpq-04-ahf">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="9pp-a3-E4v"/>
-                                    <constraint firstAttribute="width" constant="53" id="mf9-eq-Bc0"/>
-                                </constraints>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="LjC-Vo-AEY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fpq-04-ahf">
+                                <rect key="frame" x="7" y="454" width="53" height="44"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" backgroundImage="geobutton.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -328,14 +307,6 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="LjC-Vo-AEY" firstAttribute="bottom" secondItem="R06-R3-C2M" secondAttribute="bottom" type="default" id="2ri-W9-nxw"/>
-                            <constraint firstAttribute="bottom" secondItem="fpq-04-ahf" secondAttribute="bottom" constant="6" id="71T-gq-c7g"/>
-                            <constraint firstItem="LjC-Vo-AEY" firstAttribute="top" secondItem="R06-R3-C2M" secondAttribute="top" type="default" id="Ctp-SJ-peV"/>
-                            <constraint firstItem="LjC-Vo-AEY" firstAttribute="leading" secondItem="R06-R3-C2M" secondAttribute="leading" type="default" id="YLF-m9-zN9"/>
-                            <constraint firstItem="LjC-Vo-AEY" firstAttribute="trailing" secondItem="R06-R3-C2M" secondAttribute="trailing" type="default" id="sjQ-bl-zmU"/>
-                            <constraint firstItem="fpq-04-ahf" firstAttribute="leading" secondItem="R06-R3-C2M" secondAttribute="leading" constant="7" id="vaM-LO-sSb"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Мапа" id="JNa-R7-id8"/>
                     <connections>
@@ -355,17 +326,14 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ірландський паб" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ryp-mQ-iFi">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ірландський паб" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ryp-mQ-iFi">
+                                <rect key="frame" x="103" y="46" width="133" height="21"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="top" secondItem="WUy-pl-pvi" secondAttribute="top" constant="46" id="CpL-UL-qC7"/>
-                            <constraint firstItem="ryp-mQ-iFi" firstAttribute="leading" secondItem="WUy-pl-pvi" secondAttribute="leading" constant="103" id="VCG-mX-9Qv"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5nr-Yv-5dy"/>
                 </viewController>
