@@ -51,6 +51,14 @@
     layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
 }
 
+-(void) viewDidLoad {
+    [super viewDidLoad];
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menuBackground.png"]];
+    [tempImageView setFrame:self.tableView.frame];
+    
+    self.tableView.backgroundView = tempImageView;
+}
+
 -(NSString*) initialSegueId{
     return @"list";
 }
