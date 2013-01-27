@@ -11,6 +11,6 @@
 #import "SASlideMenuDataSource.h"
 
 // Facebook-like menu
-@interface SlideMenuImplementor :SASlideMenuStaticViewController<SASlideMenuDataSource>
+@interface SlideMenu :SASlideMenuStaticViewController<SASlideMenuDataSource>
 
 @end

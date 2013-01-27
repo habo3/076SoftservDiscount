@@ -9,11 +9,11 @@
 #import "SlideMenu.h"
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
 
-@interface SlideMenuImplementor ()
+@interface SlideMenu ()
 
 @end
 
-@implementation SlideMenuImplementor
+@implementation SlideMenu
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
