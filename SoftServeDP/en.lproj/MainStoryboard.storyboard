@@ -129,7 +129,7 @@
                                         </view>
                                         <color key="backgroundColor" red="0.15686275064945221" green="0.15686275064945221" blue="0.15686275064945221" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
-                                            <segue destination="uK2-5X-gB4" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="0Fk-GU-USg"/>
+                                            <segue destination="uK2-5X-gB4" kind="custom" identifier="Settings" customClass="SASlideMenuStaticStoryboardSegue" id="0Fk-GU-USg"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -220,35 +220,35 @@
             </objects>
             <point key="canvasLocation" x="168" y="322"/>
         </scene>
-        <!--Table View Controller - Налаштування-->
-        <scene sceneID="IIJ-Ma-VL0">
-            <objects>
-                <tableViewController id="BHP-2q-0Wx" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="awe-4W-htk">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Налаштування" id="9SV-Rl-U2F"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cVw-wg-1W8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="600" y="1670"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="8lx-X7-5cn">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNt-GJ-GRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="uK2-5X-gB4" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZM0-GO-J36">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BHP-2q-0Wx" kind="relationship" relationship="rootViewController" id="lza-2e-8PX"/>
+                        <segue destination="yqe-KI-kOm" kind="relationship" relationship="rootViewController" id="Gap-Qc-wnc"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HNt-GJ-GRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="168" y="1670"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="qML-dz-FnH">
+            <objects>
+                <viewController id="yqe-KI-kOm" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bet-hW-UGn">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="tSM-oO-9jT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b6V-eq-ElR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="600" y="1670"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gVu-Bc-Czg">
@@ -346,24 +346,6 @@
         <image name="geobutton.png" width="40" height="29"/>
         <image name="row.png" width="1" height="44"/>
     </resources>
-    <classes>
-        <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
-        </class>
-        <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="GetLocation:"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
-        <class className="myDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/myDetailViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

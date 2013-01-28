@@ -12,5 +12,7 @@
 
 // Facebook-like menu
 @interface SlideMenu :SASlideMenuStaticViewController<SASlideMenuDataSource>
+@property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
+@property (nonatomic, strong) NSString *managedObjectContextTest; //debug
 
 @end

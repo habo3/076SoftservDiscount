@@ -15,9 +15,10 @@
 
 @implementation SlideMenu
 
+@synthesize managedObjectContextTest; //debug
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.slideMenuDataSource = self;
@@ -51,6 +52,15 @@
     layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
 }
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier] isEqualToString: @"Settings"]) {
+
+    }
+}
+-(void) viewDidLoad {
+    NSLog(@"test: %@", managedObjectContextTest);//debug
+    [super viewDidLoad];
+}
 -(NSString*) initialSegueId{
     return @"list";
 }
