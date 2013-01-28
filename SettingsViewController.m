@@ -1,4 +1,4 @@
-//
+// merge test
 //  SettingsViewController.m
 //  SoftServeDP
 //
