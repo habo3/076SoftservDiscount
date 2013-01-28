@@ -1,5 +1,5 @@
 //
-//  CafeAnnotation.h
+//  Annotation.h
 //  ImageAnnotation
 //
 //  Created by Mykola on 1/14/13.
@@ -7,7 +7,7 @@
 //
 #import <MapKit/MapKit.h>
 
-@interface CafeAnnotation : NSObject <MKAnnotation>
+@interface Annotation : NSObject <MKAnnotation>
 
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *subtitle;

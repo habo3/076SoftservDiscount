@@ -7,23 +7,25 @@
 //
 
 #import "ViewController.h"
-#import "CafeAnnotation.h"
+#import "Annotation.h"
 #import "myDetailViewController.h"
+
 //#import <CoreGraphics/CoreGraphics.h>
-enum
+/*enum
 {
     kCityAnnotationIndex = 0,
     kBridgeAnnotationIndex,
     kTeaGardenAnnotationIndex
-};
+};*/
 
 @interface ViewController ()<MKAnnotation>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
-- (IBAction)GetLocation:(id)sender;
 
 @property (nonatomic, strong) NSMutableArray *mapAnnotations;
+@property (nonatomic, strong) NSMutableArray *myLocations;
+
 
 @end
 
@@ -32,16 +34,9 @@ enum
 
 @implementation ViewController
 
-/*+ (CGFloat)annotationPadding;
-{
-    return 10.0f;
-}
+@synthesize location;
 
-+ (CGFloat)calloutHeight;
-{
-    return 40.0f;
-}
-*/
+
 - (void)gotoLocation
 {
     MKCoordinateRegion newRegion;
@@ -52,6 +47,35 @@ enum
     
     [self.mapView setRegion:newRegion animated:YES];
 }
+
+- (IBAction) getLocation:(id)sender {
+    
+    if(self.mapView.showsUserLocation)
+    {
+        self.mapView.showsUserLocation = FALSE;
+    }
+    else
+    {
+    self.mapView.showsUserLocation = TRUE;
+    
+    self.location = [[CLLocationManager alloc]init];
+    location.delegate = self;
+    location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    location.distanceFilter = kCLDistanceFilterNone;
+    [location startUpdatingLocation];
+    }
+}
+    /*location.
+    self.myLocations = [[NSMutableArray alloc] initWithCapacity:1];
+    CLLocationCoordinate2D geoCoord;
+    geoCoord.latitude = 49.838093;
+    geoCoord.longitude= 24.025973;
+    
+    
+    
+    //CLLocation *locationManager;
+}*/
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -75,8 +99,8 @@ enum
     CLLocationCoordinate2D tmpCoord;
     
     // annotation for the 
-    CafeAnnotation *myAnnotation;
-    myAnnotation= [[CafeAnnotation alloc]init];
+    Annotation *myAnnotation;
+    myAnnotation= [[Annotation alloc]init];
     tmpCoord.latitude = 49.8285155;
     tmpCoord.longitude = 23.9921021;
     myAnnotation.coordinate = tmpCoord;
@@ -86,7 +110,7 @@ enum
     
     [self.mapAnnotations addObject:myAnnotation];//atIndex:kAnnotationIndex];
 
-    myAnnotation= [[CafeAnnotation alloc]init];
+    myAnnotation= [[Annotation alloc]init];
     tmpCoord.latitude = 49.840681;
     tmpCoord.longitude = 24.026327;
     myAnnotation.coordinate = tmpCoord;
@@ -97,8 +121,8 @@ enum
     
     [self.mapAnnotations addObject:myAnnotation];
     
-    //CafeAnnotation *myAnnotation;
-    myAnnotation= [[CafeAnnotation alloc]init];
+    //Annotation *myAnnotation;
+    myAnnotation= [[Annotation alloc]init];
     tmpCoord.latitude = 49.836744;
     tmpCoord.longitude = 24.031359;
     myAnnotation.coordinate = tmpCoord;
@@ -109,7 +133,7 @@ enum
     
     [self.mapAnnotations addObject:myAnnotation];
     
-    myAnnotation= [[CafeAnnotation alloc]init];
+    myAnnotation= [[Annotation alloc]init];
     tmpCoord.latitude = 49.835744;
     tmpCoord.longitude = 24.051359;
     myAnnotation.coordinate = tmpCoord;
@@ -125,7 +149,7 @@ enum
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+    return toInterfaceOrientation!= UIInterfaceOrientationPortraitUpsideDown;
 }
 
 
@@ -141,19 +165,19 @@ enum
         return nil;
     
     
-    if ([annotation isKindOfClass:[CafeAnnotation class]])   // for CafeAnnotation
+    if ([annotation isKindOfClass:[Annotation class]])   // for Annotation
     {
         // type cast for property use
-        CafeAnnotation *newAnnotation;
-        newAnnotation = (CafeAnnotation *)annotation;
+        Annotation *newAnnotation;
+        newAnnotation = (Annotation *)annotation;
         
-        static NSString *SFAnnotationIdentifier = @"SFAnnotationIdentifier";
+        static NSString *stringAnnotationIdentifier = @"StringAnnotationIdentifier";
         
         MKAnnotationView *annotationView =
-        [_mapView dequeueReusableAnnotationViewWithIdentifier:SFAnnotationIdentifier];
+        [_mapView dequeueReusableAnnotationViewWithIdentifier:stringAnnotationIdentifier];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:SFAnnotationIdentifier];
+                                                          reuseIdentifier:stringAnnotationIdentifier];
         }
         
         annotationView.canShowCallout = YES;
@@ -186,6 +210,5 @@ enum
 }
 
 
-- (IBAction)GetLocation:(id)sender {
-}
+
 @end

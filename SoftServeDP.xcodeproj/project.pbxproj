@@ -31,7 +31,7 @@
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
 		90487C9116A84CD60090F60E /* eatpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8E16A84CD60090F60E /* eatpin.png */; };
 		90487C9416A84D020090F60E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487C9316A84D020090F60E /* ViewController.m */; };
-		90487CA816A8531D0090F60E /* CafeAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487CA716A8531D0090F60E /* CafeAnnotation.m */; };
+		90487CA816A8531D0090F60E /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487CA716A8531D0090F60E /* Annotation.m */; };
 		906800DC16B01CEA0053F50C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800D916B01CEA0053F50C /* Default-568h@2x.png */; };
 		906800DD16B01CEA0053F50C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DA16B01CEA0053F50C /* Default.png */; };
 		906800DE16B01CEA0053F50C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DB16B01CEA0053F50C /* Default@2x.png */; };
@@ -79,8 +79,8 @@
 		90487C8E16A84CD60090F60E /* eatpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eatpin.png; path = ImageAnnotation/eatpin.png; sourceTree = SOURCE_ROOT; };
 		90487C9216A84D020090F60E /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ImageAnnotation/ViewController.h; sourceTree = SOURCE_ROOT; };
 		90487C9316A84D020090F60E /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ImageAnnotation/ViewController.m; sourceTree = SOURCE_ROOT; };
-		90487CA616A8531D0090F60E /* CafeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CafeAnnotation.h; path = ImageAnnotation/CafeAnnotation.h; sourceTree = SOURCE_ROOT; };
-		90487CA716A8531D0090F60E /* CafeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CafeAnnotation.m; path = ImageAnnotation/CafeAnnotation.m; sourceTree = SOURCE_ROOT; };
+		90487CA616A8531D0090F60E /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Annotation.h; path = ImageAnnotation/Annotation.h; sourceTree = SOURCE_ROOT; };
+		90487CA716A8531D0090F60E /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Annotation.m; path = ImageAnnotation/Annotation.m; sourceTree = SOURCE_ROOT; };
 		906800D916B01CEA0053F50C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		906800DA16B01CEA0053F50C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		906800DB16B01CEA0053F50C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 		90487C4916A8407C0090F60E /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
-				90487CA616A8531D0090F60E /* CafeAnnotation.h */,
-				90487CA716A8531D0090F60E /* CafeAnnotation.m */,
+				90487CA616A8531D0090F60E /* Annotation.h */,
+				90487CA716A8531D0090F60E /* Annotation.m */,
 			);
 			name = Annotation;
 			path = ImageAnnotation;
@@ -325,7 +325,7 @@
 				432CC5FF16A4697C00A50F1D /* SASlideMenuStaticViewController.m in Sources */,
 				432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */,
 				90487C9416A84D020090F60E /* ViewController.m in Sources */,
-				90487CA816A8531D0090F60E /* CafeAnnotation.m in Sources */,
+				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				900C254816AD700D006C501A /* myDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
