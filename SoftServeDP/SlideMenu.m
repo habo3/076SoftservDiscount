@@ -8,14 +8,15 @@
 
 #import "SlideMenu.h"
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
-
+#import "SettingsViewController.h"
 @interface SlideMenu ()
 
 @end
 
 @implementation SlideMenu
 
-@synthesize managedObjectContextTest; //debug
+//@synthesize managedObjectContextTest; //debug
+@synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,16 +54,21 @@
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+        
     if ([[segue identifier] isEqualToString: @"Settings"]) {
-
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        SettingsViewController *vc = (SettingsViewController *) navigationController.topViewController;
+        vc.managedObjectContext = self.managedObjectContext;
+        
     }
 }
 -(void) viewDidLoad {
-    NSLog(@"test: %@", managedObjectContextTest);//debug
+   // NSLog(@"test: %@", managedObjectContextTest);//debug
     [super viewDidLoad];
 }
 -(NSString*) initialSegueId{
-    return @"list";
+    return @"Settings";
 }
 
 @end

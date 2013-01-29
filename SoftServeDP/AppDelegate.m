@@ -19,8 +19,8 @@
 
     UITableViewController *tableViewController = (UITableViewController *)self.window.rootViewController;
     SlideMenu *controller = (SlideMenu *)tableViewController;
-    controller.managedObjectContextTest = @"1123";
-    //controller.managedObjectContext = self.managedObjectContext;
+   // controller.managedObjectContextTest = @"1123"; //debug
+    controller.managedObjectContext = self.managedObjectContext;
     return YES;
 }
 
@@ -64,7 +64,7 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"SoftServeDP" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
@@ -80,6 +80,7 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"SoftServeDP.sqlite"];
     
     NSError *error = nil;
+   // NSLog(@"%@", [self managedObjectModel]); //debug
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
         /*
