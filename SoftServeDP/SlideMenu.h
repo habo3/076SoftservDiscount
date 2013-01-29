@@ -11,6 +11,8 @@
 #import "SASlideMenuDataSource.h"
 
 // Facebook-like menu
-@interface SlideMenuImplementor :SASlideMenuStaticViewController<SASlideMenuDataSource>
+@interface SlideMenu :SASlideMenuStaticViewController<SASlideMenuDataSource>
+@property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
+//@property (nonatomic, strong) NSString *managedObjectContextTest; //debug
 
 @end

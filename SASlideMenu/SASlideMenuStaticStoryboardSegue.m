@@ -16,6 +16,11 @@
     
     UINavigationController* destination = self.destinationViewController;
     
+    //set navigator color
+    UIColor * rgbColor = [UIColor colorWithRed:0.988 green: 0.69 blue: 0.184 alpha:1.0];
+    destination.navigationBar.tintColor = rgbColor;
+
+    
     UIButton* menuButton = [[UIButton alloc] init];
     [source.slideMenuDataSource configureMenuButton:menuButton];
     [menuButton addTarget:source action:@selector(doSlideToSide) forControlEvents:UIControlEventTouchUpInside];

@@ -8,16 +8,18 @@
 
 #import "SlideMenu.h"
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
-
-@interface SlideMenuImplementor ()
+#import "SettingsViewController.h"
+@interface SlideMenu ()
 
 @end
 
-@implementation SlideMenuImplementor
+@implementation SlideMenu
+
+//@synthesize managedObjectContextTest; //debug
+@synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.slideMenuDataSource = self;
@@ -60,7 +62,7 @@
 }
 
 -(NSString*) initialSegueId{
-    return @"list";
+    return @"Settings";
 }
 
 @end
