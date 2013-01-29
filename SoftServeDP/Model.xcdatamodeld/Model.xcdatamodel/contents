@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Category" representedClassName="Category" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="iconId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="iconMime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="iconSize" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="iconSrc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="updated" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="object" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Object" inverseName="category" inverseEntity="Object" syncable="YES"/>
+        <attribute name="json_color" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="json_fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_iconId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_iconMime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_iconSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_iconSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_updated" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="category" inverseEntity="DiscountObject" syncable="YES"/>
     </entity>
     <entity name="City" representedClassName="City" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="object" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Object" inverseName="city" inverseEntity="Object" syncable="YES"/>
+        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="city" inverseEntity="DiscountObject" syncable="YES"/>
     </entity>
-    <entity name="Object" representedClassName="Object" syncable="YES">
-        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="allPlaces" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="allProducts" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="descriptionOfObject" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="discountFrom" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="discountTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="logoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="logoMime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="logoSize" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="logoSrc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="parent" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="pulse" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="responsiblePersonInfo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="updated" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="category" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="object" inverseEntity="Category" syncable="YES"/>
-        <relationship name="city" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="object" inverseEntity="City" syncable="YES"/>
+    <entity name="DiscountObject" representedClassName="DiscountObject" syncable="YES">
+        <attribute name="json_address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_allPlaces" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="json_allProducts" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="json_created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="json_descriptionOfObject" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_discountFrom" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_discountTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="json_logoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_logoMime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_logoSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_logoSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_parent" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="json_pulse" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_responsiblePersonInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="json_updated" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="category" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="discountobject" inverseEntity="Category" syncable="YES"/>
+        <relationship name="city" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="discountobject" inverseEntity="City" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-162" positionY="210" width="128" height="208"/>
-        <element name="City" positionX="-162" positionY="450" width="128" height="88"/>
-        <element name="Object" positionX="162" positionY="153" width="128" height="360"/>
+        <element name="Category" positionX="-162" positionY="210" width="128" height="210"/>
+        <element name="City" positionX="-162" positionY="450" width="128" height="90"/>
+        <element name="DiscountObject" positionX="162" positionY="153" width="128" height="360"/>
     </elements>
 </model>

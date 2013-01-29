@@ -2,18 +2,18 @@
 //  City.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 28.01.13.
+//  Created by Bogdan on 1/29/13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
 #import "City.h"
-#import "Object.h"
+#import "DiscountObject.h"
 
 
 @implementation City
 
-@dynamic id;
-@dynamic name;
-@dynamic object;
+@dynamic json_id;
+@dynamic json_name;
+@dynamic discountobject;
 
 @end

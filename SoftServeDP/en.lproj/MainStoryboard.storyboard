@@ -381,8 +381,11 @@
         <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
         </class>
-        <class className="SlideMenuImplementor" superclassName="SASlideMenuStaticViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenuImplementor.h"/>
+        <class className="SettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+        </class>
+        <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>

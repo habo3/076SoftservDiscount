@@ -53,7 +53,18 @@
     layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
 }
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+        
+    if ([[segue identifier] isEqualToString: @"Settings"]) {
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        SettingsViewController *vc = (SettingsViewController *) navigationController.topViewController;
+        vc.managedObjectContext = self.managedObjectContext;
+        
+    }
+}
 -(void) viewDidLoad {
+   // NSLog(@"test: %@", managedObjectContextTest);//debug
     [super viewDidLoad];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menuBackground.png"]];
     [tempImageView setFrame:self.tableView.frame];
