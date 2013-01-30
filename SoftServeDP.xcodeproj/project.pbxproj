@@ -26,7 +26,6 @@
 		433D824716A8753400FD6A5A /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824516A8753400FD6A5A /* row.png */; };
 		433D824816A8753400FD6A5A /* row@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824616A8753400FD6A5A /* row@2x.png */; };
 		4382BEDB16B7ED3100CD7616 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 4382BEDA16B7ED3100CD7616 /* City.m */; };
-		4382BEDE16B7ED3200CD7616 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 4382BEDD16B7ED3200CD7616 /* Category.m */; };
 		4382BEE116B7ED3200CD7616 /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4382BEE016B7ED3200CD7616 /* DiscountObject.m */; };
 		43CF803916B2C70500BB9767 /* menuBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 43CF803816B2C70500BB9767 /* menuBackground.png */; };
 		900C254816AD700D006C501A /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C254716AD700D006C501A /* myDetailViewController.m */; };
@@ -46,6 +45,8 @@
 		906800EA16B034360053F50C /* technicalpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800E416B034360053F50C /* technicalpin.png */; };
 		906800EB16B034360053F50C /* travelpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800E516B034360053F50C /* travelpin.png */; };
 		9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800FF16B0484F0053F50C /* emptyLeftImage.png */; };
+		C08C2E6F16B8125B0030F627 /* Icon.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2E6E16B8125B0030F627 /* Icon.m */; };
+		C08C2E7516B95C2C0030F627 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = C08C2E7416B95C2C0030F627 /* Category.m */; };
 		C096279F16B557A00030988C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C096279D16B557040030988C /* CoreData.framework */; };
 		C09627A716B679A20030988C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09627A616B679A20030988C /* SettingsViewController.m */; };
 		C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C09627A816B680650030988C /* Model.xcdatamodeld */; };
@@ -80,8 +81,6 @@
 		433D824616A8753400FD6A5A /* row@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "row@2x.png"; sourceTree = "<group>"; };
 		4382BED916B7ED3100CD7616 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		4382BEDA16B7ED3100CD7616 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
-		4382BEDC16B7ED3100CD7616 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
-		4382BEDD16B7ED3200CD7616 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		4382BEDF16B7ED3200CD7616 /* DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountObject.h; sourceTree = "<group>"; };
 		4382BEE016B7ED3200CD7616 /* DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountObject.m; sourceTree = "<group>"; };
 		43CF803816B2C70500BB9767 /* menuBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuBackground.png; sourceTree = "<group>"; };
@@ -105,6 +104,10 @@
 		906800E416B034360053F50C /* technicalpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = technicalpin.png; sourceTree = SOURCE_ROOT; };
 		906800E516B034360053F50C /* travelpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = travelpin.png; sourceTree = SOURCE_ROOT; };
 		906800FF16B0484F0053F50C /* emptyLeftImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyLeftImage.png; sourceTree = SOURCE_ROOT; };
+		C08C2E6D16B8125B0030F627 /* Icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Icon.h; sourceTree = "<group>"; };
+		C08C2E6E16B8125B0030F627 /* Icon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Icon.m; sourceTree = "<group>"; };
+		C08C2E7316B95C2C0030F627 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
+		C08C2E7416B95C2C0030F627 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		C096279D16B557040030988C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C09627A516B679A20030988C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		C09627A616B679A20030988C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
@@ -263,11 +266,13 @@
 		C08CBB1016B70D1200E0EB0D /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				C08C2E6D16B8125B0030F627 /* Icon.h */,
+				C08C2E6E16B8125B0030F627 /* Icon.m */,
 				C09627A816B680650030988C /* Model.xcdatamodeld */,
+				C08C2E7316B95C2C0030F627 /* Category.h */,
+				C08C2E7416B95C2C0030F627 /* Category.m */,
 				4382BEDF16B7ED3200CD7616 /* DiscountObject.h */,
 				4382BEE016B7ED3200CD7616 /* DiscountObject.m */,
-				4382BEDC16B7ED3100CD7616 /* Category.h */,
-				4382BEDD16B7ED3200CD7616 /* Category.m */,
 				4382BED916B7ED3100CD7616 /* City.h */,
 				4382BEDA16B7ED3100CD7616 /* City.m */,
 			);
@@ -378,8 +383,9 @@
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
 				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
 				4382BEDB16B7ED3100CD7616 /* City.m in Sources */,
-				4382BEDE16B7ED3200CD7616 /* Category.m in Sources */,
 				4382BEE116B7ED3200CD7616 /* DiscountObject.m in Sources */,
+				C08C2E6F16B8125B0030F627 /* Icon.m in Sources */,
+				C08C2E7516B95C2C0030F627 /* Category.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
