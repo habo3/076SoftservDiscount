@@ -2,26 +2,23 @@
 //  Category.h
 //  SoftServeDP
 //
-//  Created by Bogdan on 30.01.13.
+//  Created by Bogdan on 03.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DiscountObject, Icon;
+@class DiscountObject;
 
 @interface Category : NSManagedObject
 
-@property (nonatomic, retain) NSString * json_color;
-@property (nonatomic, retain) NSNumber * json_created;
-@property (nonatomic, retain) NSString * json_fontSymbol;
-@property (nonatomic, retain) NSNumber * json_id;
-@property (nonatomic, retain) NSString * json_name;
-@property (nonatomic, retain) NSNumber * json_updated;
-@property (nonatomic, retain) NSNumber * json_listOnly;
+@property (nonatomic, retain) NSNumber * created;
+@property (nonatomic, retain) NSString * fontSymbol;
+@property (nonatomic, retain) NSNumber * id;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * updated;
 @property (nonatomic, retain) NSSet *discountobject;
-@property (nonatomic, retain) Icon *icon;
 @end
 
 @interface Category (CoreDataGeneratedAccessors)

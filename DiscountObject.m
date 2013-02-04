@@ -2,7 +2,7 @@
 //  DiscountObject.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 1/29/13.
+//  Created by Bogdan on 03.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
@@ -13,26 +13,26 @@
 
 @implementation DiscountObject
 
-@dynamic json_address;
-@dynamic json_allPlaces;
-@dynamic json_allProducts;
-@dynamic json_created;
-@dynamic json_descriptionOfObject;
-@dynamic json_discountFrom;
-@dynamic json_discountTo;
-@dynamic json_id;
-@dynamic json_latitude;
-@dynamic json_logoID;
-@dynamic json_logoMime;
-@dynamic json_logoSize;
-@dynamic json_logoSrc;
-@dynamic json_longitude;
-@dynamic json_name;
-@dynamic json_parent;
-@dynamic json_pulse;
-@dynamic json_responsiblePersonInfo;
-@dynamic json_updated;
-@dynamic category;
-@dynamic city;
+@dynamic address;
+@dynamic allPlaces;
+@dynamic allProducts;
+@dynamic created;
+@dynamic objectDescription;
+@dynamic id;
+@dynamic name;
+@dynamic parent;
+@dynamic pulse;
+@dynamic responsiblePersonInfo;
+@dynamic updated;
+@dynamic geoLongitude;
+@dynamic geoLatitude;
+@dynamic logoId;
+@dynamic logoMime;
+@dynamic logoSrc;
+@dynamic discountFrom;
+@dynamic discountTo;
+@dynamic categories;
+@dynamic cities;
+@dynamic contacts;
 
 @end

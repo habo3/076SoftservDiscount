@@ -2,7 +2,7 @@
 //  City.h
 //  SoftServeDP
 //
-//  Created by Bogdan on 1/29/13.
+//  Created by Bogdan on 03.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
@@ -13,8 +13,8 @@
 
 @interface City : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * json_id;
-@property (nonatomic, retain) NSString * json_name;
+@property (nonatomic, retain) NSNumber * id;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *discountobject;
 @end
 

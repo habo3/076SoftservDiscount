@@ -10,6 +10,7 @@
 #import "Category.h"
 #import "City.h"
 #import "DiscountObject.h"
+#import "Contacts.h"
 
 @interface SettingsViewController ()
 
@@ -39,27 +40,42 @@
         //do subentities
         if ([value isKindOfClass:[NSDictionary class]]) {
             NSManagedObject *relatedObject = [NSEntityDescription insertNewObjectForEntityForName:[key capitalizedString]
-                                                                           inManagedObjectContext:managedObjectContext];
+                                                                           	inManagedObjectContext:managedObjectContext];
             [self parseDictionary:value toObject:relatedObject];
         } else {
+        
             [obj setValue:value forKey:attrName];
         }
     }
 }
 
--(void) showAllEntities:(NSString *) entityName {
-    NSLog(@"---------------------");
-    NSError *error;
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:managedObjectContext];
-    [request setEntity:entity];
-    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:request error:&error];
-    for (NSManagedObject *attribute in fetchedObjects) {
-        static int i = 1;
-        NSLog(@"%d",i);
-        i++;
-        NSLog(@"attribute: %@", [attribute valueForKey:@"json_name"]);
+//Debug. Testing DB
+- (IBAction)showCities {
+    //NSNumber *cityId = [object valueForKey:@"city"];
+    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                 inManagedObjectContext:managedObjectContext]];
+    [fetch setPredicate:objectsFind];
+    NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+    for (DiscountObject *obj in objectsFound){
+        NSString *name = obj.name;
+        NSNumber *city = obj.discountTo;
+        NSLog(@"name :%@, discountTo: %@", name, city);//debug
     }
+}
+
+- (IBAction)showMeTheMoney {
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DiscountObject"
+                                              inManagedObjectContext:managedObjectContext];
+    [request setEntity:entity];
+    
+    NSError *error = nil;
+    NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+    
+    NSLog(@"There are %d objects of DiscountObject entity.", count);
     
     	
 }
@@ -102,28 +118,31 @@
         NSLog(@"Error parsing JSON: %@", err);
     }
     else {
-
         //get the list of objects
         NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-        for (NSString *anOject in dictionaryOfObjects) {
+        for (NSString *objectContainer in dictionaryOfObjects) {
             
             //create core data City entity
-            Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"City"
+            City *city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
                                                                inManagedObjectContext:managedObjectContext];
             
             //put object into core data
-            NSDictionary *theObject = [dictionaryOfObjects objectForKey:anOject];
-            [self parseDictionary:theObject toObject:category];
+            NSDictionary *json_city = [dictionaryOfObjects objectForKey:objectContainer];
             
+            city.id = [json_city valueForKey:@"id"];
+            city.name = [json_city valueForKey:@"name"];
+            
+            
+            //[self parseDictionary:json_city toObject:city];
         }
     }
     
-     NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"City"]);
+     NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"City"]); //debug
     
     if (![managedObjectContext save:&err]) {
         NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
     }
-[self numberOfObjectsIn:@"City"];
+[self numberOfObjectsIn:@"City"]; //debug
 
 }
 - (IBAction)updateCategories {
@@ -145,18 +164,25 @@
     }
     else {
         NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-        for (NSString *anOject in dictionaryOfObjects) {
+
+        for (NSString *objectContainer in dictionaryOfObjects) {
             
-            NSString *attributeClass = NSStringFromClass([anOject class]);
-            NSLog(@"      %@, class: %@", anOject, attributeClass);
+            NSString *attributeClass = NSStringFromClass([objectContainer class]); //debug
+            NSLog(@"      %@, class: %@", objectContainer, attributeClass);        //debug
+            
+            NSDictionary *theObject = [dictionaryOfObjects objectForKey:objectContainer];
             
             //create core data Category entity
             Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
                                                                inManagedObjectContext:managedObjectContext];
             
             //set entity's attributes:
-            NSDictionary *theObject = [dictionaryOfObjects objectForKey:anOject];
-            [self parseDictionary:theObject toObject:category];
+            category.created = [theObject valueForKey:@"created"];
+            category.id = [theObject valueForKey:@"id"];
+            category.name = [theObject valueForKey:@"name"];
+            category.updated = [theObject valueForKey:@"updated"];
+            category.fontSymbol = [theObject valueForKey:@"fontSymbol"];
+            //[self parseDictionary:theObject toObject:category];
             
         }
     }
@@ -182,23 +208,101 @@
     NSData *response = [NSURLConnection sendSynchronousRequest: theRequest returningResponse: &resp error: &err];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &err];
     
-    
+    //parse Json dictionary
     if (!jsonDictionary) {
         NSLog(@"Error parsing JSON: %@", err);
     }
     else {
-        
         //get the list of objects
-        NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-        for (NSString *anOject in dictionaryOfObjects) {
+        NSArray *objects = [jsonDictionary objectForKey:@"list"];
+        NSLog(@"objects in json dictionary: %d", objects.count);
+        for (NSMutableDictionary *object in objects) {
+            //Remove nulls
+            NSSet *nullSet = [object keysOfEntriesWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id key, id obj, BOOL *stop) {
+                return [obj isEqual:[NSNull null]] ? YES : NO;
+            }];
+            [object removeObjectsForKeys:[nullSet allObjects]];
+
+            //create object entity
+            DiscountObject *discountObject = [NSEntityDescription insertNewObjectForEntityForName:@"DiscountObject"
+                                                                           inManagedObjectContext:managedObjectContext];
             
-            //create core data City entity
-            Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"DiscountObject"
-                                                               inManagedObjectContext:managedObjectContext];
+            //populate entity with properties
+            discountObject.address = [object valueForKey:@"address"];
+            discountObject.allPlaces = [object valueForKey:@"allPlaces"];
+            discountObject.allProducts = [object valueForKey:@"allProducts"];
+            discountObject.created = [object valueForKey:@"created"];
+            discountObject.objectDescription = [object valueForKey:@"description"];
+            discountObject.id = [object valueForKey:@"id"];
+            discountObject.name = [object valueForKey:@"name"];
+            discountObject.parent = [object valueForKey:@"parent"];
+            discountObject.pulse = [object valueForKey:@"pulse"];
+            discountObject.responsiblePersonInfo = [object valueForKey:@"responsiblePersonInfo"];
+            discountObject.updated = [object valueForKey:@"updated"];
+            NSDictionary *geoPoint = [object valueForKey:@"geoPoint"];
+            discountObject.geoLongitude = [geoPoint valueForKey:@"longitude"];
+            NSLog(@"longtitude = %@", discountObject.geoLongitude);
+            discountObject.geoLatitude = [geoPoint valueForKey:@"latitude"];
+            if ([[object valueForKey:@"logo"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *objectLogo  = [object valueForKey:@"logo"];
+                discountObject.logoId = [objectLogo valueForKey:@"id"];
+                discountObject.logoMime = [objectLogo valueForKey:@"mime"];
+                discountObject.logoSrc = [objectLogo valueForKey:@"src"];
+            }
+            NSDictionary *objectDiscountValues = [object valueForKey:@"discount"];
+            if (!([objectDiscountValues valueForKey:@"from"] == [NSNull null])) { //nsnull ignore
+                discountObject.discountFrom = [objectDiscountValues valueForKey:@"from"];//nsnull ignore
+            }
+            if (!([objectDiscountValues valueForKey:@"to"] == [NSNull null])) {
+                
+                discountObject.discountTo = [objectDiscountValues valueForKey:@"to"];
+            }
+                //Create, populate and relate Contact entities.
+            NSArray *phoneNumbers = [object valueForKey:@"phone"];
+            for (NSString *phoneNumber in phoneNumbers) {
+                Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
+                                                                   inManagedObjectContext:managedObjectContext];
+                contact.type = @"phone";
+                contact.value = phoneNumber;
+                //set relation
+                [discountObject addContactsObject:contact];
+                contact.discountObject = discountObject;
+            }
+            NSArray *emails = [object valueForKey:@"email"];
+            for (NSString *email in emails) {
+                Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
+                                                                  inManagedObjectContext:managedObjectContext];
+                contact.type = @"email";
+                contact.value = email;
+                //set relation
+                [discountObject addContactsObject:contact];
+                contact.discountObject = discountObject;
+            }
+            NSArray *sites = [object valueForKey:@"site"];
+            for (NSString *site in sites) {
+                Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
+                                                                  inManagedObjectContext:managedObjectContext];
+                contact.type = @"site";
+                contact.value = site;
+                //set relation
+                [discountObject addContactsObject:contact];
+                contact.discountObject = discountObject;
+            }
+            
+            //relationship to city
+            NSNumber *cityId = [object valueForKey:@"city"];
+            NSPredicate *cityFind = [NSPredicate predicateWithFormat:@"id = %@",cityId];
+            NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+            [fetch setEntity:[NSEntityDescription entityForName:@"City"
+                                         inManagedObjectContext:managedObjectContext]];
+            [fetch setPredicate:cityFind];
+            NSArray *cityIdFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+            NSLog(@"city id found and linked: %@", [cityIdFound objectAtIndex:0]);//debug
+            discountObject.cities = [cityIdFound objectAtIndex:0];
             
             //put object into core data
-            NSDictionary *theObject = [dictionaryOfObjects objectForKey:anOject];
-            [self parseDictionary:theObject toObject:category];
+            // NSDictionary *theObject = [dictionaryOfObjects objectForKey:objectContainer];
+            //[self parseDictionary:theObject toObject:discountObject];
             
         }
     }

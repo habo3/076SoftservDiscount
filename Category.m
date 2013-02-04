@@ -2,25 +2,21 @@
 //  Category.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 30.01.13.
+//  Created by Bogdan on 03.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
 #import "Category.h"
 #import "DiscountObject.h"
-#import "Icon.h"
 
 
 @implementation Category
 
-@dynamic json_color;
-@dynamic json_created;
-@dynamic json_fontSymbol;
-@dynamic json_id;
-@dynamic json_name;
-@dynamic json_updated;
-@dynamic json_listOnly;
+@dynamic created;
+@dynamic fontSymbol;
+@dynamic id;
+@dynamic name;
+@dynamic updated;
 @dynamic discountobject;
-@dynamic icon;
 
 @end

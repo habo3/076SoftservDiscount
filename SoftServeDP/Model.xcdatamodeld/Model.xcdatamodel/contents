@@ -1,71 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Category" representedClassName="Category" syncable="YES">
-        <attribute name="json_color" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_created" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_listOnly" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_updated" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="category" inverseEntity="DiscountObject" syncable="YES"/>
-        <relationship name="icon" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="category" inverseEntity="Icon" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="updated" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="categories" inverseEntity="DiscountObject" syncable="YES"/>
     </entity>
     <entity name="City" representedClassName="City" syncable="YES">
-        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="city" inverseEntity="DiscountObject" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="discountobject" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="cities" inverseEntity="DiscountObject" syncable="YES"/>
     </entity>
-    <entity name="Discount" syncable="YES">
-        <attribute name="json_from" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_to" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="discountObject" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="discount" inverseEntity="DiscountObject" syncable="YES"/>
+    <entity name="Contact" representedClassName="Contacts" syncable="YES">
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="discountObject" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="contacts" inverseEntity="DiscountObject" syncable="YES"/>
     </entity>
     <entity name="DiscountObject" representedClassName="DiscountObject" syncable="YES">
-        <attribute name="json_address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_allPlaces" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="json_allProducts" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="json_created" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="json_descriptionOfObject" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_parent" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_pulse" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_responsiblePersonInfo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_updated" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="category" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="discountobject" inverseEntity="Category" syncable="YES"/>
-        <relationship name="city" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="discountobject" inverseEntity="City" syncable="YES"/>
-        <relationship name="discount" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Discount" inverseName="discountObject" inverseEntity="Discount" syncable="YES"/>
-        <relationship name="geopoint" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Geopoint" inverseName="discountObject" inverseEntity="Geopoint" syncable="YES"/>
-        <relationship name="logo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Logo" inverseName="discountObject" inverseEntity="Logo" syncable="YES"/>
-    </entity>
-    <entity name="Geopoint" syncable="YES">
-        <attribute name="json_latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="json_longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="discountObject" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="geopoint" inverseEntity="DiscountObject" syncable="YES"/>
-    </entity>
-    <entity name="Icon" representedClassName="Icon" syncable="YES">
-        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_mime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_size" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_src" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_type" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="category" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="icon" inverseEntity="Category" syncable="YES"/>
-    </entity>
-    <entity name="Logo" syncable="YES">
-        <attribute name="json_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="json_mime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_size" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="json_src" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="discountObject" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DiscountObject" inverseName="logo" inverseEntity="DiscountObject" syncable="YES"/>
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="allPlaces" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="allProducts" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="discountFrom" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="discountTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="geoLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="geoLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="logoId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="logoMime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="logoSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parent" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="pulse" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="responsiblePersonInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="discountobject" inverseEntity="Category" syncable="YES"/>
+        <relationship name="cities" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="discountobject" inverseEntity="City" syncable="YES"/>
+        <relationship name="contacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Contact" inverseName="discountObject" inverseEntity="Contact" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-38" positionY="72" width="128" height="178"/>
-        <element name="City" positionX="-36" positionY="423" width="128" height="90"/>
-        <element name="DiscountObject" positionX="162" positionY="153" width="128" height="283"/>
-        <element name="Icon" positionX="-54" positionY="287" width="128" height="133"/>
-        <element name="Geopoint" positionX="367" positionY="261" width="128" height="90"/>
-        <element name="Logo" positionX="403" positionY="366" width="128" height="120"/>
-        <element name="Discount" positionX="342" positionY="153" width="128" height="90"/>
+        <element name="Category" positionX="-38" positionY="162" width="128" height="133"/>
+        <element name="City" positionX="-65" positionY="333" width="128" height="88"/>
+        <element name="DiscountObject" positionX="162" positionY="153" width="128" height="358"/>
+        <element name="Contact" positionX="333" positionY="198" width="128" height="88"/>
     </elements>
 </model>

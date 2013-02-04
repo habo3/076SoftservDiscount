@@ -1,19 +1,19 @@
 //
-//  City.m
+//  Contacts.m
 //  SoftServeDP
 //
 //  Created by Bogdan on 03.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
-#import "City.h"
+#import "Contacts.h"
 #import "DiscountObject.h"
 
 
-@implementation City
+@implementation Contacts
 
-@dynamic id;
-@dynamic name;
-@dynamic discountobject;
+@dynamic value;
+@dynamic type;
+@dynamic discountObject;
 
 @end
