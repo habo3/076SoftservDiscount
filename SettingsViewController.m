@@ -52,32 +52,49 @@
 //Debug. Testing DB
 - (IBAction)showCities {
     //NSNumber *cityId = [object valueForKey:@"city"];
-    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
+    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:@"id == 14"];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
                                  inManagedObjectContext:managedObjectContext]];
     [fetch setPredicate:objectsFind];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (DiscountObject *obj in objectsFound){
-        NSString *name = obj.name;
-        NSNumber *city = obj.discountTo;
-        NSLog(@"name :%@, discountTo: %@", name, city);//debug
+    for (Category *cat in objectsFound){
+        NSString *name = cat.name;
+        NSSet *objects = cat.discountobject;
+        for (DiscountObject *object in objects){
+            NSLog(@"category :%@, object: %@", name, object.name);//debug            |
+        }
     }
 }
 
 - (IBAction)showMeTheMoney {
 
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DiscountObject"
-                                              inManagedObjectContext:managedObjectContext];
-    [request setEntity:entity];
+    NSNumber *num1 = [NSNumber numberWithInt:14];
+    NSNumber *num2 = [NSNumber numberWithInt:17];
+    NSArray *categoryIds = [NSArray arrayWithObjects: num1, num2, nil];
+    NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",categoryIds];
+    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+    [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
+                                             inManagedObjectContext:managedObjectContext]];
+    [objFetch setPredicate:catFind];
+    NSArray *catFound = [managedObjectContext executeFetchRequest:objFetch error:nil];
+    Category *tmp = [catFound objectAtIndex:1];
+    NSLog(@"categories found: %@", tmp.name);//debug
     
-    NSError *error = nil;
-    NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-    
-    NSLog(@"There are %d objects of DiscountObject entity.", count);
-    
-    	
+    //          discountObject.cities = [cityIdFound objectAtIndex:0];
+
+//
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DiscountObject"
+//                                              inManagedObjectContext:managedObjectContext];
+//    [request setEntity:entity];
+//    
+//    NSError *error = nil;
+//    NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+//    
+//    NSLog(@"There are %d objects of DiscountObject entity.", count);
+//    
+//    	
 }
 
 - (int) numberOfObjectsIn:(NSString *) thentity{
@@ -232,7 +249,7 @@
             discountObject.allPlaces = [object valueForKey:@"allPlaces"];
             discountObject.allProducts = [object valueForKey:@"allProducts"];
             discountObject.created = [object valueForKey:@"created"];
-            discountObject.objectDescription = [object valueForKey:@"description"];
+            discountObject.objectDescription = [object valueForKey:@"description"]; 
             discountObject.id = [object valueForKey:@"id"];
             discountObject.name = [object valueForKey:@"name"];
             discountObject.parent = [object valueForKey:@"parent"];
@@ -251,13 +268,11 @@
             }
             NSDictionary *objectDiscountValues = [object valueForKey:@"discount"];
             if (!([objectDiscountValues valueForKey:@"from"] == [NSNull null])) { //nsnull ignore
-                discountObject.discountFrom = [objectDiscountValues valueForKey:@"from"];//nsnull ignore
-            }
+                discountObject.discountFrom = [objectDiscountValues valueForKey:@"from"];            }
             if (!([objectDiscountValues valueForKey:@"to"] == [NSNull null])) {
-                
                 discountObject.discountTo = [objectDiscountValues valueForKey:@"to"];
             }
-                //Create, populate and relate Contact entities.
+                //Create, populate and related Contact entities.
             NSArray *phoneNumbers = [object valueForKey:@"phone"];
             for (NSString *phoneNumber in phoneNumbers) {
                 Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
@@ -297,12 +312,22 @@
                                          inManagedObjectContext:managedObjectContext]];
             [fetch setPredicate:cityFind];
             NSArray *cityIdFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+            NSLog(@"count of found cities: %d", cityIdFound.count);
             NSLog(@"city id found and linked: %@", [cityIdFound objectAtIndex:0]);//debug
             discountObject.cities = [cityIdFound objectAtIndex:0];
             
-            //put object into core data
-            // NSDictionary *theObject = [dictionaryOfObjects objectForKey:objectContainer];
-            //[self parseDictionary:theObject toObject:discountObject];
+            //relationships to categories
+            
+            NSArray *categoryIds = [object valueForKey:@"category"];
+            NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",categoryIds];
+            NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+            [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
+                                         inManagedObjectContext:managedObjectContext]];
+            [objFetch setPredicate:catFind];
+            NSArray *catFound = [managedObjectContext executeFetchRequest:objFetch error:nil];
+            NSLog(@"categories found: %@", catFound);//debug
+            [discountObject addCategories: [NSSet setWithArray:catFound]];
+            
             
         }
     }
