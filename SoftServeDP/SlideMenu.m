@@ -9,6 +9,7 @@
 #import "SlideMenu.h"
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
 #import "SettingsViewController.h"
+#import "MapViewController.h"
 @interface SlideMenu ()
 
 @end
@@ -55,10 +56,17 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
         
-    if ([[segue identifier] isEqualToString: @"Settings"]) {
+    if ([[segue identifier] isEqualToString: @"settings"]) {
         
         UINavigationController *navigationController = [segue destinationViewController];
         SettingsViewController *vc = (SettingsViewController *) navigationController.topViewController;
+        vc.managedObjectContext = self.managedObjectContext;
+        
+    }
+    if ([[segue identifier] isEqualToString: @"map"]) {
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        MapViewController *vc = (MapViewController *) navigationController.topViewController;
         vc.managedObjectContext = self.managedObjectContext;
         
     }
@@ -73,7 +81,7 @@
 }
 
 -(NSString*) initialSegueId{
-    return @"Settings";
+    return @"settings";
 }
 
 @end

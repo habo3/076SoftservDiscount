@@ -6,10 +6,11 @@
 //  Copyright (c) 2013 Mykola. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MapViewController.h"
 #import "Annotation.h"
 #import "myDetailViewController.h"
-
+#import "DiscountObject.h"
+#import "Category.h"
 //#import <CoreGraphics/CoreGraphics.h>
 /*enum
 {
@@ -18,7 +19,7 @@
     kTeaGardenAnnotationIndex
 };*/
 
-@interface ViewController ()<MKAnnotation>
+@interface MapViewController ()<MKAnnotation>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
@@ -32,10 +33,10 @@
 
 #pragma mark -
 
-@implementation ViewController
+@implementation MapViewController
 
 @synthesize location;
-
+@synthesize managedObjectContext;
 
 - (void)gotoLocation
 {
@@ -143,9 +144,30 @@
     myAnnotation.pintype = @"photopin.png";
     myAnnotation.leftImage = @"emptyLeftImage.png";
     
+    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                 inManagedObjectContext:managedObjectContext]];
+    [fetch setPredicate:objectsFind];
+    NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+    
+    for (DiscountObject *object in objectsFound)
+    {
+        NSNumber *longtitude = object.geoLongitude;
+        NSNumber *latitude = object.geoLongitude;
+        NSString *title = object.name;
+        NSString *subtitle = object.address;
+        NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", title, latitude, longtitude, subtitle);//debug
+    }
+    
     [self.mapAnnotations addObject:myAnnotation];
     
-    [self gotoLocation];   
+    [self gotoLocation];
+    
+    
+        
+    
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
