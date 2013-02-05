@@ -53,6 +53,7 @@
     if(self.mapView.showsUserLocation)
     {
         self.mapView.showsUserLocation = FALSE;
+        [location stopUpdatingLocation];
     }
     else
     {
@@ -79,9 +80,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // restore the nav bar to translucent
-    //self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    
+
+    UIColor * rgbColor = [UIColor colorWithRed:0.988 green: 0.69 blue: 0.184 alpha:1.0];
+    self.navigationController.navigationBar.tintColor = rgbColor;
     [super viewDidAppear:animated];
     [self gotoLocation];
     
