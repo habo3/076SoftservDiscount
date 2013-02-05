@@ -8,16 +8,18 @@
 
 #import "SlideMenu.h"
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
-
-@interface SlideMenuImplementor ()
+#import "SettingsViewController.h"
+@interface SlideMenu ()
 
 @end
 
-@implementation SlideMenuImplementor
+@implementation SlideMenu
+
+//@synthesize managedObjectContextTest; //debug
+@synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.slideMenuDataSource = self;
@@ -51,8 +53,27 @@
     layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
 }
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+        
+    if ([[segue identifier] isEqualToString: @"Settings"]) {
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        SettingsViewController *vc = (SettingsViewController *) navigationController.topViewController;
+        vc.managedObjectContext = self.managedObjectContext;
+        
+    }
+}
+-(void) viewDidLoad {
+   // NSLog(@"test: %@", managedObjectContextTest);//debug
+    [super viewDidLoad];
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menuBackground.png"]];
+    [tempImageView setFrame:self.tableView.frame];
+    
+    self.tableView.backgroundView = tempImageView;
+}
+
 -(NSString*) initialSegueId{
-    return @"list";
+    return @"Settings";
 }
 
 @end
