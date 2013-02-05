@@ -26,7 +26,6 @@
 		433D824716A8753400FD6A5A /* row.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824516A8753400FD6A5A /* row.png */; };
 		433D824816A8753400FD6A5A /* row@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 433D824616A8753400FD6A5A /* row@2x.png */; };
 		43CF803916B2C70500BB9767 /* menuBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 43CF803816B2C70500BB9767 /* menuBackground.png */; };
-		900C254816AD700D006C501A /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C254716AD700D006C501A /* myDetailViewController.m */; };
 		9010A9E616B175DD00D9A679 /* geobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9010A9E516B175DD00D9A679 /* geobutton.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
@@ -43,6 +42,7 @@
 		906800EA16B034360053F50C /* technicalpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800E416B034360053F50C /* technicalpin.png */; };
 		906800EB16B034360053F50C /* travelpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800E516B034360053F50C /* travelpin.png */; };
 		9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800FF16B0484F0053F50C /* emptyLeftImage.png */; };
+		90FC62DA16C11B1C00A13912 /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC62D816C11B1C00A13912 /* myDetailViewController.m */; };
 		C034C33616BE539200F714EE /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33516BE539200F714EE /* City.m */; };
 		C034C33916BE689700F714EE /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33816BE689700F714EE /* Category.m */; };
 		C034C33C16BEBE8D00F714EE /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33B16BEBE8D00F714EE /* DiscountObject.m */; };
@@ -80,8 +80,6 @@
 		433D824516A8753400FD6A5A /* row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row.png; sourceTree = "<group>"; };
 		433D824616A8753400FD6A5A /* row@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "row@2x.png"; sourceTree = "<group>"; };
 		43CF803816B2C70500BB9767 /* menuBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuBackground.png; sourceTree = "<group>"; };
-		900C254616AD700D006C501A /* myDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myDetailViewController.h; path = ImageAnnotation/myDetailViewController.h; sourceTree = SOURCE_ROOT; };
-		900C254716AD700D006C501A /* myDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = myDetailViewController.m; path = ImageAnnotation/myDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		9010A9E516B175DD00D9A679 /* geobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geobutton.png; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		90487C6D16A843460090F60E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -100,6 +98,8 @@
 		906800E416B034360053F50C /* technicalpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = technicalpin.png; sourceTree = SOURCE_ROOT; };
 		906800E516B034360053F50C /* travelpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = travelpin.png; sourceTree = SOURCE_ROOT; };
 		906800FF16B0484F0053F50C /* emptyLeftImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyLeftImage.png; sourceTree = SOURCE_ROOT; };
+		90FC62D816C11B1C00A13912 /* myDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myDetailViewController.m; sourceTree = SOURCE_ROOT; };
+		90FC62D916C11B1C00A13912 /* myDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myDetailViewController.h; sourceTree = SOURCE_ROOT; };
 		C034C33416BE539200F714EE /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		C034C33516BE539200F714EE /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		C034C33716BE689600F714EE /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
@@ -217,8 +217,7 @@
 		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
 			isa = PBXGroup;
 			children = (
-				900C254616AD700D006C501A /* myDetailViewController.h */,
-				900C254716AD700D006C501A /* myDetailViewController.m */,
+				90FC62D716C11ACD00A13912 /* DetailView */,
 				906800DF16B033EE0053F50C /* Images */,
 				90487C4916A8407C0090F60E /* Annotation */,
 				90487C4E16A8407C0090F60E /* MapAnnotation */,
@@ -261,6 +260,15 @@
 				90487C8E16A84CD60090F60E /* eatpin.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		90FC62D716C11ACD00A13912 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				90FC62D816C11B1C00A13912 /* myDetailViewController.m */,
+				90FC62D916C11B1C00A13912 /* myDetailViewController.h */,
+			);
+			name = DetailView;
 			sourceTree = "<group>";
 		};
 		C08CBB1016B70D1200E0EB0D /* DB */ = {
@@ -379,13 +387,13 @@
 				432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */,
 				90487C9416A84D020090F60E /* ViewController.m in Sources */,
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
-				900C254816AD700D006C501A /* myDetailViewController.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
 				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
 				C034C33616BE539200F714EE /* City.m in Sources */,
 				C034C33916BE689700F714EE /* Category.m in Sources */,
 				C034C33C16BEBE8D00F714EE /* DiscountObject.m in Sources */,
 				C034C34216BF01B300F714EE /* Contacts.m in Sources */,
+				90FC62DA16C11B1C00A13912 /* myDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
