@@ -134,11 +134,12 @@
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
+				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				C08CBB1016B70D1200E0EB0D /* DB */,
 				C096279B16B555C90030988C /* Settings */,
 				90487C4716A8407C0090F60E /* ImageAnnotation */,
 				432CC5F716A4697C00A50F1D /* SASlideMenu */,
-				432CC5DA16A467E000A50F1D /* Menu and Storyboard */,
+				432CC5DA16A467E000A50F1D /* Main */,
 				432CC5D316A467E000A50F1D /* Frameworks */,
 				432CC5D116A467E000A50F1D /* Products */,
 			);
@@ -165,15 +166,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		432CC5DA16A467E000A50F1D /* Menu and Storyboard */ = {
+		432CC5DA16A467E000A50F1D /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				432CC5E316A467E000A50F1D /* AppDelegate.h */,
 				432CC5E416A467E000A50F1D /* AppDelegate.m */,
-				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				432CC5DB16A467E000A50F1D /* Supporting Files */,
 			);
-			name = "Menu and Storyboard";
+			name = Main;
 			path = SoftServeDP;
 			sourceTree = "<group>";
 		};
@@ -414,6 +414,7 @@
 				432CC5ED16A467E000A50F1D /* en */,
 			);
 			name = MainStoryboard.storyboard;
+			path = SoftServeDP;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

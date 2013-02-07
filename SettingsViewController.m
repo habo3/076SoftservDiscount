@@ -40,58 +40,7 @@
     
 }
 
-- (IBAction)insertCities {
-    
-    //get NSDictionary of cities
-    NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5"];
-    //get the list of cities
-    NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-    
-    //parse cities into model context
-    for (NSString *objectContainer in dictionaryOfObjects) {
-        City *city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
-                                                   inManagedObjectContext:managedObjectContext];
-        NSDictionary *json_city = [dictionaryOfObjects objectForKey:objectContainer];
-        city.id = [json_city valueForKey:@"id"];
-        city.name = [json_city valueForKey:@"name"];
-    }
-    
-    //save context into model
-    NSError* err;
-    if (![managedObjectContext save:&err]) {
-        NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
-    }
-    NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"City"]);//debug
-}
-
-- (IBAction)updateCategories {
-    
-    //get NSDictionary of categories
-    NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5/"];
-    NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-    
-    //parse categories into model context
-    for (NSString *objectContainer in dictionaryOfObjects) {
-        NSDictionary *categoryDic = [dictionaryOfObjects objectForKey:objectContainer];
-        Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
-                                                           inManagedObjectContext:managedObjectContext];
-        category.created = [categoryDic valueForKey:@"created"];
-        category.id = [categoryDic valueForKey:@"id"];
-        category.name = [categoryDic valueForKey:@"name"];
-        category.updated = [categoryDic valueForKey:@"updated"];
-        category.fontSymbol = [categoryDic valueForKey:@"fontSymbol"];
-    }
-
-    //save context into model
-    NSError* err;
-    if (![managedObjectContext save:&err]) {
-        NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
-    }
-    NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"Category"]);//debug
-
-}
-
-- (IBAction)insertObjects {
+- (void)insertObjects {
     
     //get NSDictionary of objects
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5/"];
@@ -167,8 +116,8 @@
                                      inManagedObjectContext:managedObjectContext]];
         [fetch setPredicate:cityFind];
         NSArray *cityIdFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-        NSLog(@"count of found cities: %d", cityIdFound.count);
-        NSLog(@"city id found and linked: %@", [cityIdFound objectAtIndex:0]);//debug
+        //NSLog(@"count of found cities: %d", cityIdFound.count);
+        //NSLog(@"city id found and linked: %@", [cityIdFound objectAtIndex:0]);//debug
         discountObject.cities = [cityIdFound objectAtIndex:0];
         
         //relationships to categories
@@ -180,7 +129,7 @@
                                         inManagedObjectContext:managedObjectContext]];
         [objFetch setPredicate:catFind];
         NSArray *catFound = [managedObjectContext executeFetchRequest:objFetch error:nil];
-        NSLog(@"categories found: %@", catFound);//debug
+        //NSLog(@"categories found: %@", catFound);//debug
         [discountObject addCategories: [NSSet setWithArray:catFound]];
     }
     
@@ -190,6 +139,67 @@
     }
     NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"DiscountObject"]);
 }
+
+- (void)insertCities {
+    
+    //get NSDictionary of cities
+    NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5"];
+    //get the list of cities
+    NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
+    
+    //parse cities into model context
+    for (NSString *objectContainer in dictionaryOfObjects) {
+        City *city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
+                                                   inManagedObjectContext:managedObjectContext];
+        NSDictionary *json_city = [dictionaryOfObjects objectForKey:objectContainer];
+        city.id = [json_city valueForKey:@"id"];
+        city.name = [json_city valueForKey:@"name"];
+    }
+    
+    //save context into model
+    NSError* err;
+    if (![managedObjectContext save:&err]) {
+        NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
+    }
+    NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"City"]);//debug
+}
+
+- (void)updateCategories {
+    
+    //get NSDictionary of categories
+    NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5/"];
+    NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
+    
+    //parse categories into model context
+    for (NSString *objectContainer in dictionaryOfObjects) {
+        NSDictionary *categoryDic = [dictionaryOfObjects objectForKey:objectContainer];
+        Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
+                                                           inManagedObjectContext:managedObjectContext];
+        category.created = [categoryDic valueForKey:@"created"];
+        category.id = [categoryDic valueForKey:@"id"];
+        category.name = [categoryDic valueForKey:@"name"];
+        category.updated = [categoryDic valueForKey:@"updated"];
+        category.fontSymbol = [categoryDic valueForKey:@"fontSymbol"];
+    }
+
+    //save context into model
+    NSError* err;
+    if (![managedObjectContext save:&err]) {
+        NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
+    }
+    NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"Category"]);//debug
+
+}
+
+
+- (IBAction)updateDB {
+    
+    [self insertCities];
+    [self updateCategories ];
+    [self insertObjects];
+    
+}
+
 
 - (int) numberOfObjectsIn:(NSString *) thentity{
     
@@ -249,21 +259,21 @@
 }
 
 //debug
-- (IBAction)showMeTheMoney {
-    
-    NSNumber *num1 = [NSNumber numberWithInt:14];
-    NSNumber *num2 = [NSNumber numberWithInt:17];
-    NSArray *categoryIds = [NSArray arrayWithObjects: num1, num2, nil];
-    NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",categoryIds];
-    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
-    [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
-                                    inManagedObjectContext:managedObjectContext]];
-    [objFetch setPredicate:catFind];
-    NSArray *catFound = [managedObjectContext executeFetchRequest:objFetch error:nil];
-    Category *tmp = [catFound objectAtIndex:1];
-    NSLog(@"categories found: %@", tmp.name);
-
-}
+//- (IBAction)showMeTheMoney {
+//    
+//    NSNumber *num1 = [NSNumber numberWithInt:14];
+//    NSNumber *num2 = [NSNumber numberWithInt:17];
+//    NSArray *categoryIds = [NSArray arrayWithObjects: num1, num2, nil];
+//    NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",categoryIds];
+//    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+//    [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
+//                                    inManagedObjectContext:managedObjectContext]];
+//    [objFetch setPredicate:catFind];
+//    NSArray *catFound = [managedObjectContext executeFetchRequest:objFetch error:nil];
+//    Category *tmp = [catFound objectAtIndex:1];
+//    NSLog(@"categories found: %@", tmp.name);
+//
+//}
 
 //- (void)parseDictionary:(NSDictionary *)dic toObject:(NSObject *)obj {
 //    for (NSString *key in dic.allKeys) {
