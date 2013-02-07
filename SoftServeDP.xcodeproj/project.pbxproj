@@ -69,8 +69,8 @@
 		432CC5FB16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SASlideMenuStaticStoryboardSegue.m; sourceTree = "<group>"; };
 		432CC5FC16A4697C00A50F1D /* SASlideMenuStaticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SASlideMenuStaticViewController.h; sourceTree = "<group>"; };
 		432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SASlideMenuStaticViewController.m; sourceTree = "<group>"; };
-		432CC60016A481FD00A50F1D /* SlideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideMenu.h; sourceTree = "<group>"; };
-		432CC60116A481FD00A50F1D /* SlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMenu.m; sourceTree = "<group>"; };
+		432CC60016A481FD00A50F1D /* SlideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SlideMenu.h; path = ../SoftServeDP/SlideMenu.h; sourceTree = "<group>"; };
+		432CC60116A481FD00A50F1D /* SlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SlideMenu.m; path = ../SoftServeDP/SlideMenu.m; sourceTree = "<group>"; };
 		432CC60316A483FE00A50F1D /* menuicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuicon.png; sourceTree = "<group>"; };
 		432CC60416A483FE00A50F1D /* menuicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuicon@2x.png"; sourceTree = "<group>"; };
 		432CC60716A4842400A50F1D /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
@@ -171,8 +171,6 @@
 				432CC5E316A467E000A50F1D /* AppDelegate.h */,
 				432CC5E416A467E000A50F1D /* AppDelegate.m */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
-				432CC60016A481FD00A50F1D /* SlideMenu.h */,
-				432CC60116A481FD00A50F1D /* SlideMenu.m */,
 				432CC5DB16A467E000A50F1D /* Supporting Files */,
 			);
 			name = "Menu and Storyboard";
@@ -210,6 +208,8 @@
 				432CC5FB16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m */,
 				432CC5FC16A4697C00A50F1D /* SASlideMenuStaticViewController.h */,
 				432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */,
+				432CC60016A481FD00A50F1D /* SlideMenu.h */,
+				432CC60116A481FD00A50F1D /* SlideMenu.m */,
 			);
 			path = SASlideMenu;
 			sourceTree = "<group>";
