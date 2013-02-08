@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4325F4C916C3F602002C7B75 /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4C816C3F602002C7B75 /* DiscountObject.m */; };
 		432CC5D516A467E000A50F1D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D416A467E000A50F1D /* UIKit.framework */; };
 		432CC5D716A467E000A50F1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D616A467E000A50F1D /* Foundation.framework */; };
 		432CC5D916A467E000A50F1D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D816A467E000A50F1D /* CoreGraphics.framework */; };
@@ -45,7 +46,6 @@
 		90FC62DA16C11B1C00A13912 /* myDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC62D816C11B1C00A13912 /* myDetailViewController.m */; };
 		C034C33616BE539200F714EE /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33516BE539200F714EE /* City.m */; };
 		C034C33916BE689700F714EE /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33816BE689700F714EE /* Category.m */; };
-		C034C33C16BEBE8D00F714EE /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33B16BEBE8D00F714EE /* DiscountObject.m */; };
 		C034C34216BF01B300F714EE /* Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C34116BF01B300F714EE /* Contacts.m */; };
 		C096279F16B557A00030988C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C096279D16B557040030988C /* CoreData.framework */; };
 		C09627A716B679A20030988C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09627A616B679A20030988C /* SettingsViewController.m */; };
@@ -53,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4325F4C716C3F602002C7B75 /* DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountObject.h; sourceTree = "<group>"; };
+		4325F4C816C3F602002C7B75 /* DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountObject.m; sourceTree = "<group>"; };
 		432CC5D016A467E000A50F1D /* SoftServeDP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftServeDP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432CC5D416A467E000A50F1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		432CC5D616A467E000A50F1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -104,8 +106,6 @@
 		C034C33516BE539200F714EE /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		C034C33716BE689600F714EE /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
 		C034C33816BE689700F714EE /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
-		C034C33A16BEBE8D00F714EE /* DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountObject.h; sourceTree = "<group>"; };
-		C034C33B16BEBE8D00F714EE /* DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountObject.m; sourceTree = "<group>"; };
 		C034C34016BF01B300F714EE /* Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contacts.h; sourceTree = "<group>"; };
 		C034C34116BF01B300F714EE /* Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contacts.m; sourceTree = "<group>"; };
 		C096279D16B557040030988C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -275,10 +275,10 @@
 			isa = PBXGroup;
 			children = (
 				C09627A816B680650030988C /* Model.xcdatamodeld */,
+				4325F4C716C3F602002C7B75 /* DiscountObject.h */,
+				4325F4C816C3F602002C7B75 /* DiscountObject.m */,
 				C034C34016BF01B300F714EE /* Contacts.h */,
 				C034C34116BF01B300F714EE /* Contacts.m */,
-				C034C33A16BEBE8D00F714EE /* DiscountObject.h */,
-				C034C33B16BEBE8D00F714EE /* DiscountObject.m */,
 				C034C33716BE689600F714EE /* Category.h */,
 				C034C33816BE689700F714EE /* Category.m */,
 				C034C33416BE539200F714EE /* City.h */,
@@ -391,9 +391,9 @@
 				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
 				C034C33616BE539200F714EE /* City.m in Sources */,
 				C034C33916BE689700F714EE /* Category.m in Sources */,
-				C034C33C16BEBE8D00F714EE /* DiscountObject.m in Sources */,
 				C034C34216BF01B300F714EE /* Contacts.m in Sources */,
 				90FC62DA16C11B1C00A13912 /* myDetailViewController.m in Sources */,
+				4325F4C916C3F602002C7B75 /* DiscountObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,111 @@
 #import "DiscountObject.h"
 #import "Contacts.h"
 
+@interface DiscountObject (Parsing)
+
+- (void)parseAttribute:(id)attr forKey:(NSString *)key;
+- (void)parseContact:(NSArray *)contacts type:(NSString *)type;
+- (void)parseCity:(NSNumber *)cityId;
+- (void)parseCategory:(NSArray *)catArray;
+
+@end
+
+@implementation DiscountObject (Parsing)
+
+- (void)parseAttribute:(id)attr forKey:(NSString *)key
+{
+    NSSet *willParse = [NSSet setWithObjects:
+                        @"id",
+                        @"created",
+                        @"updated",
+                        @"name",
+                        @"description",
+                        @"address",
+                        @"responsiblePersonInfo",
+                        @"geoPoint",
+                        @"discount",
+                        @"city",
+                        @"category",
+                        @"phone",
+                        @"email",
+                        @"site", nil];
+    
+    if (![willParse containsObject:key]) {
+        return;
+    }
+    if ([key isEqualToString:@"phone"] || [key isEqualToString:@"site"] || [key isEqualToString:@"email"]) {
+        [self parseContact:attr type:key];
+    } else if ([key isEqualToString:@"site"]) {
+        
+    } else if ([key isEqualToString:@"email"]) {
+        
+    } else if ([key isEqualToString:@"category"]) {
+        
+    } else if ([key isEqualToString:@"city"]) {
+        if ([attr isKindOfClass:[NSNumber class]]) {
+            [self parseCity:attr];
+        }
+    } else if ([key isEqualToString:@"description"]) {
+        // NSObject already contains description property
+        [self setValue:attr forKey:@"objectDescription"];
+    }
+    else if ([key isEqualToString:@"geoPoint"]) {
+        NSDictionary *geoPoint = attr;
+        self.geoLongitude = [geoPoint valueForKey:@"longitude"];
+        self.geoLatitude = [geoPoint valueForKey:@"latitude"];
+    }
+    else if ([key isEqualToString:@"discount"]) {
+        if ([attr isKindOfClass:[NSDictionary class]]) {
+            if (!([attr valueForKey:@"from"] == [NSNull null])) {
+                self.discountFrom = [attr valueForKey:@"from"];
+            }
+            if (!([attr valueForKey:@"to"] == [NSNull null])) {
+                self.discountTo = [attr valueForKey:@"to"];
+            }
+        }
+    } else {
+        [self setValue:attr forKey:key];
+    }
+}
+
+- (void)parseContact:(NSArray *)contacts type:(NSString *) type
+{
+    for (NSString *key in contacts) {
+        Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
+                                                          inManagedObjectContext:self.managedObjectContext];
+        contact.type = type;
+        contact.value = key;
+        //set relation
+        [self addContactsObject:contact];
+        contact.discountObject = self;
+    }
+}
+
+- (void)parseCategory:(NSArray *)catArray{
+    //NSArray *categoryIds = [object valueForKey:@"category"];
+    NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",catArray];
+    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+    [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
+                                    inManagedObjectContext:self.managedObjectContext]];
+    [objFetch setPredicate:catFind];
+    NSArray *catFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
+    //NSLog(@"categories found: %@", catFound);//debug
+    [self addCategories: [NSSet setWithArray:catFound]];
+}
+
+- (void)parseCity:(NSNumber *)cityId
+{
+    NSPredicate *cityFind = [NSPredicate predicateWithFormat:@"id = %@", cityId];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"City"
+                                 inManagedObjectContext:self.managedObjectContext]];
+    [fetch setPredicate:cityFind];
+    NSArray *cityIdFound = [self.managedObjectContext executeFetchRequest:fetch error:nil];
+    self.cities = [cityIdFound objectAtIndex:0];
+}
+
+@end
+
 @interface SettingsViewController ()
 @end
 
@@ -38,6 +143,38 @@
     }
     return dictionaryDeserializedFromJsonFormat;
     
+}
+
+- (void)parseDictionary:(NSDictionary *)dic toObject:(id)obj {
+    for (NSString *key in dic.allKeys) {
+        id value = [dic valueForKey:key];
+        if (value == [NSNull null]) {
+            continue;
+        }
+        
+        [obj parseAttribute:value forKey:key];
+    }
+}
+
+- (void)insertObject2 {
+    //get NSDictionary of objects
+    NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: @"http://ssdp.qubstudio.com/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5/"];
+    
+    //parse Json dictionary
+    NSArray *objects = [jsonDictionary objectForKey:@"list"];
+    NSLog(@"objects in json dictionary: %d", objects.count);
+    for (NSMutableDictionary *object in objects) {
+        //create object entity
+        DiscountObject *discountObject = [NSEntityDescription insertNewObjectForEntityForName:@"DiscountObject"
+                                                                       inManagedObjectContext:managedObjectContext];
+        [self parseDictionary:object toObject:discountObject];
+    }
+    
+    NSError *err;
+    if (![managedObjectContext save:&err]) {
+        NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
+    }
+    NSLog(@"Objects in base: %d", [self numberOfObjectsIn:@"DiscountObject"]);
 }
 
 - (void)insertObjects {
@@ -196,7 +333,8 @@
     
     [self insertCities];
     [self updateCategories ];
-    [self insertObjects];
+//    [self insertObjects];
+    [self insertObject2];
     
 }
 
@@ -242,18 +380,15 @@
 
 //Debug. Testing DB
 - (IBAction)showCities {
-    //NSNumber *cityId = [object valueForKey:@"city"];
-    //NSPredicate *objectsFind = [NSPredicate predicateWithFormat:@"id == 14"];
+
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
-    //[fetch setPredicate:objectsFind];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (Category *cat in objectsFound){
-        NSString *name = cat.name;
-        NSSet *objects = cat.discountobject;
-        for (DiscountObject *object in objects){
-            NSLog(@"category :%@, object: %@", name, object.name);//debug            |
+    for (DiscountObject *obj in objectsFound){
+        for (Contacts *contact in obj.contacts) {
+            NSLog(@"%@ %@ %@ : %@ ", obj.name, obj.created,  contact.type, contact.value);
+            NSLog(@"---------------------------");
         }
     }
 }
