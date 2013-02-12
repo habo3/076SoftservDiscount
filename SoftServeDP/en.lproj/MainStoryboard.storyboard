@@ -243,10 +243,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FWE-QL-j7I">
-                                <rect key="frame" x="27" y="411" width="266" height="45"/>
+                                <rect key="frame" x="20" y="190" width="274" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal" title="Оновити базу вручну">
+                                <state key="normal" title="Оновити базу">
                                     <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -258,7 +258,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9FK-S6-DFP">
-                                <rect key="frame" x="20" y="71" width="280" height="44"/>
+                                <rect key="frame" x="20" y="71" width="274" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Тест БД">
@@ -411,37 +411,6 @@
         <image name="geobutton.png" width="40" height="29"/>
         <image name="row.png" width="1" height="44"/>
     </resources>
-    <classes>
-        <class className="CLLocationManager" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CLLocationManager.h"/>
-        </class>
-        <class className="MapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getLocation:"/>
-                <relationship kind="outlet" name="location" candidateClass="CLLocationManager"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
-        <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="autoUpdateSwitch:" candidateClass="UISwitch"/>
-                <relationship kind="action" name="updateFrequencyChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
-        </class>
-        <class className="myDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/myDetailViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

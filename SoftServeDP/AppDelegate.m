@@ -23,10 +23,16 @@
     SlideMenu *controller = (SlideMenu *)tableViewController;
     controller.managedObjectContext = self.managedObjectContext;
     
-    // updateDB if needed
+    // updateDB in background if needed
     DBUpdater *updater = [[DBUpdater alloc] init ];
     updater.managedObjectContext = self.managedObjectContext;
-    [updater updateWithOptions];
+    dispatch_async(dispatch_get_global_queue(0, 0),
+                   ^ {
+                        [updater updateWithOptions];
+                   });
+
+    
+   
 
     
     return YES;
