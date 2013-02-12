@@ -152,7 +152,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:date forKey:@"lastDBUpdate"];
     
-    //returned deserialized json
+    //return deserialized json data
     NSDictionary *dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
     if (!dictionaryDeserializedFromJsonFormat) {
         NSLog(@"Error parsing JSON: %@", err);
@@ -161,6 +161,7 @@
     
 }
 
+//check values for null's and pass them for parsing
 - (void)parseDictionary:(NSDictionary *)dic toObject:(id)obj {
 
     for (NSString *key in dic.allKeys) {
@@ -260,10 +261,8 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:thentity
                                               inManagedObjectContext:managedObjectContext];
     [request setEntity:entity];
-    
     NSError *error = nil;
     NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-    
     if (!error){
         return count;
     }
@@ -279,7 +278,7 @@
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     for (DiscountObject *obj in objectsFound){
         for (Contacts *contact in obj.contacts) {
-            NSLog(@"%@ %@ %@ : %@ ", obj.name, obj.discountTo,  contact.type, contact.value);
+            NSLog(@"%@ %@ : %@ ", obj.name, contact.type, contact.value);
             NSLog(@"---------------------------");
         }
     }

@@ -18,10 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
 
+    //pass managedObjectContext to initial viewcontroller
     UITableViewController *tableViewController = (UITableViewController *)self.window.rootViewController;
     SlideMenu *controller = (SlideMenu *)tableViewController;
     controller.managedObjectContext = self.managedObjectContext;
     
+    // updateDB if needed
     DBUpdater *updater = [[DBUpdater alloc] init ];
     updater.managedObjectContext = self.managedObjectContext;
     [updater updateWithOptions];
