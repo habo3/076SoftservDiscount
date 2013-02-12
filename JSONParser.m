@@ -135,8 +135,7 @@
     [self insertCities:parameterString];
     [self updateCategories:parameterString];
     [self insertObject2:parameterString];
-//    NSDate *date = [[NSDate alloc]init];
-//    [userDefaults setObject:date forKey:@"lastDBUpdate"];
+
 }
 
 - (NSDictionary *)getJsonDictionaryFromURL: (NSString *)url{
@@ -162,8 +161,6 @@
     //NSLog(@"date in int: %d", dateInInt);
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:date forKey:@"lastDBUpdate"];
-//    const char* className = class_getName([date class]);
-//    NSLog(@"yourObject is a: %s", className);
     
     NSDictionary *dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
     if (!dictionaryDeserializedFromJsonFormat) {
@@ -186,6 +183,7 @@
 - (void)insertObject2:(NSString *)param {
     //get NSDictionary of objects
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
+    NSLog(@"%@",url);
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL:url];
     
     //parse Json dictionary
