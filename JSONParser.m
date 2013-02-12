@@ -11,7 +11,6 @@
 #import "City.h"
 #import "DiscountObject.h"
 #import "Contacts.h"
-//#import <objc/runtime.h>
 
 @interface DiscountObject (Parsing)
 
@@ -31,7 +30,6 @@
                         @"created",
                         @"updated",
                         @"name",
-                        //@"description",
                         @"address",
                         @"responsiblePersonInfo",
                         @"geoPoint",
@@ -56,10 +54,6 @@
             [self parseCity:attr];
         }
     }
-//    else if ([key isEqualToString:@"description"]) {
-//        // NSObject already contains description property
-//        [self setValue:attr forKey:@"objectDescription"];
-//    }
     else if ([key isEqualToString:@"geoPoint"]) {
         NSDictionary *geoPoint = attr;
         self.geoLongitude = [geoPoint valueForKey:@"longitude"];
@@ -81,31 +75,32 @@
 
 - (void)parseContact:(NSArray *)contacts type:(NSString *) type
 {
+    
     for (NSString *key in contacts) {
         Contacts *contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
                                                           inManagedObjectContext:self.managedObjectContext];
         contact.type = type;
         contact.value = key;
-        //set relation
+
+        //set relations
         [self addContactsObject:contact];
         contact.discountObject = self;
     }
 }
 
 - (void)parseCategory:(NSArray *)catArray{
-    //NSArray *categoryIds = [object valueForKey:@"category"];
+
     NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",catArray];
     NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
     [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
                                     inManagedObjectContext:self.managedObjectContext]];
     [objFetch setPredicate:catFind];
     NSArray *catFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
-    //NSLog(@"categories found: %@", catFound);//debug
     [self addCategories: [NSSet setWithArray:catFound]];
 }
 
-- (void)parseCity:(NSNumber *)cityId
-{
+- (void)parseCity:(NSNumber *)cityId{
+    
     NSPredicate *cityFind = [NSPredicate predicateWithFormat:@"id = %@", cityId];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"City"
@@ -139,29 +134,25 @@
 }
 
 - (NSDictionary *)getJsonDictionaryFromURL: (NSString *)url{
-    //auth
+    
+    //make request
     NSHTTPURLResponse *resp = nil;
     NSError *err = nil;
-//    NSString *authStr = [NSString stringWithFormat:@"Basic cm9vdDpAOGNocngh"];
-    
-    //make request from inputted URL
     NSMutableURLRequest *jsonDataRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-//    [jsonDataRequest setHTTPMethod:@"POST"];
-//    [jsonDataRequest setValue:authStr forHTTPHeaderField:@"Authorization"];
-    
-    //deserialize json to NSDictionary and return
-    
     NSData *jsonObject = [NSURLConnection sendSynchronousRequest: jsonDataRequest returningResponse: &resp error: &err];
+    
+    //get server time
     NSDictionary *allHeaderFields = [resp allHeaderFields];
     NSString *dateInStringFormat = [allHeaderFields objectForKey:@"Date"];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
     [dateFormatter setDateFormat:@"EE, d LLLL yyyy HH:mm:ss zzz"];
     NSDate *date = [dateFormatter dateFromString:dateInStringFormat];
-    //int dateInInt = [date timeIntervalSince1970];
-    //NSLog(@"date in int: %d", dateInInt);
+    
+    //set server time into lastDBUpdate
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:date forKey:@"lastDBUpdate"];
     
+    //returned deserialized json
     NSDictionary *dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
     if (!dictionaryDeserializedFromJsonFormat) {
         NSLog(@"Error parsing JSON: %@", err);
@@ -171,6 +162,7 @@
 }
 
 - (void)parseDictionary:(NSDictionary *)dic toObject:(id)obj {
+
     for (NSString *key in dic.allKeys) {
         id value = [dic valueForKey:key];
         if (value == [NSNull null]) {
@@ -181,6 +173,7 @@
 }
 
 - (void)insertObject2:(NSString *)param {
+    
     //get NSDictionary of objects
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
     NSLog(@"%@",url);
@@ -190,12 +183,14 @@
     NSArray *objects = [jsonDictionary objectForKey:@"list"];
     NSLog(@"objects recieved for import: %d", objects.count);
     for (NSMutableDictionary *object in objects) {
+        
         //create object entity
         DiscountObject *discountObject = [NSEntityDescription insertNewObjectForEntityForName:@"DiscountObject"
                                                                        inManagedObjectContext:managedObjectContext];
         [self parseDictionary:object toObject:discountObject];
     }
     
+    //save context into model
     NSError *err;
     if (![managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
@@ -209,9 +204,11 @@
     //get NSDictionary of cities
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
+    
     //get the list of cities
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
     NSLog(@"Cities recieved for import: %d", dictionaryOfObjects.count);
+    
     //parse cities into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
         City *city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
@@ -236,6 +233,7 @@
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
     NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
+    
     //parse categories into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
         NSDictionary *categoryDic = [dictionaryOfObjects objectForKey:objectContainer];
