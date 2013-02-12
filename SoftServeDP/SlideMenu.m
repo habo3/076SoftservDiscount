@@ -40,7 +40,7 @@
     menuButton.frame = CGRectMake(0, 0, 40, 29);
     [menuButton setImage:[UIImage imageNamed:@"menuicon.png"] forState:UIControlStateNormal];
     [menuButton setBackgroundImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
-    [menuButton setBackgroundImage:[UIImage imageNamed:@"menuhighlighted.png"] forState:UIControlStateHighlighted];
+    //[menuButton setBackgroundImage:[UIImage imageNamed:@"menuhighlighted.png"] forState:UIControlStateHighlighted];
     [menuButton setAdjustsImageWhenHighlighted:NO];
     [menuButton setAdjustsImageWhenDisabled:NO];
 }
