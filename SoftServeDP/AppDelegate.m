@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SlideMenu.h"
+#import "DBUpdater.h"
 
 @implementation AppDelegate
 
@@ -19,8 +20,13 @@
 
     UITableViewController *tableViewController = (UITableViewController *)self.window.rootViewController;
     SlideMenu *controller = (SlideMenu *)tableViewController;
-   // controller.managedObjectContextTest = @"1123"; //debug
     controller.managedObjectContext = self.managedObjectContext;
+    
+    DBUpdater *updater = [[DBUpdater alloc] init ];
+    updater.managedObjectContext = self.managedObjectContext;
+    [updater updateWithOptions];
+
+    
     return YES;
 }
 

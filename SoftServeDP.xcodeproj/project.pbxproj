@@ -47,9 +47,11 @@
 		C034C33616BE539200F714EE /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33516BE539200F714EE /* City.m */; };
 		C034C33916BE689700F714EE /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C33816BE689700F714EE /* Category.m */; };
 		C034C34216BF01B300F714EE /* Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C34116BF01B300F714EE /* Contacts.m */; };
+		C08BB5E816C9992E004F48B0 /* DBUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = C08BB5E716C9992E004F48B0 /* DBUpdater.m */; };
 		C096279F16B557A00030988C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C096279D16B557040030988C /* CoreData.framework */; };
 		C09627A716B679A20030988C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09627A616B679A20030988C /* SettingsViewController.m */; };
 		C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C09627A816B680650030988C /* Model.xcdatamodeld */; };
+		C0CAE60016C69B92007D010C /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAE5FF16C69B92007D010C /* JSONParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,10 +110,14 @@
 		C034C33816BE689700F714EE /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		C034C34016BF01B300F714EE /* Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contacts.h; sourceTree = "<group>"; };
 		C034C34116BF01B300F714EE /* Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contacts.m; sourceTree = "<group>"; };
+		C08BB5E616C9992E004F48B0 /* DBUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBUpdater.h; path = SoftServeDP/DBUpdater.h; sourceTree = "<group>"; };
+		C08BB5E716C9992E004F48B0 /* DBUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBUpdater.m; path = SoftServeDP/DBUpdater.m; sourceTree = "<group>"; };
 		C096279D16B557040030988C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C09627A516B679A20030988C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		C09627A616B679A20030988C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		C09627A916B680650030988C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		C0CAE5FE16C69B92007D010C /* JSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONParser.h; sourceTree = "<group>"; };
+		C0CAE5FF16C69B92007D010C /* JSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,6 +280,10 @@
 		C08CBB1016B70D1200E0EB0D /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				C08BB5E616C9992E004F48B0 /* DBUpdater.h */,
+				C08BB5E716C9992E004F48B0 /* DBUpdater.m */,
+				C0CAE5FE16C69B92007D010C /* JSONParser.h */,
+				C0CAE5FF16C69B92007D010C /* JSONParser.m */,
 				C09627A816B680650030988C /* Model.xcdatamodeld */,
 				4325F4C716C3F602002C7B75 /* DiscountObject.h */,
 				4325F4C816C3F602002C7B75 /* DiscountObject.m */,
@@ -394,6 +404,8 @@
 				C034C34216BF01B300F714EE /* Contacts.m in Sources */,
 				90FC62DA16C11B1C00A13912 /* myDetailViewController.m in Sources */,
 				4325F4C916C3F602002C7B75 /* DiscountObject.m in Sources */,
+				C0CAE60016C69B92007D010C /* JSONParser.m in Sources */,
+				C08BB5E816C9992E004F48B0 /* DBUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

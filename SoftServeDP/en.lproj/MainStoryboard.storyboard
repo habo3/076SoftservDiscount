@@ -234,7 +234,7 @@
             </objects>
             <point key="canvasLocation" x="168" y="1670"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Налаштування-->
         <scene sceneID="qML-dz-FnH">
             <objects>
                 <viewController id="yqe-KI-kOm" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -243,25 +243,25 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FWE-QL-j7I">
-                                <rect key="frame" x="20" y="20" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="імпорт БД (робити один раз)">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="27" y="411" width="266" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                <state key="normal" title="Оновити базу вручну">
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="updateDB" destination="yqe-KI-kOm" eventType="touchUpInside" id="YlF-qU-Bwk"/>
+                                    <action selector="updateDB" destination="yqe-KI-kOm" eventType="touchUpInside" id="9vc-MW-fhR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9FK-S6-DFP">
-                                <rect key="frame" x="20" y="71" width="168" height="44"/>
+                                <rect key="frame" x="20" y="71" width="280" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Тест">
+                                <state key="normal" title="Тест БД">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -272,10 +272,40 @@
                                     <action selector="showCities" destination="yqe-KI-kOm" eventType="touchUpInside" id="mOc-mj-YZn"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="CKL-fh-f0B">
+                                <rect key="frame" x="28" y="338" width="266" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <segments>
+                                    <segment title="Запуск"/>
+                                    <segment title="1 в міс"/>
+                                    <segment title="1 в день"/>
+                                </segments>
+                                <connections>
+                                    <action selector="updateFrequencyChanged:" destination="yqe-KI-kOm" eventType="valueChanged" id="lue-RM-qdf"/>
+                                </connections>
+                            </segmentedControl>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="WyS-J7-gvE">
+                                <rect key="frame" x="223" y="274" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="autoUpdateSwitch:" destination="yqe-KI-kOm" eventType="valueChanged" id="KJn-wh-1y0"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Автоматичне оновлення" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qL8-LX-RwN">
+                                <rect key="frame" x="20" y="277" width="197" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="tSM-oO-9jT"/>
+                    <navigationItem key="navigationItem" title="Налаштування" id="tSM-oO-9jT"/>
+                    <connections>
+                        <outlet property="manualUpdateButton" destination="FWE-QL-j7I" id="lZo-BS-2vB"/>
+                        <outlet property="updateFrequencyChangedButtonOutlet" destination="CKL-fh-f0B" id="xfd-6C-OP8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b6V-eq-ElR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -398,6 +428,12 @@
         </class>
         <class className="SettingsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="autoUpdateSwitch:" candidateClass="UISwitch"/>
+                <relationship kind="action" name="updateFrequencyChanged:" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
+            </relationships>
         </class>
         <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
