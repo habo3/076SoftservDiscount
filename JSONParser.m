@@ -177,7 +177,6 @@
     
     //get NSDictionary of objects
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
-    NSLog(@"%@",url);
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL:url];
     
     //parse Json dictionary
