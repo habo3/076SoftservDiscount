@@ -288,7 +288,7 @@
 - (void)testDB {
     
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     for (Category *obj in objectsFound){
