@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		4325F4C916C3F602002C7B75 /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4C816C3F602002C7B75 /* DiscountObject.m */; };
+		4325F4CB16CBA51A002C7B75 /* geobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4325F4CA16CBA51A002C7B75 /* geobutton.png */; };
+		4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4325F4CC16CBA54E002C7B75 /* annDetailButton.png */; };
+		4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4D916CBA680002C7B75 /* MapViewController.m */; };
+		4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */; };
+		4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */; };
 		432CC5D516A467E000A50F1D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D416A467E000A50F1D /* UIKit.framework */; };
 		432CC5D716A467E000A50F1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D616A467E000A50F1D /* Foundation.framework */; };
 		432CC5D916A467E000A50F1D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432CC5D816A467E000A50F1D /* CoreGraphics.framework */; };
@@ -18,11 +23,13 @@
 		432CC5FE16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FB16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m */; };
 		432CC5FF16A4697C00A50F1D /* SASlideMenuStaticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */; };
 		432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC60116A481FD00A50F1D /* SlideMenu.m */; };
-		9010A9E616B175DD00D9A679 /* geobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9010A9E516B175DD00D9A679 /* geobutton.png */; };
+		4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4373562A16CBC0BC00B30B81 /* PlaceCell.xib */; };
+		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
+		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
+		4373562E16CBC0E000B30B81 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562516CBC07900B30B81 /* PickerView.m */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
 		90487C9116A84CD60090F60E /* eatpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8E16A84CD60090F60E /* eatpin.png */; };
-		90487C9416A84D020090F60E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487C9316A84D020090F60E /* MapViewController.m */; };
 		90487CA816A8531D0090F60E /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 90487CA716A8531D0090F60E /* Annotation.m */; };
 		906800DC16B01CEA0053F50C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800D916B01CEA0053F50C /* Default-568h@2x.png */; };
 		906800DD16B01CEA0053F50C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DA16B01CEA0053F50C /* Default.png */; };
@@ -54,6 +61,14 @@
 /* Begin PBXFileReference section */
 		4325F4C716C3F602002C7B75 /* DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountObject.h; sourceTree = "<group>"; };
 		4325F4C816C3F602002C7B75 /* DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountObject.m; sourceTree = "<group>"; };
+		4325F4CA16CBA51A002C7B75 /* geobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geobutton.png; sourceTree = SOURCE_ROOT; };
+		4325F4CC16CBA54E002C7B75 /* annDetailButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annDetailButton.png; sourceTree = SOURCE_ROOT; };
+		4325F4CE16CBA57A002C7B75 /* CustomCalloutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomCalloutView.h; path = ImageAnnotation/CustomCalloutView.h; sourceTree = SOURCE_ROOT; };
+		4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomCalloutView.m; path = ImageAnnotation/CustomCalloutView.m; sourceTree = SOURCE_ROOT; };
+		4325F4D016CBA57A002C7B75 /* CustomAnnotationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomAnnotationView.h; path = ImageAnnotation/CustomAnnotationView.h; sourceTree = SOURCE_ROOT; };
+		4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomAnnotationView.m; path = ImageAnnotation/CustomAnnotationView.m; sourceTree = SOURCE_ROOT; };
+		4325F4D816CBA680002C7B75 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ImageAnnotation/MapViewController.h; sourceTree = SOURCE_ROOT; };
+		4325F4D916CBA680002C7B75 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ImageAnnotation/MapViewController.m; sourceTree = SOURCE_ROOT; };
 		432CC5D016A467E000A50F1D /* SoftServeDP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftServeDP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432CC5D416A467E000A50F1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		432CC5D616A467E000A50F1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -72,12 +87,16 @@
 		432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SASlideMenuStaticViewController.m; path = SASlideMenu/SASlideMenuStaticViewController.m; sourceTree = "<group>"; };
 		432CC60016A481FD00A50F1D /* SlideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SlideMenu.h; path = SoftServeDP/SlideMenu.h; sourceTree = "<group>"; };
 		432CC60116A481FD00A50F1D /* SlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SlideMenu.m; path = SoftServeDP/SlideMenu.m; sourceTree = "<group>"; };
-		9010A9E516B175DD00D9A679 /* geobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geobutton.png; sourceTree = SOURCE_ROOT; };
+		4373562416CBC07900B30B81 /* PickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerView.h; sourceTree = "<group>"; };
+		4373562516CBC07900B30B81 /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
+		4373562616CBC09F00B30B81 /* PlaceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceCell.h; sourceTree = "<group>"; };
+		4373562716CBC09F00B30B81 /* PlaceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceCell.m; sourceTree = "<group>"; };
+		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		4373562916CBC0AA00B30B81 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		4373562A16CBC0BC00B30B81 /* PlaceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceCell.xib; sourceTree = "<group>"; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		90487C6D16A843460090F60E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		90487C8E16A84CD60090F60E /* eatpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eatpin.png; path = ImageAnnotation/eatpin.png; sourceTree = SOURCE_ROOT; };
-		90487C9216A84D020090F60E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ImageAnnotation/MapViewController.h; sourceTree = SOURCE_ROOT; };
-		90487C9316A84D020090F60E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ImageAnnotation/MapViewController.m; sourceTree = SOURCE_ROOT; };
 		90487CA616A8531D0090F60E /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Annotation.h; path = ImageAnnotation/Annotation.h; sourceTree = SOURCE_ROOT; };
 		90487CA716A8531D0090F60E /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Annotation.m; path = ImageAnnotation/Annotation.m; sourceTree = SOURCE_ROOT; };
 		906800D916B01CEA0053F50C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -130,9 +149,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4325F4DF16CBA8F4002C7B75 /* list */ = {
+			isa = PBXGroup;
+			children = (
+				4373562816CBC0AA00B30B81 /* ListViewController.h */,
+				4373562916CBC0AA00B30B81 /* ListViewController.m */,
+				4373562616CBC09F00B30B81 /* PlaceCell.h */,
+				4373562716CBC09F00B30B81 /* PlaceCell.m */,
+				4373562A16CBC0BC00B30B81 /* PlaceCell.xib */,
+				4373562416CBC07900B30B81 /* PickerView.h */,
+				4373562516CBC07900B30B81 /* PickerView.m */,
+			);
+			name = list;
+			sourceTree = "<group>";
+		};
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
+				4325F4DF16CBA8F4002C7B75 /* list */,
 				C08BB5EB16CA83DA004F48B0 /* SlideMenu */,
 				C08BB5E916CA83B8004F48B0 /* menuBackground.png */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
@@ -197,7 +231,6 @@
 				90FC62D716C11ACD00A13912 /* DetailView */,
 				906800DF16B033EE0053F50C /* Images */,
 				90487C4916A8407C0090F60E /* Annotation */,
-				90487C4E16A8407C0090F60E /* MapAnnotation */,
 			);
 			name = ImageAnnotation;
 			path = ../../ImageAnnotation;
@@ -206,6 +239,12 @@
 		90487C4916A8407C0090F60E /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
+				4325F4CE16CBA57A002C7B75 /* CustomCalloutView.h */,
+				4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */,
+				4325F4D816CBA680002C7B75 /* MapViewController.h */,
+				4325F4D916CBA680002C7B75 /* MapViewController.m */,
+				4325F4D016CBA57A002C7B75 /* CustomAnnotationView.h */,
+				4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */,
 				90487CA616A8531D0090F60E /* Annotation.h */,
 				90487CA716A8531D0090F60E /* Annotation.m */,
 			);
@@ -213,21 +252,12 @@
 			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
-		90487C4E16A8407C0090F60E /* MapAnnotation */ = {
-			isa = PBXGroup;
-			children = (
-				90487C9216A84D020090F60E /* MapViewController.h */,
-				90487C9316A84D020090F60E /* MapViewController.m */,
-			);
-			name = MapAnnotation;
-			path = ImageAnnotation/ImageAnnotation;
-			sourceTree = "<group>";
-		};
 		906800DF16B033EE0053F50C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				9010A9E516B175DD00D9A679 /* geobutton.png */,
 				906800FF16B0484F0053F50C /* emptyLeftImage.png */,
+				4325F4CA16CBA51A002C7B75 /* geobutton.png */,
+				4325F4CC16CBA54E002C7B75 /* annDetailButton.png */,
 				906800E016B034360053F50C /* beautypin.png */,
 				906800E116B034360053F50C /* photopin.png */,
 				906800E216B034360053F50C /* rozvagypin.png */,
@@ -359,7 +389,6 @@
 				906800EA16B034360053F50C /* technicalpin.png in Resources */,
 				906800EB16B034360053F50C /* travelpin.png in Resources */,
 				9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */,
-				9010A9E616B175DD00D9A679 /* geobutton.png in Resources */,
 				C08BB5EA16CA83B8004F48B0 /* menuBackground.png in Resources */,
 				C08BB5EE16CA88F3004F48B0 /* menu1.png in Resources */,
 				C08BB5EF16CA88F3004F48B0 /* menuicon1.png in Resources */,
@@ -367,6 +396,9 @@
 				C0AF446916CA8BAA008DE50F /* menuicon1@2x.png in Resources */,
 				C0AF446C16CA8F4D008DE50F /* row.png in Resources */,
 				C0AF446D16CA8F4D008DE50F /* row@2x.png in Resources */,
+				4325F4CB16CBA51A002C7B75 /* geobutton.png in Resources */,
+				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
+				4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,12 +409,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4373562E16CBC0E000B30B81 /* PickerView.m in Sources */,
+				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
+				4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */,
+				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,
+				4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */,
+				4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */,
 				432CC5E116A467E000A50F1D /* main.m in Sources */,
 				432CC5E516A467E000A50F1D /* AppDelegate.m in Sources */,
 				432CC5FE16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m in Sources */,
 				432CC5FF16A4697C00A50F1D /* SASlideMenuStaticViewController.m in Sources */,
 				432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */,
-				90487C9416A84D020090F60E /* MapViewController.m in Sources */,
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
 				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
