@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SlideMenu.h"
-#import "DBUpdater.h"
+#import "JSONParser.h"
 
 @implementation AppDelegate
 
@@ -24,11 +24,11 @@
     controller.managedObjectContext = self.managedObjectContext;
     
     // updateDB in background if needed
-    DBUpdater *updater = [[DBUpdater alloc] init ];
-    updater.managedObjectContext = self.managedObjectContext;
+    JSONParser *parser = [[JSONParser alloc] init ];
+    parser.managedObjectContext = self.managedObjectContext;
     dispatch_async(dispatch_get_global_queue(0, 0),
                    ^ {
-                        [updater updateWithOptions];
+                        [parser updateDBWithTimer];
                    });
 
     
