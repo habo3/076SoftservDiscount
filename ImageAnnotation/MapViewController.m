@@ -1,5 +1,5 @@
 //
-//  ViewController.m
+//  MapViewController.m
 //  ImageAnnotation
 //
 //  Created by Mykola on 1/14/13.
@@ -11,139 +11,68 @@
 #import "myDetailViewController.h"
 #import "DiscountObject.h"
 #import "Category.h"
-//#import <CoreGraphics/CoreGraphics.h>
-/*enum
-{
-    kCityAnnotationIndex = 0,
-    kBridgeAnnotationIndex,
-    kTeaGardenAnnotationIndex
-};*/
+
+#define MAP_SPAN_DELTA 0.005
+
 
 @interface MapViewController ()<MKAnnotation>
 
-@property (nonatomic, weak) IBOutlet MKMapView *mapView;
-
-
-@property (nonatomic, strong) NSMutableArray *mapAnnotations;
-@property (nonatomic, strong) NSMutableArray *myLocations;
-
-
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) CustomCalloutView *calloutView;
+@property (nonatomic,strong) NSMutableArray *annArray;
 @end
-
-
-#pragma mark -
 
 @implementation MapViewController
 
+@synthesize calloutView, annArray;
 @synthesize location;
 @synthesize managedObjectContext;
 
-- (void)gotoLocation
-{
-    MKCoordinateRegion newRegion;
-    newRegion.center.latitude = 49.836744;
-    newRegion.center.longitude = 24.031359;
-    newRegion.span.latitudeDelta = 0.0512872;
-    newRegion.span.longitudeDelta = 0.0509863;
-    
-    [self.mapView setRegion:newRegion animated:YES];
-}
-
-- (IBAction) getLocation:(id)sender {
-    
-    if(self.mapView.showsUserLocation)
-    {
-        self.mapView.showsUserLocation = FALSE;
-        [location stopUpdatingLocation];
-    }
-    else
-    {
-    self.mapView.showsUserLocation = TRUE;
-    
-    self.location = [[CLLocationManager alloc]init];
-    location.delegate = self;
-    location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    location.distanceFilter = kCLDistanceFilterNone;
-    [location startUpdatingLocation];
-    }
-}
-    /*location.
-    self.myLocations = [[NSMutableArray alloc] initWithCapacity:1];
-    CLLocationCoordinate2D geoCoord;
-    geoCoord.latitude = 49.838093;
-    geoCoord.longitude= 24.025973;
-    
-    
-    
-    //CLLocation *locationManager;
-}*/
-
-
 - (void)viewWillAppear:(BOOL)animated
 {
-
-    UIColor * rgbColor = [UIColor colorWithRed:0.988 green: 0.69 blue: 0.184 alpha:1.0];
-    self.navigationController.navigationBar.tintColor = rgbColor;
+    
     [super viewDidAppear:animated];
+    
     [self gotoLocation];
     
     [self.mapView removeAnnotations:self.mapView.annotations];  // remove any annotations that exist
     
-    [self.mapView addAnnotations:self.mapAnnotations];
+    [self.mapView addAnnotations:self.annArray];
 }
+
 
 - (void)viewDidLoad
 {
-    
+    [super viewDidLoad];
     self.mapView.delegate = self;
     
-    self.mapAnnotations = [[NSMutableArray alloc] init];
+    self.annArray = [[NSMutableArray alloc] init];
     CLLocationCoordinate2D tmpCoord;
     
-    // annotation for the 
+    // annotation for the
     Annotation *myAnnotation;
     myAnnotation= [[Annotation alloc]init];
-    tmpCoord.latitude = 49.8285155;
-    tmpCoord.longitude = 23.9921021;
-    myAnnotation.coordinate = tmpCoord;
-    myAnnotation.title = @"SoftServe";//@"Чисто";
-    myAnnotation.subtitle = @"yeap,wrong coords for test";//Мережа хімчисток";
-    myAnnotation.pintype = @"technicalpin.png";
     
-    [self.mapAnnotations addObject:myAnnotation];//atIndex:kAnnotationIndex];
-
-    myAnnotation= [[Annotation alloc]init];
-    tmpCoord.latitude = 49.840681;
-    tmpCoord.longitude = 24.026327;
-    myAnnotation.coordinate = tmpCoord;
-    myAnnotation.title = @"Дублін";
-    myAnnotation.subtitle = @"Irish pub";
-    myAnnotation.pintype = @"eatpin.png";
-    myAnnotation.leftImage = @"emptyLeftImage.png";
+    // button for callout
+    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
+    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake(0.0, 0.0, 32 /*image.size.width*/,32 /*image.size.height*/);
+    disclosureButton.frame = frame;
+    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
+    disclosureButton.backgroundColor = [UIColor clearColor];
+    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.mapAnnotations addObject:myAnnotation];
+    // image for callout
+    UIView *leftImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyLeftImage.png"]];
     
-    //Annotation *myAnnotation;
-    myAnnotation= [[Annotation alloc]init];
-    tmpCoord.latitude = 49.836744;
-    tmpCoord.longitude = 24.031359;
-    myAnnotation.coordinate = tmpCoord;
-    myAnnotation.title = @"4Friends";
-    myAnnotation.subtitle = @"Whiskey pub";
-    myAnnotation.pintype = @"eatpin.png";
-    myAnnotation.leftImage = @"emptyLeftImage.png";
+    // calloutView init
+    self.calloutView.delegate = self;
+    self.calloutView = [CustomCalloutView new];
+    self.calloutView.leftAccessoryView = leftImage;
+    self.calloutView.rightAccessoryView = disclosureButton;
     
-    [self.mapAnnotations addObject:myAnnotation];
     
-    myAnnotation= [[Annotation alloc]init];
-    tmpCoord.latitude = 49.835744;
-    tmpCoord.longitude = 24.051359;
-    myAnnotation.coordinate = tmpCoord;
-    myAnnotation.title = @"Фотостудія";
-    myAnnotation.subtitle = @"Фото на вагу золота)";
-    myAnnotation.pintype = @"photopin.png";
-    myAnnotation.leftImage = @"emptyLeftImage.png";
-    
+    // fetch objects from db
     NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
@@ -153,21 +82,29 @@
     
     for (DiscountObject *object in objectsFound)
     {
-        NSNumber *longtitude = object.geoLongitude;
-        NSNumber *latitude = object.geoLongitude;
-        NSString *title = object.name;
-        NSString *subtitle = object.address;
-        NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", title, latitude, longtitude, subtitle);//debug
+        NSNumber *dbLongitude = object.geoLongitude;
+        NSNumber *dbLatitude = object.geoLatitude;
+        NSString *dbTitle = object.name;
+        NSString *dbSubtitle = object.address;
+        
+        //show getting data from DB (for debug)
+        //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
+        
+        //fill annotation from DB to annotation array
+        myAnnotation= [[Annotation alloc]init];
+        
+        tmpCoord.latitude = [dbLatitude doubleValue];
+        tmpCoord.longitude =[dbLongitude doubleValue];
+        myAnnotation.coordinate = tmpCoord;
+        myAnnotation.title = dbTitle; //@"Фотостудія";
+        myAnnotation.subtitle = dbSubtitle;//@"Фото на вагу золота)";
+        myAnnotation.pintype = @"photopin.png";
+        myAnnotation.leftImage = @"emptyLeftImage.png";
+        
+        [self.annArray addObject:myAnnotation];
     }
     
-    [self.mapAnnotations addObject:myAnnotation];
-    
     [self gotoLocation];
-    
-    
-        
-    
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -196,36 +133,135 @@
         
         static NSString *stringAnnotationIdentifier = @"StringAnnotationIdentifier";
         
-        MKAnnotationView *annotationView =
+        CustomAnnotationView *annotationView = (CustomAnnotationView *)
         [_mapView dequeueReusableAnnotationViewWithIdentifier:stringAnnotationIdentifier];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:stringAnnotationIdentifier];
+            annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
+                                                              reuseIdentifier:stringAnnotationIdentifier];
         }
         
-        annotationView.canShowCallout = YES;
-         // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
-        annotationView.image = [UIImage imageNamed:newAnnotation.pintype];
-       
+        // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
         
-        
-        //==========================Changes pin background, but not Annotation ===================
-        //UIColor * rgbColor = [UIColor  colorWithRed:0.99 green: 0.71  blue: 0.08  alpha:1.0];
-        //annotationView.backgroundColor = rgbColor;
-        
-        UIImageView *sfIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:newAnnotation.leftImage]];// @"eatpin.png"/*@"softicon.png"*/]];
-        annotationView.leftCalloutAccessoryView = sfIconView;
-        UIButton* detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        [detailButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
-        [detailButton setTitle:annotation.title forState:UIControlStateNormal];
-        annotationView.rightCalloutAccessoryView = detailButton;
-        //annotationView.canShowCallout = YES;
-        //annotationView.draggable = NO;
+        annotationView.image = [UIImage imageNamed:@"photopin.png"];//"newAnnotation.pintype];
         return annotationView;
     }
-
+    
     return nil;
 }
+
+
+
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+
+
+#pragma mark - MKMapView
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    
+    if (calloutView.window)
+        [calloutView dismissCalloutAnimated/*:NO*/];
+    
+    [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0];//1.0/3.0];
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    // again, we'll introduce an artifical delay to feel more like MKMapView for this demonstration.
+    [calloutView performSelector:@selector(dismissCalloutAnimated) withObject:nil afterDelay:0];//1.0/3.0];
+}
+
+
+
+- (void)popupMapCalloutView:(CustomAnnotationView *)annotationView {
+    if(![[self.mapView.selectedAnnotations objectAtIndex:0]isKindOfClass:[MKUserLocation class]])
+    {
+        NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
+        Annotation *selectedAnnotation = selectedAnnotations.count > 0 ? [selectedAnnotations objectAtIndex:0] : nil;
+        
+        calloutView.title = selectedAnnotation.title;
+        calloutView.subtitle = selectedAnnotation.subtitle;
+        ((CustomAnnotationView *)annotationView).calloutView = calloutView;
+        [calloutView presentCalloutFromRect:annotationView.bounds
+                                     inView:annotationView
+                          constrainedToView:self.mapView];
+    }
+}
+
+
+
+- (void)disclosureTapped {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"§ Disclosure pressed! §"
+                                                    message:@"Currently detail view in progress, wait for Sprint#3 end. Thanks for understanding"
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK",nil];
+    [alert show];
+}
+
+
+- (void)dismissCallout {
+    [calloutView dismissCalloutAnimated];
+}
+
+
+
+#pragma mark -
+
+
+- (void)gotoLocation
+{
+    MKCoordinateRegion newRegion;
+    newRegion.center.latitude = 49.836744;
+    newRegion.center.longitude = 24.031359;
+    newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
+    
+    [self.mapView setRegion:newRegion animated:YES];
+}
+
+- (IBAction) getLocation:(id)sender {
+    
+    if(self.mapView.showsUserLocation)
+    {
+        self.mapView.showsUserLocation = FALSE;
+        [location stopUpdatingLocation];
+    }
+    else
+    {
+        self.mapView.showsUserLocation = TRUE;
+        
+        self.location = [[CLLocationManager alloc]init];
+        location.delegate = self;
+        location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        location.distanceFilter = kCLDistanceFilterNone;
+        [location startUpdatingLocation];
+        
+    }
+}
+
+
+- (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = MAP_SPAN_DELTA;
+    span.longitudeDelta = MAP_SPAN_DELTA;
+    CLLocationCoordinate2D userCoords;
+    userCoords.latitude = aUserLocation.coordinate.latitude;
+    userCoords.longitude = aUserLocation.coordinate.longitude;
+    region.span = span;
+    region.center = userCoords;
+    [aMapView setRegion:region animated:YES];
+}
+
+
 
 - (void)showDetails:(id)sender
 {
