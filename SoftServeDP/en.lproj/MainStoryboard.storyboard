@@ -48,7 +48,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="row.png" id="siY-HK-hCx">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iur-Ag-wUM">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iur-Ag-wUM">
                                                     <rect key="frame" x="20" y="12" width="89" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
