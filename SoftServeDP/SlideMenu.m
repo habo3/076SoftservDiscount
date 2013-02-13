@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h> //quartz framework for animation move
 #import "SettingsViewController.h"
 #import "MapViewController.h"
+#import "ListViewController.h"
 @interface SlideMenu ()
 
 @end
@@ -69,6 +70,12 @@
         MapViewController *vc = (MapViewController *) navigationController.topViewController;
         vc.managedObjectContext = self.managedObjectContext;
         
+    }
+    if ([[segue identifier] isEqualToString: @"list"]) {
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        ListViewController *vc = (ListViewController *) navigationController.topViewController;
+        vc.managedObjectContext = self.managedObjectContext;
     }
 }
 -(void) viewDidLoad {

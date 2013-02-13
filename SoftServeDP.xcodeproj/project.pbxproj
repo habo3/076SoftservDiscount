@@ -23,6 +23,9 @@
 		432CC5FE16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FB16A4697C00A50F1D /* SASlideMenuStaticStoryboardSegue.m */; };
 		432CC5FF16A4697C00A50F1D /* SASlideMenuStaticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC5FD16A4697C00A50F1D /* SASlideMenuStaticViewController.m */; };
 		432CC60216A481FD00A50F1D /* SlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 432CC60116A481FD00A50F1D /* SlideMenu.m */; };
+		4373562016CBBB8F00B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4E616CBA8FF002C7B75 /* ListViewController.m */; };
+		4373562116CBBBC500B30B81 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4E516CBA8FF002C7B75 /* PickerView.m */; };
+		4373562216CBBBFB00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4E116CBA8FF002C7B75 /* PlaceCell.m */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
 		90487C9116A84CD60090F60E /* eatpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8E16A84CD60090F60E /* eatpin.png */; };
@@ -65,6 +68,13 @@
 		4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomAnnotationView.m; path = ImageAnnotation/CustomAnnotationView.m; sourceTree = SOURCE_ROOT; };
 		4325F4D816CBA680002C7B75 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ImageAnnotation/MapViewController.h; sourceTree = SOURCE_ROOT; };
 		4325F4D916CBA680002C7B75 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ImageAnnotation/MapViewController.m; sourceTree = SOURCE_ROOT; };
+		4325F4E016CBA8FF002C7B75 /* PlaceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlaceCell.h; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/PlaceCell.h"; sourceTree = "<group>"; };
+		4325F4E116CBA8FF002C7B75 /* PlaceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PlaceCell.m; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/PlaceCell.m"; sourceTree = "<group>"; };
+		4325F4E216CBA8FF002C7B75 /* PlaceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PlaceCell.xib; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/PlaceCell.xib"; sourceTree = "<group>"; };
+		4325F4E316CBA8FF002C7B75 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ListViewController.h; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/ListViewController.h"; sourceTree = "<group>"; };
+		4325F4E416CBA8FF002C7B75 /* PickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PickerView.h; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/PickerView.h"; sourceTree = "<group>"; };
+		4325F4E516CBA8FF002C7B75 /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PickerView.m; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/PickerView.m"; sourceTree = "<group>"; };
+		4325F4E616CBA8FF002C7B75 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ListViewController.m; path = "../../../Downloads/untitled folder 2/076SoftservDiscount-master/ListViewController.m"; sourceTree = "<group>"; };
 		432CC5D016A467E000A50F1D /* SoftServeDP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftServeDP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432CC5D416A467E000A50F1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		432CC5D616A467E000A50F1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -138,9 +148,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4325F4DF16CBA8F4002C7B75 /* list */ = {
+			isa = PBXGroup;
+			children = (
+				4325F4E016CBA8FF002C7B75 /* PlaceCell.h */,
+				4325F4E116CBA8FF002C7B75 /* PlaceCell.m */,
+				4325F4E216CBA8FF002C7B75 /* PlaceCell.xib */,
+				4325F4E316CBA8FF002C7B75 /* ListViewController.h */,
+				4325F4E616CBA8FF002C7B75 /* ListViewController.m */,
+				4325F4E416CBA8FF002C7B75 /* PickerView.h */,
+				4325F4E516CBA8FF002C7B75 /* PickerView.m */,
+			);
+			name = list;
+			sourceTree = "<group>";
+		};
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
+				4325F4DF16CBA8F4002C7B75 /* list */,
 				C08BB5EB16CA83DA004F48B0 /* SlideMenu */,
 				C08BB5E916CA83B8004F48B0 /* menuBackground.png */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
@@ -382,6 +407,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4373562216CBBBFB00B30B81 /* PlaceCell.m in Sources */,
+				4373562116CBBBC500B30B81 /* PickerView.m in Sources */,
+				4373562016CBBB8F00B30B81 /* ListViewController.m in Sources */,
 				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,
 				4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */,
 				4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */,

@@ -144,21 +144,6 @@
             </objects>
             <point key="canvasLocation" x="-619" y="-120"/>
         </scene>
-        <!--Table View Controller - Списком-->
-        <scene sceneID="JXb-ao-bQq">
-            <objects>
-                <tableViewController id="A4m-bW-phV" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="nIU-5N-n4X">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Списком" id="Yql-vj-6WC"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ezc-J0-7Ir" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="600" y="-347"/>
-        </scene>
         <!--Table View Controller - Обране-->
         <scene sceneID="Wxa-Mh-ijb">
             <objects>
@@ -319,7 +304,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="A4m-bW-phV" kind="relationship" relationship="rootViewController" id="mlD-hb-ImY"/>
+                        <segue destination="jcK-aX-Br4" kind="relationship" relationship="rootViewController" id="ho6-Cv-PdN"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c31-Ht-HPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -406,6 +391,60 @@
             </objects>
             <point key="canvasLocation" x="1074" y="-1003"/>
         </scene>
+        <!--List View Controller - list-->
+        <scene sceneID="EgG-Vu-ZVV">
+            <objects>
+                <tableViewController storyboardIdentifier="list" title="list" id="jcK-aX-Br4" customClass="ListViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="ezu-vR-gk1">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qFt-RM-tWF">
+                                <rect key="frame" x="0.0" y="22" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="JTK-nU-lwF">
+                                <rect key="frame" x="0.0" y="92" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jcK-aX-Br4" id="dGp-9l-PJv"/>
+                            <outlet property="delegate" destination="jcK-aX-Br4" id="05h-kU-bYe"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Списком" id="NCU-F2-vv8">
+                        <barButtonItem key="rightBarButtonItem" id="HaY-05-VzG">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eht-VB-FbH">
+                                <rect key="frame" x="244" y="6" width="71" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnShowPickerClick:" destination="jcK-aX-Br4" eventType="touchUpInside" id="iMa-St-NtG"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fFz-QC-gKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="600" y="-347"/>
+        </scene>
     </scenes>
     <resources>
         <image name="geobutton.png" width="40" height="29"/>
@@ -415,10 +454,17 @@
         <class className="CLLocationManager" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CLLocationManager.h"/>
         </class>
+        <class className="ListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="myButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="MapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="getLocation:"/>
                 <relationship kind="outlet" name="location" candidateClass="CLLocationManager"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
