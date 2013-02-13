@@ -369,12 +369,7 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    // AMAZING CoreGraphics-based replica of the system callout graphics by Nicholas Shipes: https://github.com/u10int
-    
-    // We used to embed the system callout graphics as base64-encoded PNGs directly in this file, which was neat, but
-    // that limited our control the same way as the system callout - i.e. the height was always fixed. Now we can draw
-    // the callout at whatever size we want!
-    
+
     CGSize anchorSize = CGSizeMake(27, ANCHOR_HEIGHT);
     CGFloat anchorX = roundf(self.layer.anchorPoint.x * self.$width - anchorSize.width / 2);
     CGRect anchorRect = CGRectMake(anchorX, 0, anchorSize.width, anchorSize.height);
