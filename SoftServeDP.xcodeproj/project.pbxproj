@@ -168,7 +168,6 @@
 			children = (
 				4325F4DF16CBA8F4002C7B75 /* list */,
 				C08BB5EB16CA83DA004F48B0 /* SlideMenu */,
-				C08BB5E916CA83B8004F48B0 /* menuBackground.png */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				C08CBB1016B70D1200E0EB0D /* DB */,
 				C096279B16B555C90030988C /* Settings */,
@@ -281,6 +280,7 @@
 		C08BB5EB16CA83DA004F48B0 /* SlideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				C08BB5E916CA83B8004F48B0 /* menuBackground.png */,
 				C0AF446A16CA8F4D008DE50F /* row.png */,
 				C0AF446B16CA8F4D008DE50F /* row@2x.png */,
 				C08BB5EC16CA88F3004F48B0 /* menu1.png */,

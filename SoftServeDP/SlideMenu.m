@@ -39,9 +39,9 @@
 
 -(void) configureMenuButton:(UIButton *)menuButton{
     menuButton.frame = CGRectMake(0, 0, 40, 29);
-    [menuButton setImage:[UIImage imageNamed:@"menuicon.png"] forState:UIControlStateNormal];
-    [menuButton setBackgroundImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
-    [menuButton setBackgroundImage:[UIImage imageNamed:@"menuhighlighted.png"] forState:UIControlStateHighlighted];
+    [menuButton setImage:[UIImage imageNamed:@"menuicon1.png"] forState:UIControlStateNormal];
+    [menuButton setBackgroundImage:[UIImage imageNamed:@"menu1.png"] forState:UIControlStateNormal];
+//    [menuButton setBackgroundImage:[UIImage imageNamed:@"menuhighlighted.png"] forState:UIControlStateHighlighted];
     [menuButton setAdjustsImageWhenHighlighted:NO];
     [menuButton setAdjustsImageWhenDisabled:NO];
 }
@@ -79,11 +79,12 @@
     }
 }
 -(void) viewDidLoad {
-   // NSLog(@"test: %@", managedObjectContextTest);//debug
     [super viewDidLoad];
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menuBackground.png"]];
-    [tempImageView setFrame:self.tableView.frame];
     
+    //set background image pattern
+    UIImageView *tempImageView = [[UIImageView alloc] init ];
+    [tempImageView setFrame:self.tableView.frame];
+    [tempImageView setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"menuBackground.png"]]];
     self.tableView.backgroundView = tempImageView;
 }
 

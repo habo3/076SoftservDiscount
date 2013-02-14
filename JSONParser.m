@@ -288,15 +288,15 @@
 - (void)testDB {
     
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (Category *obj in objectsFound){
-//        for (DiscountObject *object in obj.discountobject) {
-            NSLog(@"%@ - %@ ", obj.id, obj.name);
+    for (Category *cat in objectsFound){
+        for (DiscountObject *object in cat.discountobject) {
+            NSLog(@"%@ - %@ ", object.id, object.name);
             NSLog(@"---------------------------");
-//        }
-//        return;
+        }
+        return;
     }
 }
 

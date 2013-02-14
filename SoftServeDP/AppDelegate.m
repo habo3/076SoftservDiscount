@@ -16,6 +16,10 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+-(void) applicationWillEnterForeground:(UIApplication *)application {
+    NSLog(@"yo");
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
 
     //pass managedObjectContext to initial viewcontroller
@@ -26,15 +30,11 @@
     // updateDB in background if needed
     JSONParser *parser = [[JSONParser alloc] init ];
     parser.managedObjectContext = self.managedObjectContext;
-    dispatch_async(dispatch_get_global_queue(0, 0),
-                   ^ {
+//    dispatch_async(dispatch_get_global_queue(0, 0),
+//                   ^ {
                         [parser updateDBWithTimer];
-                   });
+//                   });
 
-    
-   
-
-    
     return YES;
 }
 
