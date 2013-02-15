@@ -89,7 +89,22 @@
         
         //show getting data from DB (for debug)
         //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
+        NSString *text =@"test";
+        //UILabel *text =[[UILabel alloc]init];
+        //[myText setText:(NSString *)object.id];
         
+        UIImage *image =[UIImage imageNamed:@"emptyLeftImage.png"];
+        UIFont *font = [UIFont boldSystemFontOfSize:12];
+        
+        UIGraphicsBeginImageContext(image.size);
+        [image drawInRect:CGRectMake(0,0,image.size.width,image.size.height)];
+        CGRect rect = CGRectMake((image.size.width)/4, (image.size.height)/4, image.size.width, image.size.height);
+        [[UIColor whiteColor] set];
+        [text drawInRect:CGRectIntegral(rect) withFont:font];
+        UIImage *myNewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        //UIView *myPinText = [[UIView alloc] i
         //fill annotation from DB to annotation array
         myAnnotation= [[Annotation alloc]init];
         
@@ -99,7 +114,7 @@
         myAnnotation.title = dbTitle; //@"Фотостудія";
         myAnnotation.subtitle = dbSubtitle;//@"Фото на вагу золота)";
         myAnnotation.pintype = @"photopin.png";
-        myAnnotation.leftImage = @"emptyLeftImage.png";
+        myAnnotation.leftImage = [[UIImageView alloc] initWithImage: myNewImage];//@"emptyLeftImage.png";
         
         [self.annArray addObject:myAnnotation];
     }
@@ -188,6 +203,7 @@
         
         calloutView.title = selectedAnnotation.title;
         calloutView.subtitle = selectedAnnotation.subtitle;
+        calloutView.leftAccessoryView = selectedAnnotation.leftImage;
         ((CustomAnnotationView *)annotationView).calloutView = calloutView;
         [calloutView presentCalloutFromRect:annotationView.bounds
                                      inView:annotationView
