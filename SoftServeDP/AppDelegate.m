@@ -17,24 +17,35 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 -(void) applicationWillEnterForeground:(UIApplication *)application {
-    NSLog(@"yo");
+    JSONParser *parser = [[JSONParser alloc] init ];
+    parser.managedObjectContext = self.managedObjectContext;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+        [parser updateDBWithOptions];
+    });
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-
+    
+    //check if app was ever updated and decide: update in background or in main thread
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    JSONParser *parser = [[JSONParser alloc] init ];
+    parser.managedObjectContext = self.managedObjectContext;
+    if (![userDefaults objectForKey:@"lastDBUpdate"]) {
+        [parser updateDB];
+    }
+    else {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+            [parser updateDBWithOptions];
+        });
+    }
+    
     //pass managedObjectContext to initial viewcontroller
     UITableViewController *tableViewController = (UITableViewController *)self.window.rootViewController;
     SlideMenu *controller = (SlideMenu *)tableViewController;
     controller.managedObjectContext = self.managedObjectContext;
     
-    // updateDB in background if needed
-    JSONParser *parser = [[JSONParser alloc] init ];
-    parser.managedObjectContext = self.managedObjectContext;
-//    dispatch_async(dispatch_get_global_queue(0, 0),
-//                   ^ {
-                        [parser updateDBWithTimer];
-//                   });
-
+    
+    
     return YES;
 }
 

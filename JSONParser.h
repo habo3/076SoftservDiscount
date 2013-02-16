@@ -10,7 +10,7 @@
 
 @interface JSONParser : NSObject
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-- (void)updateDBWithTimer;
+- (void)updateDBWithOptions;
 - (void)updateDB;
 - (void)testDB;
 @end

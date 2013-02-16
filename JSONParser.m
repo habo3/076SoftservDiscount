@@ -121,14 +121,14 @@
 
 @synthesize managedObjectContext;
 
-- (void)updateDBWithTimer {
+- (void)updateDBWithOptions {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDate *lastDBUpdate = [userDefaults objectForKey:@"lastDBUpdate"];
     NSNumber *updatePeriod = [userDefaults objectForKey:@"updatePeriod"];
-    if (updatePeriod > 0) {
-        int interval = [updatePeriod intValue];
-        [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(updateDB) userInfo:nil repeats:YES];
-    }
-    else if (updatePeriod == 0) {
+    double timeGoneSinceLastUpdate = fabs([lastDBUpdate timeIntervalSinceNow]);
+    
+    if ((updatePeriod > 0) && (timeGoneSinceLastUpdate > [updatePeriod doubleValue])) {
+        
         [self updateDB];
     }
 }
@@ -346,18 +346,18 @@
 - (void)testDB {
     
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"City"
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (City *cat in objectsFound){
-//        for (DiscountObject *object in cat.discountobject) {
+    for (Category *cat in objectsFound){
+        for (DiscountObject *object in cat.discountobject) {
 //            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
-//                NSLog(@"%@ - %@ %@", object.id, object.name, object.cities.name);
-//                NSLog(@"---------------------------");
-//            }
-//        }
+                NSLog(@"%@ - %@ %@", object.id, object.name, cat.name);
+                NSLog(@"---------------------------");
+            }
+   //     }
 //        return;
-        NSLog(@"name: %@ id: %@", cat.name, cat.id);
+ //       NSLog(@"name: %@ id: %@", cat.name, cat.id);
     }
 }
 
