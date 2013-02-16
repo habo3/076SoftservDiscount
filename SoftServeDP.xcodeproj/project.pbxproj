@@ -408,6 +408,8 @@
 				4325F4CB16CBA51A002C7B75 /* geobutton.png in Resources */,
 				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
 				4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */,
+				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
+				90820E7116CE92C200BBD714 /* emptyPin.png in Resources */,
 				C0A9EB5416CEC9A600DE9FC5 /* navigationBar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
