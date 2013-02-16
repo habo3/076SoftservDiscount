@@ -16,15 +16,22 @@
     
     UINavigationController* destination = self.destinationViewController;
     
-    //set navigator color
-    UIColor * rgbColor = [UIColor colorWithRed:0.988 green: 0.69 blue: 0.184 alpha:1.0];
-    destination.navigationBar.tintColor = rgbColor;
-
+    //set navigation bar color and shadow
+    UIImageView *tempImageView = [[UIImageView alloc] init ];
+    [tempImageView setFrame:destination.navigationBar.frame];
+    [tempImageView setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"navigationBar.png"]]];
+    [destination.navigationBar setBackgroundColor:[UIColor clearColor]];
+    [destination.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
+    [destination.navigationBar insertSubview:tempImageView atIndex:1];
+    destination.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
+    destination.navigationBar.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+    destination.navigationBar.layer.shadowRadius = 0.5f;
+    destination.navigationBar.layer.shadowOpacity = 0.5f;
     
+    //set menu button
     UIButton* menuButton = [[UIButton alloc] init];
     [source.slideMenuDataSource configureMenuButton:menuButton];
     [menuButton addTarget:source action:@selector(doSlideToSide) forControlEvents:UIControlEventTouchUpInside];
-    
     UINavigationItem* navigationItem = destination.navigationBar.topItem;
     navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
 

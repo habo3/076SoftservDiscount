@@ -152,7 +152,7 @@
     NSError *err = nil;
     NSMutableURLRequest *jsonDataRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *jsonObject = [NSURLConnection sendSynchronousRequest: jsonDataRequest returningResponse: &resp error: &err];
-    
+
     //get server time
     NSDictionary *allHeaderFields = [resp allHeaderFields];
     NSString *dateInStringFormat = [allHeaderFields objectForKey:@"Date"];
@@ -195,10 +195,21 @@
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL:url];
     
+    //get existing id`s into array
+    NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"DiscountObject"];
+    
     //parse Json dictionary
     NSArray *objects = [jsonDictionary objectForKey:@"list"];
     NSLog(@"objects recieved for import: %d", objects.count);
     for (NSMutableDictionary *object in objects) {
+        
+        //check if incoming object exists in Model (by id). If YES replace existing object with incoming(updated) and goto next object
+        NSNumber *incomingObjectId = [object objectForKey:@"id"];
+        if ([existingObjectIdsInArray containsObject:incomingObjectId]) {
+            NSManagedObject *objectForReplacement = [self getManagedObjectFromEntity:@"DiscountObject" withId:incomingObjectId];
+            [self parseDictionary:object toObject:objectForReplacement];
+            continue;
+        }
         
         //create object entity
         DiscountObject *discountObject = [NSEntityDescription insertNewObjectForEntityForName:@"DiscountObject"
@@ -216,10 +227,13 @@
 
 
 - (void)insertCities:(NSString *)param {
-    
+
     //get NSDictionary of cities
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
+    
+    //get existing cities id's
+     NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
     
     //get the list of cities
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
@@ -227,9 +241,17 @@
     
     //parse cities into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
-        City *city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
-                                                   inManagedObjectContext:managedObjectContext];
         NSDictionary *json_city = [dictionaryOfObjects objectForKey:objectContainer];
+        NSNumber *incomingCityId = [json_city objectForKey:@"id"];
+        City *city;
+        if ([existingObjectIdsInArray containsObject:incomingCityId]) {
+            city = (City *)[self getManagedObjectFromEntity:@"City" withId:incomingCityId];
+        }
+        else {
+            city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
+                                                 inManagedObjectContext:managedObjectContext];
+        }
+        
         city.id = [json_city valueForKey:@"id"];
         city.name = [json_city valueForKey:@"name"];
     }
@@ -250,11 +272,21 @@
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
     NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
     
+    //get existing cities id's
+    NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
+    
     //parse categories into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
         NSDictionary *categoryDic = [dictionaryOfObjects objectForKey:objectContainer];
-        Category *category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
-                                                           inManagedObjectContext:managedObjectContext];
+        NSNumber *incomingCategoryId = [categoryDic objectForKey:@"id"];
+        Category *category;
+        if ([existingObjectIdsInArray containsObject:incomingCategoryId]) {
+            category = (Category *)[self getManagedObjectFromEntity:@"Category" withId:incomingCategoryId];
+        }
+        else{
+            category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
+                                                               inManagedObjectContext:managedObjectContext];
+        }
         category.created = [categoryDic valueForKey:@"created"];
         category.id = [categoryDic valueForKey:@"id"];
         category.name = [categoryDic valueForKey:@"name"];
@@ -270,10 +302,36 @@
     NSLog(@"Categories in base after import: %d", [self numberOfObjectsIn:@"Category"]);//debug
     
 }
-- (int) numberOfObjectsIn:(NSString *) thentity{
+
+-(NSManagedObject *)getManagedObjectFromEntity:(NSString *)TheEntity withId: (NSNumber *)objID {
+    NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",objID];
+    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+    [objFetch setEntity:[NSEntityDescription entityForName:TheEntity
+                                    inManagedObjectContext:self.managedObjectContext]];
+    [objFetch setPredicate:findObjectWithId];
+    NSArray *objectForReplacement = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
+    return [objectForReplacement objectAtIndex:0];
+}
+
+- (NSArray *)getExistingIdsForEntity:(NSString *) theEntity {
+    NSMutableArray *existingIds = [[NSMutableArray alloc] init];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:theEntity
+                                 inManagedObjectContext:self.managedObjectContext]];
+    [fetch setResultType:NSDictionaryResultType];
+    [fetch setPropertiesToFetch:[NSArray arrayWithObjects:@"id", nil]];
+    NSArray *existingObjectsIds = [self.managedObjectContext executeFetchRequest:fetch error:nil];//get array of dictionaries
+    for (NSDictionary *idDictionary in existingObjectsIds) {
+        [existingIds addObject:[idDictionary objectForKey:@"id"]];
+    }
+    return existingIds;
+    
+}
+
+- (int) numberOfObjectsIn:(NSString *) theEntity{
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:thentity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:theEntity
                                               inManagedObjectContext:managedObjectContext];
     [request setEntity:entity];
     NSError *error = nil;
@@ -288,15 +346,18 @@
 - (void)testDB {
     
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
+    [fetch setEntity:[NSEntityDescription entityForName:@"City"
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (Category *cat in objectsFound){
-        for (DiscountObject *object in cat.discountobject) {
-            NSLog(@"%@ - %@ ", object.id, object.name);
-            NSLog(@"---------------------------");
-        }
-        return;
+    for (City *cat in objectsFound){
+//        for (DiscountObject *object in cat.discountobject) {
+//            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
+//                NSLog(@"%@ - %@ %@", object.id, object.name, object.cities.name);
+//                NSLog(@"---------------------------");
+//            }
+//        }
+//        return;
+        NSLog(@"name: %@ id: %@", cat.name, cat.id);
     }
 }
 
