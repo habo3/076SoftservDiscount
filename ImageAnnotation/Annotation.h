@@ -11,7 +11,7 @@
 
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *subtitle;
-@property (nonatomic,copy) NSString *pintype;
-@property (nonatomic,copy) NSString *leftImage;
+@property (nonatomic) UIImage *pintype;
+@property (nonatomic) UIView *leftImage;
 @property (nonatomic,assign)CLLocationCoordinate2D coordinate;
 @end

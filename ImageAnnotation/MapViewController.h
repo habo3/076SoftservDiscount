@@ -17,6 +17,7 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate,CustomCalloutViewDelegate>
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,retain) IBOutlet CLLocationManager *location;
+- (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage;
 @end
 
 
