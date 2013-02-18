@@ -26,8 +26,8 @@
 		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
 		4373562E16CBC0E000B30B81 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562516CBC07900B30B81 /* PickerView.m */; };
-		9039DE7C16D2D8B300F9A279 /* geoButton-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton-1.png */; };
-		9039DE7D16D2D8B300F9A279 /* geoButton-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton-1@2x.png */; };
+		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
+		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
 		90487C6E16A843460090F60E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6D16A843460090F60E /* CoreLocation.framework */; };
 		90487C9116A84CD60090F60E /* eatpin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90487C8E16A84CD60090F60E /* eatpin.png */; };
@@ -97,8 +97,8 @@
 		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4373562916CBC0AA00B30B81 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		4373562A16CBC0BC00B30B81 /* PlaceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceCell.xib; sourceTree = "<group>"; };
-		9039DE7A16D2D8B300F9A279 /* geoButton-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton-1.png"; sourceTree = SOURCE_ROOT; };
-		9039DE7B16D2D8B300F9A279 /* geoButton-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton-1@2x.png"; sourceTree = SOURCE_ROOT; };
+		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
+		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		90487C6D16A843460090F60E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		90487C8E16A84CD60090F60E /* eatpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eatpin.png; path = ImageAnnotation/eatpin.png; sourceTree = SOURCE_ROOT; };
@@ -263,8 +263,8 @@
 		906800DF16B033EE0053F50C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				9039DE7A16D2D8B300F9A279 /* geoButton-1.png */,
-				9039DE7B16D2D8B300F9A279 /* geoButton-1@2x.png */,
+				9039DE7A16D2D8B300F9A279 /* geoButton.png */,
+				9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */,
 				90820E7016CE92C200BBD714 /* emptyPin.png */,
 				906800FF16B0484F0053F50C /* emptyLeftImage.png */,
 				4325F4CC16CBA54E002C7B75 /* annDetailButton.png */,
@@ -413,8 +413,8 @@
 				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
 				90820E7116CE92C200BBD714 /* emptyPin.png in Resources */,
 				C0A9EB5416CEC9A600DE9FC5 /* navigationBar.png in Resources */,
-				9039DE7C16D2D8B300F9A279 /* geoButton-1.png in Resources */,
-				9039DE7D16D2D8B300F9A279 /* geoButton-1@2x.png in Resources */,
+				9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */,
+				9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
