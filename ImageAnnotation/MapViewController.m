@@ -43,10 +43,22 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
     
     self.mapView.delegate = self;
     
+    //geoButton 
+    UIImage *geoButtonImage = [UIImage imageNamed:@"geobutton.png"];
+    UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect geoFrame = CGRectMake(5, self.view.frame.size.height- geoButtonImage.size.height-5, geoButtonImage.size.width,geoButtonImage.size.height /*image.size.height*/);
+    geoButton.frame = geoFrame;
+    
+    [geoButton setBackgroundImage:geoButtonImage forState:UIControlStateNormal];
+    [geoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+     geoButton.backgroundColor = [UIColor clearColor];
+    
+    [self.mapView addSubview:geoButton];
     self.annArray = [[NSMutableArray alloc] init];
     CLLocationCoordinate2D tmpCoord;
     
