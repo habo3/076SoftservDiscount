@@ -112,11 +112,6 @@
 
 @end
 
-@interface JSONParser ()
-
-@end
-
-
 @implementation JSONParser
 
 @synthesize managedObjectContext;
@@ -126,9 +121,7 @@
     NSDate *lastDBUpdate = [userDefaults objectForKey:@"lastDBUpdate"];
     NSNumber *updatePeriod = [userDefaults objectForKey:@"updatePeriod"];
     double timeGoneSinceLastUpdate = fabs([lastDBUpdate timeIntervalSinceNow]);
-    
-    if ((updatePeriod > 0) && (timeGoneSinceLastUpdate > [updatePeriod doubleValue])) {
-        
+    if (([updatePeriod intValue]> 0) && (timeGoneSinceLastUpdate > [updatePeriod doubleValue])) {
         [self updateDB];
     }
 }
@@ -171,7 +164,7 @@
          dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
     }
     if (!dictionaryDeserializedFromJsonFormat) {
-       // NSLog(@"Error parsing JSON: %@", err);
+        NSLog(@"Error parsing JSON: %@", err);
     }
     return dictionaryDeserializedFromJsonFormat;
     
@@ -251,7 +244,6 @@
             city = [NSEntityDescription insertNewObjectForEntityForName:@"City"
                                                  inManagedObjectContext:managedObjectContext];
         }
-        
         city.id = [json_city valueForKey:@"id"];
         city.name = [json_city valueForKey:@"name"];
     }

@@ -30,7 +30,6 @@
 }
 
 -(IBAction)showCities{
-
    
     JSONParser *parser = [[JSONParser alloc] init];
     parser.managedObjectContext = self.managedObjectContext;
@@ -111,7 +110,6 @@
         default:
             break;
     }
-    
 }
 
 - (void)viewDidUnload {

@@ -17,12 +17,8 @@
     UINavigationController* destination = self.destinationViewController;
     
     //set navigation bar color and shadow
-    UIImageView *tempImageView = [[UIImageView alloc] init ];
-    [tempImageView setFrame:destination.navigationBar.frame];
-    [tempImageView setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"navigationBar.png"]]];
-    [destination.navigationBar setBackgroundColor:[UIColor clearColor]];
-    [destination.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
-    [destination.navigationBar insertSubview:tempImageView atIndex:1];
+    UIImage *navigationBarBackground = [UIImage imageNamed: @"navigationBar.png"];
+    [[UINavigationBar appearance] setBackgroundImage:navigationBarBackground forBarMetrics:UIBarMetricsDefault];
     destination.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
     destination.navigationBar.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
     destination.navigationBar.layer.shadowRadius = 0.5f;

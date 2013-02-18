@@ -34,6 +34,8 @@
         [parser updateDB];
     }
     else {
+        
+        
         dispatch_async(dispatch_get_global_queue(0, 0), ^ {
             [parser updateDBWithOptions];
         });
