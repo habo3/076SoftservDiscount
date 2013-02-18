@@ -44,6 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.mapView.delegate = self;
     
     self.annArray = [[NSMutableArray alloc] init];
@@ -80,7 +81,7 @@
     [fetch setPredicate:objectsFind];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     
-    UIFont *font = [UIFont fontWithName:@"icons" size:15];
+    UIFont *font = [UIFont fontWithName:@"icons" size:10];
     // image with text
     UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
     UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
@@ -97,7 +98,7 @@
         //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
         //NSLog(@"font: %@", dbCategory.fontSymbol);
         
-       
+        //display text on images
         UIImage *myNewImage = [self setText:@"-99%"
                                    withFont: nil
                                    andColor:[UIColor blackColor]
@@ -105,24 +106,16 @@
         UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
                                  andColor:[UIColor whiteColor] onImage:emptyPinImage];
         
-
         
-        ////////////////
-        ////////////////       Якщо пишемо     UTF32Char myChar = cuttedSymbol; то не виводить
-        ////////////////
-        
-        
-        //UIView *myPinText = [[UIView alloc] i
-        //fill annotation from DB to annotation array
         myAnnotation= [[Annotation alloc]init];
         
         tmpCoord.latitude = [dbLatitude doubleValue];
         tmpCoord.longitude =[dbLongitude doubleValue];
         myAnnotation.coordinate = tmpCoord;
-        myAnnotation.title = dbTitle; //@"Фотостудія";
-        myAnnotation.subtitle = dbSubtitle;//@"Фото на вагу золота)";
-        myAnnotation.pintype = /*[[UIImageView alloc] initWithImage:*/ pinImage;//];//@"photopin.png";
-        myAnnotation.leftImage = [[UIImageView alloc] initWithImage: myNewImage];//@"emptyLeftImage.png";
+        myAnnotation.title = dbTitle;
+        myAnnotation.subtitle = dbSubtitle;
+        myAnnotation.pintype = pinImage;
+        myAnnotation.leftImage = [[UIImageView alloc] initWithImage: myNewImage];
         
         [self.annArray addObject:myAnnotation];
     }
@@ -138,37 +131,56 @@
 
 - (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
 {
-
-    NSString *tmpText =@"";
+    
+    NSString *tmpText = @"";
     CGRect rect = CGRectMake(0, 0, 0, 0);
+    
+    double margin = 3.0;
+    float fontsize = (startImage.size.width - 2 * margin);
     
     if([font isKindOfClass:[UIFont class]])
     {
-        //clear trash from string and put start 0
+        // size of custom text in image
+        fontsize = fontsize/3;
+        font = [font fontWithSize:fontsize];
+        
         NSString *cuttedSymbol = [text stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
         //for debugging
         //NSLog(@"cutted symbol %@",cuttedSymbol);
-    
+        
         //converting Unicode Character String (0xe00b) to UTF32Char
         UTF32Char myChar = 0;
         NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
         [myConvert scanHexInt:(unsigned int *)&myChar];
-    
+        
         //set data to string
         NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
         tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
         
-        rect = CGRectMake((startImage.size.width)/4+5, (startImage.size.height)/4, startImage.size.width, startImage.size.height);
+        // own const for pin text (height position)
+        float ownHeight = 0.4*startImage.size.height;
+        
+        rect = CGRectMake((startImage.size.width - font.pointSize)/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
     }
     else
     {
-        font = [UIFont systemFontOfSize:10];
+        
+        fontsize = fontsize /text.length*1.3; // multiply by 1.3 for better font visibility
+        font = [UIFont systemFontOfSize:fontsize];
+        
+        margin = (startImage.size.width - font.pointSize * text.length/2)/2;
+        rect = CGRectMake(margin, (startImage.size.height - font.pointSize)/2, startImage.size.width, startImage.size.height);
+        //for debug
+        //NSLog(@"Text length %lu",(unsigned long)text.length);
+        //NSLog(@"Point size %f",font.pointSize);
+        //NSLog(@"image size.width %f",startImage.size.width);
         tmpText = text;
-        rect = CGRectMake(5, (startImage.size.height)/4, startImage.size.width, startImage.size.height);
+        
     }
     
     //work with image
-    UIGraphicsBeginImageContext(startImage.size);
+    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
+    //UIGraphicsBeginImageContext();
     
     [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
     
@@ -176,7 +188,7 @@
     
     [color set];
     
-
+    
     
     //draw text on image and save result
     [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
@@ -210,9 +222,8 @@
             annotationView = [[CustomAnnotationView alloc] initWithAnnotation:annotation
                                                               reuseIdentifier:stringAnnotationIdentifier];
         }
-                // DON'T FORGET TO CHANGE IT TO myAnnotation.pintype
-        //annotationView.image = (UIImage*)newAnnotation.pintype;
-        annotationView.image = /*[UIImage imageNamed:*/newAnnotation.pintype;//]; imageNamed:*/@"photopin.png"];//"];
+        //setting pin image
+        annotationView.image = newAnnotation.pintype;
         return annotationView;
     }
     

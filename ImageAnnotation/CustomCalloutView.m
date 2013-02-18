@@ -79,9 +79,9 @@
             titleLabel.opaque = NO;
             titleLabel.backgroundColor = [UIColor clearColor];
             titleLabel.font = [UIFont boldSystemFontOfSize:17];
-            titleLabel.textColor = [UIColor whiteColor];
-            titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
-            titleLabel.shadowOffset = CGSizeMake(0, -1);
+            titleLabel.textColor = [UIColor blackColor];
+            //titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
+            //titleLabel.shadowOffset = CGSizeMake(0, -1);
         }
         return titleLabel;
     }
@@ -99,9 +99,9 @@
             subtitleLabel.opaque = NO;
             subtitleLabel.backgroundColor = [UIColor clearColor];
             subtitleLabel.font = [UIFont systemFontOfSize:12];
-            subtitleLabel.textColor = [UIColor whiteColor];
-            subtitleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
-            subtitleLabel.shadowOffset = CGSizeMake(0, -1);
+            subtitleLabel.textColor = [UIColor blackColor];
+            //subtitleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
+            //subtitleLabel.shadowOffset = CGSizeMake(0, -1);
         }
         return subtitleLabel;
     }
@@ -369,7 +369,7 @@
 
 - (void)drawRect:(CGRect)rect {
     
-
+    
     
     CGSize anchorSize = CGSizeMake(27, ANCHOR_HEIGHT);
     CGFloat anchorX = roundf(self.layer.anchorPoint.x * self.$width - anchorSize.width / 2);
@@ -399,26 +399,26 @@
     // Color Declarations
     UIColor *fillColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
     UIColor *shadowBlack = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.47];
-    UIColor *glossBottom = [UIColor colorWithWhite:1 alpha:0.2];//colorWithRed: 1 green: 1 blue: 1 alpha: 0.2];
-    UIColor *glossTop = [UIColor colorWithWhite:1 alpha:0.7];//colorWithRed: 1 green: 1 blue: 1 alpha: 0.85];
+    //UIColor *glossBottom = [UIColor colorWithWhite:1 alpha:0.2];//colorWithRed: 1 green: 1 blue: 1 alpha: 0.2];
+    //UIColor *glossTop = [UIColor colorWithWhite:1 alpha:0.7];//colorWithRed: 1 green: 1 blue: 1 alpha: 0.85];
     UIColor *strokeColor = [UIColor colorWithWhite:1 alpha:0.9];//[UIColor colorWithRed: 0.199 green: 0.199 blue: 0.199 alpha: 1];
     
     
     // Gradient Declarations
-    NSArray *glossFillColors = [NSArray arrayWithObjects:
-                                (id)glossBottom.CGColor,
-                                (id)glossTop.CGColor, nil];
-    CGFloat glossFillLocations[] = {0, 1};
-    CGGradientRef glossFill = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)glossFillColors, glossFillLocations);
+    /*NSArray *glossFillColors = [NSArray arrayWithObjects:
+     (id)glossBottom.CGColor,
+     (id)glossTop.CGColor, nil];
+     CGFloat glossFillLocations[] = {0, 1};*/
+    //CGGradientRef glossFill = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)glossFillColors, glossFillLocations);
     
     
     //CGFloat stroke = 3;
-    CGFloat backgroundStrokeWidth = 3;
+    CGFloat backgroundStrokeWidth = 2;
     //CGFloat outerStrokeStrokeWidth = 3;
     
     // Frames
     CGRect frame = rect;
-    CGRect glossFrame = CGRectMake(frame.origin.x + backgroundStrokeWidth/2, frame.origin.y + backgroundStrokeWidth/2, frame.size.width - backgroundStrokeWidth, (frame.size.height - backgroundStrokeWidth)/2 /*+ 0.5*/);
+    //CGRect glossFrame = CGRectMake(frame.origin.x + backgroundStrokeWidth/2, frame.origin.y + backgroundStrokeWidth/2, frame.size.width - backgroundStrokeWidth, (frame.size.height - backgroundStrokeWidth)/2 /*+ 0.5*/);
     
     //// CoreGroup ////
     {
@@ -467,38 +467,38 @@
         [backgroundPath strokeWithBlendMode:kCGBlendModeLighten alpha:1];
         
         /// Gloss ///
-        {
-            
-            CGContextSaveGState(context);
-            CGContextSetBlendMode(context, kCGBlendModeLighten/*kCGBlendModeOverlay*/);
-            
-            // Gloss Drawing
-            UIBezierPath *glossPath = [UIBezierPath bezierPath];
-            [glossPath moveToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMinY(glossFrame))];
-            [glossPath addLineToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMaxY(glossFrame))]; // left
-            [glossPath addLineToPoint:CGPointMake(CGRectGetMaxX(glossFrame), CGRectGetMaxY(glossFrame))]; // bottom
-            [glossPath addLineToPoint: CGPointMake(CGRectGetMaxX(glossFrame), CGRectGetMinY(glossFrame))]; // right
-            [glossPath addLineToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMinY(glossFrame))]; // top
-            [glossPath closePath];
-            
-            CGContextSaveGState(context);
-            [glossPath addClip];
-            CGRect glossBounds = glossPath.bounds;
-            CGContextDrawLinearGradient(context, glossFill,
-                                        CGPointMake(CGRectGetMidX(glossBounds), CGRectGetMaxY(glossBounds)),
-                                        CGPointMake(CGRectGetMidX(glossBounds), CGRectGetMinY(glossBounds)),
-                                        0);
-            
-            //CGContextRestoreGState(context);
-            //CGContextRestoreGState(context);
-        }
+        /*{
+         
+         CGContextSaveGState(context);
+         CGContextSetBlendMode(context, kCGBlendModeLighten);
+         
+         // Gloss Drawing
+         UIBezierPath *glossPath = [UIBezierPath bezierPath];
+         [glossPath moveToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMinY(glossFrame))];
+         [glossPath addLineToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMaxY(glossFrame))]; // left
+         [glossPath addLineToPoint:CGPointMake(CGRectGetMaxX(glossFrame), CGRectGetMaxY(glossFrame))]; // bottom
+         [glossPath addLineToPoint: CGPointMake(CGRectGetMaxX(glossFrame), CGRectGetMinY(glossFrame))]; // right
+         [glossPath addLineToPoint:CGPointMake(CGRectGetMinX(glossFrame), CGRectGetMinY(glossFrame))]; // top
+         [glossPath closePath];
+         
+         CGContextSaveGState(context);
+         [glossPath addClip];
+         CGRect glossBounds = glossPath.bounds;
+         CGContextDrawLinearGradient(context, glossFill,
+         CGPointMake(CGRectGetMidX(glossBounds), CGRectGetMaxY(glossBounds)),
+         CGPointMake(CGRectGetMidX(glossBounds), CGRectGetMinY(glossBounds)),
+         0);
+         
+         //CGContextRestoreGState(context);
+         //CGContextRestoreGState(context);
+         }*/
         
         //backgroundPath.lineWidth = backgroundStrokeWidth;
         //[backgroundPath stroke];
         CGContextRestoreGState(context);
     }
     
-    CGGradientRelease(glossFill);
+    //CGGradientRelease(glossFill);
     CGColorSpaceRelease(colorSpace);
 }
 
