@@ -26,15 +26,20 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Мапа" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FLD-nv-g8D">
-                                                    <rect key="frame" x="20" y="6" width="71" height="32"/>
+                                                    <rect key="frame" x="44" y="6" width="71" height="32"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="highlightedColor" red="1" green="0.5316576918" blue="0.074056998200000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="0.77647066116333008" blue="0.32549020648002625" alpha="1" colorSpace="deviceRGB"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="menuIconMap.png" highlightedImage="menuIconMapSelected.png" id="GLK-mR-WEf">
+                                                    <rect key="frame" x="6" y="9" width="30" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="selectedBackgroundView" destination="BTX-Hh-mm7" id="rdF-ff-9ru"/>
                                             <segue destination="tgl-kW-LwA" kind="custom" identifier="map" customClass="SASlideMenuStaticStoryboardSegue" id="BgU-Wo-CuE"/>
                                         </connections>
                                     </tableViewCell>
@@ -49,15 +54,20 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Список" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iur-Ag-wUM">
-                                                    <rect key="frame" x="20" y="12" width="89" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="44" y="11" width="89" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="1" green="0.77647066119999997" blue="0.32549020649999999" alpha="1" colorSpace="deviceRGB"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="menuIconList.png" highlightedImage="menuIconListSelected.png" id="DZI-JS-VL7">
+                                                    <rect key="frame" x="6" y="9" width="30" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="selectedBackgroundView" destination="BTX-Hh-mm7" id="ORJ-yQ-rnQ"/>
                                             <segue destination="KRb-2u-7IQ" kind="custom" identifier="list" customClass="SASlideMenuStaticStoryboardSegue" id="uW6-g6-Hbf"/>
                                         </connections>
                                     </tableViewCell>
@@ -72,15 +82,20 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Обране" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sHY-mh-SUD">
-                                                    <rect key="frame" x="20" y="12" width="61" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="44" y="11" width="88" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="1" green="0.77647066119999997" blue="0.32549020649999999" alpha="1" colorSpace="deviceRGB"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="menuIconFavorites.png" highlightedImage="menuIconFavoritesSelected.png" id="anZ-5S-1w5">
+                                                    <rect key="frame" x="6" y="9" width="30" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="selectedBackgroundView" destination="BTX-Hh-mm7" id="Nsv-hu-OKQ"/>
                                             <segue destination="FOu-2c-2fD" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="sG6-QJ-HMF"/>
                                         </connections>
                                     </tableViewCell>
@@ -95,15 +110,20 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Новини" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o3w-dF-F0K">
-                                                    <rect key="frame" x="20" y="12" width="61" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="44" y="11" width="103" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="1" green="0.77647066119999997" blue="0.32549020649999999" alpha="1" colorSpace="deviceRGB"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="menuIconNews.png" highlightedImage="menuIconNewsSelected.png" id="s80-kh-iAG">
+                                                    <rect key="frame" x="6" y="9" width="30" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="selectedBackgroundView" destination="BTX-Hh-mm7" id="eo3-pn-ITn"/>
                                             <segue destination="0gr-qL-Whh" kind="custom" customClass="SASlideMenuStaticStoryboardSegue" id="ZUf-CT-sj4"/>
                                         </connections>
                                     </tableViewCell>
@@ -118,16 +138,21 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Налаштування" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMG-e3-WLX">
-                                                    <rect key="frame" x="20" y="12" width="119" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="44" y="11" width="147" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" red="1" green="0.77647066119999997" blue="0.32549020649999999" alpha="1" colorSpace="deviceRGB"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="menuIconSettings.png" highlightedImage="menuIconSettingsSelected.png" id="tkf-VG-Zu4">
+                                                    <rect key="frame" x="6" y="9" width="30" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" red="0.15686275064945221" green="0.15686275064945221" blue="0.15686275064945221" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
+                                            <outlet property="selectedBackgroundView" destination="BTX-Hh-mm7" id="htV-OI-U54"/>
                                             <segue destination="uK2-5X-gB4" kind="custom" identifier="settings" customClass="SASlideMenuStaticStoryboardSegue" id="0Fk-GU-USg"/>
                                         </connections>
                                     </tableViewCell>
@@ -141,6 +166,11 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CXl-L9-9H7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" id="BTX-Hh-mm7" userLabel="selected">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
             </objects>
             <point key="canvasLocation" x="-619" y="-120"/>
         </scene>
@@ -231,8 +261,9 @@
                                 <rect key="frame" x="20" y="238" width="274" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal" title="Оновити базу зараз">
-                                    <color key="titleColor" red="1" green="0.5316576918" blue="0.074056998200000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="0.16938902680000001" blue="0.1800273063" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Оновити базу зараз." backgroundImage="navigationBar.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -378,7 +409,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="rc2-Vb-7dc">
-                                                    <rect key="frame" x="26" y="0.0" width="287" height="182"/>
+                                                    <rect key="frame" x="25" y="0.0" width="287" height="182"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </mapView>
                                             </subviews>
@@ -574,8 +605,67 @@
         </scene>
     </scenes>
     <resources>
+        <image name="menuIconFavorites.png" width="20" height="20"/>
+        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
+        <image name="menuIconList.png" width="20" height="14"/>
+        <image name="menuIconListSelected.png" width="20" height="14"/>
+        <image name="menuIconMap.png" width="16" height="20"/>
+        <image name="menuIconMapSelected.png" width="16" height="20"/>
+        <image name="menuIconNews.png" width="16" height="20"/>
+        <image name="menuIconNewsSelected.png" width="16" height="20"/>
+        <image name="menuIconSettings.png" width="21" height="21"/>
+        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
+        <image name="navigationBar.png" width="5" height="5"/>
         <image name="row.png" width="1" height="44"/>
     </resources>
+    <classes>
+        <class className="CLLocationManager" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CLLocationManager.h"/>
+        </class>
+        <class className="DetailsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="category" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="discount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="distanceToObject" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="email" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="phone" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="webSite" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="zeroCellBackgroundView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="ListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="myButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="location" candidateClass="CLLocationManager"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="manualUpdateSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

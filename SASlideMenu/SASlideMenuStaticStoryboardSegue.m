@@ -12,11 +12,16 @@
 @implementation SASlideMenuStaticStoryboardSegue
 
 -(void) perform{
+    
     SASlideMenuStaticViewController* source = self.sourceViewController;
     
     UINavigationController* destination = self.destinationViewController;
     
-    //set navigation bar color and shadow
+    //Remove shadow from navigation bar title.
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0],UITextAttributeTextShadowColor,
+                                                           nil]];
+    //Set navigation bar pattern and shadow.
     UIImage *navigationBarBackground = [UIImage imageNamed: @"navigationBar.png"];
     [[UINavigationBar appearance] setBackgroundImage:navigationBarBackground forBarMetrics:UIBarMetricsDefault];
     destination.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -42,7 +47,6 @@
         layer.masksToBounds = NO;
         layer.shadowPath =[UIBezierPath bezierPathWithRect:layer.bounds].CGPath;
     }
-    
     [source switchToContentViewController:destination];
     
 }

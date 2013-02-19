@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "DetailsViewController.h"
 
 @interface DetailsViewController ()
@@ -32,8 +33,17 @@
 
     [super viewDidLoad];
     
-    //self.zeroCellBackgroundView
+    self.zeroCellBackgroundView.layer.borderWidth = 1.f;
+    self.zeroCellBackgroundView.layer.borderColor = [UIColor grayColor].CGColor;
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.zeroCellBackgroundView.bounds
+                                                   byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight
+                                                         cornerRadii:CGSizeMake(5.0, 5.0)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.zeroCellBackgroundView.bounds;
+    maskLayer.path = maskPath.CGPath;
+    [self.zeroCellBackgroundView.layer setMask:maskLayer];
     
+    //set labels value
     NSSet *categories = discountObject.categories;
     NSManagedObject *category = [categories anyObject];
     NSString *categoryName = [category valueForKey:@"name"];
