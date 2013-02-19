@@ -8,6 +8,8 @@
 
 #import "SettingsViewController.h"
 #import "JSONParser.h"
+#import "DetailsViewController.h"
+#import "DiscountObject.h"
 
 
 @interface SettingsViewController ()
@@ -18,6 +20,7 @@
 @end
 
 @implementation SettingsViewController
+@synthesize managedObjectContext;
 
 -(SettingsViewController *)init {
     
@@ -111,6 +114,19 @@
             break;
     }
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailsViewController *dvc = [segue destinationViewController];
+    NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:112]];
+    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+    [objFetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                    inManagedObjectContext:self.managedObjectContext]];
+    [objFetch setPredicate:findObjectWithId];
+    NSArray *objectFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
+    DiscountObject *obj = [objectFound objectAtIndex:0];
+    dvc.discountObject = obj;
+}
+
 
 - (void)viewDidUnload {
     [self setUpdateFrequencyChangedButtonOutlet:nil];
