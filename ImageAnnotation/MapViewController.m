@@ -104,14 +104,22 @@
         NSString *dbTitle = object.name;
         NSString *dbSubtitle = object.address;
         NSSet *dbCategories = object.categories;
+        NSNumber *dbDiscountTo = object.discountTo;
+        //NSNumber *dbDiscountFrom = object.discountFrom;
         Category *dbCategory = [dbCategories anyObject];
         
         //show getting data from DB (for debug)
         //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
         //NSLog(@"font: %@", dbCategory.fontSymbol);
-        
+        //NSLog(@"discount To: %@",dbDiscountTo);
+        //NSLog(@"discount From: %@",dbDiscountFrom);
         //display text on images
-        UIImage *myNewImage = [self setText:@"-99%"
+        NSString *value = [dbDiscountTo stringValue];
+        NSString *discTo = @"-";
+        discTo = [discTo stringByAppendingString:value];
+        discTo = [discTo  stringByAppendingString:@"%"];
+        //NSLog(@"discTo: %@",discTo);
+        UIImage *myNewImage = [self setText:discTo
                                    withFont: nil
                                    andColor:[UIColor blackColor]
                                     onImage:emptyImage];
