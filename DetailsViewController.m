@@ -22,6 +22,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *zeroCellBackgroundView;
 
+@property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
 
 @end
 
@@ -33,15 +34,23 @@
 
     [super viewDidLoad];
     
-    self.zeroCellBackgroundView.layer.borderWidth = 1.f;
-    self.zeroCellBackgroundView.layer.borderColor = [UIColor grayColor].CGColor;
+    //self.zeroCellBackgroundView.layer.borderWidth = 1.f;
+    //self.zeroCellBackgroundView.layer.borderColor = [UIColor grayColor].CGColor;
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.zeroCellBackgroundView.bounds
                                                    byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight
                                                          cornerRadii:CGSizeMake(5.0, 5.0)];
+    
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
     maskLayer.frame = self.zeroCellBackgroundView.bounds;
     maskLayer.path = maskPath.CGPath;
     [self.zeroCellBackgroundView.layer setMask:maskLayer];
+    
+    maskPath.lineWidth = 2;
+   
+   // [maskPath strokeWithBlendMode:kCGBlendModeNormal alpha:1.0];
+//    [self.zeroCellBackgroundView.layer setBorderColor:[[UIColor grayColor]CGColor]];
+//    [self.zeroCellBackgroundView.layer setBorderWidth:1];
+    
     
     //set labels value
     NSSet *categories = discountObject.categories;
@@ -95,6 +104,7 @@
     [self setEmail:nil];
     [self setWebSite:nil];
     [self setZeroCellBackgroundView:nil];
+    [self setFavoritesButton:nil];
     [super viewDidUnload];
 }
 @end

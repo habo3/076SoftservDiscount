@@ -56,13 +56,6 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
         
-//    if ([[segue identifier] isEqualToString: @"settings"]) {
-//        
-//        UINavigationController *navigationController = [segue destinationViewController];
-//        SettingsViewController *vc = (SettingsViewController *) navigationController.topViewController;
-//        vc.managedObjectContext = self.managedObjectContext;
-//        
-//    }
     if ([[segue identifier] isEqualToString: @"map"] ||
         [[segue identifier] isEqualToString: @"settings"] ||
         [[segue identifier] isEqualToString: @"list"]) {
@@ -84,7 +77,7 @@
 }
 
 -(NSString*) initialSegueId{
-    return @"map";
+    return @"settings";
 }
 
 @end
