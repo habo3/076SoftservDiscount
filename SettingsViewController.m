@@ -5,7 +5,7 @@
 //  Created by Bogdan on 28.01.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "SettingsViewController.h"
 #import "JSONParser.h"
 #import "DetailsViewController.h"
@@ -79,7 +79,11 @@
 }
 
 - (void)viewDidLoad {
-
+    self.manualUpdateButton.layer.cornerRadius = 10;
+    self.manualUpdateButton.clipsToBounds = YES;
+    [[self.manualUpdateButton layer] setBorderWidth:1.0f];
+    [[self.manualUpdateButton layer] setBorderColor:[UIColor grayColor].CGColor];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSNumber *updatePeriod = [userDefaults objectForKey:@"updatePeriod"];
     int updatePeriodDouble = [updatePeriod intValue];
