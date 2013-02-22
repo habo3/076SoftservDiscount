@@ -2,7 +2,7 @@
 //  DiscountObject.h
 //  SoftServeDP
 //
-//  Created by Bogdan on 2/7/13.
+//  Created by Bogdan on 22.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * responsiblePersonInfo;
 @property (nonatomic, retain) NSDecimalNumber * updated;
+@property (nonatomic, retain) NSNumber * inFavorites;
 @property (nonatomic, retain) NSSet *categories;
 @property (nonatomic, retain) City *cities;
 @property (nonatomic, retain) NSSet *contacts;

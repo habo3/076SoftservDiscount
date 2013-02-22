@@ -20,7 +20,9 @@
 @end
 
 @implementation SettingsViewController
+
 @synthesize managedObjectContext;
+
 
 -(SettingsViewController *)init {
     
@@ -40,8 +42,9 @@
 }
 
 - (IBAction)autoUpdateSwitch:(UISwitch *)sender {
-    if (!sender.on){
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (!sender.on){
+    
         [userDefaults setObject:[NSNumber numberWithInt:0] forKey:@"updatePeriod"];
         self.updateFrequencyChangedButtonOutlet.enabled = NO;
         self.manualUpdateButton.enabled = YES;
@@ -49,12 +52,13 @@
         
     }
     else if (sender.on){
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
         [userDefaults setObject:[NSNumber numberWithInt:1] forKey:@"updatePeriod"];
         self.updateFrequencyChangedButtonOutlet.enabled = YES;
         self.manualUpdateButton.enabled = NO;
         self.manualUpdateButton.alpha = 0.3;
     }
+    [userDefaults synchronize];
 }
 
 
@@ -76,6 +80,7 @@
         default:
             break;
     }
+[userDefaults synchronize];
 }
 
 - (void)viewDidLoad {
@@ -129,7 +134,9 @@
     NSArray *objectFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
     DiscountObject *obj = [objectFound objectAtIndex:0];
     dvc.discountObject = obj;
+    dvc.managedObjectContext = self.managedObjectContext;
 }
+
 
 
 - (void)viewDidUnload {

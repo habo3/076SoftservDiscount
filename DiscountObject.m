@@ -2,7 +2,7 @@
 //  DiscountObject.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 2/7/13.
+//  Created by Bogdan on 22.02.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
@@ -24,6 +24,7 @@
 @dynamic name;
 @dynamic responsiblePersonInfo;
 @dynamic updated;
+@dynamic inFavorites;
 @dynamic categories;
 @dynamic cities;
 @dynamic contacts;

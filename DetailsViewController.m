@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DetailsViewController.h"
 
+
 @interface DetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *discount;
@@ -19,48 +20,51 @@
 @property (weak, nonatomic) IBOutlet UILabel *phone;
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (weak, nonatomic) IBOutlet UILabel *webSite;
-
 @property (weak, nonatomic) IBOutlet UIView *zeroCellBackgroundView;
-
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
+
+
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
 
 @end
 
 @implementation DetailsViewController
+
 @synthesize discountObject;
+@synthesize managedObjectContext;
+
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
+
+{
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
+                                                   byRoundingCorners:rectCorner
+                                                         cornerRadii:CGSizeMake(radius, radius)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    [view.layer setMask:maskLayer];
+}
 
 - (void)viewDidLoad
 {
+ 
+    [super viewDidLoad];    
+    NSLog(@"inFav:%@", discountObject.inFavorites);
+    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
+    }
+    
+    [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
-    [super viewDidLoad];
-    
-    //self.zeroCellBackgroundView.layer.borderWidth = 1.f;
-    //self.zeroCellBackgroundView.layer.borderColor = [UIColor grayColor].CGColor;
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.zeroCellBackgroundView.bounds
-                                                   byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight
-                                                         cornerRadii:CGSizeMake(5.0, 5.0)];
-    
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.zeroCellBackgroundView.bounds;
-    maskLayer.path = maskPath.CGPath;
-    [self.zeroCellBackgroundView.layer setMask:maskLayer];
-    
-    maskPath.lineWidth = 2;
-   
-   // [maskPath strokeWithBlendMode:kCGBlendModeNormal alpha:1.0];
-//    [self.zeroCellBackgroundView.layer setBorderColor:[[UIColor grayColor]CGColor]];
-//    [self.zeroCellBackgroundView.layer setBorderWidth:1];
-    
-    
     //set labels value
     NSSet *categories = discountObject.categories;
     NSManagedObject *category = [categories anyObject];
     NSString *categoryName = [category valueForKey:@"name"];
-    NSLog(@"object name: %@ object category: %@", discountObject.name, categoryName);
+    //NSLog(@"object name: %@ object category: %@", discountObject.name, categoryName);
     self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
     self.name.text = discountObject.name;
     self.category.text = categoryName;
-    self.distanceToObject.text = @"distance";
+    self.distanceToObject.text = @"...";
     self.address.text = discountObject.address;
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts) {
@@ -76,10 +80,47 @@
         }
     
     }
-    
+
+    //set location manager
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters; 
+    [locationManager startUpdatingLocation];
 
 }
 
+- (IBAction)favoriteButton {
+    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        NSLog(@"inFav:%@", discountObject.inFavorites);
+        discountObject.inFavorites = [NSNumber numberWithBool:NO];
+        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
+    }
+    else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
+        NSLog(@"inFav:%@", discountObject.inFavorites);
+        discountObject.inFavorites = [NSNumber numberWithBool:YES];
+        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
+
+    }
+    NSLog(@"inFav:%@", discountObject.inFavorites);
+    NSLog(@"------");
+    
+    NSError* err;
+    if (![self.managedObjectContext save:&err]) {
+        NSLog(@"Couldn't save: %@", [err localizedDescription]);
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation *currentLocation = newLocation;
+    CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue] longitude:[discountObject.geoLongitude doubleValue]];
+    
+    
+
+}
 
 #pragma mark - Table view data source
 
@@ -95,6 +136,8 @@
 //}
 
 - (void)viewDidUnload {
+
+
     [self setDiscount:nil];
     [self setName:nil];
     [self setCategory:nil];
