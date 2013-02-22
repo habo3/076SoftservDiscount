@@ -11,15 +11,19 @@
 #import "myDetailViewController.h"
 #import "DiscountObject.h"
 #import "Category.h"
+#import "CustomPicker.h"
 
 #define MAP_SPAN_DELTA 0.005
 
 
-@interface MapViewController ()<MKAnnotation>
+@interface MapViewController ()<MKAnnotation,MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) CustomCalloutView *calloutView;
-@property (nonatomic,strong) NSMutableArray *annArray;
+@property (nonatomic) NSMutableArray *annArray;
+@property (nonatomic) NSArray *dataSource; //category names for picker
+@property (nonatomic) NSArray *categoryObjects;
+@property (nonatomic,assign) NSInteger selectedIndex;
 @end
 
 @implementation MapViewController
@@ -27,6 +31,10 @@
 @synthesize calloutView, annArray;
 @synthesize location;
 @synthesize managedObjectContext;
+@synthesize dataSource;
+@synthesize categoryObjects;
+@synthesize selectedIndex;
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -40,15 +48,22 @@
     [self.mapView addAnnotations:self.annArray];
 }
 
+//- (void)
 
-- (void)viewDidLoad
+-(void)setControllerButtons
 {
+    //filterButton
+    UIImage *filterButtonImage = [UIImage imageNamed:@"geoButton.png"];
+    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-5, filterButtonImage.size.width,filterButtonImage.size.height /*image.size.height*/);
+    filterButton.frame = filterFrame;
     
-    [super viewDidLoad];
+    [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
+    filterButton.backgroundColor = [UIColor clearColor];
+    [self.navigationController.navigationBar addSubview:filterButton];
     
-    self.mapView.delegate = self;
-    
-    //geoButton 
+    //geoButton
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
     UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height- geoButtonImage.size.height-5, geoButtonImage.size.width,geoButtonImage.size.height /*image.size.height*/);
@@ -56,13 +71,15 @@
     
     [geoButton setBackgroundImage:geoButtonImage forState:UIControlStateNormal];
     [geoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
-     geoButton.backgroundColor = [UIColor clearColor];
-    
+    geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
-    self.annArray = [[NSMutableArray alloc] init];
+}
+
+- (Annotation*)createAnnotationFromData:(DiscountObject*)discountObject
+{
     CLLocationCoordinate2D tmpCoord;
     
-    // annotation for the
+    // annotation for pins
     Annotation *myAnnotation;
     myAnnotation= [[Annotation alloc]init];
     
@@ -76,71 +93,158 @@
     [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
     
     // image for callout
-    UIView *leftImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyLeftImage.png"]];
+    //UIView *leftImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyLeftImage.png"]];
+    
+    // font for pins image
+    UIFont *font = [UIFont fontWithName:@"icons" size:10];
+    
+    // image with text
+    UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
+    UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
+    
+    NSNumber *dbLongitude = discountObject.geoLongitude;
+    NSNumber *dbLatitude = discountObject.geoLatitude;
+    NSString *dbTitle = discountObject.name;
+    NSString *dbSubtitle = discountObject.address;
+    NSSet *dbCategories = discountObject.categories;
+    NSNumber *dbDiscountTo = discountObject.discountTo;
+    //NSNumber *dbDiscountFrom = object.discountFrom;
+    Category *dbCategory = [dbCategories anyObject];
+    
+    //show getting data from DB (for debug)
+    //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
+    //NSLog(@"font: %@", dbCategory.fontSymbol);
+    //NSLog(@"discount To: %@",dbDiscountTo);
+    //NSLog(@"discount From: %@",dbDiscountFrom);
+    //display text on images
+    
+    //NSLog(@"discTo: %@",discTo);
+    // formating discountValue to "-x%", where x discountValue
+    NSString *value = [dbDiscountTo stringValue];
+    NSString *discTo = @"-";
+    discTo = [discTo stringByAppendingString:value];
+    discTo = [discTo  stringByAppendingString:@"%"];
+    
+    // creating new image
+    UIImage *myNewImage = [self setText:discTo
+                               withFont: nil
+                               andColor:[UIColor blackColor]
+                                onImage:emptyImage];
+    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
+                             andColor:[UIColor whiteColor] onImage:emptyPinImage];
+    
+    
+    myAnnotation= [[Annotation alloc]init];
+    
+    tmpCoord.latitude = [dbLatitude doubleValue];
+    tmpCoord.longitude =[dbLongitude doubleValue];
+    myAnnotation.coordinate = tmpCoord;
+    myAnnotation.title = dbTitle;
+    myAnnotation.subtitle = dbSubtitle;
+    myAnnotation.pintype = pinImage;
+    myAnnotation.leftImage = [[UIImageView alloc] initWithImage: myNewImage];
+    return myAnnotation;
+}
+
+- (void)viewDidLoad
+{
+    
+    [super viewDidLoad];
+    
+    [self setControllerButtons];
+    self.mapView.delegate = self;
+    self.dataSource = [self fillPicker];
+    self.annArray = [[NSMutableArray alloc] init];
     
     // calloutView init
     self.calloutView.delegate = self;
     self.calloutView = [CustomCalloutView new];
-    self.calloutView.leftAccessoryView = leftImage;
-    self.calloutView.rightAccessoryView = disclosureButton;
+    //self.calloutView.leftAccessoryView = leftImage;
+    //self.calloutView.rightAccessoryView = disclosureButton;
+    
+    self.annArray = [NSArray arrayWithArray: [self getAllPins]];
     
     
+    [self gotoLocation];
+}
+
+
+- (NSArray*)getAllPins
+{
+    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
     // fetch objects from db
     NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"//@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
     [fetch setPredicate:objectsFind];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     
-    UIFont *font = [UIFont fontWithName:@"icons" size:10];
-    // image with text
-    UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
-    UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
-    for (DiscountObject *object in objectsFound)
+    Annotation *currentAnn = [[Annotation alloc]init];
+    for (/*DiscountObject*/ Category *object1 in objectsFound)
     {
-        NSNumber *dbLongitude = object.geoLongitude;
-        NSNumber *dbLatitude = object.geoLatitude;
-        NSString *dbTitle = object.name;
-        NSString *dbSubtitle = object.address;
-        NSSet *dbCategories = object.categories;
-        NSNumber *dbDiscountTo = object.discountTo;
-        //NSNumber *dbDiscountFrom = object.discountFrom;
-        Category *dbCategory = [dbCategories anyObject];
-        
-        //show getting data from DB (for debug)
-        //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
-        //NSLog(@"font: %@", dbCategory.fontSymbol);
-        //NSLog(@"discount To: %@",dbDiscountTo);
-        //NSLog(@"discount From: %@",dbDiscountFrom);
-        //display text on images
-        NSString *value = [dbDiscountTo stringValue];
-        NSString *discTo = @"-";
-        discTo = [discTo stringByAppendingString:value];
-        discTo = [discTo  stringByAppendingString:@"%"];
-        //NSLog(@"discTo: %@",discTo);
-        UIImage *myNewImage = [self setText:discTo
-                                   withFont: nil
-                                   andColor:[UIColor blackColor]
-                                    onImage:emptyImage];
-        UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
-                                 andColor:[UIColor whiteColor] onImage:emptyPinImage];
-        
-        
-        myAnnotation= [[Annotation alloc]init];
-        
-        tmpCoord.latitude = [dbLatitude doubleValue];
-        tmpCoord.longitude =[dbLongitude doubleValue];
-        myAnnotation.coordinate = tmpCoord;
-        myAnnotation.title = dbTitle;
-        myAnnotation.subtitle = dbSubtitle;
-        myAnnotation.pintype = pinImage;
-        myAnnotation.leftImage = [[UIImageView alloc] initWithImage: myNewImage];
-        
-        [self.annArray addObject:myAnnotation];
+        NSSet *dbAllObjInCategory= object1.discountobject;
+        for(DiscountObject *object in dbAllObjInCategory)
+        {
+            currentAnn = [self createAnnotationFromData:object];
+            [tmpArray addObject:currentAnn];
+        }
     }
+    return tmpArray;
+}
+
+- (NSArray*)getPinsByCategory:(int)filterNumber
+{
+    // fetch objects from db
+    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
+    Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
+    NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
     
-    [self gotoLocation];
+    Annotation *currentAnn;
+    for(DiscountObject *object in dbAllObjInSelCategory)
+    {
+        currentAnn = [self createAnnotationFromData:object];
+        [tmpArray addObject:currentAnn];
+    }
+    return  tmpArray;
+}
+
+- (NSArray*)fillPicker
+{
+    //NSArray *objectsFound = [[NSArray alloc]init];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
+                              inManagedObjectContext:managedObjectContext]];
+    categoryObjects = [managedObjectContext executeFetchRequest:fetch error:nil];
+    NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
+    //NSString *first
+    [fetchArr addObject:@"Усі категорії"];
+    for ( Category *object in categoryObjects)
+    {
+        //NSLog(@"name: %@", object1.name);
+        [fetchArr addObject:(NSString*)object.name];
+    }
+    return [NSArray arrayWithArray:fetchArr];
+}
+
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)thePickerView
+numberOfRowsInComponent:(NSInteger)component
+{
+    return dataSource.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)thePickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component
+{
+    return [dataSource objectAtIndex:row];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -207,8 +311,7 @@
     //Position and color
     
     [color set];
-    
-    
+
     
     //draw text on image and save result
     [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
@@ -217,6 +320,7 @@
     
     return resultImage;
 }
+
 
 #pragma mark - MKMapViewDelegate
 
@@ -270,8 +374,10 @@
     
     if (calloutView.window)
         [calloutView dismissCalloutAnimated/*:NO*/];
-    
-    [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0];//1.0/3.0];
+    Annotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+    [self.mapView setCenterCoordinate:selectedAnnotation.coordinate animated:YES];
+    //self.mapView.centerCoordinate = selectedAnnotation.coordinate;
+    [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0.5];//1.0/3.0]; optimize later
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
@@ -342,6 +448,7 @@
         
         self.location = [[CLLocationManager alloc]init];
         location.delegate = self;
+        
         location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         location.distanceFilter = kCLDistanceFilterNone;
         [location startUpdatingLocation];
@@ -355,15 +462,41 @@
     MKCoordinateSpan span;
     span.latitudeDelta = MAP_SPAN_DELTA;
     span.longitudeDelta = MAP_SPAN_DELTA;
+    
     CLLocationCoordinate2D userCoords;
     userCoords.latitude = aUserLocation.coordinate.latitude;
     userCoords.longitude = aUserLocation.coordinate.longitude;
+    
     region.span = span;
     region.center = userCoords;
     [aMapView setRegion:region animated:YES];
 }
 
+    //display filter category
+- (IBAction)filterCategory:(UIControl *)sender {
+    [CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
+    
+}
 
+    //selectedCategory
+- (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
+    
+    if(selectedIndex != [selectIndex integerValue])
+    {
+        self.selectedIndex = [selectIndex integerValue];
+        [self.mapView removeAnnotations:self.mapView.annotations];
+        //[self.annArray removeAllObjects];
+        if (self.selectedIndex<1)
+            //[self.mapView removeAnnotations:self.mapView.annotations];
+            self.annArray = [NSArray arrayWithArray: [self getAllPins]];
+        else
+            self.annArray = [NSArray arrayWithArray: [self getPinsByCategory:self.selectedIndex-1]];
+        [self.mapView addAnnotations:self.annArray];
+    //NSLog (@"%d",);
+    //may have originated from textField or barButtonItem, use an IBOutlet instead of element
+    /*[self disclosureTapped];*/
+    }
+}
 
 - (void)showDetails:(id)sender
 {
