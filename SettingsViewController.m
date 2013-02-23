@@ -135,6 +135,11 @@
     DiscountObject *obj = [objectFound objectAtIndex:0];
     dvc.discountObject = obj;
     dvc.managedObjectContext = self.managedObjectContext;
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:nil
+                                                                            action:nil] ;
 }
 
 

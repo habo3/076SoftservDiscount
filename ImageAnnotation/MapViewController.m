@@ -421,6 +421,13 @@ numberOfRowsInComponent:(NSInteger)component
     DiscountObject *obj = [objectFound objectAtIndex:0];*/
     dvc.discountObject = self.selectedObject;//select.disc.obj
     dvc.managedObjectContext = self.managedObjectContext;
+    
+    //remove text from "Back" button (c)Bogdan
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:nil
+                                                                            action:nil] ;
+    
 }
 
 - (void)disclosureTapped {

@@ -77,7 +77,7 @@
 }
 
 -(NSString*) initialSegueId{
-    return @"settings";
+    return @"map";
 }
 
 @end
