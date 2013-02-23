@@ -8,7 +8,6 @@
 
 #import "MapViewController.h"
 #import "Annotation.h"
-#import "myDetailViewController.h"
 #import "DiscountObject.h"
 #import "Category.h"
 #import "CustomPicker.h"
