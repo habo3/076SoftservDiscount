@@ -10,6 +10,6 @@
 
 @implementation Annotation
 
-@synthesize title,subtitle,coordinate,pintype,leftImage;
+@synthesize title,subtitle,coordinate,pintype,leftImage,object;
 
 @end

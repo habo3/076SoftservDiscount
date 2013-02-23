@@ -12,6 +12,7 @@
 #import "DiscountObject.h"
 #import "Category.h"
 #import "CustomPicker.h"
+#import "DetailsViewController.h"
 
 #define MAP_SPAN_DELTA 0.005
 
@@ -23,7 +24,9 @@
 @property (nonatomic) NSMutableArray *annArray;
 @property (nonatomic) NSArray *dataSource; //category names for picker
 @property (nonatomic) NSArray *categoryObjects;
+@property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
+@property (nonatomic,assign) DiscountObject *selectedObject;
 @end
 
 @implementation MapViewController
@@ -34,7 +37,8 @@
 @synthesize dataSource;
 @synthesize categoryObjects;
 @synthesize selectedIndex;
-
+@synthesize filterButton;
+@synthesize selectedObject;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -44,7 +48,7 @@
     [self gotoLocation];
     
     [self.mapView removeAnnotations:self.mapView.annotations];  // remove any annotations that exist
-    
+    [self.navigationController.navigationBar addSubview:filterButton];
     [self.mapView addAnnotations:self.annArray];
 }
 
@@ -54,14 +58,15 @@
 {
     //filterButton
     UIImage *filterButtonImage = [UIImage imageNamed:@"geoButton.png"];
-    UIButton *filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-5, filterButtonImage.size.width,filterButtonImage.size.height /*image.size.height*/);
     filterButton.frame = filterFrame;
     
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
-    [self.navigationController.navigationBar addSubview:filterButton];
+    /*[self.navigationController.navigationBar addSubview:filterButton];*/
+    
     
     //geoButton
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
@@ -82,15 +87,6 @@
     // annotation for pins
     Annotation *myAnnotation;
     myAnnotation= [[Annotation alloc]init];
-    
-    // button for callout
-    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
-    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect frame = CGRectMake(0.0, 0.0, 32 /*image.size.width*/,32 /*image.size.height*/);
-    disclosureButton.frame = frame;
-    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
-    disclosureButton.backgroundColor = [UIColor clearColor];
-    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
     
     // image for callout
     //UIView *leftImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyLeftImage.png"]];
@@ -121,8 +117,8 @@
     //NSLog(@"discTo: %@",discTo);
     // formating discountValue to "-x%", where x discountValue
     NSString *value = [dbDiscountTo stringValue];
-    NSString *discTo = @"-";
-    discTo = [discTo stringByAppendingString:value];
+    NSString *discTo = value;
+    //discTo = [discTo stringByAppendingString:value];
     discTo = [discTo  stringByAppendingString:@"%"];
     
     // creating new image
@@ -139,6 +135,7 @@
     tmpCoord.latitude = [dbLatitude doubleValue];
     tmpCoord.longitude =[dbLongitude doubleValue];
     myAnnotation.coordinate = tmpCoord;
+    myAnnotation.object = discountObject;
     myAnnotation.title = dbTitle;
     myAnnotation.subtitle = dbSubtitle;
     myAnnotation.pintype = pinImage;
@@ -159,8 +156,16 @@
     // calloutView init
     self.calloutView.delegate = self;
     self.calloutView = [CustomCalloutView new];
+    // button for callout
+    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
+    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake(0.0, 0.0, 32 /*image.size.width*/,32 /*image.size.height*/);
+    disclosureButton.frame = frame;
+    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
+    disclosureButton.backgroundColor = [UIColor clearColor];
+    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
     //self.calloutView.leftAccessoryView = leftImage;
-    //self.calloutView.rightAccessoryView = disclosureButton;
+    self.calloutView.rightAccessoryView = disclosureButton;
     
     self.annArray = [NSArray arrayWithArray: [self getAllPins]];
     
@@ -289,7 +294,7 @@ numberOfRowsInComponent:(NSInteger)component
     else
     {
         
-        fontsize = fontsize /text.length*1.3; // multiply by 1.3 for better font visibility
+        fontsize = fontsize /text.length; // multiply by 1.3 for better font visibility
         font = [UIFont systemFontOfSize:fontsize];
         
         margin = (startImage.size.width - font.pointSize * text.length/2)/2;
@@ -395,7 +400,9 @@ numberOfRowsInComponent:(NSInteger)component
         
         calloutView.title = selectedAnnotation.title;
         calloutView.subtitle = selectedAnnotation.subtitle;
+        //calloutView.object = selectedAnnotation.object;
         calloutView.leftAccessoryView = selectedAnnotation.leftImage;
+        self.selectedObject = selectedAnnotation.object;
         ((CustomAnnotationView *)annotationView).calloutView = calloutView;
         [calloutView presentCalloutFromRect:annotationView.bounds
                                      inView:annotationView
@@ -403,15 +410,32 @@ numberOfRowsInComponent:(NSInteger)component
     }
 }
 
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [filterButton removeFromSuperview];
+    DetailsViewController *dvc = [segue destinationViewController];
+   /* NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:112]];
+    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
+    [objFetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                    inManagedObjectContext:self.managedObjectContext]];
+    [objFetch setPredicate:findObjectWithId];
+    NSArray *objectFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
+    DiscountObject *obj = [objectFound objectAtIndex:0];*/
+    dvc.discountObject = self.selectedObject;//select.disc.obj
+    dvc.managedObjectContext = self.managedObjectContext;
+}
 
 - (void)disclosureTapped {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"§ Disclosure pressed! §"
+    [self performSegueWithIdentifier:@"details" sender:self];
+    /*UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsViewController"];
+    [self.navigationController pushViewController: myController animated:YES];*/
+    //[self prepareForSegue: sender:self];
+   //[self.navigationController pushViewController: animated:YES];
+   /* UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"§ Disclosure pressed! §"
                                                     message:@"Currently detail view in progress, wait for Sprint#3 end. Thanks for understanding"
                                                    delegate:nil
                                           cancelButtonTitle:nil
                                           otherButtonTitles:@"OK",nil];
-    [alert show];
+    [alert show];*/
 }
 
 
@@ -498,10 +522,10 @@ numberOfRowsInComponent:(NSInteger)component
     }
 }
 
-- (void)showDetails:(id)sender
+/*- (void)showDetails:(id)sender
 {
     [self performSegueWithIdentifier:@"myDetailView" sender:self];
-}
+}*/
 
 
 
