@@ -10,7 +10,7 @@
 #import "DiscountObject.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface DetailsViewController : UITableViewController <CLLocationManagerDelegate>{
+@interface DetailsViewController : UITableViewController <CLLocationManagerDelegate, UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
 @property  (nonatomic, strong) DiscountObject *discountObject;

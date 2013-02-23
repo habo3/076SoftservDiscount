@@ -49,7 +49,7 @@
 {
  
     [super viewDidLoad];    
-    NSLog(@"inFav:%@", discountObject.inFavorites);
+    //NSLog(@"inFav:%@", discountObject.inFavorites);
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
@@ -127,6 +127,31 @@
     
         
 
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if(buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://publish/profile/me?text=hello%20world"]];
+    
+    } else if(buttonIndex == 1) {
+        NSString *stringURL = @"twitter://post?message=hello%20world";
+        NSURL *url = [NSURL URLWithString:stringURL];
+        [[UIApplication sharedApplication] openURL:url];
+    
+    } else if (buttonIndex ==2) {
+        NSString *recipients = @"mailto:first@example.com&subject=Ділюсь!";
+        NSString *body = @"&body=Test!";
+        NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    }
+}
+
+- (IBAction)shareAction {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Share" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook", @"Twitter", @"Email", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
 }
 
 #pragma mark - Table view data source
