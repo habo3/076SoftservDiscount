@@ -10,7 +10,9 @@
 #import "DetailsViewController.h"
 #import "Annotation.h"
 
-@interface DetailsViewController ()
+#define DETAIL_MAP_SPAN_DELTA 0.002
+
+@interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *discount;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -24,12 +26,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
+
 +(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
 
 @end
 
 @implementation DetailsViewController
-
+@synthesize pintype;
 @synthesize discountObject;
 @synthesize managedObjectContext;
 @synthesize mapView;
@@ -55,6 +58,23 @@
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
     
+    // set mapview delegate and annotation for display
+    self.mapView.delegate = self;
+    Annotation *myAnn = [[Annotation alloc]init];
+    CLLocationCoordinate2D tmpCoord;
+    tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
+    tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
+    myAnn.coordinate = tmpCoord;
+    myAnn.pintype = self.pintype;
+    [self.mapView addAnnotation:myAnn];
+    
+    //set display region
+    MKCoordinateRegion newRegion;
+    newRegion.center = tmpCoord;
+    newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
+    [self.mapView setRegion:newRegion];
+    
     [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     //set labels value
@@ -62,19 +82,6 @@
     NSManagedObject *category = [categories anyObject];
     NSString *categoryName = [category valueForKey:@"name"];
     //NSLog(@"object name: %@ object category: %@", discountObject.name, categoryName);
-    Annotation *myAnn = [[Annotation alloc]init];
-    CLLocationCoordinate2D tmpCoord;
-    tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
-    tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
-    myAnn.coordinate = tmpCoord;
-    
-    /*MKCoordinateRegion newRegion;
-    newRegion.center.latitude = 49.836744;
-    newRegion.center.longitude = 24.031359;
-    */
-    //myAnn.title = discountObject.name;
-    //myAnn.subtitle = discountObject.address;
-    [self.mapView addAnnotation:myAnn];
     
     self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
     self.name.text = discountObject.name;
@@ -103,6 +110,27 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters; 
     [locationManager startUpdatingLocation];
 
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[Annotation class]])   // for Annotation
+    {
+        // type cast for property use
+        Annotation *newAnnotation;
+        newAnnotation = (Annotation *)annotation;
+        static NSString *annotationIdentifier = @"ImagePinIdentifier";
+        
+        MKAnnotationView *annotationView = (MKAnnotationView *)
+        [mapView dequeueReusableAnnotationViewWithIdentifier:annotationIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:annotationIdentifier];
+        }
+        //setting pin image
+        annotationView.image = newAnnotation.pintype;
+        return annotationView;
+    }
+    return nil;
 }
 
 - (IBAction)favoriteButton {
@@ -134,10 +162,10 @@
     CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue] longitude:[discountObject.geoLongitude doubleValue]];
     double distance = [currentLocation distanceFromLocation:objectLocation];
     if (distance > 999){
-        self.distanceToObject.text = [NSString stringWithFormat:@"%.0fкм",distance/1000];
+        self.distanceToObject.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
     }
     else {
-        self.distanceToObject.text = [NSString stringWithFormat:@"%fм",distance];
+        self.distanceToObject.text = [NSString stringWithFormat:@"%dм",(int)distance];
     }
     
         

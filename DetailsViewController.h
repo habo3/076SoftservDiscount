@@ -14,7 +14,7 @@
 @interface DetailsViewController : UITableViewController <CLLocationManagerDelegate, UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
-@property  (nonatomic, weak) DiscountObject *discountObject;
-
+@property  (nonatomic, strong) DiscountObject *discountObject;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (weak, nonatomic) UIImage *pintype;
 @end
