@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (weak, nonatomic) IBOutlet UILabel *webSite;
 @property (weak, nonatomic) IBOutlet UIView *zeroCellBackgroundView;
+@property (weak, nonatomic) IBOutlet UIImageView *zeroCellGrayBackgound;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
 
 
@@ -55,6 +56,7 @@
     }
     
     [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
+    [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     //set labels value
     NSSet *categories = discountObject.categories;
@@ -180,6 +182,7 @@
     [self setWebSite:nil];
     [self setZeroCellBackgroundView:nil];
     [self setFavoritesButton:nil];
+    [self setZeroCellGrayBackgound:nil];
     [super viewDidUnload];
 }
 @end
