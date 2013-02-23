@@ -612,6 +612,7 @@
                         <outlet property="distanceToObject" destination="aX3-ZP-IAs" id="bAy-SW-tBk"/>
                         <outlet property="email" destination="PVP-aP-9Wh" id="XWE-v0-wMJ"/>
                         <outlet property="favoritesButton" destination="5PN-U0-hXm" id="g90-A5-wIv"/>
+                        <outlet property="mapView" destination="n3Q-Uh-3Te" id="R3k-vO-4uP"/>
                         <outlet property="name" destination="8U2-2p-Emj" id="rAd-S9-dQj"/>
                         <outlet property="phone" destination="Qtu-Z4-dMS" id="VGC-e6-CaM"/>
                         <outlet property="webSite" destination="fRp-4s-BK9" id="0KA-ac-K2n"/>
@@ -737,56 +738,6 @@
         <image name="row.png" width="1" height="44"/>
         <image name="shareButton.png" width="138" height="44"/>
     </resources>
-    <classes>
-        <class className="CLLocationManager" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CLLocationManager.h"/>
-        </class>
-        <class className="DetailsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="category" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="discount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="distanceToObject" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="email" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favoritesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="phone" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="webSite" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="zeroCellBackgroundView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="zeroCellGrayBackgound" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="ListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="myButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="MapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="location" candidateClass="CLLocationManager"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
-        <class className="SASlideMenuStaticViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuStaticViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="manualUpdateSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="SlideMenu" superclassName="SASlideMenuStaticViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SlideMenu.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
