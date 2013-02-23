@@ -35,24 +35,22 @@
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
-    //[fetch setPredicate:objectsFind];
-    /*NSArray */
+
     objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     
     for ( DiscountObject *object in objectsFound) {
         NSLog(@"name: %@ address: %@ latitude: %@ longitude: %@", object.name, object.address, object.geoLatitude, object.geoLongitude);
     
     }
-    //[self.dataSource  init];
+
     
     NSFetchRequest *fetch1=[[NSFetchRequest alloc] init];
     [fetch1 setEntity:[NSEntityDescription entityForName:@"Category"
                                  inManagedObjectContext:managedObjectContext]];
-    //[fetch setPredicate:objectsFind];
-    /*NSArray */
+    
     objectsFound1 = [managedObjectContext executeFetchRequest:fetch1 error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-    //NSString *first
+
     [fetchArr addObject:@"Усі категорії"];
     for ( Category *object1 in objectsFound1) {
         NSLog(@"name: %@", object1.name);
@@ -60,12 +58,7 @@
         [fetchArr addObject:(NSString*)object1.name];
     }
     
-    self.dataSource = [NSArray arrayWithArray:fetchArr];
-
-    
-
-    
-    
+    self.dataSource = [NSArray arrayWithArray:fetchArr];   
 
 }
 
@@ -133,10 +126,42 @@ numberOfRowsInComponent:(NSInteger)component
     
     }
     //for ( DiscountObject *object in objectsFound) {
+    
     DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
-        cell.nameLabel.text = object.name ;
-        cell.addressLabel.text = object.address;
-        
+    cell.nameLabel.text = object.name ;
+    cell.addressLabel.text = object.address;
+    
+    Category *dbCategory = [object.categories anyObject];
+    NSString *symbol = dbCategory.fontSymbol;
+    NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
+    //for debugging
+    NSLog(@"cutted symbol %@",cuttedSymbol);
+    
+    //converting Unicode Character String (0xe00b) to UTF32Char
+    UTF32Char myChar = 0;
+    NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
+    [myConvert scanHexInt:(unsigned int *)&myChar];
+    
+    UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"]; 
+    //set data to string
+    NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
+    NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
+    UIFont *font = [UIFont fontWithName:@"icons" size:15];
+    //UIGraphicsBeginImageContext();
+    
+    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
+    //Position and color
+    CGRect rect = CGRectMake((startImage.size.width - font.pointSize)/2, font.pointSize/2, startImage.size.width, startImage.size.height);
+    UIColor *iconColor = [UIColor greenColor];//colorWithRed:0.9832 green:0.9765 blue:0.698 alpha:1];
+    [iconColor set];
+    
+    //draw text on image and save result
+    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    cell.imageView.image = resultImage;
+    
     //}
     
 
