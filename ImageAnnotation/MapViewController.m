@@ -261,7 +261,7 @@ numberOfRowsInComponent:(NSInteger)component
 {
     
     NSString *tmpText = @"";
-    CGRect rect = CGRectMake(0, 0, 0, 0);
+    CGRect rect = CGRectZero;
     
     double margin = 3.0;
     float fontsize = (startImage.size.width - 2 * margin);
@@ -361,8 +361,6 @@ numberOfRowsInComponent:(NSInteger)component
 
 
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -412,14 +410,8 @@ numberOfRowsInComponent:(NSInteger)component
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
-   /* NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:112]];
-    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
-    [objFetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                    inManagedObjectContext:self.managedObjectContext]];
-    [objFetch setPredicate:findObjectWithId];
-    NSArray *objectFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
-    DiscountObject *obj = [objectFound objectAtIndex:0];*/
-    dvc.discountObject = self.selectedObject;//select.disc.obj
+    dvc.discountObject = self.selectedObject;
+    //dvc.
     dvc.managedObjectContext = self.managedObjectContext;
 }
 
@@ -508,12 +500,12 @@ numberOfRowsInComponent:(NSInteger)component
     {
         self.selectedIndex = [selectIndex integerValue];
         [self.mapView removeAnnotations:self.mapView.annotations];
-        //[self.annArray removeAllObjects];
+        
         if (self.selectedIndex<1)
-            //[self.mapView removeAnnotations:self.mapView.annotations];
             self.annArray = [NSArray arrayWithArray: [self getAllPins]];
         else
             self.annArray = [NSArray arrayWithArray: [self getPinsByCategory:self.selectedIndex-1]];
+        
         [self.mapView addAnnotations:self.annArray];
     //NSLog (@"%d",);
     //may have originated from textField or barButtonItem, use an IBOutlet instead of element

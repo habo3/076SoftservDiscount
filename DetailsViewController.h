@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DiscountObject.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 @interface DetailsViewController : UITableViewController <CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
 @property  (nonatomic, weak) DiscountObject *discountObject;
+
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end

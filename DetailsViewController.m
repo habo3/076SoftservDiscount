@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "DetailsViewController.h"
-
+#import "Annotation.h"
 
 @interface DetailsViewController ()
 
@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *webSite;
 @property (weak, nonatomic) IBOutlet UIView *zeroCellBackgroundView;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
-
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 +(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
 
@@ -32,6 +32,7 @@
 
 @synthesize discountObject;
 @synthesize managedObjectContext;
+@synthesize mapView;
 
 +(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
 
@@ -61,6 +62,20 @@
     NSManagedObject *category = [categories anyObject];
     NSString *categoryName = [category valueForKey:@"name"];
     //NSLog(@"object name: %@ object category: %@", discountObject.name, categoryName);
+    Annotation *myAnn = [[Annotation alloc]init];
+    CLLocationCoordinate2D tmpCoord;
+    tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
+    tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
+    myAnn.coordinate = tmpCoord;
+    
+    /*MKCoordinateRegion newRegion;
+    newRegion.center.latitude = 49.836744;
+    newRegion.center.longitude = 24.031359;
+    */
+    //myAnn.title = discountObject.name;
+    //myAnn.subtitle = discountObject.address;
+    [self.mapView addAnnotation:myAnn];
+    
     self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
     self.name.text = discountObject.name;
     self.category.text = categoryName;
