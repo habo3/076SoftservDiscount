@@ -13,6 +13,6 @@
 @interface DetailsViewController : UITableViewController <CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
-@property  (nonatomic, weak) DiscountObject *discountObject;
+@property  (nonatomic, strong) DiscountObject *discountObject;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end

@@ -92,18 +92,18 @@
 
 - (IBAction)favoriteButton {
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-        NSLog(@"inFav:%@", discountObject.inFavorites);
+        //NSLog(@"inFav:%@", discountObject.inFavorites);
         discountObject.inFavorites = [NSNumber numberWithBool:NO];
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
     }
     else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
-        NSLog(@"inFav:%@", discountObject.inFavorites);
+        //NSLog(@"inFav:%@", discountObject.inFavorites);
         discountObject.inFavorites = [NSNumber numberWithBool:YES];
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
 
     }
-    NSLog(@"inFav:%@", discountObject.inFavorites);
-    NSLog(@"------");
+    //NSLog(@"inFav:%@", discountObject.inFavorites);
+    //NSLog(@"------");
     
     NSError* err;
     if (![self.managedObjectContext save:&err]) {
@@ -117,8 +117,15 @@
 {
     CLLocation *currentLocation = newLocation;
     CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue] longitude:[discountObject.geoLongitude doubleValue]];
+    double distance = [currentLocation distanceFromLocation:objectLocation];
+    if (distance > 999){
+        self.distanceToObject.text = [NSString stringWithFormat:@"%.0fкм",distance/1000];
+    }
+    else {
+        self.distanceToObject.text = [NSString stringWithFormat:@"%fм",distance];
+    }
     
-    
+        
 
 }
 

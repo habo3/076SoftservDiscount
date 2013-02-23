@@ -370,13 +370,13 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="detailsDistanceBackground.png" id="4vW-Ko-Z4Y">
-                                                    <rect key="frame" x="62" y="66" width="44" height="12"/>
+                                                    <rect key="frame" x="62" y="66" width="53" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Назва" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8U2-2p-Emj">
-                                                    <rect key="frame" x="62" y="27" width="220" height="21"/>
+                                                    <rect key="frame" x="62" y="27" width="247" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -390,7 +390,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="~200м" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aX3-ZP-IAs">
                                                     <rect key="frame" x="82" y="61" width="54" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="6"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -398,8 +398,8 @@
                                                     <rect key="frame" x="8" y="31" width="46" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l5K-gQ-gq4">
-                                                    <rect key="frame" x="14" y="43" width="39" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l5K-gQ-gq4">
+                                                    <rect key="frame" x="8" y="43" width="46" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="0.5316576918" blue="0.074056998200000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -666,7 +666,7 @@
                     <navigationItem key="navigationItem" title="Мапа" id="JNa-R7-id8"/>
                     <connections>
                         <outlet property="mapView" destination="QQf-Rj-ZjA" id="ASE-a7-48u"/>
-                        <segue destination="fza-nt-l4I" kind="push" id="ofp-CS-vnj"/>
+                        <segue destination="fza-nt-l4I" kind="push" identifier="details" id="ofp-CS-vnj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1R-KH-fAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -712,7 +712,7 @@
         <image name="detailsAdressPin.png" width="6" height="10"/>
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
-        <image name="detailsDistanceBackground.png" width="44" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>

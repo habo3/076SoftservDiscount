@@ -369,6 +369,7 @@
 				434CAFB016D4F2220000CE60 /* detailsRow@2x.png */,
 				434CAFAB16D4E0600000CE60 /* zeroCellBackgroundImg.png */,
 				434CAFAC16D4E0600000CE60 /* zeroCellBackgroundImg@2x.png */,
+				434CAFCF16D52D850000CE60 /* detailsDistanceBackground.png */,
 				434CAFD016D52D860000CE60 /* detailsDistanceBackground@2x.png */,
 				434CAFBB16D519A90000CE60 /* detailsAdressPin.png */,
 				434CAFBC16D519A90000CE60 /* detailsAdressPin@2x.png */,
@@ -380,7 +381,6 @@
 				434CAFC416D51F3B0000CE60 /* detailsSitePin@2x.png */,
 				434CAFC716D520500000CE60 /* detailsClockPin.png */,
 				434CAFC816D520510000CE60 /* detailsClockPin@2x.png */,
-				434CAFCF16D52D850000CE60 /* detailsDistanceBackground.png */,
 			);
 			name = images;
 			sourceTree = "<group>";

@@ -126,7 +126,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *dvc = [segue destinationViewController];
-    NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:112]];
+    NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:115]];
     NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
     [objFetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                     inManagedObjectContext:self.managedObjectContext]];
