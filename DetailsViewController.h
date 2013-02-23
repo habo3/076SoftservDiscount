@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface DetailsViewController : UITableViewController <CLLocationManagerDelegate>{
+@interface DetailsViewController : UITableViewController <CLLocationManagerDelegate, UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
 @property  (nonatomic, weak) DiscountObject *discountObject;
