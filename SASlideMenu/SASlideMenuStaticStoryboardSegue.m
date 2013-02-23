@@ -28,6 +28,10 @@
     destination.navigationBar.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
     destination.navigationBar.layer.shadowRadius = 0.5f;
     destination.navigationBar.layer.shadowOpacity = 0.5f;
+
+    //Set Back button
+    UIImage *backButtonImage = [[UIImage imageNamed:@"backButton"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 38, 0, 1)];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     
     //set menu button
     UIButton* menuButton = [[UIButton alloc] init];

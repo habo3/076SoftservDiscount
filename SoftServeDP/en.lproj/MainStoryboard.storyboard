@@ -382,7 +382,6 @@
                                                     <rect key="frame" x="62" y="27" width="247" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Категорія" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLX-f8-rpe">
@@ -605,7 +604,7 @@
                             <outlet property="delegate" destination="fza-nt-l4I" id="OR3-Lk-OFi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="xfF-8N-1Fe"/>
+                    <navigationItem key="navigationItem" title="Деталі" id="xfF-8N-1Fe"/>
                     <connections>
                         <outlet property="address" destination="gEQ-o7-UPd" id="2E3-Do-6D6"/>
                         <outlet property="category" destination="yLX-f8-rpe" id="UEV-gh-uoS"/>
