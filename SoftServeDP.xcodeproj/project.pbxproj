@@ -44,7 +44,6 @@
 		4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4373562A16CBC0BC00B30B81 /* PlaceCell.xib */; };
 		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
-		4373562E16CBC0E000B30B81 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562516CBC07900B30B81 /* PickerView.m */; };
 		901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 901488AB16D7AEF200B25D72 /* CustomPicker.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
@@ -155,8 +154,6 @@
 		434CAFD016D52D860000CE60 /* detailsDistanceBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detailsDistanceBackground@2x.png"; sourceTree = "<group>"; };
 		434CAFD416D53D5A0000CE60 /* detailsFooterButtonsPattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detailsFooterButtonsPattern.png; sourceTree = "<group>"; };
 		434CAFD516D53D5A0000CE60 /* detailsFooterButtonsPattern@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detailsFooterButtonsPattern@2x.png"; sourceTree = "<group>"; };
-		4373562416CBC07900B30B81 /* PickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerView.h; sourceTree = "<group>"; };
-		4373562516CBC07900B30B81 /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
 		4373562616CBC09F00B30B81 /* PlaceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaceCell.h; sourceTree = "<group>"; };
 		4373562716CBC09F00B30B81 /* PlaceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceCell.m; sourceTree = "<group>"; };
 		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
@@ -262,8 +259,6 @@
 				4373562616CBC09F00B30B81 /* PlaceCell.h */,
 				4373562716CBC09F00B30B81 /* PlaceCell.m */,
 				4373562A16CBC0BC00B30B81 /* PlaceCell.xib */,
-				4373562416CBC07900B30B81 /* PickerView.h */,
-				4373562516CBC07900B30B81 /* PickerView.m */,
 			);
 			name = list;
 			sourceTree = "<group>";
@@ -648,7 +643,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */,
-				4373562E16CBC0E000B30B81 /* PickerView.m in Sources */,
 				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
 				4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */,
 				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,

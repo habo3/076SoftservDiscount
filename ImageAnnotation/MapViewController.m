@@ -26,7 +26,7 @@
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
 @property (nonatomic,assign) DiscountObject *selectedObject;
-@property (nonatomic,assign) UIImage *selectedPintype;
+//@property (nonatomic,assign) UIImage *selectedPintype;
 @end
 
 @implementation MapViewController
@@ -93,7 +93,6 @@
     
     // font for pins image
     UIFont *font = [UIFont fontWithName:@"icons" size:10];
-    
     // image with text
     UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
     UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
@@ -293,8 +292,8 @@ numberOfRowsInComponent:(NSInteger)component
     }
     else
     {
-        
-        fontsize = fontsize /text.length; // multiply by 1.3 for better font visibility
+        fontsize = 10;
+        //fontsize = fontsize /text.length*1.3; // multiply by 1.3 for better font visibility
         font = [UIFont systemFontOfSize:fontsize];
         
         margin = (startImage.size.width - font.pointSize * text.length/2)/2;
@@ -401,7 +400,7 @@ numberOfRowsInComponent:(NSInteger)component
         //calloutView.object = selectedAnnotation.object;
         calloutView.leftAccessoryView = selectedAnnotation.leftImage;
         self.selectedObject = selectedAnnotation.object;
-        self.selectedPintype = selectedAnnotation.pintype;
+        //self.selectedPintype = selectedAnnotation.pintype;
         ((CustomAnnotationView *)annotationView).calloutView = calloutView;
         [calloutView presentCalloutFromRect:annotationView.bounds
                                      inView:annotationView
@@ -413,7 +412,7 @@ numberOfRowsInComponent:(NSInteger)component
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = self.selectedObject;
-    dvc.pintype = self.selectedPintype;
+    //dvc.pintype = self.selectedPintype;
     dvc.managedObjectContext = self.managedObjectContext;
     
     //remove text from "Back" button (c)Bogdan
@@ -425,7 +424,7 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 - (void)disclosureTapped {
-    [self performSegueWithIdentifier:@"details" sender:self];
+    [self performSegueWithIdentifier:@"detailsMap" sender:self];
     /*UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsViewController"];
     [self.navigationController pushViewController: myController animated:YES];*/
     //[self prepareForSegue: sender:self];

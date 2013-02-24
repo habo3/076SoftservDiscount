@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DiscountObject.h"
 @interface PlaceCell : UITableViewCell
 
 @property (strong,nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong,nonatomic) IBOutlet UILabel *addressLabel;
 @property (strong,nonatomic) IBOutlet UIImageView *Image;
+//@property (assign,nonatomic) DiscountObject *selectedObject;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
 
 @end
