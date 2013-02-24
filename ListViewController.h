@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>;
+@interface ListViewController : UITableViewController /*<UIPickerViewDataSource, UIPickerViewDelegate>*/;
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

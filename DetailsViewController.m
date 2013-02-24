@@ -71,6 +71,7 @@
     tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
     tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
     myAnn.coordinate = tmpCoord;
+    self.pintype = [self makePin];
     myAnn.pintype = self.pintype;
     [self.mapView addAnnotation:myAnn];
     
@@ -138,6 +139,70 @@
         return annotationView;
     }
     return nil;
+}
+
+- (UIImage*)makePin
+{
+    // select category
+    NSSet *dbCategories = discountObject.categories;
+    Category *dbCategory = [dbCategories anyObject];
+    
+    // set font
+    UIFont *font = [UIFont fontWithName:@"icons" size:10];
+    
+    // creating new image
+    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
+                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];
+    return pinImage;
+}
+
+- (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
+{
+    
+    CGRect rect = CGRectZero;
+    
+    // size of custom text in image
+    double margin = 3.0;
+    float fontsize = (startImage.size.width - 2 * margin)/3;
+
+        font = [font fontWithSize:fontsize];
+        
+        NSString *cuttedSymbol = [text stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
+        //for debugging
+        //NSLog(@"cutted symbol %@",cuttedSymbol);
+        
+        //converting Unicode Character String (0xe00b) to UTF32Char
+        UTF32Char myChar = 0;
+        NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
+        [myConvert scanHexInt:(unsigned int *)&myChar];
+        
+        //set data to string
+        NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
+        NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+        
+        // own const for pin text (height position)
+        float ownHeight = 0.4*startImage.size.height;
+        
+        rect = CGRectMake((startImage.size.width - font.pointSize)/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
+
+    
+    //work with image
+    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
+    //UIGraphicsBeginImageContext();
+    
+    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
+    
+    //Position and color
+    
+    [color set];
+    
+    
+    //draw text on image and save result
+    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resultImage;
 }
 
 - (IBAction)favoriteButton {

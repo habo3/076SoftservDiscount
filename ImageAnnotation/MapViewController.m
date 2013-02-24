@@ -26,7 +26,7 @@
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
 @property (nonatomic,assign) DiscountObject *selectedObject;
-@property (nonatomic,assign) UIImage *selectedPintype;
+//@property (nonatomic,assign) UIImage *selectedPintype;
 @end
 
 @implementation MapViewController
@@ -400,7 +400,7 @@ numberOfRowsInComponent:(NSInteger)component
         //calloutView.object = selectedAnnotation.object;
         calloutView.leftAccessoryView = selectedAnnotation.leftImage;
         self.selectedObject = selectedAnnotation.object;
-        self.selectedPintype = selectedAnnotation.pintype;
+        //self.selectedPintype = selectedAnnotation.pintype;
         ((CustomAnnotationView *)annotationView).calloutView = calloutView;
         [calloutView presentCalloutFromRect:annotationView.bounds
                                      inView:annotationView
@@ -412,7 +412,7 @@ numberOfRowsInComponent:(NSInteger)component
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = self.selectedObject;
-    dvc.pintype = self.selectedPintype;
+    //dvc.pintype = self.selectedPintype;
     dvc.managedObjectContext = self.managedObjectContext;
     
     //remove text from "Back" button (c)Bogdan
@@ -424,7 +424,7 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 - (void)disclosureTapped {
-    [self performSegueWithIdentifier:@"details" sender:self];
+    [self performSegueWithIdentifier:@"detailsMap" sender:self];
     /*UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsViewController"];
     [self.navigationController pushViewController: myController animated:YES];*/
     //[self prepareForSegue: sender:self];
