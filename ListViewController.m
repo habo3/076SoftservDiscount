@@ -42,9 +42,9 @@
     self.tableView.delegate = self;
 	// Do any additional setup after loading the view, typically from a nib.
     /*NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                 inManagedObjectContext:managedObjectContext]];
-*/
+     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+     inManagedObjectContext:managedObjectContext]];
+     */
     objectsFound = [self getAllObjects];
     
     //TheFilter *filter = [TheFilter new];
@@ -61,8 +61,8 @@
     filterButton.backgroundColor = [UIColor clearColor];
     
     //return filterButton;
-    self.dataSource = [NSArray arrayWithArray:fetchArr];   
-
+    self.dataSource = [NSArray arrayWithArray:fetchArr];
+    
 }
 
 - (NSArray*)getAllObjects
@@ -71,23 +71,38 @@
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
     
-//    for ( DiscountObject *object in objectsFound) {
-//        NSLog(@"name: %@ address: %@ latitude: %@ longitude: %@", object.name, object.address, object.geoLatitude, object.geoLongitude);
-//    
-//    }
-    //[self.dataSource  init];
+    NSArray *resultArray = [managedObjectContext executeFetchRequest:fetch error:nil];
+    return resultArray;
+}
+
+- (NSArray*)getObjectsByCategory:(int)filterNumber
+{
+    // fetch objects from db
+    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
+    Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
+    NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
     
-    NSFetchRequest *fetch1=[[NSFetchRequest alloc] init];
+    for(DiscountObject *object in dbAllObjInSelCategory)
+    {
+        [tmpArray addObject:object];
+    }
+    return  tmpArray;
+}
+
+- (NSArray*)fillPicker
+{
+    //NSArray *objectsFound = [[NSArray alloc]init];
+    NSFetchRequest *fetch1 = [[NSFetchRequest alloc] init];
     [fetch1 setEntity:[NSEntityDescription entityForName:@"Category"
                                   inManagedObjectContext:managedObjectContext]];
     categoryObjects = [managedObjectContext executeFetchRequest:fetch1 error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
     //NSString *first
     [fetchArr addObject:@"Усі категорії"];
-    for ( Category *object1 in objectsFound1) {
-      //  NSLog(@"name: %@", object1.name);
-    
-        [fetchArr addObject:(NSString*)object1.name];
+    for ( Category *object in categoryObjects)
+    {
+        //NSLog(@"name: %@", object1.name);
+        [fetchArr addObject:(NSString*)object.name];
     }
     return [NSArray arrayWithArray:fetchArr];
 }
@@ -103,7 +118,7 @@
     [self setMyButton:nil];
     [self setMyButton:nil];
     
-  //  [self setFilterPicker:nil];
+    //  [self setFilterPicker:nil];
     [super viewDidUnload];
     self.pickerView = nil;
 }
@@ -154,9 +169,9 @@ numberOfRowsInComponent:(NSInteger)component
     PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell"];
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"PlaceCell"
-                                             owner:nil
-                                           options:nil] objectAtIndex:0];
-    
+                                              owner:nil
+                                            options:nil] objectAtIndex:0];
+        
     }
     //for ( DiscountObject *object in objectsFound) {
     
@@ -176,7 +191,7 @@ numberOfRowsInComponent:(NSInteger)component
     NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
     [myConvert scanHexInt:(unsigned int *)&myChar];
     
-    UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"]; 
+    UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"];
     //set data to string
     NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
     NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
@@ -198,11 +213,11 @@ numberOfRowsInComponent:(NSInteger)component
     //cell.selectedObject = object;
     //}
     
-
+    
     /*cell.addressLabel.text = [NSString stringWithFormat: @"Cell #%i",indexPath.row];*/
     
-     
-
+    
+    
     return cell;
 }
 
@@ -219,7 +234,7 @@ numberOfRowsInComponent:(NSInteger)component
         else
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
         [self.tableView reloadData];
-
+        
     }
 }
 
@@ -238,13 +253,13 @@ numberOfRowsInComponent:(NSInteger)component
     
 }
 /*
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    //selectedRow = indexPath.row;
-    //[self performSegueWithIdentifier:@"detailsList" sender:self];
-    NSLog(@"Accessory tapped %@", indexPath );
-    
-}*/
+ - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+ {
+ //selectedRow = indexPath.row;
+ //[self performSegueWithIdentifier:@"detailsList" sender:self];
+ NSLog(@"Accessory tapped %@", indexPath );
+ 
+ }*/
 
 
 @end
