@@ -155,6 +155,15 @@ numberOfRowsInComponent:(NSInteger)component
     return [objectsFound count];
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    selectedRow = indexPath.row;
+    [self performSegueWithIdentifier:@"detailsList" sender:self];
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell"];
@@ -169,7 +178,8 @@ numberOfRowsInComponent:(NSInteger)component
     DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
-    
+    UIImage *buttonImage = [UIImage imageNamed:@"annDetailButton"];
+    cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
     NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
@@ -242,13 +252,14 @@ numberOfRowsInComponent:(NSInteger)component
                                                                             action:nil] ;
     
 }
+/*
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    selectedRow = indexPath.row;
-    [self performSegueWithIdentifier:@"detailsList" sender:self];
-    //NSLog(@"Accessory tapped %@", indexPath );
+    //selectedRow = indexPath.row;
+    //[self performSegueWithIdentifier:@"detailsList" sender:self];
+    NSLog(@"Accessory tapped %@", indexPath );
     
-}
+}*/
 
 
 @end
