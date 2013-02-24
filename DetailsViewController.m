@@ -58,7 +58,12 @@
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
-    
+    for (UIView *v in [self.mapView subviews]) {
+        //NSLog(@"%@", NSStringFromClass([v class]));
+        if ([NSStringFromClass([v class]) isEqualToString:@"MKAttributionLabel"]) {
+            v.hidden = YES;
+        }
+    }
     // set mapview delegate and annotation for display
     self.mapView.delegate = self;
     Annotation *myAnn = [[Annotation alloc]init];

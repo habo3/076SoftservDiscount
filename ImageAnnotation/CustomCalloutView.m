@@ -34,9 +34,9 @@
 #define TITLE_MARGIN 17 // the title view's normal horizontal margin from the edges of our callout view
 #define TITLE_TOP 11 // the top of the title view when no subtitle is present
 #define TITLE_SUB_TOP 3 // the top of the title view when a subtitle IS present
-#define TITLE_HEIGHT 22 // title height, fixed
+#define TITLE_HEIGHT 32 // title height, fixed
 #define SUBTITLE_TOP 25 // the top of the subtitle, when present
-#define SUBTITLE_HEIGHT 16 // subtitle height, fixed
+#define SUBTITLE_HEIGHT 12 // subtitle height, fixed
 #define TITLE_ACCESSORY_MARGIN 6 // the margin between the title and an accessory if one is present (on either side)
 #define ACCESSORY_MARGIN 14 // the accessory's margin from the edges of our callout view
 #define ACCESSORY_TOP 8 // the top of the accessory "area" in which accessory views are placed
@@ -78,7 +78,7 @@
             titleLabel.$height = TITLE_HEIGHT;
             titleLabel.opaque = NO;
             titleLabel.backgroundColor = [UIColor clearColor];
-            titleLabel.font = [UIFont boldSystemFontOfSize:17];
+            titleLabel.font = [UIFont boldSystemFontOfSize:12];
             titleLabel.textColor = [UIColor blackColor];
             //titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
             //titleLabel.shadowOffset = CGSizeMake(0, -1);
@@ -98,7 +98,7 @@
             subtitleLabel.$height = SUBTITLE_HEIGHT;
             subtitleLabel.opaque = NO;
             subtitleLabel.backgroundColor = [UIColor clearColor];
-            subtitleLabel.font = [UIFont systemFontOfSize:12];
+            subtitleLabel.font = [UIFont systemFontOfSize:9];
             subtitleLabel.textColor = [UIColor blackColor];
             //subtitleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
             //subtitleLabel.shadowOffset = CGSizeMake(0, -1);

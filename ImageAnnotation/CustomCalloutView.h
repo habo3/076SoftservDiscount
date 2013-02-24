@@ -12,7 +12,7 @@
 
 
 ///123
-extern NSTimeInterval kCustomCalloutViewRepositionDelayForUIScrollView;
+//extern NSTimeInterval kCustomCalloutViewRepositionDelayForUIScrollView;
 
 @protocol CustomCalloutViewDelegate;
 
