@@ -6,13 +6,8 @@
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
-
-
 #import <UIKit/UIKit.h>
 
-
-///123
-//extern NSTimeInterval kCustomCalloutViewRepositionDelayForUIScrollView;
 
 @protocol CustomCalloutViewDelegate;
 
@@ -20,7 +15,7 @@
 @interface CustomCalloutView : UIView
 
 @property (nonatomic, unsafe_unretained) id <CustomCalloutViewDelegate> delegate;
-@property (nonatomic, copy) NSString *title, *subtitle; // title/titleView relationship mimics UINavigationBar.
+@property (nonatomic, copy) NSString *title, *subtitle; 
 @property (nonatomic, retain) UIView *leftAccessoryView, *rightAccessoryView;
 @property (nonatomic, retain) UIView *titleView, *subtitleView;
 @property (nonatomic, retain) UIView *contentView;
