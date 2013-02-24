@@ -9,15 +9,19 @@
 #import "FavoritesViewController.h"
 #import "DiscountObject.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Category.h"
+#import "DetailsViewController.h"
 
-@interface FavoritesViewController ()
+@interface FavoritesViewController (){
+    int numberOfRowClicked;
+}
 @property (strong, nonatomic) NSArray *favoriteObjects;
 @end
 
 @implementation FavoritesViewController
 
 @synthesize managedObjectContext;
-@synthesize favoriteObjects = _favoriteObjects;
+@synthesize favoriteObjects;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,15 +36,15 @@
 {
     [super viewDidLoad];
 
-    self.favoriteObjects = [[NSArray alloc] init];
+    favoriteObjects = [[NSArray alloc] init];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
     NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
-    self.favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    NSLog(@"count: %lu", (unsigned long)self.favoriteObjects.count);
+    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,14 +60,14 @@
     // Return the number of rows in the section.
     
 
-    return self.favoriteObjects.count;
+    return favoriteObjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"element";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier /*forIndexPath:indexPath*/];
-    DiscountObject * object =[self.favoriteObjects objectAtIndex:indexPath.row];
+    DiscountObject * object =[favoriteObjects objectAtIndex:indexPath.row];
     
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = object.name;
@@ -76,7 +80,19 @@
     
     UIView *roundRectView = [cell viewWithTag:5];
     roundRectView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-
+    
+    Category *dbCategory = [object.categories anyObject];
+    NSString *symbol = dbCategory.fontSymbol;
+    NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
+    UTF32Char myChar = 0;
+    NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
+    [myConvert scanHexInt:(unsigned int *)&myChar];
+    NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
+    NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+    UIFont *fontTest = [UIFont fontWithName:@"icons" size:21];
+    UILabel *categoryIcon = (UILabel *)[cell viewWithTag:6];
+    categoryIcon.text = tmpText;
+    [categoryIcon setFont:fontTest];
     
     return cell;
 }
@@ -124,13 +140,22 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    numberOfRowClicked = indexPath.row;
+    [self performSegueWithIdentifier:@"gotoDetailsFromFavorites" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailsViewController *dvc = [segue destinationViewController];
+    DiscountObject *tt = [favoriteObjects objectAtIndex:numberOfRowClicked];
+    dvc.discountObject = tt;
+
+    dvc.managedObjectContext = self.managedObjectContext;
+
+    //remove text from "Back" button (c)Bogdan
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:nil
+                                                                            action:nil] ;
 }
 
 - (void)viewDidUnload {

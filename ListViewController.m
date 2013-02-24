@@ -12,6 +12,7 @@
 #import "Category.h"
 #import "DetailsViewController.h"
 #import "CustomPicker.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ListViewController ()
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *filterPicker;
@@ -32,6 +33,7 @@
 @synthesize selectedRow;
 @synthesize selectedIndex;
 @synthesize categoryObjects;
+
 //@synthesize objectsFound1;
 
 
@@ -39,6 +41,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.separatorColor = [UIColor colorWithRed:24 green:24 blue:244 alpha:0];
+
     self.tableView.delegate = self;
 	// Do any additional setup after loading the view, typically from a nib.
     /*NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
@@ -50,13 +54,15 @@
     //TheFilter *filter = [TheFilter new];
     NSArray *fetchArr = [self fillPicker];
     
-    UIImage *filterButtonImage = [UIImage imageNamed:@"geoButton.png"];
-    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-5, filterButtonImage.size.width,filterButtonImage.size.height );
+
+    
+    UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
+    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
     //filterButton = [filter createFilterButtonInRect:filterFrame];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     //CGRect filterFrame = rect;
     filterButton.frame = filterFrame;
-    [filterButton setBackgroundImage:[UIImage imageNamed:@"geoButton.png"] forState:UIControlStateNormal];
+    [filterButton setBackgroundImage:[UIImage imageNamed:@"filterButton.png"] forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
     
@@ -174,11 +180,14 @@ numberOfRowsInComponent:(NSInteger)component
         
     }
     //for ( DiscountObject *object in objectsFound) {
+
+    cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
     DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
-    UIImage *buttonImage = [UIImage imageNamed:@"annDetailButton"];
+    UIImage *buttonImage = [UIImage imageNamed:@"disclosureButton"];
     cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
@@ -192,6 +201,7 @@ numberOfRowsInComponent:(NSInteger)component
     [myConvert scanHexInt:(unsigned int *)&myChar];
     
     UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"];
+
     //set data to string
     NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
     NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];

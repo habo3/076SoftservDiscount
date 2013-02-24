@@ -134,7 +134,7 @@
     NSString *parameterString = [NSString stringWithFormat:@"?changed=%d", lastUpdateInt];
     [self insertCities:parameterString];
     [self updateCategories:parameterString];
-    [self insertObject2:parameterString];
+    [self insertObject:parameterString];
 
 }
 
@@ -182,7 +182,7 @@
     }
 }
 
-- (void)insertObject2:(NSString *)param {
+- (void)insertObject:(NSString *)param {
     
     //get NSDictionary of objects
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
@@ -283,7 +283,15 @@
         category.id = [categoryDic valueForKey:@"id"];
         category.name = [categoryDic valueForKey:@"name"];
         category.updated = [categoryDic valueForKey:@"updated"];
-        category.fontSymbol = [categoryDic valueForKey:@"fontSymbol"];
+        
+        //replace bad internet-store symbol
+        NSString *fontString = [categoryDic valueForKey:@"fontSymbol"];
+        if ([fontString isEqualToString:@"&#xe018"]) {
+            category.fontSymbol = @"&#xe007";
+        }
+        else {
+            category.fontSymbol = [categoryDic valueForKey:@"fontSymbol"];
+        }
     }
     
     //save context into model
@@ -345,7 +353,7 @@
  //       for (DiscountObject *object in cat.discountobject) {
 //            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
                 NSLog(@"%@ - %@ %@", cat.id, cat.name, cat.fontSymbol);
-                NSLog(@"---------------------------");
+              //  NSLog(@"---------------------------");
            // }
    //     }
 //        return;

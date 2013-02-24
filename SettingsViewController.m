@@ -124,26 +124,6 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    DetailsViewController *dvc = [segue destinationViewController];
-    NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",[NSNumber numberWithInt:115]];
-    NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
-    [objFetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                    inManagedObjectContext:self.managedObjectContext]];
-    [objFetch setPredicate:findObjectWithId];
-    NSArray *objectFound = [self.managedObjectContext executeFetchRequest:objFetch error:nil];
-    DiscountObject *obj = [objectFound objectAtIndex:0];
-    dvc.discountObject = obj;
-    dvc.managedObjectContext = self.managedObjectContext;
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:nil
-                                                                            action:nil] ;
-}
-
-
-
 - (void)viewDidUnload {
     [self setUpdateFrequencyChangedButtonOutlet:nil];
     [self setManualUpdateButton:nil];

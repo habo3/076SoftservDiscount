@@ -57,9 +57,9 @@
 -(void)setControllerButtons
 {
     //filterButton
-    UIImage *filterButtonImage = [UIImage imageNamed:@"geoButton.png"];
+    UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-5, filterButtonImage.size.width,filterButtonImage.size.height /*image.size.height*/);
+    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height /*image.size.height*/);
     filterButton.frame = filterFrame;
     
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
