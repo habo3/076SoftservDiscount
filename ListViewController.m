@@ -39,10 +39,10 @@
     /*NSArray */
     objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     
-    for ( DiscountObject *object in objectsFound) {
-        NSLog(@"name: %@ address: %@ latitude: %@ longitude: %@", object.name, object.address, object.geoLatitude, object.geoLongitude);
-    
-    }
+//    for ( DiscountObject *object in objectsFound) {
+//        NSLog(@"name: %@ address: %@ latitude: %@ longitude: %@", object.name, object.address, object.geoLatitude, object.geoLongitude);
+//    
+//    }
     //[self.dataSource  init];
     
     NSFetchRequest *fetch1=[[NSFetchRequest alloc] init];
@@ -55,7 +55,7 @@
     //NSString *first
     [fetchArr addObject:@"Усі категорії"];
     for ( Category *object1 in objectsFound1) {
-        NSLog(@"name: %@", object1.name);
+      //  NSLog(@"name: %@", object1.name);
     
         [fetchArr addObject:(NSString*)object1.name];
     }

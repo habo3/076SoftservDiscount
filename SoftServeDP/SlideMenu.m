@@ -58,6 +58,7 @@
         
     if ([[segue identifier] isEqualToString: @"map"] ||
         [[segue identifier] isEqualToString: @"settings"] ||
+        [[segue identifier] isEqualToString: @"favorites"] ||
         [[segue identifier] isEqualToString: @"list"]) {
         
         UINavigationController *navigationController = [segue destinationViewController];
@@ -74,6 +75,7 @@
     [tempImageView setFrame:self.tableView.frame];
     [tempImageView setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"menuBackground.png"]]];
     self.tableView.backgroundView = tempImageView;
+
 }
 
 -(NSString*) initialSegueId{

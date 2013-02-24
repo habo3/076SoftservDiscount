@@ -193,7 +193,7 @@
     
     //parse Json dictionary
     NSArray *objects = [jsonDictionary objectForKey:@"list"];
-    NSLog(@"objects recieved for import: %d", objects.count);
+    //NSLog(@"objects recieved for import: %d", objects.count);
     for (NSMutableDictionary *object in objects) {
         
         //check if incoming object exists in Model (by id). If YES replace existing object with incoming(updated) and goto next object
@@ -215,7 +215,7 @@
     if (![managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
     }
-    NSLog(@"Objects in base after import: %d", [self numberOfObjectsIn:@"DiscountObject"]);
+   // NSLog(@"Objects in base after import: %d", [self numberOfObjectsIn:@"DiscountObject"]);
 }
 
 
@@ -230,7 +230,7 @@
     
     //get the list of cities
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-    NSLog(@"Cities recieved for import: %d", dictionaryOfObjects.count);
+    //NSLog(@"Cities recieved for import: %d", dictionaryOfObjects.count);
     
     //parse cities into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
@@ -253,7 +253,7 @@
     if (![managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
     }
-    NSLog(@"Cities in base after import: %d", [self numberOfObjectsIn:@"City"]);//debug
+   // NSLog(@"Cities in base after import: %d", [self numberOfObjectsIn:@"City"]);//debug
 }
 
 - (void)updateCategories:(NSString *) param {
@@ -262,7 +262,7 @@
     NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
-    NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
+    //NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
     
     //get existing cities id's
     NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
@@ -342,11 +342,11 @@
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     for (Category *cat in objectsFound){
-        for (DiscountObject *object in cat.discountobject) {
+ //       for (DiscountObject *object in cat.discountobject) {
 //            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
-                NSLog(@"%@ - %@ %@", object.id, object.name, cat.name);
+                NSLog(@"%@ - %@ %@", cat.id, cat.name, cat.fontSymbol);
                 NSLog(@"---------------------------");
-            }
+           // }
    //     }
 //        return;
  //       NSLog(@"name: %@ id: %@", cat.name, cat.id);
