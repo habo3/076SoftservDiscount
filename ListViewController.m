@@ -200,26 +200,32 @@ numberOfRowsInComponent:(NSInteger)component
     NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
     [myConvert scanHexInt:(unsigned int *)&myChar];
     
-    UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"];
+    //UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"];
 
     //set data to string
     NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
     NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
-    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-    UIFont *font = [UIFont fontWithName:@"icons" size:15];
-    //UIGraphicsBeginImageContext();
-    
-    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
-    //Position and color
-    CGRect rect = CGRectMake((startImage.size.width - font.pointSize)/2, font.pointSize/2, startImage.size.width, startImage.size.height);
-    UIColor *iconColor = [UIColor greenColor];//colorWithRed:0.9832 green:0.9765 blue:0.698 alpha:1];
-    [iconColor set];
-    
-    //draw text on image and save result
-    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    cell.imageView.image = resultImage;
+    UIFont *font = [UIFont fontWithName:@"icons" size:20];
+    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
+    cell.iconLabel.font = font;
+    cell.iconLabel.text = tmpText;
+    cell.iconLabel.textAlignment = UITextAlignmentCenter;
+
+//    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
+//    
+//    //UIGraphicsBeginImageContext();
+//    
+//    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
+//    //Position and color
+//    CGRect rect = CGRectMake((startImage.size.width - font.pointSize)/2, font.pointSize/2, startImage.size.width, startImage.size.height);
+//    UIColor *iconColor = [UIColor greenColor];//colorWithRed:0.9832 green:0.9765 blue:0.698 alpha:1];
+//    [iconColor set];
+//    
+//    //draw text on image and save result
+//    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
+//    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    cell.imageView.image = resultImage;
     //cell.selectedObject = object;
     //}
     
