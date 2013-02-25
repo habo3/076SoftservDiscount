@@ -15,6 +15,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ListViewController ()
+{
+    //NSArray *recipes;
+    NSArray *searchResults;
+}
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *filterPicker;
 @property (nonatomic) NSArray * objectsFound;
 //@property(nonatomic) NSArray *objectsFound1;
@@ -22,19 +26,90 @@
 @property (nonatomic) NSInteger selectedRow;
 @property (nonatomic) NSInteger selectedIndex;
 @property (nonatomic) NSArray  *categoryObjects;
+@property (nonatomic) BOOL searching;
 @end
 
 @implementation ListViewController
 @synthesize managedObjectContext;
-@synthesize pickerView;
+//@synthesize pickerView;
 @synthesize dataSource;
 @synthesize objectsFound;
 @synthesize filterButton;
 @synthesize selectedRow;
 @synthesize selectedIndex;
 @synthesize categoryObjects;
+//@synthesize searching;
 
-//@synthesize objectsFound1;
+
+@synthesize tableView = _tableView;
+
+
+
+/*- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+*/
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    /*$SEARCH OR optionTwo contains[cd]*/
+    
+    NSMutableArray *names = [[NSMutableArray alloc]init];
+    NSMutableArray *address = [[NSMutableArray alloc]init];
+    for(DiscountObject *object in objectsFound)
+    {
+        [names addObject:object.name];
+        [address addObject:object.address];
+        
+    }
+    //NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@" contains[cd] %@",searchText];
+    NSPredicate *template = [NSPredicate predicateWithFormat:@"name contains[cd] $SEARCH OR address contains[cd]  $SEARCH"];
+    NSDictionary *replace = [NSDictionary dictionaryWithObject:self.searchDisplayController.searchBar.text forKey:@"SEARCH"];
+    NSPredicate *predicate = [template predicateWithSubstitutionVariables:replace];
+    //objectsFound
+    searchResults = [objectsFound filteredArrayUsingPredicate:predicate];
+    /*if(searchResults.count != 0)
+        searching = YES;*/
+}
+
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        //searching = YES;
+        return [searchResults count];
+        
+    } else {
+        //searching = NO;
+        return [objectsFound count];
+        
+    }
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PlaceCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PlaceCell"
+                                                     owner:nil
+                                                   options:nil] objectAtIndex:0];
+    return  cell.frame.size.height;
+}
+
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller
+shouldReloadTableForSearchString:(NSString *)searchString
+{
+    //searching = YES;
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
 
 
 
@@ -44,17 +119,14 @@
     self.tableView.separatorColor = [UIColor colorWithRed:24 green:24 blue:244 alpha:0];
 
     self.tableView.delegate = self;
-	// Do any additional setup after loading the view, typically from a nib.
-    /*NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-     inManagedObjectContext:managedObjectContext]];
-     */
+
     objectsFound = [self getAllObjects];
     
-    //TheFilter *filter = [TheFilter new];
     NSArray *fetchArr = [self fillPicker];
-    
-
+    //UIColor *searchBarColor = self.navigationController.navigationBar.backgroundColor;
+    //self.searchDisplayController.searchBar.backgroundColor = searchBarColor;//self.navigationController.navigationBar.tintColor
+    UIImage *navigationBarBackground = [UIImage imageNamed: @"navigationBar.png"];
+    [self.searchDisplayController.searchBar setBackgroundImage:navigationBarBackground];
     
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
@@ -119,16 +191,6 @@
 }
 
 
-- (void)viewDidUnload
-{
-    [self setMyButton:nil];
-    [self setMyButton:nil];
-    
-    //  [self setFilterPicker:nil];
-    [super viewDidUnload];
-    self.pickerView = nil;
-}
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
 {
     return 1;
@@ -156,18 +218,21 @@ numberOfRowsInComponent:(NSInteger)component
 
 #pragma mark -
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [objectsFound count];
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     selectedRow = indexPath.row;
     [self performSegueWithIdentifier:@"detailsList" sender:self];
     
+}
+
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+
+    [self.tableView reloadData];
+    
+    //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -179,14 +244,28 @@ numberOfRowsInComponent:(NSInteger)component
                                             options:nil] objectAtIndex:0];
         
     }
-    //for ( DiscountObject *object in objectsFound) {
-
+    //here forms search object
+    DiscountObject * object;
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        _searching = YES;
+        //cell.nameLabel.text = [searchResults objectAtIndex:indexPath.row];
+        /*DiscountObject */object =[searchResults objectAtIndex:indexPath.row];
+        cell.nameLabel.text = object.name ;
+        cell.addressLabel.text = object.address;
+    } else {
+        _searching = NO;
+        /*DiscountObject */ object =[objectsFound objectAtIndex:indexPath.row];
+        cell.nameLabel.text = object.name ;
+        cell.addressLabel.text = object.address;
+        //cell.nameLabel.text = [objectsFound objectAtIndex:indexPath.row];
+    }
     cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
     cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
-    DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
-    cell.nameLabel.text = object.name ;
-    cell.addressLabel.text = object.address;
+    //DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
+    //cell.nameLabel.text = object.name ;
+    //cell.addressLabel.text = object.address;
     UIImage *buttonImage = [UIImage imageNamed:@"disclosureButton"];
     cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
@@ -212,7 +291,7 @@ numberOfRowsInComponent:(NSInteger)component
     cell.iconLabel.textAlignment = UITextAlignmentCenter;
 
 //    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-//    
+//
 //    //UIGraphicsBeginImageContext();
 //    
 //    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
@@ -257,7 +336,13 @@ numberOfRowsInComponent:(NSInteger)component
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = [objectsFound objectAtIndex:selectedRow];
+    if( _searching)//_tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        dvc.discountObject = [searchResults objectAtIndex:selectedRow];
+    }
+        else {
+        dvc.discountObject = [objectsFound objectAtIndex:selectedRow];
+    }
     //dvc.pintype = self.selectedPintype;
     dvc.managedObjectContext = self.managedObjectContext;
     

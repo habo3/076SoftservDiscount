@@ -712,12 +712,59 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="jcK-aX-Br4" kind="relationship" relationship="rootViewController" id="ho6-Cv-PdN"/>
+                        <segue destination="0fD-pm-yGu" kind="relationship" relationship="rootViewController" id="EoX-fx-FmS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c31-Ht-HPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="168" y="-347"/>
+        </scene>
+        <!--List View Controller-->
+        <scene sceneID="Bti-Ta-iAK">
+            <objects>
+                <viewController id="0fD-pm-yGu" customClass="ListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iWT-MG-uVf">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" id="8fA-Xy-hGm">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="0fD-pm-yGu" id="NaT-ha-JKL"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oNP-YU-mAI">
+                                <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="0fD-pm-yGu" id="x80-OJ-4L3"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jCp-Ae-r2Q"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="jKj-uq-Tkv" id="8T0-M0-XbU"/>
+                        <outlet property="tableView" destination="oNP-YU-mAI" id="rW7-wO-Sfj"/>
+                        <segue destination="fza-nt-l4I" kind="push" identifier="detailsList" id="5G9-YS-n6Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KpK-eL-bXq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="jKj-uq-Tkv">
+                    <connections>
+                        <outlet property="delegate" destination="0fD-pm-yGu" id="hI1-zV-ELd"/>
+                        <outlet property="searchBar" destination="8fA-Xy-hGm" id="Wz0-Ah-nQo"/>
+                        <outlet property="searchContentsController" destination="0fD-pm-yGu" id="aRt-b7-CYt"/>
+                        <outlet property="searchResultsDataSource" destination="0fD-pm-yGu" id="Po2-c9-wfe"/>
+                        <outlet property="searchResultsDelegate" destination="0fD-pm-yGu" id="eG5-Fo-x7J"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="600" y="-347"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1rU-0k-p5K">
@@ -758,28 +805,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1R-KH-fAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="605" y="-1003"/>
-        </scene>
-        <!--List View Controller - list-->
-        <scene sceneID="EgG-Vu-ZVV">
-            <objects>
-                <tableViewController storyboardIdentifier="list" title="list" id="jcK-aX-Br4" customClass="ListViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="ezu-vR-gk1">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="jcK-aX-Br4" id="dGp-9l-PJv"/>
-                            <outlet property="delegate" destination="jcK-aX-Br4" id="05h-kU-bYe"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Списком" id="NCU-F2-vv8"/>
-                    <connections>
-                        <segue destination="fza-nt-l4I" kind="push" identifier="detailsList" id="J7Y-Er-8Vs"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fFz-QC-gKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="605" y="-355"/>
         </scene>
     </scenes>
     <resources>
@@ -831,11 +856,10 @@
         <class className="FavoritesViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FavoritesViewController.h"/>
         </class>
-        <class className="ListViewController" superclassName="UITableViewController">
+        <class className="ListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="myButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
+                <relationship kind="action" name="filterCategory:" candidateClass="UIControl"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -852,7 +876,6 @@
         <class className="SettingsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
-                <relationship kind="action" name="updateFrequencyChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="manualUpdateSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
@@ -868,6 +891,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="7Tc-WJ-NHB"/>
+        <segue reference="5G9-YS-n6Y"/>
     </inferredMetricsTieBreakers>
 </document>
