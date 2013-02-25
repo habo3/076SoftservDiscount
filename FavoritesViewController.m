@@ -30,21 +30,17 @@
 {
     [super viewDidLoad];
 
-    favoriteObjects = [[NSArray alloc] init];
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                 inManagedObjectContext:managedObjectContext]];
-    NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
-    [fetch setPredicate:findObjectWithFav];
-    NSError *err;
-    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
+    
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter = 50.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [locationManager startUpdatingLocation];
 
+}
+
+-(NSArray *)getfavorites {
+    
 }
 
 #pragma mark - Table view data source
@@ -105,13 +101,13 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    numberOfRowClicked = indexPath.row;
+    numberOfRowClicked = indexPath.row;
     [self performSegueWithIdentifier:@"gotoDetailsFromFavorites" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = [favoriteObjects objectAtIndex:0];//[favoriteObjects objectAtIndex:numberOfRowClicked];
+    dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
     dvc.managedObjectContext = self.managedObjectContext;
 
     //remove text from "Back" button (c)Bogdan
@@ -122,9 +118,9 @@
 }
 
 -(void) reloadTableWithDistancesValues {
-    NSArray *testArray = [[NSArray alloc] init];
-    testArray = [self sortByDistance:favoriteObjects toLocation:currentLocation];
-    self.favoriteObjects = testArray;
+//    NSArray *testArray = [[NSArray alloc] init];
+//    testArray = [FavoritesViewController sortByDistance:favoriteObjects toLocation:currentLocation];
+    self.favoriteObjects = [FavoritesViewController sortByDistance:favoriteObjects toLocation:currentLocation];
     [self.tableView reloadData];
 }
 
@@ -136,24 +132,22 @@
     [self reloadTableWithDistancesValues];
 }
 
--(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
++(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
     NSMutableArray *mutableArray = [array mutableCopy];
         NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
-        DiscountObject *userA = (DiscountObject *)a;
-        DiscountObject *userB = (DiscountObject *)b;
+        DiscountObject *objectA = (DiscountObject *)a;
+        DiscountObject *objectB = (DiscountObject *)b;
         
-        CGFloat aLatitude = [userA.geoLatitude floatValue];
-        CGFloat aLongitude = [userA.geoLongitude floatValue];
-        CLLocation *participantALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
+        CGFloat aLatitude = objectA.geoLatitude.floatValue;
+        CGFloat aLongitude = objectA.geoLongitude.floatValue;
+        CLLocation *objectALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
         
-        CGFloat bLatitude = [userB.geoLatitude floatValue];
-        CGFloat bLongitude = [userB.geoLongitude floatValue];
-        CLLocation *participantBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
-        
-//        CLLocation *myLocation = [[CLLocation alloc] initWithLatitude:locationCoordinates.latitude longitude:locationCoordinates.longitude];
-        
-        CLLocationDistance distanceA = [participantALocation distanceFromLocation:location];
-        CLLocationDistance distanceB = [participantBLocation distanceFromLocation:location];
+        CGFloat bLatitude = objectB.geoLatitude.floatValue;
+        CGFloat bLongitude = objectB.geoLongitude.floatValue;
+        CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
+            
+        CLLocationDistance distanceA = [objectALocation distanceFromLocation:location];
+        CLLocationDistance distanceB = [objectBLocation distanceFromLocation:location];
         if (distanceA < distanceB) {
             return NSOrderedAscending;
         } else if (distanceA > distanceB) {
@@ -167,7 +161,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    favoriteObjects = [[NSArray alloc] init];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                 inManagedObjectContext:managedObjectContext]];
+    NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
+    [fetch setPredicate:findObjectWithFav];
+    NSError *err;
+    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
     [self.tableView reloadData];
+
 }
 
 - (void)viewDidUnload {

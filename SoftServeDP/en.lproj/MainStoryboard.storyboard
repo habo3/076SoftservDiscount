@@ -461,13 +461,13 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Назва" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8U2-2p-Emj">
                                                     <rect key="frame" x="62" y="27" width="247" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Категорія" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLX-f8-rpe">
                                                     <rect key="frame" x="62" y="43" width="222" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -834,7 +834,6 @@
         <class className="ListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
             <relationships>
-                <relationship kind="action" name="filterCategory:" candidateClass="UIControl"/>
                 <relationship kind="outlet" name="myButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
@@ -843,8 +842,6 @@
         <class className="MapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="filterCategory:" candidateClass="UIControl"/>
-                <relationship kind="action" name="getLocation:"/>
                 <relationship kind="outlet" name="location" candidateClass="CLLocationManager"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
@@ -855,8 +852,6 @@
         <class className="SettingsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
-                <relationship kind="action" name="autoUpdateSwitch:" candidateClass="UISwitch"/>
-                <relationship kind="action" name="updateFrequencyChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="manualUpdateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="manualUpdateSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="updateFrequencyChangedButtonOutlet" candidateClass="UISegmentedControl"/>
