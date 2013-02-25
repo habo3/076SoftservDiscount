@@ -54,10 +54,11 @@
 {
  
     [super viewDidLoad];    
-    //NSLog(@"inFav:%@", discountObject.inFavorites);
+    //Set Favorite button state
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
+    
     for (UIView *v in [self.mapView subviews]) {
         //NSLog(@"%@", NSStringFromClass([v class]));
         if ([NSStringFromClass([v class]) isEqualToString:@"MKAttributionLabel"]) {
@@ -82,15 +83,14 @@
     newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
     [self.mapView setRegion:newRegion];
     
+    //round upper corners in first cell
     [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
     [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     //set labels value
     NSSet *categories = discountObject.categories;
-    NSManagedObject *category = [categories anyObject];
-    NSString *categoryName = [category valueForKey:@"name"];
-    //NSLog(@"object name: %@ object category: %@", discountObject.name, categoryName);
-    
+    Category *category = [categories anyObject];
+    NSString *categoryName = category.name;
     self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
     self.name.text = discountObject.name;
     self.category.text = categoryName;
@@ -196,7 +196,6 @@
     
     [color set];
     
-    
     //draw text on image and save result
     [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -207,19 +206,14 @@
 
 - (IBAction)favoriteButton {
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-        //NSLog(@"inFav:%@", discountObject.inFavorites);
         discountObject.inFavorites = [NSNumber numberWithBool:NO];
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
     }
     else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
-        //NSLog(@"inFav:%@", discountObject.inFavorites);
         discountObject.inFavorites = [NSNumber numberWithBool:YES];
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
-
     }
-    //NSLog(@"inFav:%@", discountObject.inFavorites);
-    //NSLog(@"------");
-    
+
     NSError* err;
     if (![self.managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
@@ -231,7 +225,8 @@
            fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue] longitude:[discountObject.geoLongitude doubleValue]];
+    CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue]
+                                                            longitude:[discountObject.geoLongitude doubleValue]];
     double distance = [currentLocation distanceFromLocation:objectLocation];
     if (distance > 999){
         self.distanceToObject.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
@@ -239,9 +234,6 @@
     else {
         self.distanceToObject.text = [NSString stringWithFormat:@"%dм",(int)distance];
     }
-    
-        
-
 }
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -271,19 +263,7 @@
 
 #pragma mark - Table view data source
 
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"Cell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    
-//    // Configure the cell...
-//    
-//    return cell;
-//}
-
 - (void)viewDidUnload {
-
 
     [self setDiscount:nil];
     [self setName:nil];

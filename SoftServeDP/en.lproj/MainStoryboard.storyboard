@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="w5v-Jb-8zU">
     <dependencies>
-        <deployment version="1536" identifier="iOS"/>
+        <deployment version="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
@@ -172,7 +172,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
             </objects>
-            <point key="canvasLocation" x="-619" y="-120"/>
+            <point key="canvasLocation" x="665" y="53"/>
         </scene>
         <!--Table View Controller - Новини-->
         <scene sceneID="12g-bz-oZg">
@@ -187,7 +187,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1QZ-Mv-YYI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="986"/>
+            <point key="canvasLocation" x="1545" y="838"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="czj-As-DPb">
@@ -202,7 +202,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUt-NB-xIm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="168" y="986"/>
+            <point key="canvasLocation" x="1100" y="638"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rNg-Rd-eET">
@@ -217,7 +217,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Oz-bi-yca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="168" y="322"/>
+            <point key="canvasLocation" x="2188" y="686"/>
         </scene>
         <!--Favorites View Controller - Обране-->
         <scene sceneID="JYh-tR-5Cf">
@@ -229,7 +229,7 @@
                         <color key="backgroundColor" red="0.95294123888015747" green="0.94117653369903564" blue="0.95294123888015747" alpha="1" colorSpace="deviceRGB"/>
                         <color key="separatorColor" red="0.94723528729999995" green="0.94194347010000001" blue="0.95252710460000001" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="element" rowHeight="80" id="OQ6-I3-UPw">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="element" rowHeight="80" id="OQ6-I3-UPw">
                                 <rect key="frame" x="0.0" y="22" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -263,10 +263,10 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="H2M-7h-bwz">
-                                                            <rect key="frame" x="46" y="35" width="72" height="21"/>
+                                                            <rect key="frame" x="42" y="35" width="35" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="disclosureButton.png" id="5NG-nP-N2S">
@@ -327,7 +327,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIA-VF-WnS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="588" y="318"/>
+            <point key="canvasLocation" x="2604" y="686"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8lx-X7-5cn">
@@ -342,7 +342,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HNt-GJ-GRL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="168" y="1670"/>
+            <point key="canvasLocation" x="1100" y="-550"/>
         </scene>
         <!--Settings View Controller - Налаштування-->
         <scene sceneID="qML-dz-FnH">
@@ -424,7 +424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b6V-eq-ElR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600" y="1670"/>
+            <point key="canvasLocation" x="1596" y="-766"/>
         </scene>
         <!--Details View Controller - DetailsViewController-->
         <scene sceneID="eSB-hS-hJ4">
@@ -461,13 +461,13 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Назва" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8U2-2p-Emj">
                                                     <rect key="frame" x="62" y="27" width="247" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Категорія" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLX-f8-rpe">
                                                     <rect key="frame" x="62" y="43" width="222" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -702,7 +702,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ui-xU-dhc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1701" y="156"/>
+            <point key="canvasLocation" x="3705" y="-7"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gVu-Bc-Czg">
@@ -717,7 +717,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c31-Ht-HPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="168" y="-347"/>
+            <point key="canvasLocation" x="2204" y="13"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="Bti-Ta-iAK">
@@ -779,7 +779,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6B2-no-H5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="168" y="-1003"/>
+            <point key="canvasLocation" x="2176" y="-663"/>
         </scene>
         <!--Map View Controller - Мапа-->
         <scene sceneID="RZo-8c-9Ga">
@@ -804,7 +804,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1R-KH-fAJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="605" y="-1003"/>
+            <point key="canvasLocation" x="2617" y="-655"/>
         </scene>
     </scenes>
     <resources>
