@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
+
 #import "FavoritesViewController.h"
 #import "DiscountObject.h"
 #import <QuartzCore/QuartzCore.h>
@@ -16,21 +17,14 @@
     int numberOfRowClicked;
 }
 @property (strong, nonatomic) NSArray *favoriteObjects;
+@property (strong, nonatomic) CLLocation *currentLocation;
 @end
 
 @implementation FavoritesViewController
 
 @synthesize managedObjectContext;
 @synthesize favoriteObjects;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize currentLocation;
 
 - (void)viewDidLoad
 {
@@ -44,43 +38,54 @@
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = 50.0;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [locationManager startUpdatingLocation];
 
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    
-
     return favoriteObjects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"element";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier /*forIndexPath:indexPath*/];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     DiscountObject * object =[favoriteObjects objectAtIndex:indexPath.row];
     
+    //set labels
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = object.name;
-
     UILabel *adressLabel = (UILabel *)[cell viewWithTag:2];
     adressLabel.text = object.address;
+    //set location label if GPS available
+    if (self.currentLocation) {
+        
+        UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3];
+        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
+                                                                longitude:[object.geoLongitude doubleValue]];
+        double distance = [self.currentLocation distanceFromLocation:objectLocation];
+        if (distance > 999){
+            distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+        }
+        else {
+            distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+        }
+    }
     
+    //set gray borders
     UIView *circleView = [cell viewWithTag:4];
     circleView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
     UIView *roundRectView = [cell viewWithTag:5];
     roundRectView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
+    //set category icon
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
     NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
@@ -97,58 +102,16 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    numberOfRowClicked = indexPath.row;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    numberOfRowClicked = indexPath.row;
     [self performSegueWithIdentifier:@"gotoDetailsFromFavorites" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *dvc = [segue destinationViewController];
-    DiscountObject *tt = [favoriteObjects objectAtIndex:numberOfRowClicked];
-    dvc.discountObject = tt;
-
+    dvc.discountObject = [favoriteObjects objectAtIndex:0];//[favoriteObjects objectAtIndex:numberOfRowClicked];
     dvc.managedObjectContext = self.managedObjectContext;
 
     //remove text from "Back" button (c)Bogdan
@@ -156,6 +119,55 @@
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:nil
                                                                             action:nil] ;
+}
+
+-(void) reloadTableWithDistancesValues {
+    NSArray *testArray = [[NSArray alloc] init];
+    testArray = [self sortByDistance:favoriteObjects toLocation:currentLocation];
+    self.favoriteObjects = testArray;
+    [self.tableView reloadData];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+    self.currentLocation = newLocation;    
+    [locationManager stopUpdatingLocation];
+    [self reloadTableWithDistancesValues];
+}
+
+-(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
+    NSMutableArray *mutableArray = [array mutableCopy];
+        NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
+        DiscountObject *userA = (DiscountObject *)a;
+        DiscountObject *userB = (DiscountObject *)b;
+        
+        CGFloat aLatitude = [userA.geoLatitude floatValue];
+        CGFloat aLongitude = [userA.geoLongitude floatValue];
+        CLLocation *participantALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
+        
+        CGFloat bLatitude = [userB.geoLatitude floatValue];
+        CGFloat bLongitude = [userB.geoLongitude floatValue];
+        CLLocation *participantBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
+        
+//        CLLocation *myLocation = [[CLLocation alloc] initWithLatitude:locationCoordinates.latitude longitude:locationCoordinates.longitude];
+        
+        CLLocationDistance distanceA = [participantALocation distanceFromLocation:location];
+        CLLocationDistance distanceB = [participantBLocation distanceFromLocation:location];
+        if (distanceA < distanceB) {
+            return NSOrderedAscending;
+        } else if (distanceA > distanceB) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+    return OrderedObjectsByDistance;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload {
