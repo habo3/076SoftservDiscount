@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
+
 #import "ListViewController.h"
 #import "PlaceCell.h"
 #import "DiscountObject.h"
@@ -14,6 +15,8 @@
 #import "CustomPicker.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FavoritesViewController.h"
+
+#define CELL_HEIGHT 80.0
 
 @interface ListViewController ()
 {
@@ -25,6 +28,7 @@
 @property (nonatomic) NSInteger selectedRow;
 @property (nonatomic) NSInteger selectedIndex;
 @property (nonatomic) NSArray  *categoryObjects;
+@property (nonatomic) NSArray *sortedObjects;
 @property (nonatomic) BOOL searching;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @end
@@ -38,21 +42,14 @@
 @synthesize selectedIndex;
 @synthesize categoryObjects;
 @synthesize currentLocation;
-
+@synthesize sortedObjects;
 @synthesize tableView = _tableView;
 
 
 
-/*- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-*/
-
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
-    /*$SEARCH OR optionTwo contains[cd]*/
+
     
     NSMutableArray *names = [[NSMutableArray alloc]init];
     NSMutableArray *address = [[NSMutableArray alloc]init];
@@ -62,14 +59,10 @@
         [address addObject:object.address];
         
     }
-    //NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@" contains[cd] %@",searchText];
     NSPredicate *template = [NSPredicate predicateWithFormat:@"name contains[cd] $SEARCH OR address contains[cd]  $SEARCH"];
     NSDictionary *replace = [NSDictionary dictionaryWithObject:self.searchDisplayController.searchBar.text forKey:@"SEARCH"];
     NSPredicate *predicate = [template predicateWithSubstitutionVariables:replace];
-    //objectsFound
     searchResults = [objectsFound filteredArrayUsingPredicate:predicate];
-    /*if(searchResults.count != 0)
-        searching = YES;*/
 }
 
 
@@ -77,11 +70,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        //searching = YES;
         return [searchResults count];
         
     } else {
-        //searching = NO;
         return [objectsFound count];
         
     }
@@ -90,25 +81,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PlaceCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PlaceCell"
-                                                     owner:nil
-                                                   options:nil] objectAtIndex:0];
-    return  cell.frame.size.height;
+    return  CELL_HEIGHT;
 }
 
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller
-shouldReloadTableForSearchString:(NSString *)searchString
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    //searching = YES;
+
     [self filterContentForSearchText:searchString
-                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
-                                      objectAtIndex:[self.searchDisplayController.searchBar
-                                                     selectedScopeButtonIndex]]];
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
     
     return YES;
 }
-
 
 
 - (void)viewDidLoad
@@ -156,18 +140,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 {
     // fetch objects from db
     NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    //self.objectsFound
-    //NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"category contains[cd] "];
     Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
-    //NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
     
-    for(DiscountObject *object in objectsFound)
+    for(DiscountObject *object in selectedCategory.discountobject)
     {
-        
-        if([object.categories containsObject:selectedCategory])
-        {
             [tmpArray addObject:object];
-        }
     }
 
     return tmpArray;
@@ -175,17 +152,16 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 - (NSArray*)fillPicker
 {
-    //NSArray *objectsFound = [[NSArray alloc]init];
+
     NSFetchRequest *fetch1 = [[NSFetchRequest alloc] init];
     [fetch1 setEntity:[NSEntityDescription entityForName:@"Category"
                                   inManagedObjectContext:managedObjectContext]];
     categoryObjects = [managedObjectContext executeFetchRequest:fetch1 error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-    //NSString *first
+
     [fetchArr addObject:@"Усі категорії"];
     for ( Category *object in categoryObjects)
     {
-        //NSLog(@"name: %@", object1.name);
         [fetchArr addObject:(NSString*)object.name];
     }
     return [NSArray arrayWithArray:fetchArr];
@@ -199,6 +175,8 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.searchDisplayController.searchBar setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"searchBarBG.png"]]];
+    
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
     [self reloadTableWithDistancesValues];
@@ -213,15 +191,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
     return 1;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)thePickerView
-numberOfRowsInComponent:(NSInteger)component
+- (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component
 {
     return dataSource.count;
 }
 
-- (NSString *)pickerView:(UIPickerView *)thePickerView
-             titleForRow:(NSInteger)row
-            forComponent:(NSInteger)component
+- (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     return [dataSource objectAtIndex:row];
 }
@@ -230,7 +205,7 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
 #pragma mark -
@@ -246,10 +221,8 @@ numberOfRowsInComponent:(NSInteger)component
 
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-
-    [self.tableView reloadData];
     
-    //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView reloadData];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -268,14 +241,11 @@ numberOfRowsInComponent:(NSInteger)component
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         _searching = YES;
-        //cell.nameLabel.text = [searchResults objectAtIndex:indexPath.row];
-        /*DiscountObject */object =[searchResults objectAtIndex:indexPath.row];
+        object =[searchResults objectAtIndex:indexPath.row];
 
     } else {
         _searching = NO;
-        /*DiscountObject */ object =[objectsFound objectAtIndex:indexPath.row];
-
-        //cell.nameLabel.text = [objectsFound objectAtIndex:indexPath.row];
+        object =[objectsFound objectAtIndex:indexPath.row];
     }
   
     cell.nameLabel.text = object.name ;
@@ -336,18 +306,16 @@ numberOfRowsInComponent:(NSInteger)component
             self.objectsFound = [NSArray arrayWithArray: [self getAllObjects]];
         else
         {
-    
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
+            
         }
-        
-        [self.tableView reloadData];
+        [self reloadTableWithDistancesValues];
+        //[self.tableView reloadData];
         
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation {
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
     [locationManager stopUpdatingLocation];
     self.currentLocation = newLocation;
@@ -355,6 +323,7 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    
     [locationManager stopUpdatingLocation];
     self.currentLocation = [locations objectAtIndex:0];
     [self reloadTableWithDistancesValues];
@@ -362,16 +331,15 @@ numberOfRowsInComponent:(NSInteger)component
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
-    if( _searching)//_tableView == self.searchDisplayController.searchResultsTableView)
-    {
+    if( _searching){
         dvc.discountObject = [searchResults objectAtIndex:selectedRow];
     }
-        else {
+    else {
         dvc.discountObject = [objectsFound objectAtIndex:selectedRow];
     }
-    //dvc.pintype = self.selectedPintype;
     dvc.managedObjectContext = self.managedObjectContext;
     
     //remove text from "Back" button (c)Bogdan
@@ -381,14 +349,7 @@ numberOfRowsInComponent:(NSInteger)component
                                                                             action:nil] ;
     
 }
-/*
- - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
- {
- //selectedRow = indexPath.row;
- //[self performSegueWithIdentifier:@"detailsList" sender:self];
- NSLog(@"Accessory tapped %@", indexPath );
- 
- }*/
+
 
 
 @end

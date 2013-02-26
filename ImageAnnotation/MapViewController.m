@@ -106,15 +106,10 @@
     //NSNumber *dbDiscountFrom = object.discountFrom;
     Category *dbCategory = [dbCategories anyObject];
     
-    //show getting data from DB (for debug)
-    //NSLog(@"name :%@, latitude: %@, longtitude: %@, adress: %@", dbTitle, dbLatitude, dbLongitude, dbSubtitle);
-    //NSLog(@"font: %@", dbCategory.fontSymbol);
-    //NSLog(@"discount To: %@",dbDiscountTo);
-    //NSLog(@"discount From: %@",dbDiscountFrom);
+
     //display text on images
-    
-    //NSLog(@"discTo: %@",discTo);
-    // formating discountValue to "-x%", where x discountValue
+
+    // formating discountValue to "x%", where x discountValue
     NSString *value = [dbDiscountTo stringValue];
     NSString *discTo = value;
     //discTo = [discTo stringByAppendingString:value];
@@ -298,24 +293,15 @@ numberOfRowsInComponent:(NSInteger)component
         
         margin = (startImage.size.width - font.pointSize * text.length/2)/2;
         rect = CGRectMake(margin, (startImage.size.height - font.pointSize)/2, startImage.size.width, startImage.size.height);
-        //for debug
-        //NSLog(@"Text length %lu",(unsigned long)text.length);
-        //NSLog(@"Point size %f",font.pointSize);
-        //NSLog(@"image size.width %f",startImage.size.width);
         tmpText = text;
         
     }
     
     //work with image
     UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-    //UIGraphicsBeginImageContext();
     
     [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
-    
-    //Position and color
-    
     [color set];
-
     
     //draw text on image and save result
     [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
@@ -375,16 +361,15 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
     if (calloutView.window)
-        [calloutView dismissCalloutAnimated/*:NO*/];
+        [calloutView dismissCalloutAnimated];
     Annotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
     [self.mapView setCenterCoordinate:selectedAnnotation.coordinate animated:YES];
-    //self.mapView.centerCoordinate = selectedAnnotation.coordinate;
-    [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0.5];//1.0/3.0]; optimize later
+    [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0.5];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
-    // again, we'll introduce an artifical delay to feel more like MKMapView for this demonstration.
-    [calloutView performSelector:@selector(dismissCalloutAnimated) withObject:nil afterDelay:0];//1.0/3.0];
+
+    [calloutView performSelector:@selector(dismissCalloutAnimated) withObject:nil afterDelay:0];
 }
 
 
@@ -397,10 +382,10 @@ numberOfRowsInComponent:(NSInteger)component
         
         calloutView.title = selectedAnnotation.title;
         calloutView.subtitle = selectedAnnotation.subtitle;
-        //calloutView.object = selectedAnnotation.object;
+
         calloutView.leftAccessoryView = selectedAnnotation.leftImage;
         self.selectedObject = selectedAnnotation.object;
-        //self.selectedPintype = selectedAnnotation.pintype;
+
         ((CustomAnnotationView *)annotationView).calloutView = calloutView;
         [calloutView presentCalloutFromRect:annotationView.bounds
                                      inView:annotationView
@@ -425,16 +410,6 @@ numberOfRowsInComponent:(NSInteger)component
 
 - (void)disclosureTapped {
     [self performSegueWithIdentifier:@"detailsMap" sender:self];
-    /*UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsViewController"];
-    [self.navigationController pushViewController: myController animated:YES];*/
-    //[self prepareForSegue: sender:self];
-   //[self.navigationController pushViewController: animated:YES];
-   /* UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"§ Disclosure pressed! §"
-                                                    message:@"Currently detail view in progress, wait for Sprint#3 end. Thanks for understanding"
-                                                   delegate:nil
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:@"OK",nil];
-    [alert show];*/
 }
 
 
@@ -515,16 +490,11 @@ numberOfRowsInComponent:(NSInteger)component
             self.annArray = [NSArray arrayWithArray: [self getPinsByCategory:self.selectedIndex-1]];
         
         [self.mapView addAnnotations:self.annArray];
-    //NSLog (@"%d",);
-    //may have originated from textField or barButtonItem, use an IBOutlet instead of element
-    /*[self disclosureTapped];*/
+
     }
 }
 
-/*- (void)showDetails:(id)sender
-{
-    [self performSegueWithIdentifier:@"myDetailView" sender:self];
-}*/
+
 
 
 

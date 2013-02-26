@@ -80,8 +80,6 @@
             titleLabel.backgroundColor = [UIColor clearColor];
             titleLabel.font = [UIFont boldSystemFontOfSize:12];
             titleLabel.textColor = [UIColor blackColor];
-            //titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
-            //titleLabel.shadowOffset = CGSizeMake(0, -1);
         }
         return titleLabel;
     }
@@ -100,8 +98,6 @@
             subtitleLabel.backgroundColor = [UIColor clearColor];
             subtitleLabel.font = [UIFont systemFontOfSize:9];
             subtitleLabel.textColor = [UIColor blackColor];
-            //subtitleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];
-            //subtitleLabel.shadowOffset = CGSizeMake(0, -1);
         }
         return subtitleLabel;
     }
