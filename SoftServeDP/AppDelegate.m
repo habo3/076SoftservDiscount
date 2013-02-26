@@ -20,7 +20,7 @@
     
     JSONParser *parser = [[JSONParser alloc] init ];
     parser.managedObjectContext = self.managedObjectContext;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         [parser updateDBWithOptions];
     });
 }
@@ -33,10 +33,10 @@
     parser.managedObjectContext = self.managedObjectContext;
     if (![userDefaults objectForKey:@"lastDBUpdate"]) {
         [parser updateDB];
+        [userDefaults setObject:[NSNumber numberWithInt:1] forKey:@"updatePeriod"];
     }
     else {
-        
-        dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             [parser updateDBWithOptions];
         });
     }

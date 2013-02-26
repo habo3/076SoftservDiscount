@@ -175,6 +175,9 @@
     NSError *err;
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
     [locationManager startUpdatingLocation];
+    if (!favoriteObjects.count) {
+        self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
+    }
 }
 
 - (void)viewDidUnload {

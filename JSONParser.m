@@ -12,6 +12,10 @@
 #import "DiscountObject.h"
 #import "Contacts.h"
 
+#define CATEGORIES_URL @"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
+#define CITIES_URL @"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
+#define CATEGORIES_URL @"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
+
 @interface DiscountObject (Parsing)
 
 - (void)parseAttribute:(id)attr forKey:(NSString *)key;
@@ -222,7 +226,7 @@
 - (void)insertCities:(NSString *)param {
 
     //get NSDictionary of cities
-    NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
+    NSString *url = [NSString stringWithFormat:CITIES_URL,param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     
     //get existing cities id's
@@ -259,13 +263,13 @@
 - (void)updateCategories:(NSString *) param {
     
     //get NSDictionary of categories
-    NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
+    NSString *url = [NSString stringWithFormat:CATEGORIES_URL,param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
     //NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
     
     //get existing cities id's
-    NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
+    NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"Category"];
     
     //parse categories into model context
     for (NSString *objectContainer in dictionaryOfObjects) {
@@ -303,10 +307,10 @@
     
 }
 
--(NSManagedObject *)getManagedObjectFromEntity:(NSString *)TheEntity withId: (NSNumber *)objID {
+-(NSManagedObject *)getManagedObjectFromEntity:(NSString *)theEntity withId: (NSNumber *)objID {
     NSPredicate *findObjectWithId = [NSPredicate predicateWithFormat:@"id == %@",objID];
     NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
-    [objFetch setEntity:[NSEntityDescription entityForName:TheEntity
+    [objFetch setEntity:[NSEntityDescription entityForName:theEntity
                                     inManagedObjectContext:self.managedObjectContext]];
     [objFetch setPredicate:findObjectWithId];
     NSArray *objectForReplacement = [self.managedObjectContext executeFetchRequest:objFetch error:nil];

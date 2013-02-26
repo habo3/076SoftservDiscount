@@ -156,14 +156,21 @@ shouldReloadTableForSearchString:(NSString *)searchString
 {
     // fetch objects from db
     NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
+    //self.objectsFound
+    //NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"category contains[cd] "];
     Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
-    NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
+    //NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
     
-    for(DiscountObject *object in dbAllObjInSelCategory)
+    for(DiscountObject *object in objectsFound)
     {
-        [tmpArray addObject:object];
+        
+        if([object.categories containsObject:selectedCategory])
+        {
+            [tmpArray addObject:object];
+        }
     }
-    return  tmpArray;
+
+    return tmpArray;
 }
 
 - (NSArray*)fillPicker
@@ -328,7 +335,11 @@ numberOfRowsInComponent:(NSInteger)component
         if (self.selectedIndex<1)
             self.objectsFound = [NSArray arrayWithArray: [self getAllObjects]];
         else
+        {
+    
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
+        }
+        
         [self.tableView reloadData];
         
     }
