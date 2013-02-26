@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface FavoritesViewController : UITableViewController<CLLocationManagerDelegate>{
+@interface FavoritesViewController : UIViewController <CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
++(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location;
 @end

@@ -13,33 +13,31 @@
 #import "DetailsViewController.h"
 #import "CustomPicker.h"
 #import <QuartzCore/QuartzCore.h>
+#import "FavoritesViewController.h"
 
 @interface ListViewController ()
 {
-    //NSArray *recipes;
     NSArray *searchResults;
 }
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *filterPicker;
+
 @property (nonatomic) NSArray * objectsFound;
-//@property(nonatomic) NSArray *objectsFound1;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic) NSInteger selectedRow;
 @property (nonatomic) NSInteger selectedIndex;
 @property (nonatomic) NSArray  *categoryObjects;
 @property (nonatomic) BOOL searching;
+@property (strong, nonatomic) CLLocation *currentLocation;
 @end
 
 @implementation ListViewController
 @synthesize managedObjectContext;
-//@synthesize pickerView;
 @synthesize dataSource;
 @synthesize objectsFound;
 @synthesize filterButton;
 @synthesize selectedRow;
 @synthesize selectedIndex;
 @synthesize categoryObjects;
-//@synthesize searching;
-
+@synthesize currentLocation;
 
 @synthesize tableView = _tableView;
 
@@ -123,16 +121,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
     objectsFound = [self getAllObjects];
     
     NSArray *fetchArr = [self fillPicker];
-    //UIColor *searchBarColor = self.navigationController.navigationBar.backgroundColor;
-    //self.searchDisplayController.searchBar.backgroundColor = searchBarColor;//self.navigationController.navigationBar.tintColor
-    UIImage *navigationBarBackground = [UIImage imageNamed: @"navigationBar.png"];
-    [self.searchDisplayController.searchBar setBackgroundImage:navigationBarBackground];
     
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
-    //filterButton = [filter createFilterButtonInRect:filterFrame];
+
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    //CGRect filterFrame = rect;
+
     filterButton.frame = filterFrame;
     [filterButton setBackgroundImage:[UIImage imageNamed:@"filterButton.png"] forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
@@ -140,6 +134,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
     
     //return filterButton;
     self.dataSource = [NSArray arrayWithArray:fetchArr];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    locationManager.distanceFilter = 10;
     
 }
 
@@ -185,10 +184,21 @@ shouldReloadTableForSearchString:(NSString *)searchString
     return [NSArray arrayWithArray:fetchArr];
 }
 
+-(void) reloadTableWithDistancesValues {
+    
+    self.objectsFound = [FavoritesViewController sortByDistance:objectsFound toLocation:currentLocation];
+    [self.tableView reloadData];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
+    [self reloadTableWithDistancesValues];
+    [locationManager startUpdatingLocation];
+
 }
+
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
@@ -247,39 +257,52 @@ numberOfRowsInComponent:(NSInteger)component
     //here forms search object
     DiscountObject * object;
     
+
+    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         _searching = YES;
         //cell.nameLabel.text = [searchResults objectAtIndex:indexPath.row];
         /*DiscountObject */object =[searchResults objectAtIndex:indexPath.row];
-        cell.nameLabel.text = object.name ;
-        cell.addressLabel.text = object.address;
+
     } else {
         _searching = NO;
         /*DiscountObject */ object =[objectsFound objectAtIndex:indexPath.row];
-        cell.nameLabel.text = object.name ;
-        cell.addressLabel.text = object.address;
+
         //cell.nameLabel.text = [objectsFound objectAtIndex:indexPath.row];
     }
+  
+    cell.nameLabel.text = object.name ;
+    cell.addressLabel.text = object.address;
+    cell.distanceLabel.text = @"...";
+    if (self.currentLocation) {
+        
+        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
+                                                                longitude:[object.geoLongitude doubleValue]];
+        double distance = [self.currentLocation distanceFromLocation:objectLocation];
+        if (distance > 999){
+            cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+        }
+        else {
+            cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+        }
+    }
+    
     cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
     cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
-    //DiscountObject * object =[objectsFound objectAtIndex:indexPath.row];
-    //cell.nameLabel.text = object.name ;
-    //cell.addressLabel.text = object.address;
+
+    
     UIImage *buttonImage = [UIImage imageNamed:@"disclosureButton"];
     cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
     NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
-    //for debugging
-    //NSLog(@"cutted symbol %@",cuttedSymbol);
-    
+
+
     //converting Unicode Character String (0xe00b) to UTF32Char
     UTF32Char myChar = 0;
     NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
     [myConvert scanHexInt:(unsigned int *)&myChar];
-    
-    //UIImage *startImage = [UIImage imageNamed:@"emptyLeftImage"];
 
     //set data to string
     NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
@@ -289,28 +312,6 @@ numberOfRowsInComponent:(NSInteger)component
     cell.iconLabel.font = font;
     cell.iconLabel.text = tmpText;
     cell.iconLabel.textAlignment = UITextAlignmentCenter;
-
-//    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-//
-//    //UIGraphicsBeginImageContext();
-//    
-//    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
-//    //Position and color
-//    CGRect rect = CGRectMake((startImage.size.width - font.pointSize)/2, font.pointSize/2, startImage.size.width, startImage.size.height);
-//    UIColor *iconColor = [UIColor greenColor];//colorWithRed:0.9832 green:0.9765 blue:0.698 alpha:1];
-//    [iconColor set];
-//    
-//    //draw text on image and save result
-//    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
-//    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    cell.imageView.image = resultImage;
-    //cell.selectedObject = object;
-    //}
-    
-    
-    /*cell.addressLabel.text = [NSString stringWithFormat: @"Cell #%i",indexPath.row];*/
-    
     
     
     return cell;
@@ -332,6 +333,22 @@ numberOfRowsInComponent:(NSInteger)component
         
     }
 }
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+    
+    [locationManager stopUpdatingLocation];
+    self.currentLocation = newLocation;
+    [self reloadTableWithDistancesValues];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    [locationManager stopUpdatingLocation];
+    self.currentLocation = [locations objectAtIndex:0];
+    [self reloadTableWithDistancesValues];
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [filterButton removeFromSuperview];

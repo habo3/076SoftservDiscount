@@ -30,17 +30,12 @@
 {
     [super viewDidLoad];
 
-    
-    
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    [locationManager startUpdatingLocation];
+    locationManager.distanceFilter = 10;
 
-}
 
--(NSArray *)getfavorites {
-    
 }
 
 #pragma mark - Table view data source
@@ -118,8 +113,7 @@
 }
 
 -(void) reloadTableWithDistancesValues {
-//    NSArray *testArray = [[NSArray alloc] init];
-//    testArray = [FavoritesViewController sortByDistance:favoriteObjects toLocation:currentLocation];
+
     self.favoriteObjects = [FavoritesViewController sortByDistance:favoriteObjects toLocation:currentLocation];
     [self.tableView reloadData];
 }
@@ -127,10 +121,18 @@
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
-    self.currentLocation = newLocation;    
+
     [locationManager stopUpdatingLocation];
+    self.currentLocation = newLocation;
     [self reloadTableWithDistancesValues];
 }
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    [locationManager stopUpdatingLocation];
+    self.currentLocation = [locations objectAtIndex:0];
+    [self reloadTableWithDistancesValues];
+}
+
 
 +(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
     NSMutableArray *mutableArray = [array mutableCopy];
@@ -160,7 +162,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+
     [super viewWillAppear:animated];
+    
+    //get favorite objects
     favoriteObjects = [[NSArray alloc] init];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
@@ -169,8 +174,7 @@
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    [self.tableView reloadData];
-
+    [locationManager startUpdatingLocation];
 }
 
 - (void)viewDidUnload {
