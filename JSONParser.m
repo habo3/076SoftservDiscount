@@ -14,7 +14,7 @@
 
 #define CATEGORIES_URL @"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
 #define CITIES_URL @"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
-#define CATEGORIES_URL @"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
+#define PARTNERS_URL @"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
 
 @interface DiscountObject (Parsing)
 
@@ -157,12 +157,7 @@
     [dateFormatter setDateFormat:@"EE, d LLLL yyyy HH:mm:ss zzz"];
     NSDate *date = [dateFormatter dateFromString:dateInStringFormat];
     
-    //set server time into lastDBUpdate
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:date forKey:@"lastDBUpdate"];
-    
     //return deserialized json data
-    
     NSDictionary *dictionaryDeserializedFromJsonFormat;
     if (jsonObject) {
          dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
@@ -170,6 +165,13 @@
     if (!dictionaryDeserializedFromJsonFormat) {
         NSLog(@"Error parsing JSON: %@", err);
     }
+    
+    //set server time into lastDBUpdate
+    if (dictionaryDeserializedFromJsonFormat) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:date forKey:@"lastDBUpdate"];
+    }
+    
     return dictionaryDeserializedFromJsonFormat;
     
 }
@@ -189,7 +191,7 @@
 - (void)insertObject:(NSString *)param {
     
     //get NSDictionary of objects
-    NSString *url = [NSString stringWithFormat:@"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@",param];
+    NSString *url = [NSString stringWithFormat:PARTNERS_URL,param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL:url];
     
     //get existing id`s into array
@@ -219,7 +221,7 @@
     if (![managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
     }
-   // NSLog(@"Objects in base after import: %d", [self numberOfObjectsIn:@"DiscountObject"]);
+    //NSLog(@"Objects in base after import: %d", [self numberOfObjectsIn:@"DiscountObject"]);
 }
 
 

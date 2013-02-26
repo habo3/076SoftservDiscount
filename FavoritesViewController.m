@@ -46,6 +46,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     static NSString *CellIdentifier = @"element";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     DiscountObject * object =[favoriteObjects objectAtIndex:indexPath.row];
@@ -105,7 +106,7 @@
     dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
     dvc.managedObjectContext = self.managedObjectContext;
 
-    //remove text from "Back" button (c)Bogdan
+    //remove text from "Back" button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:nil
@@ -135,8 +136,9 @@
 
 
 +(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
+    
     NSMutableArray *mutableArray = [array mutableCopy];
-        NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
+    NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
         DiscountObject *objectA = (DiscountObject *)a;
         DiscountObject *objectB = (DiscountObject *)b;
         
@@ -147,7 +149,7 @@
         CGFloat bLatitude = objectB.geoLatitude.floatValue;
         CGFloat bLongitude = objectB.geoLongitude.floatValue;
         CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
-            
+        
         CLLocationDistance distanceA = [objectALocation distanceFromLocation:location];
         CLLocationDistance distanceB = [objectBLocation distanceFromLocation:location];
         if (distanceA < distanceB) {
@@ -165,7 +167,7 @@
 
     [super viewWillAppear:animated];
     
-    //get favorite objects
+    //get favorite objects from DB
     favoriteObjects = [[NSArray alloc] init];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
@@ -175,6 +177,8 @@
     NSError *err;
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
     [locationManager startUpdatingLocation];
+    
+    //set backgound image if no Favorites available
     if (!favoriteObjects.count) {
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     }

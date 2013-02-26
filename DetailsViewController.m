@@ -38,9 +38,8 @@
 @synthesize managedObjectContext;
 @synthesize mapView;
 
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
-
-{
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius{
+    
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
                                                    byRoundingCorners:rectCorner
                                                          cornerRadii:CGSizeMake(radius, radius)];
@@ -54,17 +53,18 @@
 {
  
     [super viewDidLoad];    
-    //Set Favorite button state
+
+    // Highlight button if partner is in Favorites
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
     
     for (UIView *v in [self.mapView subviews]) {
-        //NSLog(@"%@", NSStringFromClass([v class]));
         if ([NSStringFromClass([v class]) isEqualToString:@"MKAttributionLabel"]) {
             v.hidden = YES;
         }
     }
+    
     // set mapview delegate and annotation for display
     self.mapView.delegate = self;
     Annotation *myAnn = [[Annotation alloc]init];
@@ -75,19 +75,19 @@
     self.pintype = [self makePin];
     myAnn.pintype = self.pintype;
     [self.mapView addAnnotation:myAnn];
-    
-    //set display region
+     
+    // set display region
     MKCoordinateRegion newRegion;
     newRegion.center = tmpCoord;
     newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
     newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
     [self.mapView setRegion:newRegion];
     
-    //round upper corners in first cell
+    // round upper corners in first cell
     [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
     [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
-    //set labels value
+    // set labels value
     NSSet *categories = discountObject.categories;
     Category *category = [categories anyObject];
     NSString *categoryName = category.name;
@@ -108,7 +108,6 @@
         else if ([type isEqualToString:@"site"]){
             self.webSite.text = [contact valueForKey:@"value"];
         }
-    
     }
 
     //set location manager
@@ -117,7 +116,6 @@
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters; 
     [locationManager startUpdatingLocation];
-
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -238,19 +236,39 @@
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    NSString *objectAddress = discountObject.address;
+    NSString *objectName = discountObject.name;
+    NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];
+
+    NSSet *contacts = discountObject.contacts;
+    for (NSManagedObject *contact in contacts) {
+        NSString * type = [contact valueForKey:@"type"];
+        if ([type isEqualToString:@"phone"]) {
+            [shareString appendFormat:@" тел. %@", [contact valueForKey:@"value"]];
+        }
+        else if ([type isEqualToString:@"email"]){
+           [shareString appendFormat:@" email . %@", [contact valueForKey:@"value"]];
+        }
+        else if ([type isEqualToString:@"site"]){
+            [shareString appendFormat:@" site %@", [contact valueForKey:@"value"]];
+        }
+    }
+        
     if(buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://publish/profile/me?text=hello%20world"]];
+        NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
+        [faceBookString appendString:shareString];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];
     
     } else if(buttonIndex == 1) {
-        NSString *stringURL = @"twitter://post?message=hello%20world";
-        NSURL *url = [NSURL URLWithString:stringURL];
+        NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
+        [twitterString appendString:shareString];
+        NSURL *url = [NSURL URLWithString:twitterString];
         [[UIApplication sharedApplication] openURL:url];
     
     } else if (buttonIndex ==2) {
-        NSString *recipients = @"mailto:first@example.com&subject=Ділюсь!";
-        NSString *body = @"&body=Test!";
-        NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
-        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?subject=Ділюсь!&body="];
+        [emailString appendString:shareString];
+        NSString *email = [emailString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
     }
 }
