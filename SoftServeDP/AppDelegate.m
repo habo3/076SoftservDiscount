@@ -17,6 +17,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 -(void) applicationWillEnterForeground:(UIApplication *)application {
+    
     JSONParser *parser = [[JSONParser alloc] init ];
     parser.managedObjectContext = self.managedObjectContext;
     dispatch_async(dispatch_get_global_queue(0, 0), ^ {
@@ -35,7 +36,6 @@
     }
     else {
         
-        
         dispatch_async(dispatch_get_global_queue(0, 0), ^ {
             [parser updateDBWithOptions];
         });
@@ -45,8 +45,6 @@
     UITableViewController *tableViewController = (UITableViewController *)self.window.rootViewController;
     SlideMenu *controller = (SlideMenu *)tableViewController;
     controller.managedObjectContext = self.managedObjectContext;
-    
-    
     
     return YES;
 }
