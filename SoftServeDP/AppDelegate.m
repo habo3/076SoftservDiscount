@@ -33,6 +33,7 @@
     parser.managedObjectContext = self.managedObjectContext;
     if (![userDefaults objectForKey:@"lastDBUpdate"]) {
         [parser updateDB];
+        // set update frequency
         [userDefaults setObject:[NSNumber numberWithInt:1] forKey:@"updatePeriod"];
     }
     else {
