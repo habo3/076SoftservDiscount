@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Category.h"
 #import "DetailsViewController.h"
+#import "IconConverter.h"
 
 @interface FavoritesViewController (){
     int numberOfRowClicked;
@@ -74,12 +75,7 @@
     //set category icon
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
-    NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
-    UTF32Char myChar = 0;
-    NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
-    [myConvert scanHexInt:(unsigned int *)&myChar];
-    NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
-    NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+    NSString *tmpText = [IconConverter ConvertIconText:symbol];
     UIFont *fontTest = [UIFont fontWithName:@"icons" size:21];
     UILabel *categoryIcon = (UILabel *)[cell viewWithTag:6];
     categoryIcon.text = tmpText;

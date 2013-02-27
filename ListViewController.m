@@ -15,6 +15,7 @@
 #import "CustomPicker.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FavoritesViewController.h"
+#import "IconConverter.h"
 
 #define CELL_HEIGHT 80.0
 
@@ -273,17 +274,8 @@
     cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
-    NSString *cuttedSymbol = [symbol stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
 
-
-    //converting Unicode Character String (0xe00b) to UTF32Char
-    UTF32Char myChar = 0;
-    NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
-    [myConvert scanHexInt:(unsigned int *)&myChar];
-
-    //set data to string
-    NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
-    NSString *tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+    NSString *tmpText = [IconConverter ConvertIconText:symbol];
     UIFont *font = [UIFont fontWithName:@"icons" size:20];
     cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
     cell.iconLabel.font = font;
@@ -310,7 +302,7 @@
             
         }
         [self reloadTableWithDistancesValues];
-        //[self.tableView reloadData];
+
         
     }
 }
