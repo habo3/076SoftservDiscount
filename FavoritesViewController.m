@@ -71,12 +71,6 @@
         }
     }
     
-    //set gray borders
-    UIView *circleView = [cell viewWithTag:4];
-    circleView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    UIView *roundRectView = [cell viewWithTag:5];
-    roundRectView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
     //set category icon
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
