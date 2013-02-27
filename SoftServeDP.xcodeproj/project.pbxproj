@@ -292,7 +292,7 @@
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				C08CBB1016B70D1200E0EB0D /* DB */,
 				C096279B16B555C90030988C /* SettingsViewController */,
-				90487C4716A8407C0090F60E /* ImageAnnotation */,
+				90487C4716A8407C0090F60E /* Map */,
 				432CC5DA16A467E000A50F1D /* Main */,
 				432CC5D316A467E000A50F1D /* Frameworks */,
 				432CC5D116A467E000A50F1D /* Products */,
@@ -403,6 +403,7 @@
 				4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */,
 			);
 			name = CustomView;
+			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
 		9017FB2816DE1842004EB853 /* Annotation */ = {
@@ -412,14 +413,19 @@
 				90487CA716A8531D0090F60E /* Annotation.m */,
 			);
 			name = Annotation;
+			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
-		9017FB2C16DE2033004EB853 /* New Group */ = {
+		9017FB2C16DE2033004EB853 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				90487C4916A8407C0090F60E /* Annotation */,
+				9017FB2816DE1842004EB853 /* Annotation */,
+				9017FB2D16DE2051004EB853 /* IconConverter */,
+				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
+				9017FB2716DE1705004EB853 /* CustomView */,
+				90487C4916A8407C0090F60E /* MapViewController */,
 			);
-			name = "New Group";
+			name = Code;
 			sourceTree = "<group>";
 		};
 		9017FB2D16DE2051004EB853 /* IconConverter */ = {
@@ -429,29 +435,26 @@
 				9017FB2A16DE1A0E004EB853 /* IconConverter.m */,
 			);
 			name = IconConverter;
+			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
-		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
+		90487C4716A8407C0090F60E /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				906800DF16B033EE0053F50C /* Images */,
-				9017FB2C16DE2033004EB853 /* New Group */,
+				9017FB2C16DE2033004EB853 /* Code */,
 			);
-			name = ImageAnnotation;
+			name = Map;
 			path = ../../ImageAnnotation;
 			sourceTree = "<group>";
 		};
-		90487C4916A8407C0090F60E /* Annotation */ = {
+		90487C4916A8407C0090F60E /* MapViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9017FB2816DE1842004EB853 /* Annotation */,
-				9017FB2D16DE2051004EB853 /* IconConverter */,
-				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
-				9017FB2716DE1705004EB853 /* CustomView */,
 				4325F4D816CBA680002C7B75 /* MapViewController.h */,
 				4325F4D916CBA680002C7B75 /* MapViewController.m */,
 			);
-			name = Annotation;
+			name = MapViewController;
 			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
@@ -475,6 +478,7 @@
 				901488AB16D7AEF200B25D72 /* CustomPicker.m */,
 			);
 			name = CustomPicker;
+			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
 		C08BB5EB16CA83DA004F48B0 /* SlideMenu */ = {
