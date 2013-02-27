@@ -32,6 +32,7 @@
 @property (nonatomic) NSArray *sortedObjects;
 @property (nonatomic) BOOL searching;
 @property (strong, nonatomic) CLLocation *currentLocation;
+
 @end
 
 @implementation ListViewController
@@ -46,12 +47,61 @@
 @synthesize sortedObjects;
 @synthesize tableView = _tableView;
 
+#pragma mark - View
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.tableView.separatorColor = [UIColor colorWithRed:24 green:24 blue:244 alpha:0];
+    
+    self.tableView.delegate = self;
+    
+    objectsFound = [self getAllObjects];
+    
+    NSArray *fetchArr = [self fillPicker];
+    
+    UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
+    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
+    
+    filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    filterButton.frame = filterFrame;
+    [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
+    [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
+    filterButton.backgroundColor = [UIColor clearColor];
+    
+    
+    self.dataSource = [NSArray arrayWithArray:fetchArr];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    locationManager.distanceFilter = 10;
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.searchDisplayController.searchBar setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"searchBarBG.png"]]];
+    
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:filterButton];
+    [self reloadTableWithDistancesValues];
+    [locationManager startUpdatingLocation];
+    
+}
+
+#pragma mark - search
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    [self.tableView reloadData];
+}
 
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
 
-    
     NSMutableArray *names = [[NSMutableArray alloc]init];
     NSMutableArray *address = [[NSMutableArray alloc]init];
     for(DiscountObject *object in objectsFound)
@@ -67,25 +117,6 @@
 }
 
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return [searchResults count];
-        
-    } else {
-        return [objectsFound count];
-        
-    }
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return  CELL_HEIGHT;
-}
-
-
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
 
@@ -96,36 +127,32 @@
 }
 
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.tableView.separatorColor = [UIColor colorWithRed:24 green:24 blue:244 alpha:0];
+#pragma mark - filter
 
-    self.tableView.delegate = self;
-
-    objectsFound = [self getAllObjects];
+- (IBAction)filterCategory:(UIControl *)sender {
     
-    NSArray *fetchArr = [self fillPicker];
-    
-    UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
-    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
-
-    filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    filterButton.frame = filterFrame;
-    [filterButton setBackgroundImage:[UIImage imageNamed:@"filterButton.png"] forState:UIControlStateNormal];
-    [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
-    filterButton.backgroundColor = [UIColor clearColor];
-    
-    //return filterButton;
-    self.dataSource = [NSArray arrayWithArray:fetchArr];
-    
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    locationManager.distanceFilter = 10;
-    
+    [CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
 }
+
+- (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
+    
+    if(selectedIndex != [selectIndex integerValue])
+    {
+        self.selectedIndex = [selectIndex integerValue];
+        if (self.selectedIndex<1)
+            self.objectsFound = [NSArray arrayWithArray: [self getAllObjects]];
+        else
+        {
+            self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
+            
+        }
+        [self reloadTableWithDistancesValues];
+        
+        
+    }
+}
+
+#pragma clang diagnostic ignored "-Warc-settingResponder-type"
 
 - (NSArray*)getAllObjects
 {
@@ -168,25 +195,6 @@
     return [NSArray arrayWithArray:fetchArr];
 }
 
--(void) reloadTableWithDistancesValues {
-    
-    self.objectsFound = [FavoritesViewController sortByDistance:objectsFound toLocation:currentLocation];
-    [self.tableView reloadData];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.searchDisplayController.searchBar setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"searchBarBG.png"]]];
-    
-    [super viewWillAppear:animated];
-    [self.navigationController.navigationBar addSubview:filterButton];
-    [self reloadTableWithDistancesValues];
-    [locationManager startUpdatingLocation];
-
-}
-
-
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
 {
     return 1;
@@ -203,13 +211,32 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 
+#pragma mark - tableView
+
+-(void) reloadTableWithDistancesValues {
+    
+    self.objectsFound = [FavoritesViewController sortByDistance:objectsFound toLocation:currentLocation];
+    [self.tableView reloadData];
 }
 
-#pragma mark -
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [searchResults count];
+        
+    } else {
+        return [objectsFound count];
+        
+    }
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return  CELL_HEIGHT;
+}
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -220,11 +247,6 @@
 }
 
 
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    
-    [self.tableView reloadData];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -286,26 +308,7 @@
     return cell;
 }
 
-- (IBAction)filterCategory:(UIControl *)sender {
-    [CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
-}
-
-- (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
-    if(selectedIndex != [selectIndex integerValue])
-    {
-        self.selectedIndex = [selectIndex integerValue];
-        if (self.selectedIndex<1)
-            self.objectsFound = [NSArray arrayWithArray: [self getAllObjects]];
-        else
-        {
-            self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
-            
-        }
-        [self reloadTableWithDistancesValues];
-
-        
-    }
-}
+#pragma mark - location 
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
@@ -321,8 +324,9 @@
     [self reloadTableWithDistancesValues];
 }
 
+#pragma mark - seque
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
@@ -342,6 +346,11 @@
     
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    
+}
 
 
 @end
