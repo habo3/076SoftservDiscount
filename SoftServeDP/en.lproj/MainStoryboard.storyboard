@@ -286,6 +286,9 @@
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                                     <integer key="value" value="1"/>
                                                                 </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="self.layer.borderUIColor">
+                                                                    <color key="value" red="0.82745105028152466" green="0.81176477670669556" blue="0.80000007152557373" alpha="1" colorSpace="deviceRGB"/>
+                                                                </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view tag="4" contentMode="scaleToFill" id="caI-IM-iCt">
@@ -307,6 +310,9 @@
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                                     <integer key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="self.layer.borderUIColor">
+                                                                    <color key="value" red="0.82745105028152466" green="0.80784320831298828" blue="0.80000007152557373" alpha="1" colorSpace="deviceRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
@@ -900,6 +906,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5G9-YS-n6Y"/>
+        <segue reference="kvK-YI-jl5"/>
     </inferredMetricsTieBreakers>
 </document>

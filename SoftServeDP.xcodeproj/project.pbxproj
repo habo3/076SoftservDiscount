@@ -63,6 +63,7 @@
 		C034C34216BF01B300F714EE /* Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = C034C34116BF01B300F714EE /* Contacts.m */; };
 		C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B716DAD0FE00262BD9 /* filterButton.png */; };
 		C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */; };
+		C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */; };
 		C0896E2E16DA8EA400D73C1E /* disclosureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C0896E2C16DA8EA400D73C1E /* disclosureButton.png */; };
 		C0896E2F16DA8EA400D73C1E /* disclosureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */; };
 		C08BB5EA16CA83B8004F48B0 /* menuBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C08BB5E916CA83B8004F48B0 /* menuBackground.png */; };
@@ -189,6 +190,8 @@
 		C034C34116BF01B300F714EE /* Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contacts.m; sourceTree = "<group>"; };
 		C076B3B716DAD0FE00262BD9 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
+		C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+setUIColor.h"; sourceTree = "<group>"; };
+		C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+setUIColor.m"; sourceTree = "<group>"; };
 		C0896E2C16DA8EA400D73C1E /* disclosureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosureButton.png; sourceTree = "<group>"; };
 		C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "disclosureButton@2x.png"; sourceTree = "<group>"; };
 		C08BB5E916CA83B8004F48B0 /* menuBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuBackground.png; sourceTree = "<group>"; };
@@ -519,6 +522,8 @@
 		C0A9EBBE16D9705600DE9FC5 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
+				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
+				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
 				43EB025316DCE4910096431E /* noFavorites.png */,
 				C0896E2C16DA8EA400D73C1E /* disclosureButton.png */,
 				C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */,
@@ -687,6 +692,7 @@
 				C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */,
 				C0A9EBA116D7905C00DE9FC5 /* DiscountObject.m in Sources */,
 				C0A9EBC116D9708F00DE9FC5 /* FavoritesViewController.m in Sources */,
+				C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
