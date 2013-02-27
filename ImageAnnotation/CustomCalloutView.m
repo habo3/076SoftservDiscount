@@ -93,7 +93,7 @@
 }
 
 - (void)rebuildSubviews {
-    // remove and re-add our appropriate subviews in the appropriate order
+    // remove and re-add  subviews
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self setNeedsDisplay];
     
