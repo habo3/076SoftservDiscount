@@ -18,7 +18,7 @@
 @property (nonatomic, copy) NSString *title, *subtitle; 
 @property (nonatomic, retain) UIView *leftAccessoryView, *rightAccessoryView;
 @property (nonatomic, retain) UIView *titleView, *subtitleView;
-@property (nonatomic, assign) CGPoint calloutOffset;
+
 
 
 - (void)presentCalloutFromRect:(CGRect)rect inView:(UIView *)view constrainedToView:(UIView *)constrainedView ;
@@ -33,7 +33,6 @@
 @protocol CustomCalloutViewDelegate <NSObject>
 @optional
 
-- (NSTimeInterval)calloutView:(CustomCalloutView *)calloutView delayForRepositionWithSize:(CGSize)offset;
 - (void)calloutViewDidAppear:(CustomCalloutView *)calloutView;
 - (void)calloutViewDidDisappear:(CustomCalloutView *)calloutView;
 

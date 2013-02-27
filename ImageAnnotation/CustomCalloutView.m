@@ -5,26 +5,18 @@
 //  Created by Mykola on 2/12/13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
-//123
+
 
 #import <QuartzCore/QuartzCore.h>
 #import "CustomCalloutView.h"
 
 
-//
-// UIView frame helpers - we do a lot of UIView frame fiddling in this class; these functions help keep things readable.
-//
-
 @interface UIView (CustomFrameAdditions)
 @property (nonatomic, assign) CGPoint $origin;
 @property (nonatomic, assign) CGSize $size;
-@property (nonatomic, assign) CGFloat $x, $y, $width, $height; // normal rect properties
-@property (nonatomic, assign) CGFloat $left, $top, $right, $bottom; // these will stretch/shrink the rect
+@property (nonatomic, assign) CGFloat $x, $y, $width, $height; 
+@property (nonatomic, assign) CGFloat $left, $top, $right, $bottom; 
 @end
-
-//
-// Callout View.
-//
 
 
 #define CALLOUT_MIN_WIDTH 75 // our background graphics limit us to this minimum width...
@@ -44,8 +36,6 @@
 #define ANCHOR_MARGIN 37 // the smallest possible distance from the edge of our control to the "tip" of the anchor, from either left or right
 
 #define BOTTOM_ANCHOR_MARGIN 10 // if using a bottom anchor, we'll need to account for the shadow below the "tip"
-#define CONTENT_MARGIN 10 // when we try to reposition content to be visible, we'll consider this margin around your target rect
-
 #define TOP_SHADOW_BUFFER 2 // height offset buffer to account for top shadow
 #define BOTTOM_SHADOW_BUFFER 5 // height offset buffer to account for bottom shadow
 #define OFFSET_FROM_ORIGIN 5 // distance to offset vertically from the rect origin of the callout
@@ -128,61 +118,44 @@
 }
 
 - (CGFloat)calloutHeight {
-    CGFloat height = CALLOUT_HEIGHT;
 
-    return height;
+    return CALLOUT_HEIGHT;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     
-    // odd behavior, but mimicking the system callout view
     if (size.width < CALLOUT_MIN_WIDTH)
         return CGSizeMake(CALLOUT_DEFAULT_WIDTH, self.calloutHeight);
     
-    // calculate how much non-negotiable space we need to reserve for margin and accessories
     CGFloat margin = self.innerContentMarginLeft + self.innerContentMarginRight;
     
-    // how much room is left for text?
+    // textWidth
     CGFloat availableWidthForText = size.width - margin;
-    
-    // no room for text? then we'll have to squeeze into the given size somehow.
     if (availableWidthForText < 0)
         availableWidthForText = 0;
     
     CGSize preferredTitleSize = [self.titleViewOrDefault sizeThatFits:CGSizeMake(availableWidthForText, TITLE_HEIGHT)];
     CGSize preferredSubtitleSize = [self.subtitleViewOrDefault sizeThatFits:CGSizeMake(availableWidthForText, SUBTITLE_HEIGHT)];
     
-    // total width we'd like
+    // optimize width 
     CGFloat preferredWidth;
     
+    //text checking
     if (preferredTitleSize.width >= 0.000001 || preferredSubtitleSize.width >= 0.000001) {
-    
-        // if we have a title or subtitle, then our assumed margins are valid, and we can apply them
         preferredWidth = fmaxf(preferredTitleSize.width, preferredSubtitleSize.width) + margin;
     }
     else {
-        // ok we have no title or subtitle to speak of. In this case, the system callout would actually not display
-        // at all! But we can handle it.
+
         preferredWidth = self.leftAccessoryView.$width + self.rightAccessoryView.$width + ACCESSORY_MARGIN*2;
-        
         if (self.leftAccessoryView && self.rightAccessoryView)
             preferredWidth += BETWEEN_ACCESSORIES_MARGIN;
     }
     
-    // ensure we're big enough to fit our graphics!
     preferredWidth = fmaxf(preferredWidth, CALLOUT_MIN_WIDTH);
     
-    // ask to be smaller if we have space, otherwise we'll fit into what we have by truncating the title/subtitle.
     return CGSizeMake(fminf(preferredWidth, size.width), self.calloutHeight);
 }
 
-- (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect {
-    CGFloat nudgeRight = fmaxf(0, CGRectGetMinX(outerRect) - CGRectGetMinX(innerRect));
-    CGFloat nudgeLeft = fminf(0, CGRectGetMaxX(outerRect) - CGRectGetMaxX(innerRect));
-    CGFloat nudgeTop = fmaxf(0, CGRectGetMinY(outerRect) - CGRectGetMinY(innerRect));
-    CGFloat nudgeBottom = fminf(0, CGRectGetMaxY(outerRect) - CGRectGetMaxY(innerRect));
-    return CGSizeMake(nudgeLeft ?: nudgeRight, nudgeTop ?: nudgeBottom);
-}
 
 - (void)presentCalloutFromRect:(CGRect)rect inView:(UIView *)view constrainedToView:(UIView *)constrainedView {
     [self presentCalloutFromRect:rect inLayer:view.layer ofView:view constrainedToLayer:constrainedView.layer ];
@@ -192,43 +165,35 @@
     [self presentCalloutFromRect:rect inLayer:layer ofView:nil constrainedToLayer:constrainedLayer ];
 }
 
-// this private method handles both CALayer and UIView parents depending on what's passed.
+
 - (void)presentCalloutFromRect:(CGRect)rect inLayer:(CALayer *)layer ofView:(UIView *)view constrainedToLayer:(CALayer *)constrainedLayer  {
     
-    // Sanity check: dismiss this callout immediately if it's displayed somewhere
-    //if (self.layer.superlayer) [self dismissCalloutAnimated:NO];
     
-    // figure out the constrained view's rect in our popup view's coordinate system
+    // position in layer coordinates 
     CGRect constrainedRect = [constrainedLayer convertRect:constrainedLayer.bounds toLayer:layer];
-    
-    // form our subviews based on our content set so far
     [self rebuildSubviews];
     
-    // apply title/subtitle (if present
+    // set title/subtitle
     titleLabel.text = self.title;
     subtitleLabel.text = self.subtitle;
     
-    // size the callout to fit the width constraint as best as possible
+    // sizing
     self.$size = [self sizeThatFits:CGSizeMake(constrainedRect.size.width, self.calloutHeight + 10)];
     
-    // we want to point directly at the horizontal center of the given rect. calculate our "anchor point" in terms of our
-    // target view's coordinate system. make sure to offset the anchor point as requested if necessary.
-    CGFloat anchorX = self.calloutOffset.x + CGRectGetMidX(rect);
-    CGFloat anchorY = self.calloutOffset.y + CGRectGetMinY(rect);
-    
-    // we prefer to sit in the exact center of our constrained view, so we have visually pleasing equal left/right margins.
+    //anchor position
+    CGFloat anchorX = CGRectGetMidX(rect);
+    CGFloat anchorY = CGRectGetMinY(rect);
     CGFloat calloutX = roundf(CGRectGetMidX(constrainedRect) - self.$width / 2);
     
-    // what's the farthest to the left and right that we could point to, given our background image constraints?
+    // posibly max/min positionX
     CGFloat minPointX = calloutX + ANCHOR_MARGIN;
     CGFloat maxPointX = calloutX + self.$width - ANCHOR_MARGIN;
     
-    // we may need to scoot over to the left or right to point at the correct spot
     CGFloat adjustX = 0;
     if (anchorX < minPointX) adjustX = anchorX - minPointX;
     if (anchorX > maxPointX) adjustX = anchorX - maxPointX;
     
-    // add the callout to the given layer (or view if possible, to receive touch events)
+    // add the callout to the layer/view
     if (view)
         [view addSubview:self];
     else
@@ -241,36 +206,19 @@
     
     self.$origin = calloutOrigin;
     
-    // now set the *actual* anchor point for our layer so that our "popup" animation starts from this point.
+    // set the *actual* anchor point 
     CGPoint anchorPoint = [layer convertPoint:CGPointMake(anchorX, anchorY) toLayer:self.layer];
     anchorPoint.x /= self.$width;
     anchorPoint.y /= self.$height;
     self.layer.anchorPoint = anchorPoint;
     
-    // setting the anchor point moves the view a bit, so we need to reset
     self.$origin = calloutOrigin;
     
-    // layout now so we can immediately start animating to the final position if needed
+    // layout
     [self setNeedsLayout];
     [self layoutIfNeeded];
-    
-    // if we're outside the bounds of our constraint rect, we'll give our delegate an opportunity to shift us into position.
-    // consider both our size and the size of our target rect (which we'll assume to be the size of the content you want to scroll into view.
-    CGRect contentRect = CGRectUnion(self.frame, CGRectInset(rect, -10, -10));
-    CGSize offset = [self offsetToContainRect:contentRect inRect:constrainedRect];
-    
-    NSTimeInterval delay = 0;
-    popupCancelled = NO; // reset this before calling our delegate below
-    
-    if ([self.delegate respondsToSelector:@selector(calloutView:delayForRepositionWithSize:)] && !CGSizeEqualToSize(offset, CGSizeZero))
-        delay = [self.delegate calloutView:self delayForRepositionWithSize:offset];
-    
-    // there's a chance that user code in the delegate method may have called -dismissCalloutAnimated to cancel things; if that
-    // happened then we need to bail!
-    if (popupCancelled) return;
-    
+        
     self.hidden = NO;
-    
     
 }
 
