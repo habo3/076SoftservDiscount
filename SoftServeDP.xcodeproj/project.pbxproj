@@ -46,6 +46,7 @@
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
 		43EB025416DCE4910096431E /* noFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 43EB025316DCE4910096431E /* noFavorites.png */; };
 		901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 901488AB16D7AEF200B25D72 /* CustomPicker.m */; };
+		9017FB2B16DE1A0E004EB853 /* IconConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9017FB2A16DE1A0E004EB853 /* IconConverter.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
@@ -169,6 +170,8 @@
 		43EB025316DCE4910096431E /* noFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noFavorites.png; sourceTree = "<group>"; };
 		901488AA16D7AEF200B25D72 /* CustomPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomPicker.h; path = ImageAnnotation/CustomPicker.h; sourceTree = SOURCE_ROOT; };
 		901488AB16D7AEF200B25D72 /* CustomPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomPicker.m; path = ImageAnnotation/CustomPicker.m; sourceTree = SOURCE_ROOT; };
+		9017FB2916DE1A0E004EB853 /* IconConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconConverter.h; path = ImageAnnotation/IconConverter.h; sourceTree = SOURCE_ROOT; };
+		9017FB2A16DE1A0E004EB853 /* IconConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconConverter.m; path = ImageAnnotation/IconConverter.m; sourceTree = SOURCE_ROOT; };
 		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
 		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -429,6 +432,8 @@
 				9017FB2816DE1842004EB853 /* Annotation */,
 				4325F4D816CBA680002C7B75 /* MapViewController.h */,
 				4325F4D916CBA680002C7B75 /* MapViewController.m */,
+				9017FB2916DE1A0E004EB853 /* IconConverter.h */,
+				9017FB2A16DE1A0E004EB853 /* IconConverter.m */,
 			);
 			name = Annotation;
 			path = ImageAnnotation;
@@ -709,6 +714,7 @@
 				C0A9EBA116D7905C00DE9FC5 /* DiscountObject.m in Sources */,
 				C0A9EBC116D9708F00DE9FC5 /* FavoritesViewController.m in Sources */,
 				C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */,
+				9017FB2B16DE1A0E004EB853 /* IconConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

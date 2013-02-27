@@ -12,6 +12,7 @@
 #import "Category.h"
 #import "CustomPicker.h"
 #import "DetailsViewController.h"
+#import "IconConverter.h"
 
 #define MAP_SPAN_DELTA 0.005
 
@@ -263,19 +264,7 @@ numberOfRowsInComponent:(NSInteger)component
         // size of custom text in image
         fontsize = fontsize/3;
         font = [font fontWithSize:fontsize];
-        
-        NSString *cuttedSymbol = [text stringByReplacingOccurrencesOfString:@"&#" withString:@"0"];
-        //for debugging
-        //NSLog(@"cutted symbol %@",cuttedSymbol);
-        
-        //converting Unicode Character String (0xe00b) to UTF32Char
-        UTF32Char myChar = 0;
-        NSScanner *myConvert = [NSScanner scannerWithString:cuttedSymbol];
-        [myConvert scanHexInt:(unsigned int *)&myChar];
-        
-        //set data to string
-        NSData *utf32Data = [NSData dataWithBytes:&myChar length:sizeof(myChar)];
-        tmpText = [[NSString alloc] initWithData:utf32Data encoding:NSUTF32LittleEndianStringEncoding];
+        tmpText = [IconConverter ConvertIconText:text];
         
         // own const for pin text (height position)
         float ownHeight = 0.4*startImage.size.height;
