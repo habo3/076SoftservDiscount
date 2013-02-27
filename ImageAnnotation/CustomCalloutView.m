@@ -19,28 +19,27 @@
 @end
 
 
-#define CALLOUT_MIN_WIDTH 75 // our background graphics limit us to this minimum width...
-#define CALLOUT_HEIGHT 70 // ...and allow only for this exact height.
-#define CALLOUT_DEFAULT_WIDTH 153 // default "I give up" width when we are asked to present in a space less than our min width
-#define TITLE_MARGIN 17 // the title view's normal horizontal margin from the edges of our callout view
-#define TITLE_TOP 11 // the top of the title view when no subtitle is present
-#define TITLE_SUB_TOP 3 // the top of the title view when a subtitle IS present
-#define TITLE_HEIGHT 32 // title height, fixed
-#define SUBTITLE_TOP 25 // the top of the subtitle, when present
-#define SUBTITLE_HEIGHT 12 // subtitle height, fixed
-#define TITLE_ACCESSORY_MARGIN 6 // the margin between the title and an accessory if one is present (on either side)
-#define ACCESSORY_MARGIN 14 // the accessory's margin from the edges of our callout view
-#define ACCESSORY_TOP 8 // the top of the accessory "area" in which accessory views are placed
-#define ACCESSORY_HEIGHT 32 // the "suggested" maximum height of an accessory view. shorter accessories will be vertically centered
-#define BETWEEN_ACCESSORIES_MARGIN 7 // if we have no title or subtitle, but have two accessory views, then this is the space between them
-#define ANCHOR_MARGIN 37 // the smallest possible distance from the edge of our control to the "tip" of the anchor, from either left or right
-
-#define BOTTOM_ANCHOR_MARGIN 10 // if using a bottom anchor, we'll need to account for the shadow below the "tip"
-#define TOP_SHADOW_BUFFER 2 // height offset buffer to account for top shadow
-#define BOTTOM_SHADOW_BUFFER 5 // height offset buffer to account for bottom shadow
-#define OFFSET_FROM_ORIGIN 5 // distance to offset vertically from the rect origin of the callout
-#define ANCHOR_HEIGHT 14 // height to use for the anchor
-#define ANCHOR_MARGIN_MIN 24 // the smallest possible distance from the edge of our control to the edge of the anchor, from either left or right
+#define CALLOUT_MIN_WIDTH 75 
+#define CALLOUT_HEIGHT 70 
+#define CALLOUT_DEFAULT_WIDTH 153 
+#define TITLE_MARGIN 17 
+#define TITLE_TOP 11 
+#define TITLE_SUB_TOP 3 
+#define TITLE_HEIGHT 32 
+#define SUBTITLE_TOP 25 
+#define SUBTITLE_HEIGHT 12 
+#define TITLE_ACCESSORY_MARGIN 6 
+#define ACCESSORY_MARGIN 14 
+#define ACCESSORY_TOP 8 
+#define ACCESSORY_HEIGHT 32 
+#define BETWEEN_ACCESSORIES_MARGIN 7 
+#define ANCHOR_MARGIN 37 
+#define BOTTOM_ANCHOR_MARGIN 10 
+#define TOP_SHADOW_BUFFER 2 
+#define BOTTOM_SHADOW_BUFFER 5 
+#define OFFSET_FROM_ORIGIN 5 
+#define ANCHOR_HEIGHT 14 
+#define ANCHOR_MARGIN_MIN 24 
 
 @implementation CustomCalloutView {
     UILabel *titleLabel, *subtitleLabel;
