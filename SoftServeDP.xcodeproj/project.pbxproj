@@ -402,6 +402,15 @@
 			name = CustomView;
 			sourceTree = "<group>";
 		};
+		9017FB2816DE1842004EB853 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				90487CA616A8531D0090F60E /* Annotation.h */,
+				90487CA716A8531D0090F60E /* Annotation.m */,
+			);
+			name = Annotation;
+			sourceTree = "<group>";
+		};
 		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,12 +424,11 @@
 		90487C4916A8407C0090F60E /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
+				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 				9017FB2716DE1705004EB853 /* CustomView */,
+				9017FB2816DE1842004EB853 /* Annotation */,
 				4325F4D816CBA680002C7B75 /* MapViewController.h */,
 				4325F4D916CBA680002C7B75 /* MapViewController.m */,
-				90487CA616A8531D0090F60E /* Annotation.h */,
-				90487CA716A8531D0090F60E /* Annotation.m */,
-				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 			);
 			name = Annotation;
 			path = ImageAnnotation;

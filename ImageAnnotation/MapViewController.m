@@ -88,9 +88,6 @@
     Annotation *myAnnotation;
     myAnnotation= [[Annotation alloc]init];
     
-    // image for callout
-    //UIView *leftImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyLeftImage.png"]];
-    
     // font for pins image
     UIFont *font = [UIFont fontWithName:@"icons" size:10];
     // image with text
@@ -288,7 +285,6 @@ numberOfRowsInComponent:(NSInteger)component
     else
     {
         fontsize = 10;
-        //fontsize = fontsize /text.length*1.3; // multiply by 1.3 for better font visibility
         font = [UIFont systemFontOfSize:fontsize];
         
         margin = (startImage.size.width - font.pointSize * text.length/2)/2;

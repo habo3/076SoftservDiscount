@@ -5,7 +5,7 @@
 //  Created by Mykola on 2/18/13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
-# define ToolbarHeight 44.0
+# define TOOLBAR_HEIGHT 44.0
 
 #import "CustomPicker.h"
 
@@ -43,7 +43,6 @@
     self.successAction = successAction;
     self.data = data;
     self.selectedIndex = index;
-    //allows us to use this without needing to store a reference in calling class
     self.selfReference = self;
     return self;
 }
@@ -97,7 +96,7 @@
 - (UIToolbar *)createPickerToolbar {
     
     //Toolbar
-    CGRect frame = CGRectMake(0, 0, self.viewSize.width, ToolbarHeight);
+    CGRect frame = CGRectMake(0, 0, self.viewSize.width, TOOLBAR_HEIGHT);
     UIToolbar *pickerToolbar = [[UIToolbar alloc] initWithFrame:frame]; 
     pickerToolbar.barStyle = UIBarStyleBlackTranslucent;
     
@@ -121,6 +120,7 @@
 }
 
 - (void)configureAndPresentActionSheetForView:(UIView *)aView {
+    
     _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     [_actionSheet addSubview:aView];
     [_actionSheet showFromBarButtonItem:_target animated:YES];
@@ -128,7 +128,7 @@
 }
 
 - (UIView *)configuredPickerView {
-    CGRect pickerFrame = CGRectMake(0, ToolbarHeight, self.viewSize.width, self.viewSize.height);
+    CGRect pickerFrame = CGRectMake(0, TOOLBAR_HEIGHT, self.viewSize.width, self.viewSize.height);
     UIPickerView *stringPicker = [[UIPickerView alloc] initWithFrame:pickerFrame]; 
     stringPicker.delegate = self;
     stringPicker.dataSource = self;
