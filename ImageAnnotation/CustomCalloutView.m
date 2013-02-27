@@ -26,7 +26,6 @@
 // Callout View.
 //
 
-//NSTimeInterval kCustomCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
 
 #define CALLOUT_MIN_WIDTH 75 // our background graphics limit us to this minimum width...
 #define CALLOUT_HEIGHT 70 // ...and allow only for this exact height.
@@ -43,7 +42,7 @@
 #define ACCESSORY_HEIGHT 32 // the "suggested" maximum height of an accessory view. shorter accessories will be vertically centered
 #define BETWEEN_ACCESSORIES_MARGIN 7 // if we have no title or subtitle, but have two accessory views, then this is the space between them
 #define ANCHOR_MARGIN 37 // the smallest possible distance from the edge of our control to the "tip" of the anchor, from either left or right
-#define TOP_ANCHOR_MARGIN 13 // all the above measurements assume a bottom anchor! if we're pointing "up" we'll need to add this top margin to everything.
+
 #define BOTTOM_ANCHOR_MARGIN 10 // if using a bottom anchor, we'll need to account for the shadow below the "tip"
 #define CONTENT_MARGIN 10 // when we try to reposition content to be visible, we'll consider this margin around your target rect
 
@@ -69,11 +68,11 @@
 
 - (UIView *)titleViewOrDefault {
     if (self.titleView)
-        // if you have a custom title view defined, return that.
+
         return self.titleView;
     else {
         if (!titleLabel) {
-            // create a default titleView
+
             titleLabel = [UILabel new];
             titleLabel.$height = TITLE_HEIGHT;
             titleLabel.opaque = NO;
@@ -87,11 +86,11 @@
 
 - (UIView *)subtitleViewOrDefault {
     if (self.subtitleView)
-        // if you have a custom subtitle view defined, return that.
+
         return self.subtitleView;
     else {
         if (!subtitleLabel) {
-            // create a default subtitleView
+
             subtitleLabel = [UILabel new];
             subtitleLabel.$height = SUBTITLE_HEIGHT;
             subtitleLabel.opaque = NO;
@@ -108,13 +107,8 @@
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self setNeedsDisplay];
     
-    if (self.contentView) {
-        [self addSubview:self.contentView];
-    }
-    else {
-        if (self.titleViewOrDefault) [self addSubview:self.titleViewOrDefault];
-        if (self.subtitleViewOrDefault) [self addSubview:self.subtitleViewOrDefault];
-    }
+    if (self.titleViewOrDefault) [self addSubview:self.titleViewOrDefault];
+    if (self.subtitleViewOrDefault) [self addSubview:self.subtitleViewOrDefault];
     if (self.leftAccessoryView) [self addSubview:self.leftAccessoryView];
     if (self.rightAccessoryView) [self addSubview:self.rightAccessoryView];
 }
@@ -135,11 +129,7 @@
 
 - (CGFloat)calloutHeight {
     CGFloat height = CALLOUT_HEIGHT;
-    if (self.contentView) {
-        height = self.contentView.$height + TITLE_TOP * 2;
-        // account for anchor that's also part of the view
-        height += ANCHOR_HEIGHT + BOTTOM_ANCHOR_MARGIN;
-    }
+
     return height;
 }
 
@@ -165,13 +155,8 @@
     // total width we'd like
     CGFloat preferredWidth;
     
-    if (self.contentView) {
-        
-        // if we have a content view, then take our preferred size directly from that
-        preferredWidth = self.contentView.$width + margin;
-    }
-    else if (preferredTitleSize.width >= 0.000001 || preferredSubtitleSize.width >= 0.000001) {
-        
+    if (preferredTitleSize.width >= 0.000001 || preferredSubtitleSize.width >= 0.000001) {
+    
         // if we have a title or subtitle, then our assumed margins are valid, and we can apply them
         preferredWidth = fmaxf(preferredTitleSize.width, preferredSubtitleSize.width) + margin;
     }
@@ -226,11 +211,6 @@
     // size the callout to fit the width constraint as best as possible
     self.$size = [self sizeThatFits:CGSizeMake(constrainedRect.size.width, self.calloutHeight + 10)];
     
-    // how much room do we have in the constraint box, both above and below our target rect?
-    //    CGFloat topSpace = CGRectGetMinY(rect) - CGRectGetMinY(constrainedRect);
-    //    CGFloat bottomSpace = CGRectGetMaxY(constrainedRect) - CGRectGetMaxY(rect);
-    
-    
     // we want to point directly at the horizontal center of the given rect. calculate our "anchor point" in terms of our
     // target view's coordinate system. make sure to offset the anchor point as requested if necessary.
     CGFloat anchorX = self.calloutOffset.x + CGRectGetMidX(rect);
@@ -256,7 +236,7 @@
     
     CGPoint calloutOrigin = {
         .x = calloutX + adjustX,
-        .y = /*bestDirection == CustomCalloutArrowDirectionDown ?*/ (anchorY - self.calloutHeight + BOTTOM_ANCHOR_MARGIN) //: anchorY
+        .y =  anchorY - self.calloutHeight + BOTTOM_ANCHOR_MARGIN
     };
     
     self.$origin = calloutOrigin;
@@ -289,15 +269,14 @@
     // happened then we need to bail!
     if (popupCancelled) return;
     
-    // if we need to delay, we don't want to be visible while we're delaying, so hide us in preparation for our popup
-    self.hidden =NO;//YES;
+    self.hidden = NO;
     
     
 }
 
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    // we want to match the system callout view, which doesn't "capture" touches outside the accessory areas. This way you can click on other pins and things *behind* a translucent callout.
+    
     return
     [self.leftAccessoryView pointInside:[self.leftAccessoryView convertPoint:point fromView:self] withEvent:nil] ||
     [self.rightAccessoryView pointInside:[self.rightAccessoryView convertPoint:point fromView:self] withEvent:nil] ||
@@ -307,19 +286,16 @@
 
 - (void)dismissCalloutAnimated {
     
-    //
     popupCancelled = YES;
     [self removeFromParent];
 }
-//
+
 - (void)removeFromParent {
+    
     if (self.superview)
         [self removeFromSuperview];
-    else {
-        
+    else 
         [self.layer removeFromSuperlayer];
-        
-    }
 }
 
 
@@ -333,34 +309,24 @@
 
 - (void)layoutSubviews {
     
-    // if we're pointing up, we'll need to push almost everything down a bit
-    CGFloat dy = 0;
-    
+    //title
     self.titleViewOrDefault.$x = self.innerContentMarginLeft;
-    self.titleViewOrDefault.$y = (self.subtitleView || self.subtitle.length ? TITLE_SUB_TOP : TITLE_TOP) + dy;
+    self.titleViewOrDefault.$y = (self.subtitleView || self.subtitle.length ? TITLE_SUB_TOP : TITLE_TOP);
     self.titleViewOrDefault.$width = self.$width - self.innerContentMarginLeft - self.innerContentMarginRight;
     
+    //subtitle
     self.subtitleViewOrDefault.$x = self.titleViewOrDefault.$x;
-    self.subtitleViewOrDefault.$y = SUBTITLE_TOP + dy;
+    self.subtitleViewOrDefault.$y = SUBTITLE_TOP;
     self.subtitleViewOrDefault.$width = self.titleViewOrDefault.$width;
     
+    //leftAccessory
     self.leftAccessoryView.$x = ACCESSORY_MARGIN;
-    if (self.contentView)
-        self.leftAccessoryView.$y = TITLE_TOP + [self centeredPositionOfView:self.leftAccessoryView relativeToView:self.contentView] + dy;
-    else
-        self.leftAccessoryView.$y = ACCESSORY_TOP + [self centeredPositionOfView:self.leftAccessoryView ifSmallerThan:ACCESSORY_HEIGHT] + dy;
+    self.leftAccessoryView.$y = ACCESSORY_TOP + [self centeredPositionOfView:self.leftAccessoryView ifSmallerThan:ACCESSORY_HEIGHT];
     
+    //rightAccessory
     self.rightAccessoryView.$x = self.$width-ACCESSORY_MARGIN-self.rightAccessoryView.$width;
-    if (self.contentView)
-        self.rightAccessoryView.$y = TITLE_TOP + [self centeredPositionOfView:self.rightAccessoryView relativeToView:self.contentView] + dy;
-    else
-        self.rightAccessoryView.$y = ACCESSORY_TOP + [self centeredPositionOfView:self.rightAccessoryView ifSmallerThan:ACCESSORY_HEIGHT] + dy;
-    
-    
-    if (self.contentView) {
-        self.contentView.$x = self.innerContentMarginLeft;
-        self.contentView.$y = TITLE_TOP + dy;
-    }
+    self.rightAccessoryView.$y = ACCESSORY_TOP + [self centeredPositionOfView:self.rightAccessoryView ifSmallerThan:ACCESSORY_HEIGHT];
+
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -402,7 +368,7 @@
     // Frames
     CGRect frame = rect;
 
-    //// CoreGroup ////
+    // Callout
     {
         CGContextSaveGState(context);
         
@@ -433,8 +399,8 @@
         CGContextSetShadowWithColor(context, CGSizeMake(0.2,3.0), 2.1,shadowBlack.CGColor);
         [fillColor setFill];
         [backgroundPath fill];
-        //[strokeColor setStroke];
-        CGContextSetLineWidth(context, backgroundStrokeWidth);
+        
+        //CGContextSetLineWidth(context, backgroundStrokeWidth);
         CGContextStrokePath(context);
         
         [strokeColor setStroke];
@@ -448,9 +414,9 @@
 
 @end
 
-//
-// Our UIView frame helpers implementation
-//
+
+#pragma mark - UIView frame helpers
+
 
 @implementation UIView (CustomFrameAdditions)
 

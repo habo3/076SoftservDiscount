@@ -18,7 +18,6 @@
 @property (nonatomic, copy) NSString *title, *subtitle; 
 @property (nonatomic, retain) UIView *leftAccessoryView, *rightAccessoryView;
 @property (nonatomic, retain) UIView *titleView, *subtitleView;
-@property (nonatomic, retain) UIView *contentView;
 @property (nonatomic, assign) CGPoint calloutOffset;
 
 
