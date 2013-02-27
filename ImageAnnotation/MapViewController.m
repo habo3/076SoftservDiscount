@@ -22,12 +22,12 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) CustomCalloutView *calloutView;
 @property (nonatomic) NSMutableArray *annArray;
-@property (nonatomic) NSArray *dataSource; //category names for picker
+@property (nonatomic) NSArray *dataSource; 
 @property (nonatomic) NSArray *categoryObjects;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
 @property (nonatomic,assign) DiscountObject *selectedObject;
-//@property (nonatomic,assign) UIImage *selectedPintype;
+
 @end
 
 @implementation MapViewController
@@ -41,6 +41,39 @@
 @synthesize filterButton;
 @synthesize selectedObject;
 
+#pragma mark - View
+
+- (void)viewDidLoad
+{
+    
+    [super viewDidLoad];
+    
+    [self setControllerButtons];
+    self.mapView.delegate = self;
+    self.dataSource = [self fillPicker];
+    self.annArray = [[NSMutableArray alloc] init];
+    
+    
+    self.calloutView.delegate = self;
+    self.calloutView = [CustomCalloutView new];
+    
+    // button for callout
+    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
+    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake(0.0, 0.0, 32 ,32);
+    disclosureButton.frame = frame;
+    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
+    disclosureButton.backgroundColor = [UIColor clearColor];
+    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.calloutView.rightAccessoryView = disclosureButton;
+    
+    self.annArray = [NSArray arrayWithArray: [self getAllPins]];
+    
+    
+    [self gotoLocation];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     
@@ -48,31 +81,28 @@
     
     [self gotoLocation];
     
-    [self.mapView removeAnnotations:self.mapView.annotations];  // remove any annotations that exist
+    [self.mapView removeAnnotations:self.mapView.annotations];  
     [self.navigationController.navigationBar addSubview:filterButton];
     [self.mapView addAnnotations:self.annArray];
 }
 
-//- (void)
 
 -(void)setControllerButtons
 {
     //filterButton
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height /*image.size.height*/);
+    CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height);
     filterButton.frame = filterFrame;
     
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
-    /*[self.navigationController.navigationBar addSubview:filterButton];*/
-    
-    
+        
     //geoButton
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
     UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height- geoButtonImage.size.height-5, geoButtonImage.size.width,geoButtonImage.size.height /*image.size.height*/);
+    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height- geoButtonImage.size.height-5, geoButtonImage.size.width,geoButtonImage.size.height);
     geoButton.frame = geoFrame;
     
     [geoButton setBackgroundImage:geoButtonImage forState:UIControlStateNormal];
@@ -80,6 +110,8 @@
     geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
 }
+
+#pragma mark - createAnnotation
 
 - (Annotation*)createAnnotationFromData:(DiscountObject*)discountObject
 {
@@ -101,16 +133,13 @@
     NSString *dbSubtitle = discountObject.address;
     NSSet *dbCategories = discountObject.categories;
     NSNumber *dbDiscountTo = discountObject.discountTo;
-    //NSNumber *dbDiscountFrom = object.discountFrom;
     Category *dbCategory = [dbCategories anyObject];
     
-
-    //display text on images
 
     // formating discountValue to "x%", where x discountValue
     NSString *value = [dbDiscountTo stringValue];
     NSString *discTo = value;
-    //discTo = [discTo stringByAppendingString:value];
+    
     discTo = [discTo  stringByAppendingString:@"%"];
     
     // creating new image
@@ -135,36 +164,8 @@
     return myAnnotation;
 }
 
-- (void)viewDidLoad
-{
-    
-    [super viewDidLoad];
-    
-    [self setControllerButtons];
-    self.mapView.delegate = self;
-    self.dataSource = [self fillPicker];
-    self.annArray = [[NSMutableArray alloc] init];
-    
-    // calloutView init
-    self.calloutView.delegate = self;
-    self.calloutView = [CustomCalloutView new];
-    // button for callout
-    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
-    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect frame = CGRectMake(0.0, 0.0, 32 /*image.size.width*/,32 /*image.size.height*/);
-    disclosureButton.frame = frame;
-    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
-    disclosureButton.backgroundColor = [UIColor clearColor];
-    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
-    //self.calloutView.leftAccessoryView = leftImage;
-    self.calloutView.rightAccessoryView = disclosureButton;
-    
-    self.annArray = [NSArray arrayWithArray: [self getAllPins]];
-    
-    
-    [self gotoLocation];
-}
 
+#pragma mark - Picker section
 
 - (NSArray*)getAllPins
 {
@@ -172,13 +173,13 @@
     // fetch objects from db
     NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"//@"DiscountObject"
+    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
                                  inManagedObjectContext:managedObjectContext]];
     [fetch setPredicate:objectsFind];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
     
     Annotation *currentAnn = [[Annotation alloc]init];
-    for (/*DiscountObject*/ Category *object1 in objectsFound)
+    for (Category *object1 in objectsFound)
     {
         NSSet *dbAllObjInCategory= object1.discountobject;
         for(DiscountObject *object in dbAllObjInCategory)
@@ -208,22 +209,21 @@
 
 - (NSArray*)fillPicker
 {
-    //NSArray *objectsFound = [[NSArray alloc]init];
+
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     [fetch setEntity:[NSEntityDescription entityForName:@"Category"
                               inManagedObjectContext:managedObjectContext]];
     categoryObjects = [managedObjectContext executeFetchRequest:fetch error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-    //NSString *first
+
     [fetchArr addObject:@"Усі категорії"];
     for ( Category *object in categoryObjects)
     {
-        //NSLog(@"name: %@", object1.name);
+
         [fetchArr addObject:(NSString*)object.name];
     }
     return [NSArray arrayWithArray:fetchArr];
 }
-
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
@@ -249,6 +249,7 @@ numberOfRowsInComponent:(NSInteger)component
     return toInterfaceOrientation!= UIInterfaceOrientationPortraitUpsideDown;
 }
 
+#pragma mark - TextOnImage
 
 - (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
 {
@@ -297,17 +298,17 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 
-#pragma mark - MKMapViewDelegate
+#pragma mark - MKMapViewPin
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     
-    // in case it's the user location, we already have an annotation, so just return nil
+    
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
     
     
-    if ([annotation isKindOfClass:[Annotation class]])   // for Annotation
+    if ([annotation isKindOfClass:[Annotation class]])  
     {
         // type cast for property use
         Annotation *newAnnotation;
@@ -335,9 +336,8 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
+}
 
 
 
@@ -357,7 +357,7 @@ numberOfRowsInComponent:(NSInteger)component
     [calloutView performSelector:@selector(dismissCalloutAnimated) withObject:nil afterDelay:0];
 }
 
-
+#pragma mark - custom callout
 
 - (void)popupMapCalloutView:(CustomAnnotationView *)annotationView {
     if(![[self.mapView.selectedAnnotations objectAtIndex:0]isKindOfClass:[MKUserLocation class]])
@@ -382,10 +382,10 @@ numberOfRowsInComponent:(NSInteger)component
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = self.selectedObject;
-    //dvc.pintype = self.selectedPintype;
+;
     dvc.managedObjectContext = self.managedObjectContext;
     
-    //remove text from "Back" button (c)Bogdan
+
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:nil
@@ -404,7 +404,7 @@ numberOfRowsInComponent:(NSInteger)component
 
 
 
-#pragma mark -
+#pragma mark - location
 
 
 - (void)gotoLocation
@@ -455,13 +455,14 @@ numberOfRowsInComponent:(NSInteger)component
     [aMapView setRegion:region animated:YES];
 }
 
-    //display filter category
+#pragma mark - filter 
+
 - (IBAction)filterCategory:(UIControl *)sender {
     [CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
     
 }
 
-    //selectedCategory
+
 - (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
     
     if(selectedIndex != [selectIndex integerValue])

@@ -414,11 +414,28 @@
 			name = Annotation;
 			sourceTree = "<group>";
 		};
+		9017FB2C16DE2033004EB853 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				90487C4916A8407C0090F60E /* Annotation */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		9017FB2D16DE2051004EB853 /* IconConverter */ = {
+			isa = PBXGroup;
+			children = (
+				9017FB2916DE1A0E004EB853 /* IconConverter.h */,
+				9017FB2A16DE1A0E004EB853 /* IconConverter.m */,
+			);
+			name = IconConverter;
+			sourceTree = "<group>";
+		};
 		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
 			isa = PBXGroup;
 			children = (
 				906800DF16B033EE0053F50C /* Images */,
-				90487C4916A8407C0090F60E /* Annotation */,
+				9017FB2C16DE2033004EB853 /* New Group */,
 			);
 			name = ImageAnnotation;
 			path = ../../ImageAnnotation;
@@ -427,13 +444,12 @@
 		90487C4916A8407C0090F60E /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
+				9017FB2816DE1842004EB853 /* Annotation */,
+				9017FB2D16DE2051004EB853 /* IconConverter */,
 				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 				9017FB2716DE1705004EB853 /* CustomView */,
-				9017FB2816DE1842004EB853 /* Annotation */,
 				4325F4D816CBA680002C7B75 /* MapViewController.h */,
 				4325F4D916CBA680002C7B75 /* MapViewController.m */,
-				9017FB2916DE1A0E004EB853 /* IconConverter.h */,
-				9017FB2A16DE1A0E004EB853 /* IconConverter.m */,
 			);
 			name = Annotation;
 			path = ImageAnnotation;
