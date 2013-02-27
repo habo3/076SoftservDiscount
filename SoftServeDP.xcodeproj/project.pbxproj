@@ -391,6 +391,17 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		9017FB2716DE1705004EB853 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				4325F4CE16CBA57A002C7B75 /* CustomCalloutView.h */,
+				4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */,
+				4325F4D016CBA57A002C7B75 /* CustomAnnotationView.h */,
+				4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */,
+			);
+			name = CustomView;
+			sourceTree = "<group>";
+		};
 		90487C4716A8407C0090F60E /* ImageAnnotation */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,15 +415,12 @@
 		90487C4916A8407C0090F60E /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
-				4325F4CE16CBA57A002C7B75 /* CustomCalloutView.h */,
-				4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */,
+				9017FB2716DE1705004EB853 /* CustomView */,
 				4325F4D816CBA680002C7B75 /* MapViewController.h */,
 				4325F4D916CBA680002C7B75 /* MapViewController.m */,
-				4325F4D016CBA57A002C7B75 /* CustomAnnotationView.h */,
-				4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */,
 				90487CA616A8531D0090F60E /* Annotation.h */,
 				90487CA716A8531D0090F60E /* Annotation.m */,
-				9083FAF816D4DDD900BA3C24 /* myPicker */,
+				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 			);
 			name = Annotation;
 			path = ImageAnnotation;
@@ -431,13 +439,13 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		9083FAF816D4DDD900BA3C24 /* myPicker */ = {
+		9083FAF816D4DDD900BA3C24 /* CustomPicker */ = {
 			isa = PBXGroup;
 			children = (
 				901488AA16D7AEF200B25D72 /* CustomPicker.h */,
 				901488AB16D7AEF200B25D72 /* CustomPicker.m */,
 			);
-			name = myPicker;
+			name = CustomPicker;
 			sourceTree = "<group>";
 		};
 		C08BB5EB16CA83DA004F48B0 /* SlideMenu */ = {

@@ -15,5 +15,5 @@
 @property (nonatomic) UIImage *pintype;
 @property (nonatomic) UIView *leftImage;
 @property (nonatomic,assign) DiscountObject *object;
-@property (nonatomic,assign)CLLocationCoordinate2D coordinate;
+@property (nonatomic,assign) CLLocationCoordinate2D coordinate;
 @end
