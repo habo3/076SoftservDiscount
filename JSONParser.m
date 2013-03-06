@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
-//123
+//12
 #import "JSONParser.h"
 #import "Category.h"
 #import "City.h"
