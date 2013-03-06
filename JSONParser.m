@@ -352,18 +352,18 @@
 - (void)testDB {
     
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
                                  inManagedObjectContext:managedObjectContext]];
     NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
-    for (Category *cat in objectsFound){
- //       for (DiscountObject *object in cat.discountobject) {
-//            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
-                NSLog(@"%@ - %@ %@", cat.id, cat.name, cat.fontSymbol);
-              //  NSLog(@"---------------------------");
-           // }
-   //     }
-//        return;
- //       NSLog(@"name: %@ id: %@", cat.name, cat.id);
+    for (DiscountObject *obj in objectsFound){
+        //       for (DiscountObject *object in cat.discountobject) {
+        //            if ([object.id isEqualToNumber: [NSNumber numberWithInt:476]]){
+        NSLog(@" %@ %@", obj.name, obj.address);
+        //  NSLog(@"---------------------------");
+        // }
+        //     }
+        //        return;
+        //       NSLog(@"name: %@ id: %@", cat.name, cat.id);
     }
 }
 
