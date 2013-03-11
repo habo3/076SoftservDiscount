@@ -106,10 +106,23 @@
     NSMutableArray *address = [[NSMutableArray alloc]init];
     for(DiscountObject *object in objectsFound)
     {
-        [names addObject:object.name];
-        [address addObject:object.address];
+        
+        if (object.name)
+        {
+            [names addObject:object.name];
+            if (!object.address)
+            {
+                [address addObject:@""];
+            }
+            else
+            {
+                [address addObject:object.address];
+            }
+        }
+        
         
     }
+
     NSPredicate *template = [NSPredicate predicateWithFormat:@"name contains[cd] $SEARCH OR address contains[cd]  $SEARCH"];
     NSDictionary *replace = [NSDictionary dictionaryWithObject:self.searchDisplayController.searchBar.text forKey:@"SEARCH"];
     NSPredicate *predicate = [template predicateWithSubstitutionVariables:replace];
