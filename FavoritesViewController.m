@@ -13,6 +13,7 @@
 #import "Category.h"
 #import "DetailsViewController.h"
 #import "IconConverter.h"
+#import "PlaceCell.h"
 
 @interface FavoritesViewController (){
     int numberOfRowClicked;
@@ -44,47 +45,58 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"element";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell"];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"PlaceCell"
+                                              owner:nil
+                                            options:nil] objectAtIndex:0];
+        
+    }
+    //here forms search object
     DiscountObject * object =[favoriteObjects objectAtIndex:indexPath.row];
     
     //set labels
-    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
-    nameLabel.text = object.name;
-    UILabel *adressLabel = (UILabel *)[cell viewWithTag:2];
-    adressLabel.text = object.address;
+    cell.nameLabel.text = object.name;
+    cell.addressLabel.text = object.address;
     //set location label if GPS available
     if(geoLocationIsON)
     {
         if (self.currentLocation) {
-            UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3];
+            
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
                                                                     longitude:[object.geoLongitude doubleValue]];
             double distance = [self.currentLocation distanceFromLocation:objectLocation];
             if (distance > 999){
-                distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
             }
             else {
-                distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
             }
         }
     }
     else
     {
-        UIImageView *distanceBackround = (UIImageView*)[cell viewWithTag:10];
-        distanceBackround.hidden = YES;
-        UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3];
-        distanceLabel.hidden =YES;
+        cell.detailsDistanceBackground.hidden = YES;
+        cell.distanceLabel.hidden =YES;
     }
     
-    //set category icon
+    cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    
+    
+    UIImage *buttonImage = [UIImage imageNamed:@"disclosureButton"];
+    cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
+    
     NSString *tmpText = [IconConverter ConvertIconText:symbol];
-    UIFont *fontTest = [UIFont fontWithName:@"icons" size:21];
-    UILabel *categoryIcon = (UILabel *)[cell viewWithTag:6];
-    categoryIcon.text = tmpText;
-    [categoryIcon setFont:fontTest];
+    UIFont *font = [UIFont fontWithName:@"icons" size:20];
+    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
+    cell.iconLabel.font = font;
+    cell.iconLabel.text = tmpText;
+    cell.iconLabel.textAlignment = UITextAlignmentCenter;
+    
     
     return cell;
 }

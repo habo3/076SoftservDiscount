@@ -39,6 +39,7 @@
 @property (nonatomic) NSInteger selectedCityIndex;
 // section city
 @property (weak, nonatomic) IBOutlet UILabel *selectedCityLabel;
+@property (weak, nonatomic) IBOutlet UIButton *changeCity;
 
 // section about
 @property (weak, nonatomic) IBOutlet UILabel *versionLabelText;
@@ -64,18 +65,7 @@
     
     return [super init];
 }
-/*-(IBAction)updateDB{
-    JSONParser *parser = [[JSONParser alloc] init];
-    parser.managedObjectContext = self.managedObjectContext;
-    [parser updateDB];
-}
 
--(IBAction)showCities{
-   
-    JSONParser *parser = [[JSONParser alloc] init];
-    parser.managedObjectContext = self.managedObjectContext;
-    [parser testDB];
-}*/
 
 - (IBAction)autoUpdateSwitch:(UISwitch *)sender {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -127,13 +117,13 @@
     }
     [userDefaults setObject:[NSNumber numberWithInt: selectedCityIndex] forKey:@"selectedCity"];
     [userDefaults setObject:[self.cities objectAtIndex:selectedCityIndex] forKey:@"cityName"];
-    //[userDefaults setObject:loadCoordinates forKey:@"loadCity"];
     [userDefaults synchronize];
 }
 
 - (IBAction)selectUpdatePeriod:(id)sender {
     [CustomPicker showPickerWithRows:self.updatePeriods initialSelection:self.selectedUpdateIndex target:self successAction:@selector(periodWasSelected:element:)];
 }
+
 - (void)periodWasSelected:(NSNumber *)selectIndex element:(id)element {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -177,8 +167,6 @@
 
 - (void)viewDidLoad {
 
-    [scroller setScrollEnabled:YES];
-    [scroller setContentSize:self.view.frame.size];
     self.updatePeriods = [NSArray arrayWithObjects:
                           @"8 годин",
                           @"12 годин",
@@ -210,14 +198,13 @@
     versionLabelNumber.text = @"1.0";
     versionDBLabelText.text = @"Версія бази даних";
     versionDBLabelNumber.text = @"1.1.1";
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue];
-    //NSInteger updatePeriod = [[userDefaults objectForKey:@"updatePeriod"] integerValue];
     BOOL automaticUpdateIsON = [[userDefaults objectForKey:@"isUpdateEnable"]boolValue];
     
     selectedCityIndex = [[userDefaults objectForKey:@"selectedCity"] integerValue];
@@ -258,6 +245,7 @@
     [self setVersionDBLabelText:nil];
     [self setVersionDBLabelNumber:nil];
     [self setGeoLocationSwitch:nil];
+    [self setChangeCity:nil];
     [super viewDidUnload];
 }
 @end
