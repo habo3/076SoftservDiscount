@@ -141,6 +141,20 @@
     [self reloadTableWithDistancesValues];
 }
 
++(NSArray *)sortByName: (NSArray *)array
+{
+    NSMutableArray *myMutableArray = [array mutableCopy];
+    NSMutableCharacterSet *trimChars = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
+    [trimChars addCharactersInString:@"\"\'"];
+    [myMutableArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        DiscountObject *d1 = obj1;
+        DiscountObject *d2 = obj2;
+        NSString *trimmedName1 = [d1.name stringByTrimmingCharactersInSet:trimChars];
+        NSString *trimmedName2 = [d2.name stringByTrimmingCharactersInSet:trimChars];
+        return [trimmedName1 compare:trimmedName2];
+    }];
+    return myMutableArray;
+}
 
 +(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
     
@@ -183,6 +197,11 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         locationManager.distanceFilter = 10;
         [locationManager startUpdatingLocation];
+    }
+    else
+    {
+        self.favoriteObjects = [FavoritesViewController sortByName:favoriteObjects];
+        [self.tableView reloadData];
     }
     //get favorite objects from DB
     favoriteObjects = [[NSArray alloc] init];

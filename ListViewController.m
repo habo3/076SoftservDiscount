@@ -91,6 +91,12 @@
         [self reloadTableWithDistancesValues];
         [locationManager startUpdatingLocation];
     }
+    else
+    {
+        self.objectsFound = [FavoritesViewController sortByName:objectsFound];
+        [self.tableView reloadData];
+    }
+        
     [self.searchDisplayController.searchBar setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed: @"searchBarBG.png"]]];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];

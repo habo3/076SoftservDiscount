@@ -17,5 +17,6 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 +(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location;
++(NSArray *)sortByName: (NSArray *)array;
 
 @end
