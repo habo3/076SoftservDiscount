@@ -14,7 +14,9 @@
 #import "CustomPicker.h"
 
 @interface SettingsViewController ()
-
+{
+    IBOutlet UIScrollView *scroller;
+}
 //section labels
 @property (weak, nonatomic) IBOutlet UILabel *geoLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *updateLabel;
@@ -175,8 +177,8 @@
 
 - (void)viewDidLoad {
 
-    
-
+    [scroller setScrollEnabled:YES];
+    [scroller setContentSize:self.view.frame.size];
     self.updatePeriods = [NSArray arrayWithObjects:
                           @"8 годин",
                           @"12 годин",
