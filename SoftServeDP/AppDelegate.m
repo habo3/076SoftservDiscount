@@ -34,7 +34,7 @@
     if (![userDefaults objectForKey:@"lastDBUpdate"]) {
         [parser updateDB];
         // set update frequency
-        [userDefaults setObject:[NSNumber numberWithInt:1] forKey:@"updatePeriod"];
+        [userDefaults setObject:[NSNumber numberWithInt:0] forKey:@"updatePeriod"];
     }
     else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {

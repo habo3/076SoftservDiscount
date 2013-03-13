@@ -15,6 +15,7 @@
 @property (strong,nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong,nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *detailsDistanceBackground;
  
 @property (weak, nonatomic) IBOutlet UILabel *iconLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;

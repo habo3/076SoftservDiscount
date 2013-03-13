@@ -69,9 +69,8 @@
     self.calloutView.rightAccessoryView = disclosureButton;
     
     self.annArray = [NSArray arrayWithArray: [self getAllPins]];
-    
-    
-    [self gotoLocation];
+
+    //[self gotoLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -324,7 +323,12 @@ numberOfRowsInComponent:(NSInteger)component
         }
         //setting pin image
         annotationView.image = newAnnotation.pintype;
+        if((newAnnotation.coordinate.latitude==0)&&(newAnnotation.coordinate.longitude == 0))
+        {
+            annotationView.hidden = YES;
+        }
         return annotationView;
+       
     }
     
     return nil;
@@ -382,7 +386,6 @@ numberOfRowsInComponent:(NSInteger)component
     [filterButton removeFromSuperview];
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = self.selectedObject;
-;
     dvc.managedObjectContext = self.managedObjectContext;
     
 
@@ -409,33 +412,63 @@ numberOfRowsInComponent:(NSInteger)component
 
 - (void)gotoLocation
 {
-    MKCoordinateRegion newRegion;
-    newRegion.center.latitude = 49.836744;
-    newRegion.center.longitude = 24.031359;
-    newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
-    newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
-    
-    [self.mapView setRegion:newRegion animated:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *city = [userDefaults objectForKey:@"cityName"];
+    if(!city)
+    {
+        city = @"Львів";
+    }
+        CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+        NSString *address = [NSString stringWithFormat:@"%@", city];
+        [geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
+            if ([placemarks count] > 0) {
+                CLPlacemark *placemark = [placemarks objectAtIndex:0];
+                CLLocation *tmpLocation = placemark.location;
+                CLLocationCoordinate2D coordinate = tmpLocation.coordinate;
+                MKCoordinateRegion newRegion;
+                newRegion.center.latitude = coordinate.latitude;
+                newRegion.center.longitude = coordinate.longitude ;
+                newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
+                newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
+                [self.mapView setRegion:newRegion animated:YES];
+                NSLog(@"%f %f", coordinate.latitude,coordinate.longitude);
+
+            }
+        }];
 }
 
 - (IBAction) getLocation:(id)sender {
     
-    if(self.mapView.showsUserLocation)
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    if(geoLocationIsON)
     {
-        self.mapView.showsUserLocation = FALSE;
-        [location stopUpdatingLocation];
+        if(self.mapView.showsUserLocation)
+        {
+            self.mapView.showsUserLocation = FALSE;
+            [location stopUpdatingLocation];
+        }
+        else
+        {
+            self.mapView.showsUserLocation = TRUE;
+            
+            self.location = [[CLLocationManager alloc]init];
+            location.delegate = self;
+            
+            location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+            location.distanceFilter = kCLDistanceFilterNone;
+            [location startUpdatingLocation];
+            
+        }
     }
     else
     {
-        self.mapView.showsUserLocation = TRUE;
-        
-        self.location = [[CLLocationManager alloc]init];
-        location.delegate = self;
-        
-        location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        location.distanceFilter = kCLDistanceFilterNone;
-        [location startUpdatingLocation];
-        
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"UserLocation is unable"
+                                                          message:@"Please enable GeoLocation in Settings"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
     }
 }
 

@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *zeroCellGrayBackgound;
 @property (weak, nonatomic) IBOutlet UIButton *favoritesButton;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UIImageView *distanceBackground;
 
 
 +(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
@@ -59,12 +60,12 @@
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
-    
+    /*
     for (UIView *v in [self.mapView subviews]) {
         if ([NSStringFromClass([v class]) isEqualToString:@"MKAttributionLabel"]) {
             v.hidden = YES;
         }
-    }
+    }*/
     
     // set mapview delegate and annotation for display
     self.mapView.delegate = self;
@@ -95,7 +96,8 @@
     self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
     self.name.text = discountObject.name;
     self.category.text = categoryName;
-    self.distanceToObject.text = @"...";
+    
+    //self.distanceToObject.text = @"...";
     self.address.text = discountObject.address;
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts) {
@@ -112,13 +114,27 @@
     }
 
     //set location manager
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters; 
-    [locationManager startUpdatingLocation];
+    
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    if(geoLocationIsON)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.distanceFilter = kCLDistanceFilterNone;
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        [locationManager startUpdatingLocation];
+    }
+    else
+    {
+        self.distanceToObject.hidden = YES;
+        self.distanceBackground.hidden = YES;
+    }
+}
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     if ([annotation isKindOfClass:[Annotation class]])   // for Annotation
@@ -285,6 +301,7 @@
     [self setZeroCellBackgroundView:nil];
     [self setFavoritesButton:nil];
     [self setZeroCellGrayBackgound:nil];
+    [self setDistanceBackground:nil];
     [super viewDidUnload];
 }
 @end

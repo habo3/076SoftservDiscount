@@ -19,6 +19,7 @@
 }
 @property (strong, nonatomic) NSArray *favoriteObjects;
 @property (strong, nonatomic) CLLocation *currentLocation;
+@property (nonatomic) BOOL geoLocationIsON;
 @end
 
 @implementation FavoritesViewController
@@ -26,16 +27,11 @@
 @synthesize managedObjectContext;
 @synthesize favoriteObjects;
 @synthesize currentLocation;
+@synthesize geoLocationIsON;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    locationManager.distanceFilter = 10;
-
 
 }
 
@@ -58,18 +54,27 @@
     UILabel *adressLabel = (UILabel *)[cell viewWithTag:2];
     adressLabel.text = object.address;
     //set location label if GPS available
-    if (self.currentLocation) {
-        
+    if(geoLocationIsON)
+    {
+        if (self.currentLocation) {
+            UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3];
+            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
+                                                                    longitude:[object.geoLongitude doubleValue]];
+            double distance = [self.currentLocation distanceFromLocation:objectLocation];
+            if (distance > 999){
+                distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+            }
+            else {
+                distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+            }
+        }
+    }
+    else
+    {
+        UIImageView *distanceBackround = (UIImageView*)[cell viewWithTag:10];
+        distanceBackround.hidden = YES;
         UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3];
-        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-                                                                longitude:[object.geoLongitude doubleValue]];
-        double distance = [self.currentLocation distanceFromLocation:objectLocation];
-        if (distance > 999){
-            distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-        }
-        else {
-            distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
-        }
+        distanceLabel.hidden =YES;
     }
     
     //set category icon
@@ -156,7 +161,17 @@
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue];
     
+    if(geoLocationIsON)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        locationManager.distanceFilter = 10;
+        [locationManager startUpdatingLocation];
+    }
     //get favorite objects from DB
     favoriteObjects = [[NSArray alloc] init];
     NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
@@ -166,12 +181,14 @@
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    [locationManager startUpdatingLocation];
+    
     
     //set backgound image if no Favorites available
     if (!favoriteObjects.count) {
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     }
+    [self.tableView reloadData];
+    
 }
 
 - (void)viewDidUnload {

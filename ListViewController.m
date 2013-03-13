@@ -32,7 +32,7 @@
 @property (nonatomic) NSArray *sortedObjects;
 @property (nonatomic) BOOL searching;
 @property (strong, nonatomic) CLLocation *currentLocation;
-
+@property (nonatomic) BOOL geoLocationIsON;
 @end
 
 @implementation ListViewController
@@ -46,6 +46,7 @@
 @synthesize currentLocation;
 @synthesize sortedObjects;
 @synthesize tableView = _tableView;
+@synthesize geoLocationIsON;
 
 #pragma mark - View
 
@@ -73,22 +74,27 @@
     
     self.dataSource = [NSArray arrayWithArray:fetchArr];
     
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    locationManager.distanceFilter = 10;
+    
     
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.searchDisplayController.searchBar setBackgroundColor: [[UIColor alloc] initWithPatternImage: [UIImage imageNamed: @"searchBarBG.png"]]];
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    if(geoLocationIsON)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        locationManager.distanceFilter = 10;
+        [self reloadTableWithDistancesValues];
+        [locationManager startUpdatingLocation];
+    }
+    [self.searchDisplayController.searchBar setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed: @"searchBarBG.png"]]];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
-    [self reloadTableWithDistancesValues];
-    [locationManager startUpdatingLocation];
-    
+        
 }
 
 #pragma mark - search
@@ -119,7 +125,6 @@
                 [address addObject:object.address];
             }
         }
-        
         
     }
 
@@ -159,13 +164,16 @@
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
             
         }
-        [self reloadTableWithDistancesValues];
-        
+        if(geoLocationIsON)
+        {
+            [self reloadTableWithDistancesValues];
+        }
+        else {
+            [self.tableView reloadData];  
+        }
         
     }
 }
-
-#pragma clang diagnostic ignored "-Warc-settingResponder-type"
 
 - (NSArray*)getAllObjects
 {
@@ -237,6 +245,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
+        tableView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
+        tableView.separatorColor = [UIColor colorWithWhite:0 alpha:0];
         return [searchResults count];
         
     } else {
@@ -286,20 +296,28 @@
   
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
-    cell.distanceLabel.text = @"...";
-    if (self.currentLocation) {
-        
-        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-                                                                longitude:[object.geoLongitude doubleValue]];
-        double distance = [self.currentLocation distanceFromLocation:objectLocation];
-        if (distance > 999){
-            cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-        }
-        else {
-            cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+    if (geoLocationIsON)
+    {
+        cell.detailsDistanceBackground.hidden = NO;
+        cell.distanceLabel.text = @"...";
+        if (self.currentLocation) {
+            
+            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
+                                                                    longitude:[object.geoLongitude doubleValue]];
+            double distance = [self.currentLocation distanceFromLocation:objectLocation];
+            if (distance > 999){
+                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+            }
+            else {
+                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+            }
         }
     }
-    
+    else
+    {
+        cell.detailsDistanceBackground.hidden = YES;
+        cell.distanceLabel.hidden = YES;
+    }
     cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
     cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
