@@ -53,7 +53,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.separatorColor = [UIColor colorWithRed:24 green:24 blue:244 alpha:0];
+    self.tableView.separatorColor = [UIColor clearColor];
     
     self.tableView.delegate = self;
     
@@ -88,8 +88,16 @@
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         locationManager.distanceFilter = 10;
-        [self reloadTableWithDistancesValues];
-        [locationManager startUpdatingLocation];
+        if(currentLocation)
+        {
+            [self reloadTableWithDistancesValues];
+            [locationManager startUpdatingLocation];
+        }
+        else
+        {
+                self.objectsFound = [FavoritesViewController sortByName:objectsFound];
+                [self.tableView reloadData];
+        }
     }
     else
     {
@@ -170,7 +178,7 @@
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
             
         }
-        if(geoLocationIsON)
+        if(geoLocationIsON && currentLocation)
         {
             [self reloadTableWithDistancesValues];
         }
@@ -304,8 +312,6 @@
     cell.addressLabel.text = object.address;
     if (geoLocationIsON)
     {
-        cell.detailsDistanceBackground.hidden = NO;
-        cell.distanceLabel.text = @"...";
         if (self.currentLocation) {
             
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
@@ -317,6 +323,11 @@
             else {
                 cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
             }
+        }
+        else
+        {
+            cell.detailsDistanceBackground.hidden = YES;
+            cell.distanceLabel.hidden = YES;
         }
     }
     else

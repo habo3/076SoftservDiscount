@@ -125,6 +125,11 @@
         self.distanceToObject.hidden = YES;
         self.distanceBackground.hidden = YES;
     }
+    if ([self.distanceToObject.text isEqual: @"..."])
+    {
+        self.distanceToObject.hidden = YES;
+        self.distanceBackground.hidden = YES;
+    }
 }
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {

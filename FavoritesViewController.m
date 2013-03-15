@@ -30,11 +30,6 @@
 @synthesize currentLocation;
 @synthesize geoLocationIsON;
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-}
 
 #pragma mark - Table view data source
 
@@ -58,11 +53,10 @@
     //set labels
     cell.nameLabel.text = object.name;
     cell.addressLabel.text = object.address;
+    
     //set location label if GPS available
-    if(geoLocationIsON)
+    if(geoLocationIsON && self.currentLocation)
     {
-        if (self.currentLocation) {
-            
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
                                                                     longitude:[object.geoLongitude doubleValue]];
             double distance = [self.currentLocation distanceFromLocation:objectLocation];
@@ -72,7 +66,6 @@
             else {
                 cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
             }
-        }
     }
     else
     {
@@ -96,8 +89,7 @@
     cell.iconLabel.font = font;
     cell.iconLabel.text = tmpText;
     cell.iconLabel.textAlignment = UITextAlignmentCenter;
-    
-    
+
     return cell;
 }
 

@@ -187,6 +187,15 @@
                    @"Чернівці",
                    nil];
     
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    //Default Lviv
+    if(![[userDefaults objectForKey:@"selectedCity"]integerValue])
+    {
+        [userDefaults setObject:[NSNumber numberWithInt:4]  forKey:@"selectedCity"];
+    }
+    
     geoLocationLabel.text = @"Геолокація";
     updateLabel.text = @"Оновлення";
     cityLabel.text = @"Місто по замовчуванню";
@@ -196,7 +205,7 @@
     updatePeriodLabel.text = @"Інтервал оновлення";
     versionLabelText.text = @"Версія";
     versionLabelNumber.text = @"1.0";
-    versionDBLabelText.text = @"Версія бази даних";
+    versionDBLabelText.text = @"Дата оновлення даних";
     versionDBLabelNumber.text = @"1.1.1";
 }
 
@@ -212,6 +221,11 @@
     
     selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
     periodLabelValue.text = [self.updatePeriods objectAtIndex:selectedUpdateIndex];
+    
+    NSDate *date = [userDefaults objectForKey:@"lastDBUpdate"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
+    [dateFormatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
+    versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
     
     self.automaticUpdateSwitch.on = automaticUpdateIsON;
     self.geoLocationSwitch.on = geoLocationIsON;

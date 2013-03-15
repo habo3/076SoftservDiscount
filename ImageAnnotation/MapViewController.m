@@ -431,8 +431,6 @@ numberOfRowsInComponent:(NSInteger)component
                 newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
                 newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
                 [self.mapView setRegion:newRegion animated:YES];
-                NSLog(@"%f %f", coordinate.latitude,coordinate.longitude);
-
             }
         }];
 }
@@ -443,32 +441,34 @@ numberOfRowsInComponent:(NSInteger)component
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
     if(geoLocationIsON)
     {
-        if(self.mapView.showsUserLocation)
+        if([CLLocationManager authorizationStatus]!=kCLAuthorizationStatusDenied)
         {
-            self.mapView.showsUserLocation = FALSE;
-            [location stopUpdatingLocation];
+            if(self.mapView.showsUserLocation)
+            {
+                self.mapView.showsUserLocation = FALSE;
+                [location stopUpdatingLocation];
+            }
+            else
+            {
+                self.mapView.showsUserLocation = TRUE;
+                if(!self.location)
+                {
+                    self.location = [[CLLocationManager alloc]init];
+                    location.delegate = self;
+                }
+                location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+                location.distanceFilter = kCLDistanceFilterNone;
+                [location startUpdatingLocation];
+            }
         }
         else
         {
-            self.mapView.showsUserLocation = TRUE;
-            
-            self.location = [[CLLocationManager alloc]init];
-            location.delegate = self;
-            
-            location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-            location.distanceFilter = kCLDistanceFilterNone;
-            [location startUpdatingLocation];
-            
+            [self gotoLocation];
         }
     }
     else
     {
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"UserLocation is unable"
-                                                          message:@"Please enable GeoLocation in Settings"
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-        [message show];
+        [self gotoLocation];
     }
 }
 
