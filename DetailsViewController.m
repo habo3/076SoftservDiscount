@@ -60,12 +60,6 @@
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
     }
-    /*
-    for (UIView *v in [self.mapView subviews]) {
-        if ([NSStringFromClass([v class]) isEqualToString:@"MKAttributionLabel"]) {
-            v.hidden = YES;
-        }
-    }*/
     
     // set mapview delegate and annotation for display
     self.mapView.delegate = self;
@@ -97,7 +91,6 @@
     self.name.text = discountObject.name;
     self.category.text = categoryName;
     
-    //self.distanceToObject.text = @"...";
     self.address.text = discountObject.address;
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts) {
@@ -112,9 +105,7 @@
             self.webSite.text = [contact valueForKey:@"value"];
         }
     }
-
-    //set location manager
-    
+ 
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -193,15 +184,10 @@
     
     //work with image
     UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-    //UIGraphicsBeginImageContext();
-    
     [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
     
-    //Position and color
-    
-    [color set];
-    
     //draw text on image and save result
+    [color set];
     [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
