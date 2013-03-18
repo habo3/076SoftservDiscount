@@ -238,6 +238,12 @@
     NSString *objectName = discountObject.name;
     NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];
 
+    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                    NULL,
+                                                                                                    (CFStringRef)shareString,
+                                                                                                    NULL,
+                                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                                    kCFStringEncodingUTF8 ));
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts) {
         NSString * type = [contact valueForKey:@"type"];
@@ -259,7 +265,7 @@
     
     } else if(buttonIndex == 1) {
         NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
-        [twitterString appendString:shareString];
+        [twitterString appendString:encodedString];
         NSURL *url = [NSURL URLWithString:twitterString];
         [[UIApplication sharedApplication] openURL:url];
     
