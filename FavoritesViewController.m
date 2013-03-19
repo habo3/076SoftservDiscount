@@ -55,7 +55,7 @@
     cell.addressLabel.text = object.address;
     
     //set location label if GPS available
-    if(geoLocationIsON && self.currentLocation)
+    if(geoLocationIsON)
     {
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
                                                                     longitude:[object.geoLongitude doubleValue]];
@@ -180,7 +180,7 @@
 
     [super viewWillAppear:animated];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue];
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     
     if(geoLocationIsON)
     {

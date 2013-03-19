@@ -81,23 +81,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     if(geoLocationIsON)
     {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         locationManager.distanceFilter = 10;
-        if(currentLocation)
-        {
-            [self reloadTableWithDistancesValues];
-            [locationManager startUpdatingLocation];
-        }
-        else
-        {
-                self.objectsFound = [FavoritesViewController sortByName:objectsFound];
-                [self.tableView reloadData];
-        }
+        [self reloadTableWithDistancesValues];
+        [locationManager startUpdatingLocation];
     }
     else
     {
@@ -178,7 +170,7 @@
             self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
             
         }
-        if(geoLocationIsON && currentLocation)
+        if(geoLocationIsON)
         {
             [self reloadTableWithDistancesValues];
         }
@@ -310,10 +302,9 @@
   
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
-    if (geoLocationIsON)
+    if(geoLocationIsON)
     {
-        if (self.currentLocation) {
-            
+          
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
                                                                     longitude:[object.geoLongitude doubleValue]];
             double distance = [self.currentLocation distanceFromLocation:objectLocation];
@@ -323,12 +314,7 @@
             else {
                 cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
             }
-        }
-        else
-        {
-            cell.detailsDistanceBackground.hidden = YES;
-            cell.distanceLabel.hidden = YES;
-        }
+        
     }
     else
     {

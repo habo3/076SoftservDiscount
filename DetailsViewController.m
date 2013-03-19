@@ -114,24 +114,22 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    if(geoLocationIsON)
+    if(geoLocationIsON &&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied))
     {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
         locationManager.distanceFilter = kCLDistanceFilterNone;
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         [locationManager startUpdatingLocation];
+        self.distanceToObject.hidden = NO;
+        self.distanceBackground.hidden = NO;
     }
     else
     {
         self.distanceToObject.hidden = YES;
         self.distanceBackground.hidden = YES;
     }
-    if ([self.distanceToObject.text isEqual: @"..."])
-    {
-        self.distanceToObject.hidden = YES;
-        self.distanceBackground.hidden = YES;
-    }
+    
 }
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
