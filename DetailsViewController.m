@@ -240,12 +240,7 @@
     NSString *objectName = discountObject.name;
     NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];
 
-    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                                    NULL,
-                                                                                                    (CFStringRef)shareString,
-                                                                                                    NULL,
-                                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                                    kCFStringEncodingUTF8 ));
+   
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts)
     {
@@ -290,6 +285,12 @@
     
     } else if(buttonIndex == 1) {
         NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
+        NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                        NULL,
+                                                                                                        (CFStringRef)shareString,
+                                                                                                        NULL,
+                                                                                                        (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                                        kCFStringEncodingUTF8 ));
         [twitterString appendString:encodedString];
         NSURL *url = [NSURL URLWithString:twitterString];
         [[UIApplication sharedApplication] openURL:url];
