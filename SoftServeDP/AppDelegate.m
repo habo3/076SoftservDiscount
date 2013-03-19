@@ -10,7 +10,11 @@
 #import "SlideMenu.h"
 #import "JSONParser.h"
 
+NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionStateChangedNotification";
+
 @implementation AppDelegate
+
+
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -28,6 +32,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
     //check if app was ever updated and decide: update in background or in main thread
+    [self closeSession];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     JSONParser *parser = [[JSONParser alloc] init ];
     parser.managedObjectContext = self.managedObjectContext;
@@ -47,9 +53,56 @@
     SlideMenu *controller = (SlideMenu *)tableViewController;
     controller.managedObjectContext = self.managedObjectContext;
     
+    
     return YES;
 }
 
+-(void) closeSession {
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
+
+
+- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            if (!error) {
+                // We have a valid session
+                NSLog(@"User session found");
+            }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+    
+    /*[[NSNotificationCenter defaultCenter]
+     postNotificationName:FBSessionStateChangedNotification
+     object:session];*/
+    
+}
+
+/*
+ * Opens a Facebook session and optionally shows the login UX.
+ */
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI
+{
+    NSArray *permissions = [[NSArray alloc] initWithObjects:@"publish_stream",nil];
+    
+    return [FBSession openActiveSessionWithPermissions:permissions
+                                          allowLoginUI:allowLoginUI
+                                     completionHandler:^(FBSession *session,
+                                                         FBSessionState state,
+                                                         NSError *error) {
+                                         [self sessionStateChanged:session
+                                                             state:state
+                                                             error:error];
+                                     }];
+    
+}
 
 #pragma mark - Core Data stack
 
@@ -140,6 +193,12 @@
 }
 
 #pragma mark - Application's Documents directory
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    // attempt to extract a token from the url
+    return [FBSession.activeSession handleOpenURL:url];
+}
 
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory

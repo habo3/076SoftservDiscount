@@ -10,6 +10,8 @@
 #import "DetailsViewController.h"
 #import "Annotation.h"
 #import "IconConverter.h"
+#import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
@@ -245,7 +247,8 @@
                                                                                                     (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                                                                                     kCFStringEncodingUTF8 ));
     NSSet *contacts = discountObject.contacts;
-    for (NSManagedObject *contact in contacts) {
+    for (NSManagedObject *contact in contacts)
+    {
         NSString * type = [contact valueForKey:@"type"];
         if ([type isEqualToString:@"phone"]) {
             [shareString appendFormat:@" тел. %@", [contact valueForKey:@"value"]];
@@ -259,9 +262,31 @@
     }
         
     if(buttonIndex == 0) {
+        
+        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        if(!FBSession.activeSession.isOpen)
+        {
+            [appDelegate openSessionWithAllowLoginUI:YES];
+        }
+        //[appDelegate openSessionWithAllowLoginUI:NO];
+        
+        NSString *message = [NSString stringWithFormat:@" %@",
+                             shareString];
+        
+        [FBRequestConnection startForPostStatusUpdate:message
+                                    completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                        
+                                        //[self showAlert:message result:result error:error];
+                                        //self.buttonPostStatus.enabled = YES;
+                                    }];
         NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
         [faceBookString appendString:shareString];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];
+        
+        
+        /*NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
+        [faceBookString appendString:shareString];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];*/
     
     } else if(buttonIndex == 1) {
         NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
