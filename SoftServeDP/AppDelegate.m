@@ -22,6 +22,10 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 -(void) applicationWillEnterForeground:(UIApplication *)application {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(FBSession.activeSession.isOpen)
+    {
+        [userDefaults setObject:[NSNumber numberWithBool:NO]  forKey:@"sessionRequest"];
+    }
     if(![[userDefaults objectForKey:@"sessionRequest"]boolValue])
     {
         JSONParser *parser = [[JSONParser alloc] init ];
