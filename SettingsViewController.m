@@ -14,9 +14,7 @@
 #import "CustomPicker.h"
 
 @interface SettingsViewController ()
-{
-    IBOutlet UIScrollView *scroller;
-}
+
 //section labels
 @property (weak, nonatomic) IBOutlet UILabel *geoLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *updateLabel;
@@ -191,7 +189,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     //Default Lviv
-    if(![[userDefaults objectForKey:@"selectedCity"]integerValue])
+    if(![userDefaults objectForKey:@"selectedCity"])
     {
         [userDefaults setObject:[NSNumber numberWithInt:4]  forKey:@"selectedCity"];
     }
@@ -218,7 +216,6 @@
     
     selectedCityIndex = [[userDefaults objectForKey:@"selectedCity"] integerValue];
     selectedCityLabel.text = [self.cities objectAtIndex:selectedCityIndex];
-    
     selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
     periodLabelValue.text = [self.updatePeriods objectAtIndex:selectedUpdateIndex];
     

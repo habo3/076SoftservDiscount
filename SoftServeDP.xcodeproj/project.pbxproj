@@ -305,7 +305,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4325F4DF16CBA8F4002C7B75 /* list */ = {
+		4325F4DF16CBA8F4002C7B75 /* List */ = {
 			isa = PBXGroup;
 			children = (
 				906B72E816DD44A9009A287E /* searchBarBG.png */,
@@ -315,7 +315,7 @@
 				4373562716CBC09F00B30B81 /* PlaceCell.m */,
 				4373562A16CBC0BC00B30B81 /* PlaceCell.xib */,
 			);
-			name = list;
+			name = List;
 			sourceTree = "<group>";
 		};
 		432CC5C516A467E000A50F1D = {
@@ -323,7 +323,7 @@
 			children = (
 				C0A9EBBE16D9705600DE9FC5 /* Favorites */,
 				434CAFA416D4D8380000CE60 /* Details */,
-				4325F4DF16CBA8F4002C7B75 /* list */,
+				4325F4DF16CBA8F4002C7B75 /* List */,
 				C08BB5EB16CA83DA004F48B0 /* SlideMenu */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				C08CBB1016B70D1200E0EB0D /* DB */,

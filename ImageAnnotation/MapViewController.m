@@ -53,7 +53,16 @@
     self.dataSource = [self fillPicker];
     self.annArray = [[NSMutableArray alloc] init];
     
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
+    {
+        [self getLocation:self];
+        [userDefaults removeObjectForKey:@"firstLaunch"];
+        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined)
+        {
+            [self getLocation:self];
+        }
+    }
     self.calloutView.delegate = self;
     self.calloutView = [CustomCalloutView new];
     
@@ -65,17 +74,12 @@
     [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
     disclosureButton.backgroundColor = [UIColor clearColor];
     [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
-    
     self.calloutView.rightAccessoryView = disclosureButton;
-    
     self.annArray = [NSArray arrayWithArray: [self getAllPins]];
-
-    //[self gotoLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [super viewDidAppear:animated];
     
     [self gotoLocation];
@@ -418,8 +422,35 @@ numberOfRowsInComponent:(NSInteger)component
     {
         city = @"Львів";
     }
-        CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-        NSString *address = [NSString stringWithFormat:@"%@", city];
+
+    //for offline maps
+    NSDictionary *cityCoords = [NSDictionary dictionaryWithObjectsAndKeys:
+    [NSValue valueWithCGPoint:CGPointMake(48.467003,35.036259)], @"Дніпропетровськ",
+    [NSValue valueWithCGPoint:CGPointMake(48.917222,24.707222)], @"Івано-Франківськ",
+    [NSValue valueWithCGPoint:CGPointMake(50.450100,30.523400)], @"Київ",
+    [NSValue valueWithCGPoint:CGPointMake(50.748716,25.330406)], @"Луцьк",
+    [NSValue valueWithCGPoint:CGPointMake(49.839826,24.028675)], @"Львів",
+    [NSValue valueWithCGPoint:CGPointMake(46.471767,30.719800)], @"Одеса",
+    [NSValue valueWithCGPoint:CGPointMake(50.628999,26.246517)], @"Рівне",
+    [NSValue valueWithCGPoint:CGPointMake(44.953212,34.101952)], @"Сімферополь",
+    [NSValue valueWithCGPoint:CGPointMake(48.287171,25.957920)], @"Чернівці",
+    nil];
+    
+    CLLocationCoordinate2D coordinate;
+    CGPoint tmpPoint = [[cityCoords objectForKey:city] CGPointValue];
+    coordinate.latitude = tmpPoint.x;
+    coordinate.longitude = tmpPoint.y;
+    MKCoordinateRegion newRegion;
+    newRegion.center.latitude = coordinate.latitude;
+    newRegion.center.longitude = coordinate.longitude;
+    newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
+    [self.mapView setRegion:newRegion animated:YES];
+    
+    
+    /*
+    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+    NSString *address = [NSString stringWithFormat:@"%@", city];
         [geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
             if ([placemarks count] > 0) {
                 CLPlacemark *placemark = [placemarks objectAtIndex:0];
@@ -431,8 +462,11 @@ numberOfRowsInComponent:(NSInteger)component
                 newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
                 newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
                 [self.mapView setRegion:newRegion animated:YES];
+                NSLog(@"%f,%f",coordinate.latitude,coordinate.longitude);
+                NSLog(@"City - %@",city);
             }
         }];
+     */
 }
 
 - (IBAction) getLocation:(id)sender {

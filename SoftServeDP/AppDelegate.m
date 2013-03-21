@@ -21,12 +21,15 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 -(void) applicationWillEnterForeground:(UIApplication *)application {
-    
-    JSONParser *parser = [[JSONParser alloc] init ];
-    parser.managedObjectContext = self.managedObjectContext;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![[userDefaults objectForKey:@"sessionRequest"]boolValue])
+    {
+        JSONParser *parser = [[JSONParser alloc] init ];
+        parser.managedObjectContext = self.managedObjectContext;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         [parser updateDBWithOptions];
-    });
+        });
+    }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
@@ -35,6 +38,12 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     [self closeSession];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults objectForKey:@"geoLocation"])
+    {
+        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"geoLocation"];
+        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"firstLaunch"];
+    }
+
     JSONParser *parser = [[JSONParser alloc] init ];
     parser.managedObjectContext = self.managedObjectContext;
     if (![userDefaults objectForKey:@"lastDBUpdate"]) {

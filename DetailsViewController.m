@@ -113,8 +113,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    if(geoLocationIsON &&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied))
+    BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
+    if(geoLocationIsON)
     {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -259,6 +259,8 @@
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         if(!FBSession.activeSession.isOpen)
         {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"sessionRequest"];
             [appDelegate openSessionWithAllowLoginUI:YES];
         }
         //[appDelegate openSessionWithAllowLoginUI:NO];
@@ -268,7 +270,6 @@
         
         [FBRequestConnection startForPostStatusUpdate:message
                                     completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                        
                                         //[self showAlert:message result:result error:error];
                                         //self.buttonPostStatus.enabled = YES;
                                     }];
@@ -276,10 +277,6 @@
         [faceBookString appendString:shareString];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];
         
-        
-        /*NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
-        [faceBookString appendString:shareString];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];*/
     
     } else if(buttonIndex == 1) {
         NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
@@ -294,7 +291,8 @@
         [[UIApplication sharedApplication] openURL:url];
     
     } else if (buttonIndex ==2) {
-        NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?subject=Ділюсь!&body="];
+        NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?body="];
+        //MAIL URL  @"mailto:?subject=TITLE!&body=
         [emailString appendString:shareString];
         NSString *email = [emailString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
