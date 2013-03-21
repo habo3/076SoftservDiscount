@@ -73,8 +73,8 @@
         cell.distanceLabel.hidden =YES;
     }
     
-    cell.circle.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    cell.roundRectBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.circle.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    cell.roundRectBg.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
     
     
     
