@@ -140,14 +140,14 @@
 		4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomAnnotationView.m; path = ImageAnnotation/CustomAnnotationView.m; sourceTree = SOURCE_ROOT; };
 		4325F4D816CBA680002C7B75 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ImageAnnotation/MapViewController.h; sourceTree = SOURCE_ROOT; };
 		4325F4D916CBA680002C7B75 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ImageAnnotation/MapViewController.m; sourceTree = SOURCE_ROOT; };
-		432CC5D016A467E000A50F1D /* SoftServeDP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftServeDP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		432CC5D016A467E000A50F1D /* SoftServe Discount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SoftServe Discount.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		432CC5D416A467E000A50F1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		432CC5D616A467E000A50F1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		432CC5D816A467E000A50F1D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		432CC5DC16A467E000A50F1D /* SoftServeDP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoftServeDP-Info.plist"; sourceTree = "<group>"; };
+		432CC5DC16A467E000A50F1D /* SoftServe Discount-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoftServe Discount-Info.plist"; sourceTree = "<group>"; };
 		432CC5DE16A467E000A50F1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		432CC5E016A467E000A50F1D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		432CC5E216A467E000A50F1D /* SoftServeDP-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoftServeDP-Prefix.pch"; sourceTree = "<group>"; };
+		432CC5E216A467E000A50F1D /* SoftServe Discount-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoftServe Discount-Prefix.pch"; sourceTree = "<group>"; };
 		432CC5E316A467E000A50F1D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		432CC5E416A467E000A50F1D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		432CC5ED16A467E000A50F1D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 		432CC5D116A467E000A50F1D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				432CC5D016A467E000A50F1D /* SoftServeDP.app */,
+				432CC5D016A467E000A50F1D /* SoftServe Discount.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -383,10 +383,10 @@
 				906800D916B01CEA0053F50C /* Default-568h@2x.png */,
 				906800DA16B01CEA0053F50C /* Default.png */,
 				906800DB16B01CEA0053F50C /* Default@2x.png */,
-				432CC5DC16A467E000A50F1D /* SoftServeDP-Info.plist */,
+				432CC5DC16A467E000A50F1D /* SoftServe Discount-Info.plist */,
 				432CC5DD16A467E000A50F1D /* InfoPlist.strings */,
 				432CC5E016A467E000A50F1D /* main.m */,
-				432CC5E216A467E000A50F1D /* SoftServeDP-Prefix.pch */,
+				432CC5E216A467E000A50F1D /* SoftServe Discount-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -637,9 +637,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		432CC5CF16A467E000A50F1D /* SoftServeDP */ = {
+		432CC5CF16A467E000A50F1D /* SoftServe Discount */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 432CC5F416A467E000A50F1D /* Build configuration list for PBXNativeTarget "SoftServeDP" */;
+			buildConfigurationList = 432CC5F416A467E000A50F1D /* Build configuration list for PBXNativeTarget "SoftServe Discount" */;
 			buildPhases = (
 				432CC5CC16A467E000A50F1D /* Sources */,
 				432CC5CD16A467E000A50F1D /* Frameworks */,
@@ -649,9 +649,9 @@
 			);
 			dependencies = (
 			);
-			name = SoftServeDP;
+			name = "SoftServe Discount";
 			productName = SoftServeDP;
-			productReference = 432CC5D016A467E000A50F1D /* SoftServeDP.app */;
+			productReference = 432CC5D016A467E000A50F1D /* SoftServe Discount.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -663,7 +663,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Bogdan;
 			};
-			buildConfigurationList = 432CC5CA16A467E000A50F1D /* Build configuration list for PBXProject "SoftServeDP" */;
+			buildConfigurationList = 432CC5CA16A467E000A50F1D /* Build configuration list for PBXProject "SoftServe Discount" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -675,7 +675,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				432CC5CF16A467E000A50F1D /* SoftServeDP */,
+				432CC5CF16A467E000A50F1D /* SoftServe Discount */,
 			);
 		};
 /* End PBXProject section */
@@ -891,14 +891,14 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SoftServeDP/SoftServeDP-Prefix.pch";
-				INFOPLIST_FILE = "SoftServeDP/SoftServeDP-Info.plist";
+				GCC_PREFIX_HEADER = "SoftServeDP/SoftServe Discount-Prefix.pch";
+				INFOPLIST_FILE = "SoftServeDP/SoftServe Discount-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SoftServe Discount";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -911,14 +911,14 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SoftServeDP/SoftServeDP-Prefix.pch";
-				INFOPLIST_FILE = "SoftServeDP/SoftServeDP-Info.plist";
+				GCC_PREFIX_HEADER = "SoftServeDP/SoftServe Discount-Prefix.pch";
+				INFOPLIST_FILE = "SoftServeDP/SoftServe Discount-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SoftServe Discount";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -926,7 +926,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		432CC5CA16A467E000A50F1D /* Build configuration list for PBXProject "SoftServeDP" */ = {
+		432CC5CA16A467E000A50F1D /* Build configuration list for PBXProject "SoftServe Discount" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				432CC5F216A467E000A50F1D /* Debug */,
@@ -935,7 +935,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		432CC5F416A467E000A50F1D /* Build configuration list for PBXNativeTarget "SoftServeDP" */ = {
+		432CC5F416A467E000A50F1D /* Build configuration list for PBXNativeTarget "SoftServe Discount" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				432CC5F516A467E000A50F1D /* Debug */,
