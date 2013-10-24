@@ -48,6 +48,7 @@
     BOOL popupCancelled;
 }
 
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
@@ -166,7 +167,7 @@
 
 
 - (void)presentCalloutFromRect:(CGRect)rect inLayer:(CALayer *)layer ofView:(UIView *)view constrainedToLayer:(CALayer *)constrainedLayer  {
-    
+
     
     // position in layer coordinates 
     CGRect constrainedRect = [constrainedLayer convertRect:constrainedLayer.bounds toLayer:layer];

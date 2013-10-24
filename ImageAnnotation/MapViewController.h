@@ -13,6 +13,7 @@
 #import "Annotation.h"
 #import "CustomAnnotationView.h"
 #import "CustomPicker.h"
+#import "Flurry.h"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate,CustomCalloutViewDelegate>
 

@@ -13,10 +13,6 @@
 #import "DiscountObject.h"
 #import "Contacts.h"
 
-#define CATEGORIES_URL @"https://softserve.ua/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
-#define CITIES_URL @"https://softserve.ua/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
-#define PARTNERS_URL @"https://softserve.ua/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5%@"
-
 @interface DiscountObject (Parsing)
 
 - (void)parseAttribute:(id)attr forKey:(NSString *)key;
@@ -30,6 +26,7 @@
 
 - (void)parseAttribute:(id)attr forKey:(NSString *)key
 {
+    
     NSSet *willParse = [NSSet setWithObjects:
                         @"id",
                         @"created",
@@ -86,7 +83,7 @@
                                                           inManagedObjectContext:self.managedObjectContext];
         contact.type = type;
         contact.value = key;
-
+        
         //set relations
         [self addContactsObject:contact];
         contact.discountObject = self;
@@ -94,7 +91,7 @@
 }
 
 - (void)parseCategory:(NSArray *)catArray{
-
+    
     NSPredicate *catFind = [NSPredicate predicateWithFormat:@"id IN %@",catArray];
     NSFetchRequest *objFetch=[[NSFetchRequest alloc] init];
     [objFetch setEntity:[NSEntityDescription entityForName:@"Category"
@@ -121,6 +118,21 @@
 
 @synthesize managedObjectContext;
 
++ (NSString *)getUrlWithObjectName:(NSString *)objectName
+{
+    return [[self class] getUrlWithObjectName:objectName WithFormat:@""];
+}
+
++ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format
+{
+    NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+    NSString *apiKey = [NSString stringWithString:[dictRoot objectForKey:@"APIKey"]];
+    NSString *url = @"http://softserve.ua/discount/api/v1/";
+    return [NSString stringWithFormat: @"%@%@%@%@%@", url, objectName, @"/list/", apiKey, format];
+}
+
+
+
 - (void)updateDBWithOptions {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastDBUpdate = [userDefaults objectForKey:@"lastDBUpdate"];
@@ -132,7 +144,6 @@
 }
 
 - (void)updateDB {
-
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDate *lastUpdate = [userDefaults objectForKey:@"lastDBUpdate"];
     int lastUpdateInt =[lastUpdate timeIntervalSince1970];
@@ -140,7 +151,8 @@
     [self insertCities:parameterString];
     [self updateCategories:parameterString];
     [self insertObject:parameterString];
-
+    
+    
 }
 
 - (NSDictionary *)getJsonDictionaryFromURL: (NSString *)url{
@@ -150,7 +162,7 @@
     NSError *err = nil;
     NSMutableURLRequest *jsonDataRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *jsonObject = [NSURLConnection sendSynchronousRequest: jsonDataRequest returningResponse: &resp error: &err];
-
+    
     //get server time
     NSDictionary *allHeaderFields = [resp allHeaderFields];
     NSString *dateInStringFormat = [allHeaderFields objectForKey:@"Date"];
@@ -161,7 +173,7 @@
     //return deserialized json data
     NSDictionary *dictionaryDeserializedFromJsonFormat;
     if (jsonObject) {
-         dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
+        dictionaryDeserializedFromJsonFormat = [NSJSONSerialization JSONObjectWithData: jsonObject options: NSJSONReadingMutableContainers error: &err];
     }
     if (!dictionaryDeserializedFromJsonFormat) {
         NSLog(@"Error parsing JSON: %@", err);
@@ -179,7 +191,7 @@
 
 //check values for null's and pass them for parsing
 - (void)parseDictionary:(NSDictionary *)dic toObject:(id)obj {
-
+    
     for (NSString *key in dic.allKeys) {
         id value = [dic valueForKey:key];
         if (value == [NSNull null]) {
@@ -191,8 +203,8 @@
 
 - (void)insertObject:(NSString *)param {
     
-    //get NSDictionary of objects
-    NSString *url = [NSString stringWithFormat:PARTNERS_URL,param];
+    //get NSDictionary of object
+    NSString *url = [[self class]getUrlWithObjectName:@"object" WithFormat: param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL:url];
     
     //get existing id`s into array
@@ -227,13 +239,13 @@
 
 
 - (void)insertCities:(NSString *)param {
-
+    
     //get NSDictionary of cities
-    NSString *url = [NSString stringWithFormat:CITIES_URL,param];
+    NSString *url = [[self class]getUrlWithObjectName:@"city" WithFormat: param];
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     
     //get existing cities id's
-     NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
+    NSArray *existingObjectIdsInArray = [self getExistingIdsForEntity:@"City"];
     
     //get the list of cities
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
@@ -260,13 +272,15 @@
     if (![managedObjectContext save:&err]) {
         NSLog(@"Couldn't save: %@", [err localizedDescription]);
     }
-   // NSLog(@"Cities in base after import: %d", [self numberOfObjectsIn:@"City"]);//debug
+    // NSLog(@"Cities in base after import: %d", [self numberOfObjectsIn:@"City"]);//debug
 }
 
 - (void)updateCategories:(NSString *) param {
     
     //get NSDictionary of categories
-    NSString *url = [NSString stringWithFormat:CATEGORIES_URL,param];
+    
+    NSString *url = [[self class]getUrlWithObjectName:@"category" WithFormat:param];
+    
     NSDictionary *jsonDictionary = [self getJsonDictionaryFromURL: url];
     NSDictionary *dictionaryOfObjects = [jsonDictionary objectForKey:@"list"];
     //NSLog(@"Categories recieved for import: %d", dictionaryOfObjects.count);
@@ -284,7 +298,7 @@
         }
         else{
             category = [NSEntityDescription insertNewObjectForEntityForName:@"Category"
-                                                               inManagedObjectContext:managedObjectContext];
+                                                     inManagedObjectContext:managedObjectContext];
         }
         category.created = [categoryDic valueForKey:@"created"];
         category.id = [categoryDic valueForKey:@"id"];

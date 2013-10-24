@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "Flurry.h"
 
 @interface FavoritesViewController : UIViewController <CLLocationManagerDelegate>{
     CLLocationManager *locationManager;

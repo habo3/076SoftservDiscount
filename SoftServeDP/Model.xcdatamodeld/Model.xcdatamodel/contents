@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F37" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Category" representedClassName="Category" syncable="YES">
+        <attribute name="attribute" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -35,9 +36,9 @@
         <relationship name="contacts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Contact" inverseName="discountObject" inverseEntity="Contact" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-38" positionY="110" width="128" height="133"/>
-        <element name="City" positionX="-72" positionY="279" width="128" height="88"/>
-        <element name="Contact" positionX="-65" positionY="396" width="128" height="88"/>
-        <element name="DiscountObject" positionX="162" positionY="135" width="128" height="253"/>
+        <element name="Category" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="City" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Contact" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DiscountObject" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

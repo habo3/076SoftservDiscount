@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DiscountObject.h"
+#import "Flurry.h"
 
 @interface SettingsViewController : UIViewController
 

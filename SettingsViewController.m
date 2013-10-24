@@ -7,7 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "SettingsViewController.h"
-//#import "JSONParser.h"
+#import "AppDelegate.h"
 #import "DetailsViewController.h"
 #import "DiscountObject.h"
 #import "DetailsViewController.h"
@@ -164,7 +164,11 @@
 #pragma mark - view
 
 - (void)viewDidLoad {
-
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    managedObjectContext = appDelegate.managedObjectContext;
+    //Sending event to analytics service
+    [Flurry logEvent:@"SettingsViewLoaded"];
+    [self setNavigationTitle];
     self.updatePeriods = [NSArray arrayWithObjects:
                           @"8 годин",
                           @"12 годин",
@@ -206,6 +210,19 @@
     versionDBLabelText.text = @"Дата оновлення даних";
     versionDBLabelNumber.text = @"1.1.1";
 }
+
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
+}
+
 
 -(void)viewWillAppear:(BOOL)animated
 {

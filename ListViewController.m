@@ -16,6 +16,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FavoritesViewController.h"
 #import "IconConverter.h"
+#import "AppDelegate.h"
 
 #define CELL_HEIGHT 80.0
 
@@ -52,7 +53,14 @@
 
 - (void)viewDidLoad
 {
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    managedObjectContext = appDelegate.managedObjectContext;
     [super viewDidLoad];
+    
+    //Sending event to analytics service
+    [Flurry logEvent:@"ListViewLoaded"];
+    
+    [self setNavigationTitle];
     self.tableView.separatorColor = [UIColor clearColor];
     
     self.tableView.delegate = self;
@@ -74,8 +82,17 @@
     
     self.dataSource = [NSArray arrayWithArray:fetchArr];
     
-    
-    
+}
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -101,6 +118,11 @@
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
         
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [filterButton removeFromSuperview];
 }
 
 #pragma mark - search
@@ -360,9 +382,8 @@
 
 #pragma mark - seque
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    [filterButton removeFromSuperview];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     DetailsViewController *dvc = [segue destinationViewController];
     if( _searching){
         dvc.discountObject = [searchResults objectAtIndex:selectedRow];

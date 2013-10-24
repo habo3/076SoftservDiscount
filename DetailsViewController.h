@@ -11,6 +11,7 @@
 #import "Category.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "Flurry.h"
 
 @interface DetailsViewController : UITableViewController <CLLocationManagerDelegate, UIActionSheetDelegate>{
     CLLocationManager *locationManager;

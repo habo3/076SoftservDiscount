@@ -14,4 +14,5 @@
 
 @interface CustomAnnotationView : MKAnnotationView
 @property (strong, nonatomic) CustomCalloutView *calloutView;
+@property (nonatomic) BOOL isClusterPin;
 @end
