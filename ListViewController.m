@@ -16,6 +16,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FavoritesViewController.h"
 #import "IconConverter.h"
+#import "AppDelegate.h"
+#import "JPJsonParser.h"
+#import "CDCoreDataManager.h"
 
 #define CELL_HEIGHT 80.0
 
@@ -48,11 +51,20 @@
 @synthesize tableView = _tableView;
 @synthesize geoLocationIsON;
 
+@synthesize discountObjects = _discountObjects;
+
 #pragma mark - View
 
 - (void)viewDidLoad
 {
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    managedObjectContext = appDelegate.managedObjectContext;
     [super viewDidLoad];
+    
+    //Sending event to analytics service
+    [Flurry logEvent:@"ListViewLoaded"];
+    
+    [self setNavigationTitle];
     self.tableView.separatorColor = [UIColor clearColor];
     
     self.tableView.delegate = self;
@@ -74,8 +86,42 @@
     
     self.dataSource = [NSArray arrayWithArray:fetchArr];
     
+#pragma mark - Input New Core Data
+    NSString *objectUrl = @"http://softserve.ua/discount/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *cityUrl = @"http://softserve.ua/discount/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *categoryUrl = @"http://softserve.ua/discount/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
     
-    
+    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:objectUrl];
+    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
+    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
+
+    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+
+    coreManager.discountObject = objects.arrayObjects;
+    coreManager.cities = cities.dictionaryObjects;
+    coreManager.categories = categories.dictionaryObjects;
+
+    [coreManager deleteAllData];
+    [coreManager saveCategoriesToCoreData];
+    [coreManager saveCitiesToCoreData];
+    [coreManager saveDiscountObjectsToCoreData];
+
+    _discountObjects = [coreManager discountObjectsFromCoreData];
+
+    for (NSManagedObject *obj in _discountObjects) {
+        NSLog(@"%@",[obj valueForKey:@"name"]);
+    }
+}
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -101,6 +147,11 @@
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
         
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [filterButton removeFromSuperview];
 }
 
 #pragma mark - search
@@ -360,9 +411,8 @@
 
 #pragma mark - seque
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    [filterButton removeFromSuperview];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     DetailsViewController *dvc = [segue destinationViewController];
     if( _searching){
         dvc.discountObject = [searchResults objectAtIndex:selectedRow];

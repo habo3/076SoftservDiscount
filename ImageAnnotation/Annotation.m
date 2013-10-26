@@ -17,4 +17,20 @@
 @synthesize leftImage;
 @synthesize object;
 
+- (BOOL)isEqual:(Annotation*)annotation;
+{
+    if (![annotation isKindOfClass:[Annotation class]]) {
+        return NO;
+    }
+    
+    return (self.coordinate.latitude == annotation.coordinate.latitude &&
+            self.coordinate.longitude == annotation.coordinate.longitude &&
+            [self.title isEqualToString:annotation.title] &&
+            [self.subtitle isEqualToString:annotation.subtitle] &&
+            [self.pintype isEqual:annotation.pintype] &&
+            [self.leftImage isEqual:annotation.leftImage] &&
+            [self.object isEqual:annotation.object]);
+}
+
+
 @end

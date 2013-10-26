@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Category.h"
 #import "DetailsViewController.h"
+#import "AppDelegate.h"
 #import "IconConverter.h"
 #import "PlaceCell.h"
 
@@ -30,6 +31,68 @@
 @synthesize currentLocation;
 @synthesize geoLocationIsON;
 
+-(void)viewDidLoad
+{
+    [self setNavigationTitle];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    managedObjectContext = appDelegate.managedObjectContext;
+    [super viewWillAppear:animated];
+    
+    //Sending event to analytics service
+    [Flurry logEvent:@"FavoritesViewLoaded"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
+    
+    if(geoLocationIsON)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        locationManager.distanceFilter = 10;
+        [locationManager startUpdatingLocation];
+    }
+    else
+    {
+        self.favoriteObjects = [FavoritesViewController sortByName:favoriteObjects];
+        [self.tableView reloadData];
+    }
+    //get favorite objects from DB
+    favoriteObjects = [[NSArray alloc] init];
+    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
+                                 inManagedObjectContext:managedObjectContext]];
+    NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
+    [fetch setPredicate:findObjectWithFav];
+    NSError *err;
+    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
+    
+    
+    //set backgound image if no Favorites available
+    if (!favoriteObjects.count) {
+        self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
+    }
+    [self.tableView reloadData];
+    
+}
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 
 #pragma mark - Table view data source
 
@@ -176,45 +239,4 @@
     return OrderedObjectsByDistance;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-
-    [super viewWillAppear:animated];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
-    
-    if(geoLocationIsON)
-    {
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-        locationManager.distanceFilter = 10;
-        [locationManager startUpdatingLocation];
-    }
-    else
-    {
-        self.favoriteObjects = [FavoritesViewController sortByName:favoriteObjects];
-        [self.tableView reloadData];
-    }
-    //get favorite objects from DB
-    favoriteObjects = [[NSArray alloc] init];
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                 inManagedObjectContext:managedObjectContext]];
-    NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
-    [fetch setPredicate:findObjectWithFav];
-    NSError *err;
-    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    
-    
-    //set backgound image if no Favorites available
-    if (!favoriteObjects.count) {
-        self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
-    }
-    [self.tableView reloadData];
-    
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-}
 @end

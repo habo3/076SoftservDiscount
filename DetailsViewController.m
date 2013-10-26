@@ -55,9 +55,12 @@
 
 - (void)viewDidLoad
 {
- 
-    [super viewDidLoad];    
 
+    [super viewDidLoad];
+    
+    //Sending event to analytics service
+    [Flurry logEvent:@"DetailsViewLoaded"];
+    [self setNavigationTitle];
     // Highlight button if partner is in Favorites
     if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
@@ -89,7 +92,13 @@
     NSSet *categories = discountObject.categories;
     Category *category = [categories anyObject];
     NSString *categoryName = category.name;
-    self.discount.text = [NSString stringWithFormat:@"%@%%",[discountObject.discountTo stringValue]];
+    NSString *discountFrom;
+    if(![discountObject.discountFrom isEqualToNumber: discountObject.discountTo])
+        discountFrom = [NSString stringWithFormat:@"%@-", discountObject.discountFrom];
+    else
+        discountFrom = [NSString stringWithFormat:@""];
+    self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [discountObject.discountTo stringValue]];
+    self.discount.font = [UIFont boldSystemFontOfSize: self.discount.text.length > 5 ? 10.0 : 13.0];
     self.name.text = discountObject.name;
     self.category.text = categoryName;
     
@@ -107,7 +116,20 @@
             self.webSite.text = [contact valueForKey:@"value"];
         }
     }
- 
+}
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+
 }
 
 - (void) viewWillAppear:(BOOL)animated

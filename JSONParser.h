@@ -10,7 +10,11 @@
 
 @interface JSONParser : NSObject
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 - (void)updateDBWithOptions;
 - (void)updateDB;
 - (void)testDB;
+
++ (NSString *)getUrlWithObjectName:(NSString *)objectName;
++ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format;
 @end
