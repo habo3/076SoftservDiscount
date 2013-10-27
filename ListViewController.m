@@ -111,12 +111,23 @@
 //    for (NSManagedObject *obj in _discountObjects) {
 //        NSLog(@"%@",[obj valueForKey:@"name"]);
 //    }
-    NSArray *categorys = [coreManager categoriesFromCoreData];
     
-    for (NSManagedObject *category in categorys) {
-        NSSet *discountObjs = [category valueForKey:@"discountObjects"];
+//    NSArray *categorys = [coreManager categoriesFromCoreData];
+//    
+//    for (NSManagedObject *category in categorys) {
+//        NSSet *discountObjs = [category valueForKey:@"discountObjects"];
+//        for (NSManagedObject *obj in discountObjs) {
+//            NSLog(@"category: %@",[category valueForKey:@"name"]);
+//            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
+//        }
+//    }
+    
+    NSArray *citys = [coreManager citiesFromCoreData];
+    
+    for (NSManagedObject *city in citys) {
+        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
         for (NSManagedObject *obj in discountObjs) {
-            NSLog(@"category: %@",[category valueForKey:@"name"]);
+            NSLog(@"city: %@",[city valueForKey:@"name"]);
             NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
         }
     }
