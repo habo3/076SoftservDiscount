@@ -836,7 +836,7 @@
             </objects>
             <point key="canvasLocation" x="944" y="-3"/>
         </scene>
-        <!--List View Controller-->
+        <!--List View Controller - Список-->
         <scene sceneID="GnO-Df-h9D">
             <objects>
                 <tableViewController id="Cvh-bR-LRs" customClass="ListViewController" sceneMemberID="viewController">
@@ -922,7 +922,7 @@
                             <outlet property="delegate" destination="Cvh-bR-LRs" id="8ms-4t-Fus"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Ixv-Kq-zdN"/>
+                    <navigationItem key="navigationItem" title="Список" id="Ixv-Kq-zdN"/>
                     <connections>
                         <segue destination="fza-nt-l4I" kind="push" identifier="detailsList" id="GmE-of-QXz"/>
                     </connections>
@@ -983,6 +983,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="NEW-CF-46l"/>
+        <segue reference="GmE-of-QXz"/>
     </inferredMetricsTieBreakers>
 </document>
