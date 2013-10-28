@@ -52,7 +52,6 @@
 		434CAFD216D52D860000CE60 /* detailsDistanceBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CAFD016D52D860000CE60 /* detailsDistanceBackground@2x.png */; };
 		434CAFD616D53D5A0000CE60 /* detailsFooterButtonsPattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CAFD416D53D5A0000CE60 /* detailsFooterButtonsPattern.png */; };
 		434CAFD716D53D5A0000CE60 /* detailsFooterButtonsPattern@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CAFD516D53D5A0000CE60 /* detailsFooterButtonsPattern@2x.png */; };
-		4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4373562A16CBC0BC00B30B81 /* PlaceCell.xib */; };
 		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
 		43EB025416DCE4910096431E /* noFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 43EB025316DCE4910096431E /* noFavorites.png */; };
@@ -186,7 +185,6 @@
 		4373562716CBC09F00B30B81 /* PlaceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaceCell.m; sourceTree = "<group>"; };
 		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4373562916CBC0AA00B30B81 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		4373562A16CBC0BC00B30B81 /* PlaceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceCell.xib; sourceTree = "<group>"; };
 		43EB025316DCE4910096431E /* noFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noFavorites.png; sourceTree = "<group>"; };
 		4B2C624118168D0F008A673D /* navigationBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBG.png; sourceTree = "<group>"; };
 		4B2C624318169B7E008A673D /* navigationBarBGOld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBGOld.png; sourceTree = "<group>"; };
@@ -323,7 +321,6 @@
 				4373562916CBC0AA00B30B81 /* ListViewController.m */,
 				4373562616CBC09F00B30B81 /* PlaceCell.h */,
 				4373562716CBC09F00B30B81 /* PlaceCell.m */,
-				4373562A16CBC0BC00B30B81 /* PlaceCell.xib */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -331,10 +328,10 @@
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
-				BB1FED901819BC8100ABE71E /* CoreData */,
 				C0A9EBBE16D9705600DE9FC5 /* Favorites */,
-				434CAFA416D4D8380000CE60 /* Details */,
 				4325F4DF16CBA8F4002C7B75 /* List */,
+				BB1FED901819BC8100ABE71E /* CoreData */,
+				434CAFA416D4D8380000CE60 /* Details */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				4B5AF78218152E9C009BDF5D /* MenuViewController.h */,
 				4B5AF78318152E9C009BDF5D /* MenuViewController.m */,
@@ -734,7 +731,6 @@
 				906800DE16B01CEA0053F50C /* Default@2x.png in Resources */,
 				9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */,
 				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
-				4373562B16CBC0BC00B30B81 /* PlaceCell.xib in Resources */,
 				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
 				90820E7116CE92C200BBD714 /* emptyPin.png in Resources */,
 				9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */,

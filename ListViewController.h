@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Flurry.h"
 
-@interface ListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
+@interface ListViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
 
