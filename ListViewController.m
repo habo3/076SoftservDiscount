@@ -52,6 +52,12 @@
 @synthesize geoLocationIsON;
 
 @synthesize discountObjects = _discountObjects;
+@synthesize coreDataManager = _coreDataManager;
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
 
 #pragma mark - View
 
@@ -95,18 +101,18 @@
     JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
     JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
 
-    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+//    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+    
+    self.coreDataManager.discountObject = objects.arrayObjects;
+    self.coreDataManager.cities = cities.dictionaryObjects;
+    self.coreDataManager.categories = categories.dictionaryObjects;
 
-    coreManager.discountObject = objects.arrayObjects;
-    coreManager.cities = cities.dictionaryObjects;
-    coreManager.categories = categories.dictionaryObjects;
+    [self.coreDataManager deleteAllData];
+    [self.coreDataManager saveCategoriesToCoreData];
+    [self.coreDataManager saveCitiesToCoreData];
+    [self.coreDataManager saveDiscountObjectsToCoreData];
 
-    [coreManager deleteAllData];
-    [coreManager saveCategoriesToCoreData];
-    [coreManager saveCitiesToCoreData];
-    [coreManager saveDiscountObjectsToCoreData];
-
-    _discountObjects = [coreManager discountObjectsFromCoreData];
+    _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
 
 //    for (NSManagedObject *obj in _discountObjects) {
 //        NSLog(@"%@",[obj valueForKey:@"name"]);
@@ -122,7 +128,7 @@
 //        }
 //    }
     
-    NSArray *citys = [coreManager citiesFromCoreData];
+    NSArray *citys = [self.coreDataManager citiesFromCoreData];
     
     for (NSManagedObject *city in citys) {
         NSSet *discountObjs = [city valueForKey:@"discountObjects"];

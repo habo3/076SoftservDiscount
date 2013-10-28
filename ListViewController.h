@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Flurry.h"
+@class CDCoreDataManager;
 
 @interface ListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
@@ -16,6 +17,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property(strong, nonatomic) NSArray *dataSource;
 
 @property (nonatomic, strong) NSArray *discountObjects;

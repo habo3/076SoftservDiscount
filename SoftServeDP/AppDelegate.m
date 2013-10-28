@@ -10,6 +10,7 @@
 #import "MenuViewController.h"
 #import "JSONParser.h"
 #import "Flurry.h"
+#import "CDCoreDataManager.h"
 
 NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionStateChangedNotification";
 
@@ -22,6 +23,8 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 @synthesize managedObjectContextNew = _managedObjectContextNew;
 @synthesize managedObjectModelNew = _managedObjectModelNew;
 @synthesize persistentStoreCoordinatorNew = _persistentStoreCoordinatorNew;
+
+@synthesize coreDataManager = _coreDataManager;
 
 -(void) applicationWillEnterForeground:(UIApplication *)application
 {
@@ -132,6 +135,16 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
             abort();
         }
     }
+}
+
+-(CDCoreDataManager *)coreDataManager
+{
+    if (_coreDataManager != Nil) {
+        return _coreDataManager;
+    }
+    
+    _coreDataManager = [[CDCoreDataManager alloc] init];
+    return _coreDataManager;
 }
 
 - (NSManagedObjectContext *)managedObjectContext
