@@ -10,14 +10,14 @@
 #import "DiscountObject.h"
 @interface PlaceCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *circle;
-@property (weak, nonatomic) IBOutlet UIView *roundRectBg;
 @property (strong,nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong,nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *detailsDistanceBackground;
- 
+@property (strong, nonatomic) IBOutlet UIView *circleView; 
+@property (strong, nonatomic) IBOutlet UIView *rectangleView;
 @property (weak, nonatomic) IBOutlet UILabel *iconLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
 
+-(void) initViews;
 @end

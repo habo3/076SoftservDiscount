@@ -11,7 +11,7 @@
 #import "Flurry.h"
 @class CDCoreDataManager;
 
-@interface ListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
+@interface ListViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
 

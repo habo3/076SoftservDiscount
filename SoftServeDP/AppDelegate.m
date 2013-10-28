@@ -11,6 +11,7 @@
 #import "JSONParser.h"
 #import "Flurry.h"
 #import "CDCoreDataManager.h"
+#import "JPJsonParser.h"
 
 NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionStateChangedNotification";
 
@@ -26,6 +27,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 @synthesize coreDataManager = _coreDataManager;
 
+#pragma mark - App methods
 -(void) applicationWillEnterForeground:(UIApplication *)application
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -41,6 +43,9 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
         [parser updateDBWithOptions];
         });
     }
+    
+
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -77,7 +82,28 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
             [parser updateDBWithOptions];
         });
     }
-        
+    
+#pragma mark - Input New Core Data
+    NSString *objectUrl = @"http://softserve.ua/discount/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *cityUrl = @"http://softserve.ua/discount/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *categoryUrl = @"http://softserve.ua/discount/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    
+    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:objectUrl];
+    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
+    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
+    
+    //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+    
+    self.coreDataManager.discountObject = objects.arrayObjects;
+    self.coreDataManager.cities = cities.dictionaryObjects;
+    self.coreDataManager.categories = categories.dictionaryObjects;
+    
+    [self.coreDataManager deleteAllData];
+    [self.coreDataManager saveCategoriesToCoreData];
+    [self.coreDataManager saveCitiesToCoreData];
+    [self.coreDataManager saveDiscountObjectsToCoreData];
+    
+    
     return YES;
 }
 
@@ -179,6 +205,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     }
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"SoftServeDP.sqlite"];
+    
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])

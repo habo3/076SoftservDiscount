@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Flurry.h"
 
-@interface FavoritesViewController : UIViewController <CLLocationManagerDelegate>{
+@interface FavoritesViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
     CLLocationManager *locationManager;
 }
 

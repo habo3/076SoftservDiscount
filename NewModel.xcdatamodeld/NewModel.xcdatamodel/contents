@@ -41,8 +41,8 @@
         <relationship name="cities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDCity" inverseName="discountObjects" inverseEntity="CDCity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDCategory" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CDCity" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CDDiscountObject" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDCategory" positionX="0" positionY="0" width="128" height="148"/>
+        <element name="CDCity" positionX="-549" positionY="189" width="128" height="118"/>
+        <element name="CDDiscountObject" positionX="-324" positionY="18" width="128" height="373"/>
     </elements>
 </model>

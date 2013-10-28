@@ -17,7 +17,6 @@
 #import "FavoritesViewController.h"
 #import "IconConverter.h"
 #import "AppDelegate.h"
-#import "JPJsonParser.h"
 #import "CDCoreDataManager.h"
 
 #define CELL_HEIGHT 80.0
@@ -29,6 +28,7 @@
 
 @property (nonatomic) NSArray * objectsFound;
 @property (nonatomic) UIButton *filterButton;
+
 @property (nonatomic) NSInteger selectedRow;
 @property (nonatomic) NSInteger selectedIndex;
 @property (nonatomic) NSArray  *categoryObjects;
@@ -66,10 +66,7 @@
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     managedObjectContext = appDelegate.managedObjectContext;
     [super viewDidLoad];
-    
-    //Sending event to analytics service
-    [Flurry logEvent:@"ListViewLoaded"];
-    
+   
     [self setNavigationTitle];
     self.tableView.separatorColor = [UIColor clearColor];
     
@@ -92,44 +89,8 @@
     
     self.dataSource = [NSArray arrayWithArray:fetchArr];
     
-#pragma mark - Input New Core Data
-    NSString *objectUrl = @"http://softserve.ua/discount/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
-    NSString *cityUrl = @"http://softserve.ua/discount/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
-    NSString *categoryUrl = @"http://softserve.ua/discount/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
-    
-    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:objectUrl];
-    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
-    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
-
-//    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
-    
-    self.coreDataManager.discountObject = objects.arrayObjects;
-    self.coreDataManager.cities = cities.dictionaryObjects;
-    self.coreDataManager.categories = categories.dictionaryObjects;
-
-    [self.coreDataManager deleteAllData];
-    [self.coreDataManager saveCategoriesToCoreData];
-    [self.coreDataManager saveCitiesToCoreData];
-    [self.coreDataManager saveDiscountObjectsToCoreData];
-
-    _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
-
-//    for (NSManagedObject *obj in _discountObjects) {
-//        NSLog(@"%@",[obj valueForKey:@"name"]);
-//    }
-    
-//    NSArray *categorys = [coreManager categoriesFromCoreData];
-//    
-//    for (NSManagedObject *category in categorys) {
-//        NSSet *discountObjs = [category valueForKey:@"discountObjects"];
-//        for (NSManagedObject *obj in discountObjs) {
-//            NSLog(@"category: %@",[category valueForKey:@"name"]);
-//            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
-//        }
-//    }
-    
+#pragma mark - Test new CoreData
     NSArray *citys = [self.coreDataManager citiesFromCoreData];
-    
     for (NSManagedObject *city in citys) {
         NSSet *discountObjs = [city valueForKey:@"discountObjects"];
         for (NSManagedObject *obj in discountObjs) {
@@ -138,23 +99,14 @@
         }
     }
     
-    
-    
-}
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+    //Sending event to analytics service
+    [Flurry logEvent:@"ListViewLoaded"];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     if(geoLocationIsON)
@@ -181,6 +133,18 @@
 -(void) viewWillDisappear:(BOOL)animated
 {
     [filterButton removeFromSuperview];
+}
+
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
 }
 
 #pragma mark - search
@@ -359,17 +323,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaceCell"];
-    if (!cell) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"PlaceCell"
-                                              owner:nil
-                                            options:nil] objectAtIndex:0];
-        
+    NSString *cellIdentifer = @"Cell";
+    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+    if (cell == nil) {
+        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
     }
+    // Init style of rrectangleView and circleView
+    [cell initViews];
     //here forms search object
     DiscountObject * object;
-    
-
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         _searching = YES;
@@ -382,9 +344,9 @@
   
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
+    
     if(geoLocationIsON)
     {
-          
             CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
                                                                     longitude:[object.geoLongitude doubleValue]];
             double distance = [self.currentLocation distanceFromLocation:objectLocation];
@@ -394,31 +356,20 @@
             else {
                 cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
             }
-        
     }
     else
     {
         cell.detailsDistanceBackground.hidden = YES;
         cell.distanceLabel.hidden = YES;
     }
-    cell.circle.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
-    cell.roundRectBg.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
-    
-
-    
-    UIImage *buttonImage = [UIImage imageNamed:@"disclosureButton"];
-    cell.buttonImage.image = buttonImage;
     Category *dbCategory = [object.categories anyObject];
     NSString *symbol = dbCategory.fontSymbol;
-
     NSString *tmpText = [IconConverter ConvertIconText:symbol];
     UIFont *font = [UIFont fontWithName:@"icons" size:20];
     cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
     cell.iconLabel.font = font;
     cell.iconLabel.text = tmpText;
-    cell.iconLabel.textAlignment = UITextAlignmentCenter;
-    
-    
+    cell.iconLabel.textAlignment = UITextAlignmentCenter;   
     return cell;
 }
 

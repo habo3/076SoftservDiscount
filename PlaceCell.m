@@ -26,24 +26,15 @@
     // Configure the view for the selected state
 }
 
-- (void) layoutSubviews
+-(void) initViews
 {
-    [super layoutSubviews];
+    self.rectangleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.rectangleView.layer.borderWidth = 1.0f;
+    self.rectangleView.layer.cornerRadius = 10;
     
-    // dynamic layout logic:
-    if (_distanceLabel.hidden)
-    {
-        if((!_addressLabel.text) ||  ([_addressLabel.text isEqual:@""]) )
-        {
-            _nameLabel.frame = CGRectMake( 53, (self.frame.size.height-21)/2, 228, 21 );
-        }
-        else
-        {
-            _nameLabel.frame = CGRectMake( 53, (self.frame.size.height-21-14)/2, 228, 21);
-            _addressLabel.frame = CGRectMake( 53, _nameLabel.frame.origin.y+14, 228, 21 );
-        }
-    }
-    
+    self.circleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.circleView.layer.borderWidth = 1.0f;
+    self.circleView.layer.cornerRadius = self.circleView.bounds.size.width/2;
 }
 
 @end

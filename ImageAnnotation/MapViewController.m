@@ -47,6 +47,7 @@
 @synthesize filterButton;
 @synthesize selectedObject;
 @synthesize progressView;
+
 @synthesize coreDataManager = _coreDataManager;
 
 -(CDCoreDataManager *)coreDataManager
@@ -99,9 +100,8 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
     
-#pragma mark - coreDataManager test
+#pragma mark - Test new CoreData
     NSArray *citys = [self.coreDataManager citiesFromCoreData];
-    
     for (NSManagedObject *city in citys) {
         NSSet *discountObjs = [city valueForKey:@"discountObjects"];
         for (NSManagedObject *obj in discountObjs) {

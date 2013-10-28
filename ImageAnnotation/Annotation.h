@@ -9,7 +9,6 @@
 #import "DiscountObject.h"
 #import <MapKit/MKPointAnnotation.h>
 #import <MapKit/MKAnnotation.h>
-#import "OCAnnotation.h"
 @interface Annotation : NSObject <MKAnnotation>
 
 @property (nonatomic,copy) NSString *title;
