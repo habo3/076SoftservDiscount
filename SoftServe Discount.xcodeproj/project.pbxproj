@@ -690,9 +690,9 @@
 		C0A9EBBE16D9705600DE9FC5 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
+				43EB025316DCE4910096431E /* noFavorites.png */,
 				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
 				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
-				43EB025316DCE4910096431E /* noFavorites.png */,
 				C0896E2C16DA8EA400D73C1E /* disclosureButton.png */,
 				C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */,
 				C0A9EBBF16D9708F00DE9FC5 /* FavoritesViewController.h */,
