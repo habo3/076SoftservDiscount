@@ -831,9 +831,6 @@
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="280" height="50"/>
@@ -846,7 +843,6 @@
         <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
-        <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
         <image name="settingsPin.png" width="11" height="14"/>
