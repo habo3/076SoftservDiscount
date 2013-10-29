@@ -16,6 +16,7 @@
 #import "OCMapView.h"
 #import "OCAnnotation.h"
 #import "AppDelegate.h"
+#import "CDCoreDataManager.h"
 
 #define MAP_SPAN_DELTA 0.005
 
@@ -49,6 +50,13 @@
 @synthesize filterButton;
 @synthesize selectedObject;
 @synthesize progressView;
+
+@synthesize coreDataManager = _coreDataManager;
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
 
 #pragma mark - View
 
@@ -95,6 +103,16 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
     [self gotoLocation];
+    
+#pragma mark - Test new CoreData
+    NSArray *citys = [self.coreDataManager citiesFromCoreData];
+    for (NSManagedObject *city in citys) {
+        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
+        for (NSManagedObject *obj in discountObjs) {
+            NSLog(@"city: %@",[city valueForKey:@"name"]);
+            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
+        }
+    }
 
 }
 

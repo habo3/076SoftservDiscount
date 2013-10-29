@@ -14,10 +14,13 @@
 #import "CustomAnnotationView.h"
 #import "CustomPicker.h"
 #import "Flurry.h"
+@class CDCoreDataManager;
+
 
 @interface MapViewController : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate,CustomCalloutViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property (nonatomic,retain) IBOutlet CLLocationManager *location;
 
 - (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage;

@@ -10,6 +10,8 @@
 #import "MenuViewController.h"
 #import "JSONParser.h"
 #import "Flurry.h"
+#import "CDCoreDataManager.h"
+#import "JPJsonParser.h"
 
 NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionStateChangedNotification";
 
@@ -19,6 +21,13 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+@synthesize managedObjectContextNew = _managedObjectContextNew;
+@synthesize managedObjectModelNew = _managedObjectModelNew;
+@synthesize persistentStoreCoordinatorNew = _persistentStoreCoordinatorNew;
+
+@synthesize coreDataManager = _coreDataManager;
+
+#pragma mark - App methods
 -(void) applicationWillEnterForeground:(UIApplication *)application
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -31,9 +40,12 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
         JSONParser *parser =[[JSONParser alloc] init ];
         parser.managedObjectContext = self.managedObjectContext;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        [parser updateDBWithOptions];
+            [parser updateDBWithOptions];
         });
     }
+    
+    
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -44,7 +56,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
     NSString *flurryApiKey = [NSString stringWithString:[dictRoot objectForKey:@"FlurryApiKey"]];
     [Flurry startSession:flurryApiKey];
-
+    
     
     //check if app was ever updated and decide: update in background or in main thread
     [self closeSession];
@@ -70,7 +82,28 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
             [parser updateDBWithOptions];
         });
     }
-        
+    
+#pragma mark - Input New Core Data
+    NSString *objectUrl = @"http://softserve.ua/discount/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *cityUrl = @"http://softserve.ua/discount/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    NSString *categoryUrl = @"http://softserve.ua/discount/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
+    
+    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:objectUrl];
+    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
+    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
+    
+    //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+    
+    self.coreDataManager.discountObject = objects.arrayObjects;
+    self.coreDataManager.cities = cities.dictionaryObjects;
+    self.coreDataManager.categories = categories.dictionaryObjects;
+    
+    [self.coreDataManager deleteAllData];
+    [self.coreDataManager saveCategoriesToCoreData];
+    [self.coreDataManager saveCitiesToCoreData];
+    [self.coreDataManager saveDiscountObjectsToCoreData];
+    
+    
     return YES;
 }
 
@@ -130,6 +163,16 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     }
 }
 
+-(CDCoreDataManager *)coreDataManager
+{
+    if (_coreDataManager != Nil) {
+        return _coreDataManager;
+    }
+    
+    _coreDataManager = [[CDCoreDataManager alloc] init];
+    return _coreDataManager;
+}
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext != nil) {
@@ -172,6 +215,53 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     }
     
     return _persistentStoreCoordinator;
+}
+
+#pragma mark - New managed object context
+
+-(NSManagedObjectContext *)managedObjectContextNew
+{
+    if (_managedObjectContextNew != nil) {
+        return _managedObjectContextNew;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinatorNew];
+    if (coordinator != nil) {
+        _managedObjectContextNew = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContextNew setPersistentStoreCoordinator:coordinator];
+    }
+    return _managedObjectContextNew;
+}
+
+- (NSManagedObjectModel *)managedObjectModelNew
+{
+    if (_managedObjectModelNew != nil) {
+        return _managedObjectModelNew;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"NewModel" withExtension:@"momd"];
+    //NSLog(@"%@",modelURL);
+    _managedObjectModelNew = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModelNew;
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinatorNew
+{
+    if (_persistentStoreCoordinatorNew != nil)
+    {
+        return _persistentStoreCoordinatorNew;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NewModel.sqlite"];
+    
+    NSError *error = nil;
+    _persistentStoreCoordinatorNew = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModelNew]];
+    if (![_persistentStoreCoordinatorNew addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    return _persistentStoreCoordinatorNew;
 }
 
 #pragma mark - Application's Documents directory

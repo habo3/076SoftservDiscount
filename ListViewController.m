@@ -17,6 +17,9 @@
 #import "FavoritesViewController.h"
 #import "IconConverter.h"
 #import "AppDelegate.h"
+#import "CDCoreDataManager.h"
+#import "CDDiscountObject.h"
+#import "CDCategory.h"
 
 #define CELL_HEIGHT 80.0
 
@@ -49,6 +52,13 @@
 @synthesize sortedObjects;
 @synthesize tableView = _tableView;
 @synthesize geoLocationIsON;
+@synthesize discountObjects = _discountObjects;
+@synthesize coreDataManager = _coreDataManager;
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
 
 
 #pragma mark - View
@@ -63,6 +73,8 @@
     self.tableView.separatorColor = [UIColor clearColor];
     
     self.tableView.delegate = self;
+    
+    _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
     
     objectsFound = [self getAllObjects];
     
@@ -80,6 +92,16 @@
     
     
     self.dataSource = [NSArray arrayWithArray:fetchArr];
+    
+#pragma mark - Test new CoreData
+    NSArray *citys = [self.coreDataManager citiesFromCoreData];
+    for (NSManagedObject *city in citys) {
+        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
+        for (NSManagedObject *obj in discountObjs) {
+            NSLog(@"city: %@",[city valueForKey:@"name"]);
+            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
+        }
+    }
     
 }
 
@@ -276,6 +298,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    return [self.discountObjects count];
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         tableView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
         tableView.separatorColor = [UIColor colorWithWhite:0 alpha:0];
@@ -313,24 +336,25 @@
     // Init style of rrectangleView and circleView
     [cell initViews];
     //here forms search object
-    DiscountObject * object;
-    
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        _searching = YES;
-        object =[searchResults objectAtIndex:indexPath.row];
-
-    } else {
-        _searching = NO;
-        object =[objectsFound objectAtIndex:indexPath.row];
-    }
+    CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
+//    
+//    if (tableView == self.searchDisplayController.searchResultsTableView) {
+//        _searching = YES;
+//        object =[searchResults objectAtIndex:indexPath.row];
+//
+//    } else {
+//        _searching = NO;
+//        object =[objectsFound objectAtIndex:indexPath.row];
+//    }
   
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
     
     if(geoLocationIsON)
     {
-            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-                                                                    longitude:[object.geoLongitude doubleValue]];
+            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[[object.geoPoint valueForKey:@"latitude" ] doubleValue]
+                                                                    longitude:[[object.geoPoint valueForKey:@"longitude" ]  doubleValue]];
+
             double distance = [self.currentLocation distanceFromLocation:objectLocation];
             if (distance > 999){
                 cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
@@ -344,7 +368,7 @@
         cell.detailsDistanceBackground.hidden = YES;
         cell.distanceLabel.hidden = YES;
     }
-    Category *dbCategory = [object.categories anyObject];
+    CDCategory *dbCategory = [object.categorys anyObject];
     NSString *symbol = dbCategory.fontSymbol;
     NSString *tmpText = [IconConverter ConvertIconText:symbol];
     UIFont *font = [UIFont fontWithName:@"icons" size:20];
