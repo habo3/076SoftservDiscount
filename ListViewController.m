@@ -383,13 +383,6 @@
         dvc.discountObject = [objectsFound objectAtIndex:selectedRow];
     }
     dvc.managedObjectContext = self.managedObjectContext;
-    
-    //remove text from "Back" button (c)Bogdan
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:nil
-                                                                            action:nil] ;
-    
 }
 
 - (void)didReceiveMemoryWarning

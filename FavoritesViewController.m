@@ -158,12 +158,6 @@
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
     dvc.managedObjectContext = self.managedObjectContext;
-
-    //remove text from "Back" button
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:nil
-                                                                            action:nil] ;
 }
 
 -(void) reloadTableWithDistancesValues {

@@ -37,13 +37,14 @@
 @end
 
 @implementation DetailsViewController
+@synthesize coordinate = _coordinate;
 @synthesize pintype;
 @synthesize discountObject;
 @synthesize managedObjectContext;
 @synthesize mapView;
 
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius{
-    
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
+{    
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
                                                    byRoundingCorners:rectCorner
                                                          cornerRadii:CGSizeMake(radius, radius)];

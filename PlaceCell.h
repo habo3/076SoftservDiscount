@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DiscountObject.h"
+#import "Category.h"
+#import "IconConverter.h"
+#import <CoreLocation/CLLocation.h>
+#import <CoreLocation/CLLocationManager.h>
+
 @interface PlaceCell : UITableViewCell
 
 @property (strong,nonatomic) IBOutlet UILabel *nameLabel;
@@ -19,5 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *iconLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
 
+//-(PlaceCell *) getCustomCellFromDiscountObject:(DiscountObject *)object onTableView:(UITableView *)tableView withCurrentLocation: (CLLocation *)currentLocation;
 -(void) initViews;
+
 @end
