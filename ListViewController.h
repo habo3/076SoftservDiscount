@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property(strong, nonatomic) NSArray *dataSource;
-
-@property (nonatomic, strong) NSArray *discountObjects;
+@property (strong,nonatomic) NSArray *discountObjects;
 
 @end

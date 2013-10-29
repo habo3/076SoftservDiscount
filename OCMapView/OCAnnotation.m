@@ -37,10 +37,10 @@
 - (id)initWithOCAnnotation:(OCAnnotation *)annotation;
 {
     self = [self init];
-    if (self) {
+    if (self)
+    {
         _coordinate = [annotation coordinate];
-        _annotationsInCluster = annotation.annotationsInCluster;
-        
+        _annotationsInCluster = [annotation.annotationsInCluster mutableCopy];
     }
     return self;
 }

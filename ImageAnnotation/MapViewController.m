@@ -39,6 +39,9 @@
 @implementation MapViewController
 
 @synthesize calloutView, annArray;
+@synthesize coordinate = _coordinate;
+@synthesize pickerView;
+@synthesize mapView = _mapView;
 @synthesize location;
 @synthesize managedObjectContext;
 @synthesize dataSource;
@@ -96,9 +99,10 @@
     disclosureButton.backgroundColor = [UIColor clearColor];
     [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
     self.calloutView.rightAccessoryView = disclosureButton;
-    self.annArray = [NSArray arrayWithArray:[self getAllPins]];
+    self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
+    [self gotoLocation];
     
 #pragma mark - Test new CoreData
     NSArray *citys = [self.coreDataManager citiesFromCoreData];
@@ -109,6 +113,7 @@
             NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
         }
     }
+
 }
 
 - (void)viewDidUnload
@@ -121,7 +126,6 @@
 {
     [self.navigationController.navigationBar addSubview:filterButton];
     [super viewDidAppear:animated];
-    [self gotoLocation];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -315,7 +319,6 @@
             j++;
             
         }
-        [self centerMapForCoordinateArray:points andCount:points_count];
     }
 }
 
@@ -652,16 +655,11 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = self.selectedObject;
     dvc.managedObjectContext = self.managedObjectContext;
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.navigationItem.title
-                                                               style:UIBarButtonItemStyleBordered
-                                                                            target:nil
-                                                                            action:nil] ;
 }
 
 - (void)disclosureTapped {
@@ -775,8 +773,8 @@ numberOfRowsInComponent:(NSInteger)component
 
 #pragma mark - filter 
 
-- (IBAction)filterCategory:(UIControl *)sender {
-    //[CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
+- (IBAction)filterCategory:(UIControl *)sender
+{
     if(self.pickerView.isHidden){
         self.pickerView.hidden=FALSE;}
     else{
@@ -786,32 +784,13 @@ numberOfRowsInComponent:(NSInteger)component
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
-    
     [self.pickerView selectRow:row inComponent:component animated:YES];
-    NSLog(@"row#%ld",(long)row);
-    
-    
-    if(row ==0){
-        
-        self.annArray = [NSArray arrayWithArray: [self getAllPins]];
-    }
+    if(row ==0)
+        self.annArray = [[self getAllPins] mutableCopy];
     else
-    {
-        self.annArray = [NSArray arrayWithArray: [self getPinsByCategory:row-1]];
-    }
-    
-    //[self.mapView removeAnnotations:[self.mapView selectedAnnotations]];
+        self.annArray = [[self getPinsByCategory:row-1] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
-    /*[self.mapView addAnnotations:self.annArray];
-     NSArray *my=[self.mapView selectedAnnotations];
-     [self.mapView selectAnnotation:self.annArray animated:YES];
-     */
-    
-    
-    
-    
 }
 
 
@@ -824,12 +803,10 @@ numberOfRowsInComponent:(NSInteger)component
         [self.mapView removeAnnotations:self.mapView.annotations];
         
         if (self.selectedIndex<1)
-            self.annArray = [NSArray arrayWithArray: [self getAllPins]];
+            self.annArray = [[self getAllPins] mutableCopy];
         else
-            self.annArray = [NSArray arrayWithArray: [self getPinsByCategory:self.selectedIndex-1]];
-        
+            self.annArray = [[self getPinsByCategory:self.selectedIndex - 1] mutableCopy];
         [self.mapView addAnnotations:self.annArray];
-
     }
 }
 

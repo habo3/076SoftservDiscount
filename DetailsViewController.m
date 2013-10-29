@@ -12,6 +12,8 @@
 #import "IconConverter.h"
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "CDDiscountObject.h"
+#import "CDCategory.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
@@ -37,13 +39,16 @@
 @end
 
 @implementation DetailsViewController
+@synthesize coordinate = _coordinate;
 @synthesize pintype;
 @synthesize discountObject;
 @synthesize managedObjectContext;
 @synthesize mapView;
 
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius{
-    
+@synthesize discountObjectNew = _discountObjectNew;
+
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
+{    
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
                                                    byRoundingCorners:rectCorner
                                                          cornerRadii:CGSizeMake(radius, radius)];
@@ -70,8 +75,8 @@
     self.mapView.delegate = self;
     Annotation *myAnn = [[Annotation alloc]init];
     CLLocationCoordinate2D tmpCoord;
-    tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
-    tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
+    tmpCoord.longitude = [[self.discountObjectNew.geoPoint valueForKey:@"longitude"] doubleValue];
+    tmpCoord.latitude = [[self.discountObjectNew.geoPoint valueForKey:@"latitude"] doubleValue];
     myAnn.coordinate = tmpCoord;
     self.pintype = [self makePin];
     myAnn.pintype = self.pintype;
@@ -89,20 +94,20 @@
     [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     // set labels value
-    NSSet *categories = discountObject.categories;
+    NSSet *categories = self.discountObjectNew.categorys;
     Category *category = [categories anyObject];
     NSString *categoryName = category.name;
     NSString *discountFrom;
-    if(![discountObject.discountFrom isEqualToNumber: discountObject.discountTo])
-        discountFrom = [NSString stringWithFormat:@"%@-", discountObject.discountFrom];
+    if(![[self.discountObjectNew.discount valueForKey:@"from"]  isEqualToNumber: [self.discountObjectNew.discount valueForKey:@"to"]])
+        discountFrom = [NSString stringWithFormat:@"%@-", [self.discountObjectNew.discount valueForKey:@"from"]];
     else
         discountFrom = [NSString stringWithFormat:@""];
-    self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [discountObject.discountTo stringValue]];
+    self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [[self.discountObjectNew.discount valueForKey:@"to"] stringValue]];
     self.discount.font = [UIFont boldSystemFontOfSize: self.discount.text.length > 5 ? 10.0 : 13.0];
-    self.name.text = discountObject.name;
+    self.name.text = self.discountObjectNew.name;
     self.category.text = categoryName;
     
-    self.address.text = discountObject.address;
+    self.address.text = self.discountObjectNew.address;
     NSSet *contacts = discountObject.contacts;
     for (NSManagedObject *contact in contacts) {
         NSString * type = [contact valueForKey:@"type"];
@@ -115,6 +120,16 @@
         else if ([type isEqualToString:@"site"]){
             self.webSite.text = [contact valueForKey:@"value"];
         }
+    }
+    
+    if ( !(self.discountObjectNew.phone == nil || [self.discountObjectNew.phone count] == 0 ) ) {
+        self.phone.text = [self.discountObjectNew.phone objectAtIndex:0];
+    }
+    if ( !(self.discountObjectNew.email == nil || [self.discountObjectNew.email count] == 0 ) ) {
+        self.email.text = [self.discountObjectNew.email objectAtIndex:0];
+    }
+    if ( !(self.discountObjectNew.site == nil || [self.discountObjectNew.site count] == 0 ) ) {
+        self.webSite.text = [self.discountObjectNew.site objectAtIndex:0];
     }
 }
 
@@ -176,16 +191,27 @@
 
 - (UIImage*)makePin
 {
-    // select category
-    NSSet *dbCategories = discountObject.categories;
-    Category *dbCategory = [dbCategories anyObject];
+//    // select category
+//    NSSet *dbCategories = discountObject.categories;
+//    Category *dbCategory = [dbCategories anyObject];
+//    
+//    // set font
+//    UIFont *font = [UIFont fontWithName:@"icons" size:10];
+//    
+//    // creating new image
+//    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
+//                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];
     
+    // select category
+    NSSet *dbCategories = self.discountObjectNew.categorys;
+    CDCategory *dbCategory = [dbCategories anyObject];
+
     // set font
     UIFont *font = [UIFont fontWithName:@"icons" size:10];
-    
+    NSLog(@"%@", dbCategory.fontSymbol);
     // creating new image
     UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
-                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];
+                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];    
     return pinImage;
 }
 

@@ -40,11 +40,11 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
         JSONParser *parser =[[JSONParser alloc] init ];
         parser.managedObjectContext = self.managedObjectContext;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        [parser updateDBWithOptions];
+            [parser updateDBWithOptions];
         });
     }
     
-
+    
     
 }
 
@@ -56,7 +56,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
     NSString *flurryApiKey = [NSString stringWithString:[dictRoot objectForKey:@"FlurryApiKey"]];
     [Flurry startSession:flurryApiKey];
-
+    
     
     //check if app was ever updated and decide: update in background or in main thread
     [self closeSession];

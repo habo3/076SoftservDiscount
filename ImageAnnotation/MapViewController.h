@@ -16,6 +16,7 @@
 #import "Flurry.h"
 @class CDCoreDataManager;
 
+
 @interface MapViewController : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate,CustomCalloutViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
