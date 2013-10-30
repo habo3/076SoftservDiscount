@@ -12,6 +12,8 @@
 #import "DiscountObject.h"
 #import "DetailsViewController.h"
 #import "CustomPicker.h"
+#import "CDCity.h"
+#import "CDCoreDataManager.h"
 
 @interface SettingsViewController ()
 
@@ -49,7 +51,6 @@
 
 @implementation SettingsViewController
 
-@synthesize managedObjectContext;
 @synthesize geoLocationLabel,updateLabel,cityLabel,aboutLabel;
 @synthesize updatePeriods,cities;
 @synthesize selectedCityIndex,selectedUpdateIndex;
@@ -59,12 +60,129 @@
 @synthesize versionDBLabelText,versionDBLabelNumber;
 @synthesize automaticUpdateLabel,updatePeriodLabel;
 
+@synthesize coreDataManager = _coreDataManager;
+
+#pragma mark - custom getters
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
+
 -(SettingsViewController *)init {
     
     return [super init];
 }
 
+#pragma mark - view
 
+- (void)viewDidLoad {
+    [self setNavigationTitle];
+    self.updatePeriods = [NSArray arrayWithObjects:
+                          @"8 годин",
+                          @"12 годин",
+                          @"24 години",
+                          @"48 годин",
+                          @"При запуску",
+                          nil];
+    
+    NSArray *arrayOfCities = [self.coreDataManager citiesFromCoreData];
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    for (CDCity *city in arrayOfCities) {
+        [names addObject:city.name];
+    }
+    self.cities = [names copy];    
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    //Default Lviv
+    if(![userDefaults objectForKey:@"selectedCity"])
+    {
+        [userDefaults setObject:[NSNumber numberWithInt:4]  forKey:@"selectedCity"];
+    }
+    
+    geoLocationLabel.text = @"Геолокація";
+    updateLabel.text = @"Оновлення";
+    cityLabel.text = @"Місто по замовчуванню";
+    aboutLabel.text = @"Про програму";
+    
+    automaticUpdateLabel.text = @"Автоматичне оновлення";
+    updatePeriodLabel.text = @"Інтервал оновлення";
+    versionLabelText.text = @"Версія";
+    versionLabelNumber.text = @"1.0";
+    versionDBLabelText.text = @"Дата оновлення даних";
+    versionDBLabelNumber.text = @"1.1.1";
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    //Sending event to analytics service
+    [Flurry logEvent:@"SettingsViewLoaded"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue];
+    BOOL automaticUpdateIsON = [[userDefaults objectForKey:@"isUpdateEnable"]boolValue];
+    
+    selectedCityIndex = [[userDefaults objectForKey:@"selectedCity"] integerValue];
+    selectedCityLabel.text = [self.cities objectAtIndex:selectedCityIndex];
+    selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
+    periodLabelValue.text = [self.updatePeriods objectAtIndex:selectedUpdateIndex];
+    
+    NSDate *date = [userDefaults objectForKey:@"lastDBUpdate"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
+    [dateFormatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
+    versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
+    
+    self.automaticUpdateSwitch.on = automaticUpdateIsON;
+    self.geoLocationSwitch.on = geoLocationIsON;
+    if(automaticUpdateIsON)
+    {
+        updatePeriodLabel.enabled = YES;
+        periodLabelValue.enabled = YES;
+        changeUpdatePeriod.enabled = YES;
+    }
+    else
+    {
+        updatePeriodLabel.enabled = NO;
+        periodLabelValue.enabled = NO;
+        changeUpdatePeriod.enabled = NO;
+    }
+    
+    selectedCityLabel.text = [self.cities objectAtIndex: selectedCityIndex];
+}
+
+- (void)viewDidUnload {
+    
+    [self setGeoLocationLabel:nil];
+    [self setUpdateLabel:nil];
+    [self setCityLabel:nil];
+    [self setSelectedCityLabel:nil];
+    [self setAutomaticUpdateLabel:nil];
+    [self setUpdatePeriodLabel:nil];
+    [self setChangeUpdatePeriod:nil];
+    [self setVersionLabelText:nil];
+    [self setVersionLabelNumber:nil];
+    [self setVersionDBLabelText:nil];
+    [self setVersionDBLabelNumber:nil];
+    [self setGeoLocationSwitch:nil];
+    [self setChangeCity:nil];
+    [super viewDidUnload];
+}
+
+#pragma mark - custom View
+
+-(void) setNavigationTitle
+{
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
+}
+
+
+#pragma mark - UI
 - (IBAction)autoUpdateSwitch:(UISwitch *)sender {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (!sender.on){
@@ -146,8 +264,6 @@
             case 4:
                 [userDefaults setObject:[NSNumber numberWithInt:1] forKey:@"updatePeriod"];
                 break;
-            /*case 5:
-                [userDefaults setObject:[NSNumber numberWithInt:0] forKey:@"updatePeriod"];*/
             default:
                 break;
         }
@@ -160,120 +276,4 @@
 }
 
 
-
-#pragma mark - view
-
-- (void)viewDidLoad {
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    managedObjectContext = appDelegate.managedObjectContext;
-    //Sending event to analytics service
-    [Flurry logEvent:@"SettingsViewLoaded"];
-    [self setNavigationTitle];
-    self.updatePeriods = [NSArray arrayWithObjects:
-                          @"8 годин",
-                          @"12 годин",
-                          @"24 години",
-                          @"48 годин",
-                          @"При запуску",
-                          /*@"Never (Update manually)",*/
-                          nil];
-    self.cities = [NSArray arrayWithObjects:
-                   @"Дніпропетровськ",
-                   @"Івано-Франківськ",
-                   @"Київ",
-                   @"Луцьк",
-                   @"Львів",
-                   @"Одеса",
-                   @"Рівне",
-                   @"Сімферополь",
-                   @"Чернівці",
-                   nil];
-    
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    //Default Lviv
-    if(![userDefaults objectForKey:@"selectedCity"])
-    {
-        [userDefaults setObject:[NSNumber numberWithInt:4]  forKey:@"selectedCity"];
-    }
-    
-    geoLocationLabel.text = @"Геолокація";
-    updateLabel.text = @"Оновлення";
-    cityLabel.text = @"Місто по замовчуванню";
-    aboutLabel.text = @"Про програму";
-    
-    automaticUpdateLabel.text = @"Автоматичне оновлення";
-    updatePeriodLabel.text = @"Інтервал оновлення";
-    versionLabelText.text = @"Версія";
-    versionLabelNumber.text = @"1.0";
-    versionDBLabelText.text = @"Дата оновлення даних";
-    versionDBLabelNumber.text = @"1.1.1";
-}
-
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
-}
-
-
--(void)viewWillAppear:(BOOL)animated
-{
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue];
-    BOOL automaticUpdateIsON = [[userDefaults objectForKey:@"isUpdateEnable"]boolValue];
-    
-    selectedCityIndex = [[userDefaults objectForKey:@"selectedCity"] integerValue];
-    selectedCityLabel.text = [self.cities objectAtIndex:selectedCityIndex];
-    selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
-    periodLabelValue.text = [self.updatePeriods objectAtIndex:selectedUpdateIndex];
-    
-    NSDate *date = [userDefaults objectForKey:@"lastDBUpdate"];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
-    [dateFormatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
-    versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
-    
-    self.automaticUpdateSwitch.on = automaticUpdateIsON;
-    self.geoLocationSwitch.on = geoLocationIsON;
-    if(automaticUpdateIsON)
-    {
-        updatePeriodLabel.enabled = YES;
-        periodLabelValue.enabled = YES;
-        changeUpdatePeriod.enabled = YES;
-    }
-    else
-    {
-        updatePeriodLabel.enabled = NO;
-        periodLabelValue.enabled = NO;
-        changeUpdatePeriod.enabled = NO;
-    }
-
-    selectedCityLabel.text = [self.cities objectAtIndex: selectedCityIndex];
-}
-
-- (void)viewDidUnload {
-
-    [self setGeoLocationLabel:nil];
-    [self setUpdateLabel:nil];
-    [self setCityLabel:nil];
-    [self setSelectedCityLabel:nil];
-    [self setAutomaticUpdateLabel:nil];
-    [self setUpdatePeriodLabel:nil];
-    [self setChangeUpdatePeriod:nil];
-    [self setVersionLabelText:nil];
-    [self setVersionLabelNumber:nil];
-    [self setVersionDBLabelText:nil];
-    [self setVersionDBLabelNumber:nil];
-    [self setGeoLocationSwitch:nil];
-    [self setChangeCity:nil];
-    [super viewDidUnload];
-}
 @end
