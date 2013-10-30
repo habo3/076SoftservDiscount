@@ -220,45 +220,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifer = @"Cell";
-    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
-    if (cell == nil) {
-        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-    }
-    // Init style of rrectangleView and circleView
-    [cell initViews];
-    //here forms search object
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
- 
-    cell.nameLabel.text = object.name ;
-    cell.addressLabel.text = object.address;
-    
-    if(geoLocationIsON)
-    {
-            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[[object.geoPoint valueForKey:@"latitude" ] doubleValue]
-                                                                    longitude:[[object.geoPoint valueForKey:@"longitude" ]  doubleValue]];
-
-            double distance = [self.currentLocation distanceFromLocation:objectLocation];
-            if (distance > 999){
-                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-            }
-            else {
-                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
-            }
-    }
-    else
-    {
-        cell.detailsDistanceBackground.hidden = YES;
-        cell.distanceLabel.hidden = YES;
-    }
-    CDCategory *dbCategory = [object.categorys anyObject];
-    NSString *symbol = dbCategory.fontSymbol;
-    NSString *tmpText = [IconConverter ConvertIconText:symbol];
-    UIFont *font = [UIFont fontWithName:@"icons" size:20];
-    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-    cell.iconLabel.font = font;
-    cell.iconLabel.text = tmpText;
-    cell.iconLabel.textAlignment = UITextAlignmentCenter;   
-    return cell;
+    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
+    return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
 }
 
 #pragma mark - location 
