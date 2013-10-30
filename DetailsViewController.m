@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIImageView *distanceBackground;
 
+@property (weak, nonatomic) IBOutlet UIImageView *discountImage;
+
 
 +(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
 
@@ -43,6 +45,7 @@
 @synthesize pintype;
 @synthesize mapView;
 @synthesize discountObject = _discountObject;
+@synthesize discountImage = _discountImage;
 
 - (void)viewDidLoad
 {
@@ -65,6 +68,15 @@
     self.discount.font = [UIFont boldSystemFontOfSize: self.discount.text.length > 5 ? 10.0 : 13.0];
     self.name.text = self.discountObject.name;
 //    self.category.text = [[self.discountObject.categorys valueForKey:@"name"] stringValue]; getCryticalEror
+    self.category.text = [[self.discountObject.categorys anyObject] valueForKey:@"name"];
+    
+    NSString *categoriesText = [[NSMutableString alloc] init];
+    for (CDCategory *category in self.discountObject.categorys) {
+        categoriesText = [categoriesText stringByAppendingFormat:@"%@ ",category.name];
+    }
+   
+    self.category.text = [categoriesText copy];
+    
     self.address.text = self.discountObject.address;
     
     if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
@@ -76,6 +88,13 @@
     if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
         self.webSite.text = [self.discountObject.site objectAtIndex:0];
     }
+    
+    NSString *http = @"http://softserve.ua";
+    NSString *imageUrl = [http stringByAppendingString:[self.discountObject.logo valueForKey:@"src"]];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+    
+    _discountImage.image = image;
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -83,6 +102,9 @@
     //Sending event to analytics service
     [Flurry logEvent:@"DetailsViewLoaded"];
     
+    self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.discountImage.layer.borderWidth = 1.0f;
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
     if(geoLocationIsON)
@@ -200,8 +222,7 @@
 {
     NSSet *dbCategories = self.discountObject.categorys;
     CDCategory *dbCategory = [dbCategories anyObject];
-    UIFont *font = [UIFont fontWithName:@"icons" size:10];
-    NSLog(@"%@", dbCategory.fontSymbol);
+    UIFont *font = [UIFont fontWithName:@"icons" size:10];    
     UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
                              andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];    
     return pinImage;
