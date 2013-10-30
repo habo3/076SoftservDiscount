@@ -12,6 +12,8 @@
 #import "IconConverter.h"
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "CDDiscountObject.h"
+#import "CDCategory.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
@@ -39,102 +41,48 @@
 @implementation DetailsViewController
 @synthesize coordinate = _coordinate;
 @synthesize pintype;
-@synthesize discountObject;
-@synthesize managedObjectContext;
 @synthesize mapView;
-
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
-{    
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                   byRoundingCorners:rectCorner
-                                                         cornerRadii:CGSizeMake(radius, radius)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    [view.layer setMask:maskLayer];
-}
+@synthesize discountObject = _discountObject;
 
 - (void)viewDidLoad
 {
-
     [super viewDidLoad];
     
-    //Sending event to analytics service
-    [Flurry logEvent:@"DetailsViewLoaded"];
     [self setNavigationTitle];
-    // Highlight button if partner is in Favorites
-    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
-    }
-    
-    // set mapview delegate and annotation for display
-    self.mapView.delegate = self;
-    Annotation *myAnn = [[Annotation alloc]init];
-    CLLocationCoordinate2D tmpCoord;
-    tmpCoord.longitude = [discountObject.geoLongitude doubleValue];
-    tmpCoord.latitude = [discountObject.geoLatitude doubleValue];
-    myAnn.coordinate = tmpCoord;
-    self.pintype = [self makePin];
-    myAnn.pintype = self.pintype;
-    [self.mapView addAnnotation:myAnn];
-     
-    // set display region
-    MKCoordinateRegion newRegion;
-    newRegion.center = tmpCoord;
-    newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
-    newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
-    [self.mapView setRegion:newRegion];
+    [self initMapView];
     
     // round upper corners in first cell
     [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
     [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     // set labels value
-    NSSet *categories = discountObject.categories;
-    Category *category = [categories anyObject];
-    NSString *categoryName = category.name;
     NSString *discountFrom;
-    if(![discountObject.discountFrom isEqualToNumber: discountObject.discountTo])
-        discountFrom = [NSString stringWithFormat:@"%@-", discountObject.discountFrom];
+    if(![[self.discountObject.discount valueForKey:@"from"]  isEqualToNumber: [self.discountObject.discount valueForKey:@"to"]])
+        discountFrom = [NSString stringWithFormat:@"%@-", [self.discountObject.discount valueForKey:@"from"]];
     else
         discountFrom = [NSString stringWithFormat:@""];
-    self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [discountObject.discountTo stringValue]];
+    self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [[self.discountObject.discount valueForKey:@"to"] stringValue]];
     self.discount.font = [UIFont boldSystemFontOfSize: self.discount.text.length > 5 ? 10.0 : 13.0];
-    self.name.text = discountObject.name;
-    self.category.text = categoryName;
+    self.name.text = self.discountObject.name;
+//    self.category.text = [[self.discountObject.categorys valueForKey:@"name"] stringValue]; getCryticalEror
+    self.address.text = self.discountObject.address;
     
-    self.address.text = discountObject.address;
-    NSSet *contacts = discountObject.contacts;
-    for (NSManagedObject *contact in contacts) {
-        NSString * type = [contact valueForKey:@"type"];
-        if ([type isEqualToString:@"phone"]) {
-            self.phone.text = [contact valueForKey:@"value"];
-        }
-        else if ([type isEqualToString:@"email"]){
-            self.email.text = [contact valueForKey:@"value"];
-        }
-        else if ([type isEqualToString:@"site"]){
-            self.webSite.text = [contact valueForKey:@"value"];
-        }
+    if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
+        self.phone.text = [self.discountObject.phone objectAtIndex:0];
     }
-}
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
-
+    if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
+        self.email.text = [self.discountObject.email objectAtIndex:0];
+    }
+    if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
+        self.webSite.text = [self.discountObject.site objectAtIndex:0];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    //Sending event to analytics service
+    [Flurry logEvent:@"DetailsViewLoaded"];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
     if(geoLocationIsON)
@@ -152,63 +100,45 @@
         self.distanceToObject.hidden = YES;
         self.distanceBackground.hidden = YES;
     }
-    
-}
-- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
-{
-    if ([annotation isKindOfClass:[Annotation class]])   // for Annotation
-    {
-        // type cast for property use
-        Annotation *newAnnotation;
-        newAnnotation = (Annotation *)annotation;
-        static NSString *annotationIdentifier = @"ImagePinIdentifier";
-        
-        MKAnnotationView *annotationView = (MKAnnotationView *)
-        [mapView dequeueReusableAnnotationViewWithIdentifier:annotationIdentifier];
-        if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:annotationIdentifier];
-        }
-        //setting pin image
-        annotationView.image = newAnnotation.pintype;
-        return annotationView;
-    }
-    return nil;
 }
 
-- (UIImage*)makePin
+#pragma mark - design of view
+
+-(void) setNavigationTitle
 {
-    // select category
-    NSSet *dbCategories = discountObject.categories;
-    Category *dbCategory = [dbCategories anyObject];
-    
-    // set font
-    UIFont *font = [UIFont fontWithName:@"icons" size:10];
-    
-    // creating new image
-    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
-                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];
-    return pinImage;
+    UILabel *navigationTitle = [[UILabel alloc] init];
+    navigationTitle.backgroundColor = [UIColor clearColor];
+    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
+    navigationTitle.textColor = [UIColor blackColor];
+    self.navigationItem.titleView = navigationTitle;
+    navigationTitle.text = self.navigationItem.title;
+    [navigationTitle sizeToFit];
 }
 
++(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
+{
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
+                                                   byRoundingCorners:rectCorner
+                                                         cornerRadii:CGSizeMake(radius, radius)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    [view.layer setMask:maskLayer];
+}
+//Need to be carried out in customClass
 - (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
 {
-    
     CGRect rect = CGRectZero;
     
     // size of custom text in image
     double margin = 3.0;
     float fontsize = (startImage.size.width - 2 * margin)/3;
-
-        font = [font fontWithSize:fontsize];
-
+    font = [font fontWithSize:fontsize];
     NSString *tmpText = [IconConverter ConvertIconText:text];
-
     
-        // own const for pin text (height position)
-        float ownHeight = 0.4*startImage.size.height;
-        
-        rect = CGRectMake((startImage.size.width - font.pointSize)/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
-
+    // own const for pin text (height position)
+    float ownHeight = 0.4*startImage.size.height;
+    rect = CGRectMake((startImage.size.width - font.pointSize)/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
     
     //work with image
     UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
@@ -223,29 +153,70 @@
     return resultImage;
 }
 
-- (IBAction)favoriteButton {
-    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-        discountObject.inFavorites = [NSNumber numberWithBool:NO];
-        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
-    }
-    else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
-        discountObject.inFavorites = [NSNumber numberWithBool:YES];
-        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
-    }
+#pragma mark - MapView
 
-    NSError* err;
-    if (![self.managedObjectContext save:&err]) {
-        NSLog(@"Couldn't save: %@", [err localizedDescription]);
-    }
+- (void) initMapView
+{
+    self.mapView.delegate = self;
+    Annotation *myAnn = [[Annotation alloc]init];
+    CLLocationCoordinate2D tmpCoord;
+    tmpCoord.longitude = [[self.discountObject.geoPoint valueForKey:@"longitude"] doubleValue];
+    tmpCoord.latitude = [[self.discountObject.geoPoint valueForKey:@"latitude"] doubleValue];
+    myAnn.coordinate = tmpCoord;
+    self.pintype = [self makePin];
+    myAnn.pintype = self.pintype;
+    [self.mapView addAnnotation:myAnn];
+    
+    // set display region
+    MKCoordinateRegion newRegion;
+    newRegion.center = tmpCoord;
+    newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
+    
+    [self.mapView setRegion:newRegion];
 }
 
+
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[Annotation class]])
+    {
+        Annotation *newAnnotation;
+        newAnnotation = (Annotation *)annotation;
+        static NSString *annotationIdentifier = @"ImagePinIdentifier";
+        
+        MKAnnotationView *annotationView = (MKAnnotationView *)
+        [mapView dequeueReusableAnnotationViewWithIdentifier:annotationIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:annotationIdentifier];
+        }
+        annotationView.image = newAnnotation.pintype;
+        return annotationView;
+    }
+    return nil;
+}
+
+- (UIImage*)makePin
+{
+    NSSet *dbCategories = self.discountObject.categorys;
+    CDCategory *dbCategory = [dbCategories anyObject];
+    UIFont *font = [UIFont fontWithName:@"icons" size:10];
+    NSLog(@"%@", dbCategory.fontSymbol);
+    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
+                             andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];    
+    return pinImage;
+}
+
+#pragma mark - Location
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-    CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[discountObject.geoLatitude doubleValue]
-                                                            longitude:[discountObject.geoLongitude doubleValue]];
+    CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:
+                                  [[_discountObject.geoPoint valueForKey:@"latitude"]doubleValue]
+                                                            longitude:
+                                  [[_discountObject.geoPoint valueForKey:@"longitude"]doubleValue]];
     double distance = [currentLocation distanceFromLocation:objectLocation];
     if (distance > 999){
         self.distanceToObject.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
@@ -255,28 +226,40 @@
     }
 }
 
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    NSString *objectAddress = discountObject.address;
-    NSString *objectName = discountObject.name;
-    NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];
+#pragma mark - favorites and Share
+- (IBAction)favoriteButton
+{
+    //    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+    //        discountObject.inFavorites = [NSNumber numberWithBool:NO];
+    //        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
+    //    }
+    //    else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
+    //        discountObject.inFavorites = [NSNumber numberWithBool:YES];
+    //        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
+    //    }
+    //
+    //    NSError* err;
+    //    if (![self.managedObjectContext save:&err]) {
+    //        NSLog(@"Couldn't save: %@", [err localizedDescription]);
+    //    }
+}
 
-   
-    NSSet *contacts = discountObject.contacts;
-    for (NSManagedObject *contact in contacts)
-    {
-        NSString * type = [contact valueForKey:@"type"];
-        if ([type isEqualToString:@"phone"]) {
-            [shareString appendFormat:@" тел. %@", [contact valueForKey:@"value"]];
-        }
-        else if ([type isEqualToString:@"email"]){
-           [shareString appendFormat:@" email . %@", [contact valueForKey:@"value"]];
-        }
-        else if ([type isEqualToString:@"site"]){
-            [shareString appendFormat:@" site %@", [contact valueForKey:@"value"]];
-        }
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *objectAddress = self.discountObject.address;
+    NSString *objectName = self.discountObject.name;
+    NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];
+    
+    if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
+        [shareString appendFormat:@" тел. %@", [self.discountObject.phone objectAtIndex:0]];
     }
-        
+    if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
+        [shareString appendFormat:@" email . %@", [self.discountObject.email objectAtIndex:0]];
+    }
+    if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
+        [shareString appendFormat:@" site %@", [self.discountObject.site objectAtIndex:0]];
+    }
+    
     if(buttonIndex == 0) {
         
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -286,7 +269,6 @@
             [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"sessionRequest"];
             [appDelegate openSessionWithAllowLoginUI:YES];
         }
-        //[appDelegate openSessionWithAllowLoginUI:NO];
         
         NSString *message = [NSString stringWithFormat:@" %@",
                              shareString];
@@ -299,8 +281,6 @@
         NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
         [faceBookString appendString:shareString];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];
-        
-    
     } else if(buttonIndex == 1) {
         NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
         NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
@@ -312,7 +292,6 @@
         [twitterString appendString:encodedString];
         NSURL *url = [NSURL URLWithString:twitterString];
         [[UIApplication sharedApplication] openURL:url];
-    
     } else if (buttonIndex ==2) {
         NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?body="];
         //MAIL URL  @"mailto:?subject=TITLE!&body=

@@ -12,11 +12,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "Flurry.h"
+@class CDDiscountObject;
 
 @interface DetailsViewController : UITableViewController <CLLocationManagerDelegate, UIActionSheetDelegate>{
     CLLocationManager *locationManager;
 }
-@property  (nonatomic, strong) DiscountObject *discountObject;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic,strong) CDDiscountObject *discountObject;
 @property (weak, nonatomic) UIImage *pintype;
 @end

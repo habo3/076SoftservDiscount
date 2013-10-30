@@ -658,8 +658,8 @@ numberOfRowsInComponent:(NSInteger)component
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = self.selectedObject;
-    dvc.managedObjectContext = self.managedObjectContext;
+    dvc.discountObject = [self.selectedObject copy];
+//    dvc.managedObjectContext = self.managedObjectContext;
 }
 
 - (void)disclosureTapped {

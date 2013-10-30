@@ -282,9 +282,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     DetailsViewController *dvc = [segue destinationViewController];
-
-        dvc.discountObject = [_discountObjects objectAtIndex:selectedRow];
-
+    dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
 }
 
 - (void)didReceiveMemoryWarning

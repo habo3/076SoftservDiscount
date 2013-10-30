@@ -156,7 +156,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
-    dvc.managedObjectContext = self.managedObjectContext;
+//    dvc.managedObjectContext = self.managedObjectContext;
 }
 
 -(void) reloadTableWithDistancesValues {
