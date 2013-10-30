@@ -39,8 +39,6 @@
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    //NSArray *jsonObjects = [json objectForKey:@"list"];
-    //NSDictionary *jsonCities = [json objectForKey:@"list"];
     return [json objectForKey:@"list"];
 }
 

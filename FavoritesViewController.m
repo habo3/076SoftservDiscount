@@ -69,8 +69,7 @@
     NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
-    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    
+    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];  
     
     //set backgound image if no Favorites available
     if (!favoriteObjects.count) {

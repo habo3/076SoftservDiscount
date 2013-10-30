@@ -9,76 +9,68 @@
 
 #import "ListViewController.h"
 #import "PlaceCell.h"
-#import "DiscountObject.h"
-#import "Category.h"
 #import "DetailsViewController.h"
-#import "CustomPicker.h"
 #import <QuartzCore/QuartzCore.h>
-#import "FavoritesViewController.h"
 #import "IconConverter.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
+#import <UIKit/UIKit.h>
 
 #define CELL_HEIGHT 80.0
 
 @interface ListViewController ()
-{
-    NSArray *searchResults;
-}
+//<UIPickerViewDataSource , UIPickerViewDelegate>
 
-@property (nonatomic) NSArray * objectsFound;
 @property (nonatomic) UIButton *filterButton;
-
+//@property (nonatomic,strong) UIPickerView * filterPicker;
 @property (nonatomic) NSInteger selectedRow;
-@property (nonatomic) NSInteger selectedIndex;
-@property (nonatomic) NSArray  *categoryObjects;
-@property (nonatomic) NSArray *sortedObjects;
-@property (nonatomic) BOOL searching;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
 @end
 
 @implementation ListViewController
-@synthesize managedObjectContext;
-@synthesize dataSource;
-@synthesize objectsFound;
 @synthesize filterButton;
 @synthesize selectedRow;
-@synthesize selectedIndex;
-@synthesize categoryObjects;
 @synthesize currentLocation;
-@synthesize sortedObjects;
-@synthesize tableView = _tableView;
 @synthesize geoLocationIsON;
 @synthesize discountObjects = _discountObjects;
 @synthesize coreDataManager = _coreDataManager;
+//@synthesize filterPicker = _filterPicker;
 
 -(CDCoreDataManager *)coreDataManager
 {
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
 }
 
-
 #pragma mark - View
 
 - (void)viewDidLoad
 {
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    managedObjectContext = appDelegate.managedObjectContext;
+
+//    //Trying to include filter to UiTableViewController
+//    _filterPicker = [[UIPickerView alloc] init];
+//    
+//    _filterPicker.showsSelectionIndicator = YES;
+//    _filterPicker.dataSource = self;
+//    _filterPicker.delegate = self;
+//    _filterPicker.frame=CGRectMake(0, 0, 200, 200);
+//
+//    UIActionSheet *  _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+//    _actionSheet.bounds = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+//
+//    UIView *masterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+//    [masterView addSubview:_filterPicker];
+//    masterView.backgroundColor = [UIColor whiteColor];
+//    [_actionSheet addSubview:masterView];
+//    [_actionSheet showInView:[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject]];
+
     [super viewDidLoad];
-   
     [self setNavigationTitle];
     self.tableView.separatorColor = [UIColor clearColor];
-    
     self.tableView.delegate = self;
-    
     _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
-    
-    objectsFound = [self getAllObjects];
-    
-    NSArray *fetchArr = [self fillPicker];
     
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height );
@@ -89,25 +81,9 @@
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
-    
-    
-    self.dataSource = [NSArray arrayWithArray:fetchArr];
-    
-#pragma mark - Test new CoreData
-    NSArray *citys = [self.coreDataManager citiesFromCoreData];
-    for (NSManagedObject *city in citys) {
-        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
-        for (NSManagedObject *obj in discountObjs) {
-            NSLog(@"city: %@",[city valueForKey:@"name"]);
-            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
-        }
-    }
-    
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
-    
     //Sending event to analytics service
     [Flurry logEvent:@"ListViewLoaded"];
     
@@ -124,14 +100,11 @@
     }
     else
     {
-        self.objectsFound = [FavoritesViewController sortByName:objectsFound];
+//        self.objectsFound = [FavoritesViewController sortByName:objectsFound]; Sorting by name when geoLocationOFF
         [self.tableView reloadData];
     }
-        
-    [self.searchDisplayController.searchBar setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed: @"searchBarBG.png"]]];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
-        
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -150,148 +123,78 @@
     navigationTitle.text = self.navigationItem.title;
     [navigationTitle sizeToFit];
 }
-
-#pragma mark - search
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    
-    [self.tableView reloadData];
-}
-
-
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-
-    NSMutableArray *names = [[NSMutableArray alloc]init];
-    NSMutableArray *address = [[NSMutableArray alloc]init];
-    for(DiscountObject *object in objectsFound)
-    {
-        
-        if (object.name)
-        {
-            [names addObject:object.name];
-            if (!object.address)
-            {
-                [address addObject:@""];
-            }
-            else
-            {
-                [address addObject:object.address];
-            }
-        }
-        
-    }
-
-    NSPredicate *template = [NSPredicate predicateWithFormat:@"name contains[cd] $SEARCH OR address contains[cd]  $SEARCH"];
-    NSDictionary *replace = [NSDictionary dictionaryWithObject:self.searchDisplayController.searchBar.text forKey:@"SEARCH"];
-    NSPredicate *predicate = [template predicateWithSubstitutionVariables:replace];
-    searchResults = [objectsFound filteredArrayUsingPredicate:predicate];
-}
-
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-
-    [self filterContentForSearchText:searchString
-                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    
-    return YES;
-}
-
-
 #pragma mark - filter
 
-- (IBAction)filterCategory:(UIControl *)sender {
-    
-    [CustomPicker showPickerWithRows:self.dataSource initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:)];
-}
-
-- (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
-    
-    if(selectedIndex != [selectIndex integerValue])
-    {
-        self.selectedIndex = [selectIndex integerValue];
-        if (self.selectedIndex<1)
-            self.objectsFound = [NSArray arrayWithArray: [self getAllObjects]];
-        else
-        {
-            self.objectsFound = [NSArray arrayWithArray: [self getObjectsByCategory:self.selectedIndex-1]];
-            
-        }
-        if(geoLocationIsON)
-        {
-            [self reloadTableWithDistancesValues];
-        }
-        else {
-            [self.tableView reloadData];  
-        }
-        
-    }
+-(void) filterCategory:(UIControl *)sender
+{
+//    _filterPicker.hidden = false;
 }
 
 - (NSArray*)getAllObjects
 {
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                 inManagedObjectContext:managedObjectContext]];
-    
-    NSArray *resultArray = [managedObjectContext executeFetchRequest:fetch error:nil];
-    return resultArray;
+    return [self.coreDataManager discountObjectsFromCoreData];
 }
 
-- (NSArray*)getObjectsByCategory:(int)filterNumber
+- (NSArray*)getObjectsByCategory:(NSInteger)filterNumber
 {
-    // fetch objects from db
-    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
-    
-    for(DiscountObject *object in selectedCategory.discountobject)
-    {
-            [tmpArray addObject:object];
+    NSArray *categories = [self.coreDataManager categoriesFromCoreData];
+    for (CDCategory *category in categories) {
+        if ([[category valueForKey:@"id"] integerValue] == filterNumber  ) {
+            return [category valueForKey:@"discountObjects"];
+        }
     }
-
-    return tmpArray;
+    return nil;
 }
 
-- (NSArray*)fillPicker
-{
-
-    NSFetchRequest *fetch1 = [[NSFetchRequest alloc] init];
-    [fetch1 setEntity:[NSEntityDescription entityForName:@"Category"
-                                  inManagedObjectContext:managedObjectContext]];
-    categoryObjects = [managedObjectContext executeFetchRequest:fetch1 error:nil];
-    NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-
-    [fetchArr addObject:@"Усі категорії"];
-    for ( Category *object in categoryObjects)
-    {
-        [fetchArr addObject:(NSString*)object.name];
-    }
-    return [NSArray arrayWithArray:fetchArr];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return dataSource.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [dataSource objectAtIndex:row];
-}
-
-
+// Just test
+//- (NSInteger)numberOfComponentsInPickerView:
+//(UIPickerView *)pickerView
+//{
+//    return 1;
+//}
+//- (NSInteger)pickerView:(UIPickerView *)pickerView
+//numberOfRowsInComponent:(NSInteger)component
+//{
+//    return 5;
+//}
+//- (NSString *)pickerView:(UIPickerView *)pickerView
+//             titleForRow:(NSInteger)row
+//            forComponent:(NSInteger)component
+//{
+//    return @"dsdsd";
+//}
+//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+//    
+//    
+//}
 
 #pragma mark - tableView
 
 -(void) reloadTableWithDistancesValues {
-    
-    self.objectsFound = [FavoritesViewController sortByDistance:objectsFound toLocation:currentLocation];
+    NSMutableArray *mutableArray = [_discountObjects mutableCopy];
+    NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
+        CDDiscountObject *objectA = (CDDiscountObject *)a;
+        CDDiscountObject *objectB = (CDDiscountObject *)b;
+        
+        CGFloat aLatitude = [[objectA.geoPoint valueForKey:@"latitude"] floatValue];
+        CGFloat aLongitude = [[objectA.geoPoint valueForKey:@"longitude"] floatValue];
+        CLLocation *objectALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
+        
+        CGFloat bLatitude = [[objectB.geoPoint valueForKey:@"latitude"] floatValue];
+        CGFloat bLongitude = [[objectB.geoPoint valueForKey:@"longitude"] floatValue];
+        CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
+
+        CLLocationDistance distanceA = [objectALocation distanceFromLocation:currentLocation];
+        CLLocationDistance distanceB = [objectBLocation distanceFromLocation:currentLocation];
+        if (distanceA < distanceB) {
+            return NSOrderedAscending;
+        } else if (distanceA > distanceB) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+    _discountObjects = OrderedObjectsByDistance;
     [self.tableView reloadData];
 }
 
@@ -299,15 +202,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.discountObjects count];
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        tableView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
-        tableView.separatorColor = [UIColor colorWithWhite:0 alpha:0];
-        return [searchResults count];
-        
-    } else {
-        return [objectsFound count];
-        
-    }
 }
 
 
@@ -321,10 +215,7 @@
 {
     selectedRow = indexPath.row;
     [self performSegueWithIdentifier:@"detailsList" sender:self];
-    
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -337,16 +228,7 @@
     [cell initViews];
     //here forms search object
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
-//    
-//    if (tableView == self.searchDisplayController.searchResultsTableView) {
-//        _searching = YES;
-//        object =[searchResults objectAtIndex:indexPath.row];
-//
-//    } else {
-//        _searching = NO;
-//        object =[objectsFound objectAtIndex:indexPath.row];
-//    }
-  
+ 
     cell.nameLabel.text = object.name ;
     cell.addressLabel.text = object.address;
     
@@ -400,13 +282,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     DetailsViewController *dvc = [segue destinationViewController];
-    if( _searching){
-        dvc.discountObject = [searchResults objectAtIndex:selectedRow];
-    }
-    else {
-        dvc.discountObject = [objectsFound objectAtIndex:selectedRow];
-    }
-    dvc.managedObjectContext = self.managedObjectContext;
+
+        dvc.discountObject = [_discountObjects objectAtIndex:selectedRow];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -414,6 +292,4 @@
     [super didReceiveMemoryWarning];
     
 }
-
-
 @end
