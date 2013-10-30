@@ -28,6 +28,7 @@
 @property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
+
 @end
 
 @implementation ListViewController

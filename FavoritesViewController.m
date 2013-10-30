@@ -135,15 +135,7 @@
         cell.detailsDistanceBackground.hidden = YES;
         cell.distanceLabel.hidden =YES;
     }
-    Category *dbCategory = [object.categories anyObject];
-    NSString *symbol = dbCategory.fontSymbol;
-    NSString *tmpText = [IconConverter ConvertIconText:symbol];
-    UIFont *font = [UIFont fontWithName:@"icons" size:20];
-    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-    cell.iconLabel.font = font;
-    cell.iconLabel.text = tmpText;
-    cell.iconLabel.textAlignment = UITextAlignmentCenter;
-    return cell;
+   return cell;
 }
 
 #pragma mark - Table view delegate

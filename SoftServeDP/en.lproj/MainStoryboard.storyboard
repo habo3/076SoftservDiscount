@@ -570,11 +570,11 @@
                                                     <color key="backgroundColor" red="0.78465900031887759" green="0.78027543048469394" blue="0.78904257015306123" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" id="rfG-j8-vJt">
-                                                    <rect key="frame" x="230" y="63" width="65" height="65"/>
+                                                    <rect key="frame" x="220" y="61" width="85" height="65"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lqW-Sc-tmy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="65" height="65"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="85" height="65"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
                                                     </subviews>
@@ -880,19 +880,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
-                                        <view contentMode="scaleToFill" id="yEn-3q-Qet">
-                                            <rect key="frame" x="6" y="17" width="58" height="58"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="icon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jom-nJ-plc">
-                                                    <rect key="frame" x="2" y="18" width="54" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        </view>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="detailsDistanceBackground.png" id="NoJ-fd-Cw5">
                                             <rect key="frame" x="8" y="65" width="54" height="10"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -904,16 +891,19 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="tZO-hw-tmD">
+                                            <rect key="frame" x="5" y="17" width="58" height="58"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="addressLabel" destination="TU0-7F-MMc" id="lFB-gI-FBa"/>
                                     <outlet property="buttonImage" destination="f1D-ak-OFv" id="hAr-EQ-6qR"/>
-                                    <outlet property="circleView" destination="yEn-3q-Qet" id="bwM-Sw-kBl"/>
                                     <outlet property="detailsDistanceBackground" destination="NoJ-fd-Cw5" id="pv8-ZF-M92"/>
+                                    <outlet property="discountImage" destination="tZO-hw-tmD" id="BTu-OH-CWf"/>
                                     <outlet property="distanceLabel" destination="s7I-XA-edW" id="Y3H-j8-DcA"/>
-                                    <outlet property="iconLabel" destination="jom-nJ-plc" id="QsV-ap-h1U"/>
                                     <outlet property="nameLabel" destination="jQV-Ff-DSo" id="uxx-pb-U7p"/>
                                     <outlet property="rectangleView" destination="U7c-Yy-moJ" id="i8n-nB-RBw"/>
                                 </connections>

@@ -61,14 +61,15 @@
         self.detailsDistanceBackground.hidden = YES;
         self.distanceLabel.hidden = YES;
     }
-    CDCategory *dbCategory = [object.categorys anyObject];
-    NSString *symbol = dbCategory.fontSymbol;
-    NSString *tmpText = [IconConverter ConvertIconText:symbol];
-    UIFont *font = [UIFont fontWithName:@"icons" size:20];
-    self.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-    self.iconLabel.font = font;
-    self.iconLabel.text = tmpText;
-    self.iconLabel.textAlignment = UITextAlignmentCenter;
+  
+    NSString *http = @"http://softserve.ua";
+    NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+
+    self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.discountImage.layer.borderWidth = 1.0f;
+    self.discountImage.image = image;
+    
     return self;
 }
 
@@ -77,9 +78,6 @@
     self.rectangleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
     self.rectangleView.layer.borderWidth = 1.0f;
     self.rectangleView.layer.cornerRadius = 10;
-    self.circleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
-    self.circleView.layer.borderWidth = 1.0f;
-    self.circleView.layer.cornerRadius = self.circleView.bounds.size.width/2;
 }
 
 @end
