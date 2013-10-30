@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3790038D181F0D900027C1C0 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3790038C181F0D900027C1C0 /* iPadStoryboard.storyboard */; };
 		4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4325F4CC16CBA54E002C7B75 /* annDetailButton.png */; };
 		4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4D916CBA680002C7B75 /* MapViewController.m */; };
 		4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325F4D116CBA57A002C7B75 /* CustomAnnotationView.m */; };
@@ -163,6 +164,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3790038C181F0D900027C1C0 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
 		4325F4CC16CBA54E002C7B75 /* annDetailButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annDetailButton.png; sourceTree = SOURCE_ROOT; };
 		4325F4CE16CBA57A002C7B75 /* CustomCalloutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomCalloutView.h; path = ImageAnnotation/CustomCalloutView.h; sourceTree = SOURCE_ROOT; };
 		4325F4CF16CBA57A002C7B75 /* CustomCalloutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomCalloutView.m; path = ImageAnnotation/CustomCalloutView.m; sourceTree = SOURCE_ROOT; };
@@ -370,6 +372,7 @@
 				BB1FED901819BC8100ABE71E /* CoreData */,
 				434CAFA416D4D8380000CE60 /* Details */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
+				3790038C181F0D900027C1C0 /* iPadStoryboard.storyboard */,
 				4BA195EE18100F9900F1496B /* LoadScreenViewController.h */,
 				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
 				4B529FEC181EA9F2002F3898 /* Menu */,
@@ -835,6 +838,7 @@
 				4B52A00E181EAAA0002F3898 /* menuIconNews.png in Resources */,
 				C0A9EB7A16D3E67800DE9FC5 /* emptyPin@2x.png in Resources */,
 				434CAFAD16D4E0600000CE60 /* zeroCellBackgroundImg.png in Resources */,
+				3790038D181F0D900027C1C0 /* iPadStoryboard.storyboard in Resources */,
 				434CAFAE16D4E0600000CE60 /* zeroCellBackgroundImg@2x.png in Resources */,
 				434CAFB116D4F2220000CE60 /* detailsRow.png in Resources */,
 				434CAFB216D4F2220000CE60 /* detailsRow@2x.png in Resources */,
@@ -1062,6 +1066,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "SoftServe Discount";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1086,6 +1091,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "SoftServe Discount";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

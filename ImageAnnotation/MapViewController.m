@@ -19,6 +19,8 @@
 
 #define MAP_SPAN_DELTA 0.005
 
+#define IPAD_SUBVIEW_WIDTH 320.0
+
 
 @interface MapViewController ()<MKAnnotation,MKMapViewDelegate>
 
@@ -33,6 +35,10 @@
 @property (nonatomic,assign) DiscountObject *selectedObject;
 @property (nonatomic, strong) UIProgressView *progressView;
 
+
+
+// iPad
+
 @end
 
 @implementation MapViewController
@@ -46,6 +52,12 @@
 @synthesize filterButton;
 @synthesize selectedObject;
 @synthesize progressView;
+
+
+// impact of the iPad
+@synthesize topMapLayer = _topMapLayer;
+@synthesize topMapLayerPosition = _topMapLayerPosition;
+
 
 #pragma mark - View
 
@@ -91,6 +103,21 @@
     self.annArray = [NSArray arrayWithArray:[self getAllPins]];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
+    
+    
+    
+    
+    // let's perform layout for iPad
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        // prepare settings layer for iPad application
+        self.topMapLayerPosition = self.topMapLayer.frame.origin.x;
+        
+        // prepare settings View
+        
+
+    }
+    
 }
 
 - (void)viewDidUnload
@@ -149,6 +176,27 @@
     [geoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
     geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
+    
+    
+    
+    // if application launched on iPad - show settings button
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        UIImage *settingsButtonImage = [UIImage imageNamed:@"menuIconSettings.png"];
+        UIImage *settingsButtonBackgroundImage = [UIImage imageNamed:@"menu1.png"];
+        UIButton *settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        CGRect settingsFrame = CGRectMake(10, 40, settingsButtonBackgroundImage.size.width,settingsButtonBackgroundImage.size.height);
+        settingsButton.frame = settingsFrame;
+        
+        [settingsButton setImage:settingsButtonImage forState:UIControlStateNormal];
+        [settingsButton setBackgroundImage:settingsButtonBackgroundImage forState:UIControlStateNormal];
+        [settingsButton addTarget:self action:@selector(iPadSettingsMenu) forControlEvents:UIControlEventTouchUpInside];
+        settingsButton.backgroundColor = [UIColor clearColor];
+        [self.mapView addSubview:settingsButton];
+    }
+    
+    
+    
 }
 #pragma mark - PathMaker
 
@@ -814,5 +862,36 @@ numberOfRowsInComponent:(NSInteger)component
 
     }
 }
+
+
+
+// this method will show/hide settings menu (valid only for iPad)
+-(void)iPadSettingsMenu
+{
+    if(self.topMapLayerPosition == IPAD_SUBVIEW_WIDTH) {
+        [self moveIpadMapLayerToPoint:0];
+    } else {
+        [self moveIpadMapLayerToPoint:IPAD_SUBVIEW_WIDTH];
+    }
+}
+
+
+
+-(void)moveIpadMapLayerToPoint:(CGFloat)point
+{
+    [UIView animateWithDuration:0.25
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         CGRect frame = self.topMapLayer.frame;
+                         frame.origin.x = point;
+                         self.topMapLayer.frame = frame;
+                     }
+                     completion:^(BOOL finished) {
+                         self.topMapLayerPosition = self.topMapLayer.frame.origin.x;
+                     }];
+}
+
+
 
 @end

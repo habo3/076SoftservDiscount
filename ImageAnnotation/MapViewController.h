@@ -15,6 +15,13 @@
 #import "CustomPicker.h"
 #import "Flurry.h"
 
+// iPad impact
+#import "OCMapView.h"
+#import "SettingsViewController.h"
+
+
+
+
 @interface MapViewController : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate,CustomCalloutViewDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -25,6 +32,11 @@
 - (NSArray*)fillPicker;
 
 - (NSArray*)getPinsByCategory:(int)filterNumber;
+
+
+// valid for iPad
+@property (weak, nonatomic) IBOutlet OCMapView *topMapLayer;
+@property (nonatomic) CGFloat topMapLayerPosition;
 
 @end
 
