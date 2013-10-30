@@ -8,8 +8,6 @@
 
 #import "MapViewController.h"
 #import "Annotation.h"
-#import "DiscountObject.h"
-#import "Category.h"
 #import "CustomPicker.h"
 #import "DetailsViewController.h"
 #import "IconConverter.h"
@@ -17,8 +15,11 @@
 #import "OCAnnotation.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
+#import "CDCategory.h"
+#import "CDDiscountObject.h"
+#import "CDCity.h"
 
-#define MAP_SPAN_DELTA 0.005
+#define MAP_SPAN_DELTA 0.045
 
 
 @interface MapViewController ()<MKAnnotation,MKMapViewDelegate>
@@ -31,8 +32,10 @@
 @property (nonatomic) NSArray *categoryObjects;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
-@property (nonatomic,assign) DiscountObject *selectedObject;
-@property (nonatomic, strong) UIProgressView *progressView;
+@property (nonatomic,assign) CDDiscountObject *selectedObject;
+@property (strong, nonatomic) NSArray *discountObjects;
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *cities;
 
 @end
 
@@ -43,31 +46,44 @@
 @synthesize pickerView;
 @synthesize mapView = _mapView;
 @synthesize location;
-@synthesize managedObjectContext;
 @synthesize dataSource;
 @synthesize categoryObjects;
 @synthesize selectedIndex;
 @synthesize filterButton;
 @synthesize selectedObject;
-@synthesize progressView;
 
 @synthesize coreDataManager = _coreDataManager;
+@synthesize discountObjects = _discountObjects;
+@synthesize categories = _categories;
+@synthesize cities = _cities;
+
+
+#pragma mark - custom getters for new DB
 
 -(CDCoreDataManager *)coreDataManager
 {
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
 }
 
+-(NSArray *)discountObjects
+{
+    return [self.coreDataManager discountObjectsFromCoreData];
+}
+
+-(NSArray *)categories
+{
+    return [self.coreDataManager categoriesFromCoreData];
+}
+
+-(NSArray *)cities
+{
+    return [self.coreDataManager citiesFromCoreData];
+}
+
 #pragma mark - View
 
 - (void)viewDidLoad
 {
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    managedObjectContext = appDelegate.managedObjectContext;
-    
-    //Sending event to analytics service
-    [Flurry logEvent:@"MapLoaded"];
-
     [super viewDidLoad];
     [self setNavigationTitle];
     [self setControllerButtons];
@@ -103,17 +119,6 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
     [self gotoLocation];
-    
-#pragma mark - Test new CoreData
-    NSArray *citys = [self.coreDataManager citiesFromCoreData];
-    for (NSManagedObject *city in citys) {
-        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
-        for (NSManagedObject *obj in discountObjs) {
-            NSLog(@"city: %@",[city valueForKey:@"name"]);
-            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
-        }
-    }
-
 }
 
 - (void)viewDidUnload
@@ -124,6 +129,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    //Sending event to analytics service
+    [Flurry logEvent:@"MapLoaded"];
     [self.navigationController.navigationBar addSubview:filterButton];
     [super viewDidAppear:animated];
 }
@@ -137,6 +144,8 @@
 {
     return toInterfaceOrientation!= UIInterfaceOrientationPortraitUpsideDown;
 }
+
+#pragma mark - customizing view
 
 -(void) setNavigationTitle
 {
@@ -335,7 +344,7 @@
 
 #pragma mark - createAnnotation
 
-- (Annotation*)createAnnotationFromData:(DiscountObject*)discountObject
+- (Annotation*)createAnnotationFromData:(CDDiscountObject*)discountObject
 {
     CLLocationCoordinate2D tmpCoord;
     
@@ -348,19 +357,19 @@
     UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
     UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
     
-    NSNumber *dbLongitude = discountObject.geoLongitude;
-    NSNumber *dbLatitude = discountObject.geoLatitude;
+    NSNumber *dbLongitude = [discountObject.geoPoint valueForKey:@"longitude"];
+    NSNumber *dbLatitude = [discountObject.geoPoint valueForKey:@"latitude"];
     NSString *dbTitle = discountObject.name;
     NSString *dbSubtitle = discountObject.address;
-    NSSet *dbCategories = discountObject.categories;
-    NSString *dbDiscountTo = [NSString stringWithFormat:@"%@%%", discountObject.discountTo];
+    NSSet *dbCategories = discountObject.categorys;
+    NSString *dbDiscountTo = [NSString stringWithFormat:@"%@%%", [discountObject.discount valueForKey:@"to"]];
     NSString *dbDiscountFrom;
-    if(![discountObject.discountTo isEqualToNumber:discountObject.discountFrom])
-        dbDiscountFrom = [NSString stringWithFormat:@"%@-", discountObject.discountFrom];
+    if(![[discountObject.discount valueForKey:@"to"] isEqualToNumber:[discountObject.discount valueForKey:@"from"]])
+        dbDiscountFrom = [NSString stringWithFormat:@"%@-", [discountObject.discount valueForKey:@"from"]];
     else
         dbDiscountFrom = [NSString stringWithFormat:@""];
 
-    Category *dbCategory = [dbCategories anyObject];
+    CDCategory *dbCategory = [dbCategories anyObject];
 
     // formating discountValue to "x%", where x discountValue
     NSString *discount = [dbDiscountFrom stringByAppendingString:dbDiscountTo];
@@ -392,83 +401,63 @@
 
 - (NSArray*)getAllPins
 {
-    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    // fetch objects from db
-    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
-                                 inManagedObjectContext:managedObjectContext]];
-    [fetch setPredicate:objectsFind];
-    NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+    NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
+    Annotation *currentAnn;
     
-    Annotation *currentAnn = [[Annotation alloc]init];
-    for (Category *object1 in objectsFound)
+    for (CDDiscountObject *object in self.discountObjects)
     {
         double scaleX, scaleY, distanceFromObject;
         distanceFromObject = 0.00006;
         scaleX = 0.0;
         scaleY = distanceFromObject;
-        
-        NSSet *dbAllObjInCategory= object1.discountobject;
-        for(DiscountObject *object in dbAllObjInCategory)
+        currentAnn = [self createAnnotationFromData:object];
+        for(Annotation *ann in arrayOfAnnotations)
         {
-            currentAnn = [self createAnnotationFromData:object];
-            for(Annotation *ann in tmpArray)
+            if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
+               && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
+               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
+               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
             {
-                if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
-                    && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
-                    && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
-                    && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
-                {
-                    CLLocationCoordinate2D coord;
-                    coord.latitude = currentAnn.coordinate.latitude + scaleX;
-                    coord.longitude = currentAnn.coordinate.longitude + scaleY;
-                    currentAnn.coordinate = coord;
-                }
-                scaleX = scaleX + distanceFromObject;
-                if(scaleX > distanceFromObject)
-                    scaleX = -1 * distanceFromObject;
-                scaleY = scaleY + distanceFromObject;
-                if(scaleY > distanceFromObject)
-                    scaleY = -1 * distanceFromObject;
+                CLLocationCoordinate2D coord;
+                coord.latitude = currentAnn.coordinate.latitude + scaleX;
+                coord.longitude = currentAnn.coordinate.longitude + scaleY;
+                currentAnn.coordinate = coord;
             }
-
-            if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
-                [tmpArray addObject:currentAnn];
+            scaleX = scaleX + distanceFromObject;
+            if(scaleX > distanceFromObject)
+                scaleX = -1 * distanceFromObject;
+            scaleY = scaleY + distanceFromObject;
+            if(scaleY > distanceFromObject)
+                scaleY = -1 * distanceFromObject;
         }
+        
+        if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
+            [arrayOfAnnotations addObject:currentAnn];
     }
-    return tmpArray;
+
+    return arrayOfAnnotations;
 }
 
 - (NSArray*)getPinsByCategory:(int)filterNumber
 {
-    // fetch objects from db
-    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
-    NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
-    
+    NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
+    CDCategory *category = [self.categories objectAtIndex:filterNumber];
+    NSArray *allObjectsFromCategory = [category valueForKey:@"discountObjects"];
     Annotation *currentAnn;
-    for(DiscountObject *object in dbAllObjInSelCategory)
-    {
+    for (CDDiscountObject *object in allObjectsFromCategory) {
         currentAnn = [self createAnnotationFromData:object];
-        [tmpArray addObject:currentAnn];
+        [arrayOfAnnotations addObject:currentAnn];
     }
-    return  tmpArray;
+    return arrayOfAnnotations;
 }
 
 - (NSArray*)fillPicker
 {
-
-    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
-                              inManagedObjectContext:managedObjectContext]];
-    categoryObjects = [managedObjectContext executeFetchRequest:fetch error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
 
     [fetchArr addObject:@"Усі категорії"];
-    for ( Category *object in categoryObjects)
+    for ( CDCategory *object in self.categories)
     {
-
         [fetchArr addObject:(NSString*)object.name];
     }
     return [NSArray arrayWithArray:fetchArr];
@@ -585,7 +574,6 @@ numberOfRowsInComponent:(NSInteger)component
         annotationView.image = newAnnotation.pintype;
         return annotationView;
     }
-    
     return nil;
 }
 
@@ -654,14 +642,6 @@ numberOfRowsInComponent:(NSInteger)component
     }
 }
 
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = [self.selectedObject copy];
-//    dvc.managedObjectContext = self.managedObjectContext;
-}
-
 - (void)disclosureTapped {
     [self performSegueWithIdentifier:@"detailsMap" sender:self];
 }
@@ -692,30 +672,23 @@ numberOfRowsInComponent:(NSInteger)component
     {
         city = @"Львів";
     }
-
-    //for offline maps
-    NSDictionary *cityCoords = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSValue valueWithCGPoint:CGPointMake(48.467003,35.036259)], @"Дніпропетровськ",
-    [NSValue valueWithCGPoint:CGPointMake(48.917222,24.707222)], @"Івано-Франківськ",
-    [NSValue valueWithCGPoint:CGPointMake(50.450100,30.523400)], @"Київ",
-    [NSValue valueWithCGPoint:CGPointMake(50.748716,25.330406)], @"Луцьк",
-    [NSValue valueWithCGPoint:CGPointMake(49.839826,24.028675)], @"Львів",
-    [NSValue valueWithCGPoint:CGPointMake(46.471767,30.719800)], @"Одеса",
-    [NSValue valueWithCGPoint:CGPointMake(50.628999,26.246517)], @"Рівне",
-    [NSValue valueWithCGPoint:CGPointMake(44.953212,34.101952)], @"Сімферополь",
-    [NSValue valueWithCGPoint:CGPointMake(48.287171,25.957920)], @"Чернівці",
-    nil];
-    
-    CLLocationCoordinate2D coordinate;
-    CGPoint tmpPoint = [[cityCoords objectForKey:city] CGPointValue];
-    coordinate.latitude = tmpPoint.x;
-    coordinate.longitude = tmpPoint.y;
-    MKCoordinateRegion newRegion;
-    newRegion.center.latitude = coordinate.latitude;
-    newRegion.center.longitude = coordinate.longitude;
-    newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
-    newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
-    [self.mapView setRegion:newRegion animated:YES];
+    for (CDCity *cityObject in self.cities)
+    {
+        if([cityObject.name isEqualToString:city])
+        {
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = ([[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"latitude"] doubleValue] +
+                                   [[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"latitude"] doubleValue])/2;
+            coordinate.longitude = ([[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"longitude"] doubleValue] +
+                                    [[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"longitude"] doubleValue])/2;
+            MKCoordinateRegion newRegion;
+            newRegion.center.latitude = coordinate.latitude;
+            newRegion.center.longitude = coordinate.longitude;
+            newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
+            newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
+            [self.mapView setRegion:newRegion animated:YES];
+        }
+    }
 }
 
 - (IBAction) getLocation:(id)sender {
@@ -755,7 +728,6 @@ numberOfRowsInComponent:(NSInteger)component
     }
 }
 
-
 - (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
     MKCoordinateRegion region;
     MKCoordinateSpan span;
@@ -794,7 +766,6 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 
-
 - (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
     
     if(selectedIndex != [selectIndex integerValue])
@@ -808,6 +779,14 @@ numberOfRowsInComponent:(NSInteger)component
             self.annArray = [[self getPinsByCategory:self.selectedIndex - 1] mutableCopy];
         [self.mapView addAnnotations:self.annArray];
     }
+}
+
+#pragma mark - segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DetailsViewController *dvc = [segue destinationViewController];
+    dvc.discountObject = self.selectedObject;
 }
 
 @end

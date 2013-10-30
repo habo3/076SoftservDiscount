@@ -167,6 +167,11 @@
     {
         return NO;
     }
+    
+    if ([[[object valueForKey:@"discount"] valueForKey:@"from" ] isKindOfClass:[NSNull class]] || [[[object valueForKey:@"discount"] valueForKey:@"to" ] isKindOfClass:[NSNull class]])
+    {
+        return NO;
+    }
     return YES;
 }
 #pragma mark - Refresh CoreData
