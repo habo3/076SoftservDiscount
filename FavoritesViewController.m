@@ -15,11 +15,17 @@
 #import "AppDelegate.h"
 #import "IconConverter.h"
 #import "PlaceCell.h"
+#import "CDDiscountObject.h"
+#import "CDFavorites.h"
+#import "CDCoreDataManager.h"
+
+#define CELL_HEIGHT 80.0
 
 @interface FavoritesViewController (){
     int numberOfRowClicked;
 }
 @property (strong, nonatomic) NSArray *favoriteObjects;
+@property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
 @end
@@ -30,6 +36,21 @@
 @synthesize favoriteObjects;
 @synthesize currentLocation;
 @synthesize geoLocationIsON;
+@synthesize selectedRow;
+
+
+@synthesize discountObjects = _discountObjects;
+@synthesize coreDataManager = _coreDataManager;
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
+
+-(NSArray *)discountObjects
+{
+    return [self.coreDataManager discountObjectsFromFavorites];
+}
 
 -(void)viewDidLoad
 {
@@ -94,68 +115,122 @@
     [super viewDidUnload];
 }
 
-#pragma mark - Table view data source
+//#pragma mark - Table view data source
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return self.discountObjects.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+////    
+////    NSString *cellIdentifer = @"FavoritesCell";
+////    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+////    if (cell == nil) {
+////        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+////    }
+////    // Init style of rrectangleView and circleView
+////    [cell initViews];
+////    //here forms search object
+////    CDDiscountObject * object =[self.discountObjects objectAtIndex:indexPath.row];
+////    
+////    //set labels
+////    cell.nameLabel.text = object.name;
+////    cell.addressLabel.text = object.address;
+/////*
+////    //set location label if GPS available
+////    if(geoLocationIsON)
+////    {
+////            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
+////                                                                    longitude:[object.geoLongitude doubleValue]];
+////            double distance = [self.currentLocation distanceFromLocation:objectLocation];
+////            if (distance > 999){
+////                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+////            }
+////            else {
+////                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+////            }
+////    }
+////    else
+////    {
+////        cell.detailsDistanceBackground.hidden = YES;
+////        cell.distanceLabel.hidden =YES;
+////    }
+//// */
+////   return cell;
+//    
+//    NSString *cellIdentifer = @"Cell";
+//    CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
+//    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
+//    return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
+//}
+
+#pragma mark - tableView
+
+-(void) reloadTableWithDistancesValues {
+    NSMutableArray *mutableArray = [_discountObjects mutableCopy];
+    NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
+        CDDiscountObject *objectA = (CDDiscountObject *)a;
+        CDDiscountObject *objectB = (CDDiscountObject *)b;
+        
+        CGFloat aLatitude = [[objectA.geoPoint valueForKey:@"latitude"] floatValue];
+        CGFloat aLongitude = [[objectA.geoPoint valueForKey:@"longitude"] floatValue];
+        CLLocation *objectALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
+        
+        CGFloat bLatitude = [[objectB.geoPoint valueForKey:@"latitude"] floatValue];
+        CGFloat bLongitude = [[objectB.geoPoint valueForKey:@"longitude"] floatValue];
+        CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
+        
+        CLLocationDistance distanceA = [objectALocation distanceFromLocation:currentLocation];
+        CLLocationDistance distanceB = [objectBLocation distanceFromLocation:currentLocation];
+        if (distanceA < distanceB) {
+            return NSOrderedAscending;
+        } else if (distanceA > distanceB) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+    _discountObjects = OrderedObjectsByDistance;
+    [self.tableView reloadData];
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return favoriteObjects.count;
+    return [self.discountObjects count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString *cellIdentifer = @"FavoritesCell";
-    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
-    if (cell == nil) {
-        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-    }
-    // Init style of rrectangleView and circleView
-    [cell initViews];
-    //here forms search object
-    DiscountObject * object =[favoriteObjects objectAtIndex:indexPath.row];
-    
-    //set labels
-    cell.nameLabel.text = object.name;
-    cell.addressLabel.text = object.address;
-    
-    //set location label if GPS available
-    if(geoLocationIsON)
-    {
-            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-                                                                    longitude:[object.geoLongitude doubleValue]];
-            double distance = [self.currentLocation distanceFromLocation:objectLocation];
-            if (distance > 999){
-                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-            }
-            else {
-                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
-            }
-    }
-    else
-    {
-        cell.detailsDistanceBackground.hidden = YES;
-        cell.distanceLabel.hidden =YES;
-    }
-   return cell;
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return  CELL_HEIGHT;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    selectedRow = indexPath.row;
+    [self performSegueWithIdentifier:@"detailsList" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DetailsViewController *dvc = [segue destinationViewController];
+    dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *cellIdentifer = @"Cell";
+    CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
+    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
+    return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
+}
+
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    numberOfRowClicked = indexPath.row;
-    [self performSegueWithIdentifier:@"gotoDetailsFromFavorites" sender:self];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
-//    dvc.managedObjectContext = self.managedObjectContext;
-}
-
--(void) reloadTableWithDistancesValues {
-
-    self.favoriteObjects = [FavoritesViewController sortByDistance:favoriteObjects toLocation:currentLocation];
-    [self.tableView reloadData];
-}
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
