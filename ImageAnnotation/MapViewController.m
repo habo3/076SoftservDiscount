@@ -114,7 +114,8 @@
     self.calloutView.rightAccessoryView = disclosureButton;
     self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView addAnnotations:self.annArray];    
+    [self.mapView addAnnotations:self.annArray];
+    [self gotoLocation];
 }
 
 - (void)viewDidUnload
@@ -132,7 +133,7 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.geoLocationIsOn = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    if(self.geoLocationIsOn && self.mapView.userLocation)
+    if(self.geoLocationIsOn)
     {
         [self setGeoButton];
         self.mapView.showsUserLocation = YES;
@@ -267,8 +268,7 @@
             coords = realloc(coords, newCount * sizeof(CLLocationCoordinate2D));
             count = newCount;
         }
-    }
-    
+    }    
     MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:coordIdx];
     free(coords);
     
@@ -277,78 +277,83 @@
 
 - (void)getDirections
 {
-    CLLocationCoordinate2D coordinate;
-    coordinate = self.mapView.userLocation.coordinate;
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
-                                              longitude:coordinate.longitude];
-    
-    float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
-    float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
-    CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
-    
-    CLLocationCoordinate2D endCoordinate;
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (!error) {
-        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
-        if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
-            [userDefaults synchronize];
-            self.geoLocationIsOn = NO;
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        int points_count = 0;
-        if ([[responseDict objectForKey:@"routes"] count])
-            points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+        CLLocationCoordinate2D coordinate;
+        coordinate = self.mapView.userLocation.coordinate;
+        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
+                                                              longitude:coordinate.longitude];
         
+        float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
+        float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
+        CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
         
-        if (!points_count) {
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        CLLocationCoordinate2D points[points_count * 3];
-        MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
-        [self.mapView addOverlay:polyline];
-        int j = 0;
-        NSArray *steps = nil;
-        if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
-            steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
-        for (int i = 0; i < points_count; i++) {
-            
-            double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
-            double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
-            if (st_lat > 0.0f && st_lon > 0.0f) {
-                points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
-                j++;
+        CLLocationCoordinate2D endCoordinate;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (!error) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
+            if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
+                [userDefaults synchronize];
+                self.geoLocationIsOn = NO;
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Could not route path from your current location"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Close"
+                                  otherButtonTitles:nil, nil] show];
+                return;
             }
-            double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
-            double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
-            if(j < points_count)
-                points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
-            endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
-            j++;
+            int points_count = 0;
+            if ([[responseDict objectForKey:@"routes"] count])
+                points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
             
+            
+            if (!points_count) {
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Could not route path from your current location"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Close"
+                                  otherButtonTitles:nil, nil] show];
+                return;
+            }
+            CLLocationCoordinate2D points[points_count * 3];
+            
+            MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.mapView addOverlay:polyline];
+            });
+            int j = 0;
+            NSArray *steps = nil;
+            if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
+                steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
+            for (int i = 0; i < points_count; i++) {
+                
+                double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
+                double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
+                if (st_lat > 0.0f && st_lon > 0.0f) {
+                    points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
+                    j++;
+                }
+                double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
+                double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
+                if(j < points_count)
+                    points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
+                endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
+                j++;
+                
+            }
         }
-    }
+    });
 }
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView
             viewForOverlay:(id<MKOverlay>)overlay {
     MKPolylineView *overlayView = [[MKPolylineView alloc] initWithOverlay:overlay];
-    
     overlayView.lineWidth = 5;
     UIColor *color = [UIColor colorWithRed: 87 / 255.0 green: 126 / 255.0 blue: 212 / 255.0 alpha: 1.];
     overlayView.strokeColor = color;
@@ -618,7 +623,7 @@ numberOfRowsInComponent:(NSInteger)component
     {
         [self getDirections];
     }
-    
+
     Annotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
     [self.mapView setCenterCoordinate:selectedAnnotation.coordinate animated:YES];
     [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0.5];
@@ -632,12 +637,10 @@ numberOfRowsInComponent:(NSInteger)component
 #pragma mark - custom callout
 
 - (void)popupMapCalloutView:(CustomAnnotationView *)annotationView {
-   
     if(![[self.mapView.selectedAnnotations objectAtIndex:0]isKindOfClass:[MKUserLocation class]])
     {
         NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
         Annotation *selectedAnnotation = selectedAnnotations.count > 0 ? [selectedAnnotations objectAtIndex:0] : nil;
-        
         if(!annotationView.isClusterPin){
             calloutView.title = selectedAnnotation.title;
             calloutView.subtitle = selectedAnnotation.subtitle;
@@ -658,6 +661,7 @@ numberOfRowsInComponent:(NSInteger)component
                 [self zoomCluster:selectedAnnotation];
         }
     }
+
 }
 
 - (void)disclosureTapped {

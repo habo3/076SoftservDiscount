@@ -16,4 +16,7 @@
 -(id)initArrayWithUrl:(NSString*)url;
 -(id)initDictionaryWithUrl:(NSString*)url;
 
++ (NSString *)getUrlWithObjectName:(NSString *)objectName;
++ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format;
+
 @end

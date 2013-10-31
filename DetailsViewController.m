@@ -14,7 +14,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
-
+#import <Social/SLComposeViewController.h>
+#import <Social/SLServiceTypes.h>
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
 @interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate>
@@ -283,36 +284,42 @@
     
     if(buttonIndex == 0) {
         
-        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        if(!FBSession.activeSession.isOpen)
-        {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"sessionRequest"];
-            [appDelegate openSessionWithAllowLoginUI:YES];
-        }
+        SLComposeViewController *fbController=[SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];    
         
-        NSString *message = [NSString stringWithFormat:@" %@",
-                             shareString];
-        
-        [FBRequestConnection startForPostStatusUpdate:message
-                                    completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                        //[self showAlert:message result:result error:error];
-                                        //self.buttonPostStatus.enabled = YES;
-                                    }];
-        NSMutableString *faceBookString = [[NSMutableString alloc]initWithString: @"fb://publish/profile/me?text="];
-        [faceBookString appendString:shareString];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:faceBookString]];
+
+            SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
+                
+                [fbController dismissViewControllerAnimated:YES completion:nil];
+                
+                switch(result){
+                    case SLComposeViewControllerResultCancelled:
+                    default:
+                    {
+                        NSLog(@"Cancelled.....");
+                        
+                    }
+                        break;
+                    case SLComposeViewControllerResultDone:
+                    {
+                        NSLog(@"Posted....");
+                    }
+                        break;
+                }};
+            
+            [fbController addImage:[UIImage imageNamed:@"1.jpg"]];
+            [fbController setInitialText:@"Check out this article."];
+            [fbController addURL:[NSURL URLWithString:@"http://soulwithmobiletechnology.blogspot.com/"]];
+            [fbController setCompletionHandler:completionHandler];
+            [self presentViewController:fbController animated:YES completion:nil];
+
     } else if(buttonIndex == 1) {
-        NSMutableString *twitterString = [[NSMutableString alloc] initWithString: @"twitter://post?message="];
-        NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                                        NULL,
-                                                                                                        (CFStringRef)shareString,
-                                                                                                        NULL,
-                                                                                                        (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                                        kCFStringEncodingUTF8 ));
-        [twitterString appendString:encodedString];
-        NSURL *url = [NSURL URLWithString:twitterString];
-        [[UIApplication sharedApplication] openURL:url];
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+        {
+            SLComposeViewController *tweetSheetOBJ = [SLComposeViewController
+                                                      composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheetOBJ setInitialText:@"Learn iOS programming at weblineindia.com!"];
+            [self presentViewController:tweetSheetOBJ animated:YES completion:nil];
+        }
     } else if (buttonIndex ==2) {
         NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?body="];
         //MAIL URL  @"mailto:?subject=TITLE!&body=

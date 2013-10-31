@@ -84,13 +84,10 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     }
     
 #pragma mark - Input New Core Data
-    NSString *objectUrl = @"http://softserve.ua/discount/api/v1/object/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
-    NSString *cityUrl = @"http://softserve.ua/discount/api/v1/city/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
-    NSString *categoryUrl = @"http://softserve.ua/discount/api/v1/category/list/b1d6f099e1b5913e86f0a9bb9fbc10e5";
     
-    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:objectUrl];
-    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:cityUrl];
-    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:categoryUrl];
+    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
+    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
+    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
     
     //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
     
@@ -102,8 +99,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     [self.coreDataManager saveCategoriesToCoreData];
     [self.coreDataManager saveCitiesToCoreData];
     [self.coreDataManager saveDiscountObjectsToCoreData];
-    
-    
+
     return YES;
 }
 

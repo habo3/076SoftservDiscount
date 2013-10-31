@@ -386,8 +386,8 @@
 			children = (
 				4B5C8E17181FDFEC005D1A8D /* NewCoreData */,
 				4B529FE8181EA894002F3898 /* TableViews */,
-				BB1FED901819BC8100ABE71E /* CoreData */,
 				434CAFA416D4D8380000CE60 /* Details */,
+				BB1FED901819BC8100ABE71E /* CoreData */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				4BA195EE18100F9900F1496B /* LoadScreenViewController.h */,
 				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
