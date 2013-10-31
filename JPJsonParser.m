@@ -39,9 +39,21 @@
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    //NSArray *jsonObjects = [json objectForKey:@"list"];
-    //NSDictionary *jsonCities = [json objectForKey:@"list"];
     return [json objectForKey:@"list"];
 }
+
++ (NSString *)getUrlWithObjectName:(NSString *)objectName
+{
+    return [[self class] getUrlWithObjectName:objectName WithFormat:@""];
+}
+
++ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format
+{
+    NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+    NSString *apiKey = [NSString stringWithString:[dictRoot objectForKey:@"APIKey"]];
+    NSString *url = @"http://softserve.ua/discount/api/v1/";
+    return [NSString stringWithFormat: @"%@%@%@%@%@", url, objectName, @"/list/", apiKey, format];
+}
+
 
 @end

@@ -1,9 +1,9 @@
 //
 //  DiscountObject.m
-//  DiscountJson
+//  SoftServe Discount
 //
-//  Created by Victor on 10/19/13.
-//  Copyright (c) 2013 Victor. All rights reserved.
+//  Created by Victor on 31.10.13.
+//  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
 #import "CDDiscountObject.h"
@@ -15,6 +15,8 @@
 
 @dynamic address;
 @dynamic attachments;
+@dynamic category;
+@dynamic city;
 @dynamic created;
 @dynamic descriptionn;
 @dynamic discount;
@@ -31,9 +33,8 @@
 @dynamic site;
 @dynamic skype;
 @dynamic updated;
+@dynamic isInFavorites;
 @dynamic categorys;
-@dynamic city;
-@dynamic category;
 @dynamic cities;
 
 @end

@@ -10,8 +10,8 @@
 #import "DiscountObject.h"
 #import "Flurry.h"
 
+@class CDCoreDataManager;
+
 @interface SettingsViewController : UIViewController
-
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
+@property (nonatomic, strong) CDCoreDataManager *coreDataManager;
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DiscountObject.h"
-#import "Category.h"
+#import "CDDiscountObject.h"
+#import "CDCategory.h"
 #import "IconConverter.h"
 #import <CoreLocation/CLLocation.h>
 #import <CoreLocation/CLLocationManager.h>
@@ -19,12 +19,12 @@
 @property (strong,nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *detailsDistanceBackground;
-@property (strong, nonatomic) IBOutlet UIView *circleView; 
 @property (strong, nonatomic) IBOutlet UIView *rectangleView;
-@property (weak, nonatomic) IBOutlet UILabel *iconLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
+@property (weak, nonatomic) IBOutlet UIImageView *discountImage;
 
-//-(PlaceCell *) getCustomCellFromDiscountObject:(DiscountObject *)object onTableView:(UITableView *)tableView withCurrentLocation: (CLLocation *)currentLocation;
--(void) initViews;
+- (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation: (CLLocation *)currentLocation;
+- (void)initViews;
+- (id)initPlaceCellWithTable:(UITableView *)tableView withIdentifer:(NSString *)identifer;
 
 @end

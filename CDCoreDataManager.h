@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 
+@class CDDiscountObject;
+
 @interface CDCoreDataManager : NSObject
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContex;
@@ -24,9 +26,11 @@
 -(void)saveCategoriesToCoreData;
 -(void)deleteAllData;
 -(void)makeRelationsBetweenCategoriesAndObjectsAndCities;
+-(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
 
 -(NSArray*)discountObjectsFromCoreData;
 -(NSArray*)citiesFromCoreData;
 -(NSArray*)categoriesFromCoreData;
+-(NSArray*)discountObjectsFromFavorites;
 
 @end

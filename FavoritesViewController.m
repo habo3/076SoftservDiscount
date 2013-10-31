@@ -69,8 +69,7 @@
     NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
     [fetch setPredicate:findObjectWithFav];
     NSError *err;
-    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];
-    
+    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];  
     
     //set backgound image if no Favorites available
     if (!favoriteObjects.count) {
@@ -136,15 +135,7 @@
         cell.detailsDistanceBackground.hidden = YES;
         cell.distanceLabel.hidden =YES;
     }
-    Category *dbCategory = [object.categories anyObject];
-    NSString *symbol = dbCategory.fontSymbol;
-    NSString *tmpText = [IconConverter ConvertIconText:symbol];
-    UIFont *font = [UIFont fontWithName:@"icons" size:20];
-    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-    cell.iconLabel.font = font;
-    cell.iconLabel.text = tmpText;
-    cell.iconLabel.textAlignment = UITextAlignmentCenter;
-    return cell;
+   return cell;
 }
 
 #pragma mark - Table view delegate
@@ -157,7 +148,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = [favoriteObjects objectAtIndex:numberOfRowClicked];
-    dvc.managedObjectContext = self.managedObjectContext;
+//    dvc.managedObjectContext = self.managedObjectContext;
 }
 
 -(void) reloadTableWithDistancesValues {

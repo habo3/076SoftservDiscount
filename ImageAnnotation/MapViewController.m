@@ -8,8 +8,6 @@
 
 #import "MapViewController.h"
 #import "Annotation.h"
-#import "DiscountObject.h"
-#import "Category.h"
 #import "CustomPicker.h"
 #import "DetailsViewController.h"
 #import "IconConverter.h"
@@ -17,8 +15,11 @@
 #import "OCAnnotation.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
+#import "CDCategory.h"
+#import "CDDiscountObject.h"
+#import "CDCity.h"
 
-#define MAP_SPAN_DELTA 0.005
+#define MAP_SPAN_DELTA 0.045
 
 
 @interface MapViewController ()<MKAnnotation,MKMapViewDelegate>
@@ -31,9 +32,11 @@
 @property (nonatomic) NSArray *categoryObjects;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
-@property (nonatomic,assign) DiscountObject *selectedObject;
-@property (nonatomic, strong) UIProgressView *progressView;
-
+@property (nonatomic,assign) CDDiscountObject *selectedObject;
+@property (strong, nonatomic) NSArray *discountObjects;
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSArray *cities;
+@property (nonatomic) BOOL geoLocationIsOn;
 @end
 
 @implementation MapViewController
@@ -43,34 +46,48 @@
 @synthesize pickerView;
 @synthesize mapView = _mapView;
 @synthesize location;
-@synthesize managedObjectContext;
 @synthesize dataSource;
 @synthesize categoryObjects;
 @synthesize selectedIndex;
 @synthesize filterButton;
 @synthesize selectedObject;
-@synthesize progressView;
-
+@synthesize geoLocationIsOn = _geoLocationIsOn;
 @synthesize coreDataManager = _coreDataManager;
+@synthesize discountObjects = _discountObjects;
+@synthesize categories = _categories;
+@synthesize cities = _cities;
+
+
+#pragma mark - custom getters for new DB
 
 -(CDCoreDataManager *)coreDataManager
 {
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
 }
 
+-(NSArray *)discountObjects
+{
+    return [self.coreDataManager discountObjectsFromCoreData];
+}
+
+-(NSArray *)categories
+{
+    return [self.coreDataManager categoriesFromCoreData];
+}
+
+-(NSArray *)cities
+{
+    return [self.coreDataManager citiesFromCoreData];
+}
+
 #pragma mark - View
 
 - (void)viewDidLoad
 {
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    managedObjectContext = appDelegate.managedObjectContext;
-    
-    //Sending event to analytics service
-    [Flurry logEvent:@"MapLoaded"];
-
     [super viewDidLoad];
     [self setNavigationTitle];
-    [self setControllerButtons];
+    
+    [self setFilterButton];
     self.mapView.delegate = self;
     self.mapView.clusterSize = 0.05;
     self.pickerView.hidden=TRUE;
@@ -81,12 +98,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
-        [self getLocation:self];
+        [self gotoLocation];
         [userDefaults removeObjectForKey:@"firstLaunch"];
-        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined)
-        {
-            [self getLocation:self];
-        }
     }
     self.calloutView.delegate = self;
     self.calloutView = [CustomCalloutView new];
@@ -103,17 +116,6 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
     [self gotoLocation];
-    
-#pragma mark - Test new CoreData
-    NSArray *citys = [self.coreDataManager citiesFromCoreData];
-    for (NSManagedObject *city in citys) {
-        NSSet *discountObjs = [city valueForKey:@"discountObjects"];
-        for (NSManagedObject *obj in discountObjs) {
-            NSLog(@"city: %@",[city valueForKey:@"name"]);
-            NSLog(@"discountObj: %@",[obj valueForKey:@"name"]);
-        }
-    }
-
 }
 
 - (void)viewDidUnload
@@ -124,8 +126,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    //Sending event to analytics service
+    [Flurry logEvent:@"MapLoaded"];
     [self.navigationController.navigationBar addSubview:filterButton];
     [super viewDidAppear:animated];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.geoLocationIsOn = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    if(self.geoLocationIsOn)
+    {
+        [self setGeoButton];
+        self.mapView.showsUserLocation = YES;
+    }
+    else
+        [self gotoLocation];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -138,6 +152,8 @@
     return toInterfaceOrientation!= UIInterfaceOrientationPortraitUpsideDown;
 }
 
+#pragma mark - customizing view
+
 -(void) setNavigationTitle
 {
     UILabel *navigationTitle = [[UILabel alloc] init];
@@ -149,9 +165,8 @@
     [navigationTitle sizeToFit];
 }
 
--(void)setControllerButtons
+-(void)setFilterButton
 {
-    //filterButton
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height);
@@ -160,15 +175,18 @@
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
-        
-    //geoButton
+}
+
+- (void) setGeoButton
+{
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
     UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height- geoButtonImage.size.height-25, geoButtonImage.size.width,geoButtonImage.size.height);
+    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height
+                                 - geoButtonImage.size.height + 40, geoButtonImage.size.width,geoButtonImage.size.height);
     geoButton.frame = geoFrame;
     
     [geoButton setBackgroundImage:geoButtonImage forState:UIControlStateNormal];
-    [geoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [geoButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchUpInside];
     geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
 }
@@ -250,8 +268,7 @@
             coords = realloc(coords, newCount * sizeof(CLLocationCoordinate2D));
             count = newCount;
         }
-    }
-    
+    }    
     MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:coordIdx];
     free(coords);
     
@@ -260,72 +277,83 @@
 
 - (void)getDirections
 {
-    float latitude, longitude;
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:49.841906 longitude:24.021422];
-    latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
-    longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
-    
-    CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
-    CLLocationCoordinate2D endCoordinate;
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (!error) {
-        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
-        if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        int points_count = 0;
-        if ([[responseDict objectForKey:@"routes"] count])
-            points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+        CLLocationCoordinate2D coordinate;
+        coordinate = self.mapView.userLocation.coordinate;
+        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
+                                                              longitude:coordinate.longitude];
         
+        float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
+        float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
+        CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
         
-        if (!points_count) {
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        CLLocationCoordinate2D points[points_count * 3];
-        MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
-        [self.mapView addOverlay:polyline];
-        int j = 0;
-        NSArray *steps = nil;
-        if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
-            steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
-        for (int i = 0; i < points_count; i++) {
-            
-            double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
-            double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
-            if (st_lat > 0.0f && st_lon > 0.0f) {
-                points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
-                j++;
+        CLLocationCoordinate2D endCoordinate;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (!error) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
+            if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
+                [userDefaults synchronize];
+                self.geoLocationIsOn = NO;
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Could not route path from your current location"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Close"
+                                  otherButtonTitles:nil, nil] show];
+                return;
             }
-            double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
-            double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
-            if(j < points_count)
-                points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
-            endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
-            j++;
+            int points_count = 0;
+            if ([[responseDict objectForKey:@"routes"] count])
+                points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
             
+            
+            if (!points_count) {
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Could not route path from your current location"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Close"
+                                  otherButtonTitles:nil, nil] show];
+                return;
+            }
+            CLLocationCoordinate2D points[points_count * 3];
+            
+            MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.mapView addOverlay:polyline];
+            });
+            int j = 0;
+            NSArray *steps = nil;
+            if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
+                steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
+            for (int i = 0; i < points_count; i++) {
+                
+                double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
+                double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
+                if (st_lat > 0.0f && st_lon > 0.0f) {
+                    points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
+                    j++;
+                }
+                double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
+                double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
+                if(j < points_count)
+                    points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
+                endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
+                j++;
+                
+            }
         }
-    }
+    });
 }
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView
             viewForOverlay:(id<MKOverlay>)overlay {
     MKPolylineView *overlayView = [[MKPolylineView alloc] initWithOverlay:overlay];
-    
     overlayView.lineWidth = 5;
     UIColor *color = [UIColor colorWithRed: 87 / 255.0 green: 126 / 255.0 blue: 212 / 255.0 alpha: 1.];
     overlayView.strokeColor = color;
@@ -335,7 +363,7 @@
 
 #pragma mark - createAnnotation
 
-- (Annotation*)createAnnotationFromData:(DiscountObject*)discountObject
+- (Annotation*)createAnnotationFromData:(CDDiscountObject*)discountObject
 {
     CLLocationCoordinate2D tmpCoord;
     
@@ -348,19 +376,19 @@
     UIImage *emptyImage =[UIImage imageNamed:@"emptyLeftImage.png"];
     UIImage *emptyPinImage = [UIImage imageNamed:@"emptyPin.png"];
     
-    NSNumber *dbLongitude = discountObject.geoLongitude;
-    NSNumber *dbLatitude = discountObject.geoLatitude;
+    NSNumber *dbLongitude = [discountObject.geoPoint valueForKey:@"longitude"];
+    NSNumber *dbLatitude = [discountObject.geoPoint valueForKey:@"latitude"];
     NSString *dbTitle = discountObject.name;
     NSString *dbSubtitle = discountObject.address;
-    NSSet *dbCategories = discountObject.categories;
-    NSString *dbDiscountTo = [NSString stringWithFormat:@"%@%%", discountObject.discountTo];
+    NSSet *dbCategories = discountObject.categorys;
+    NSString *dbDiscountTo = [NSString stringWithFormat:@"%@%%", [discountObject.discount valueForKey:@"to"]];
     NSString *dbDiscountFrom;
-    if(![discountObject.discountTo isEqualToNumber:discountObject.discountFrom])
-        dbDiscountFrom = [NSString stringWithFormat:@"%@-", discountObject.discountFrom];
+    if(![[discountObject.discount valueForKey:@"to"] isEqualToNumber:[discountObject.discount valueForKey:@"from"]])
+        dbDiscountFrom = [NSString stringWithFormat:@"%@-", [discountObject.discount valueForKey:@"from"]];
     else
         dbDiscountFrom = [NSString stringWithFormat:@""];
 
-    Category *dbCategory = [dbCategories anyObject];
+    CDCategory *dbCategory = [dbCategories anyObject];
 
     // formating discountValue to "x%", where x discountValue
     NSString *discount = [dbDiscountFrom stringByAppendingString:dbDiscountTo];
@@ -392,83 +420,63 @@
 
 - (NSArray*)getAllPins
 {
-    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    // fetch objects from db
-    NSPredicate *objectsFind = [NSPredicate predicateWithFormat:nil];
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
-                                 inManagedObjectContext:managedObjectContext]];
-    [fetch setPredicate:objectsFind];
-    NSArray *objectsFound = [managedObjectContext executeFetchRequest:fetch error:nil];
+    NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
+    Annotation *currentAnn;
     
-    Annotation *currentAnn = [[Annotation alloc]init];
-    for (Category *object1 in objectsFound)
+    for (CDDiscountObject *object in self.discountObjects)
     {
         double scaleX, scaleY, distanceFromObject;
         distanceFromObject = 0.00006;
         scaleX = 0.0;
         scaleY = distanceFromObject;
-        
-        NSSet *dbAllObjInCategory= object1.discountobject;
-        for(DiscountObject *object in dbAllObjInCategory)
+        currentAnn = [self createAnnotationFromData:object];
+        for(Annotation *ann in arrayOfAnnotations)
         {
-            currentAnn = [self createAnnotationFromData:object];
-            for(Annotation *ann in tmpArray)
+            if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
+               && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
+               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
+               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
             {
-                if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
-                    && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
-                    && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
-                    && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
-                {
-                    CLLocationCoordinate2D coord;
-                    coord.latitude = currentAnn.coordinate.latitude + scaleX;
-                    coord.longitude = currentAnn.coordinate.longitude + scaleY;
-                    currentAnn.coordinate = coord;
-                }
-                scaleX = scaleX + distanceFromObject;
-                if(scaleX > distanceFromObject)
-                    scaleX = -1 * distanceFromObject;
-                scaleY = scaleY + distanceFromObject;
-                if(scaleY > distanceFromObject)
-                    scaleY = -1 * distanceFromObject;
+                CLLocationCoordinate2D coord;
+                coord.latitude = currentAnn.coordinate.latitude + scaleX;
+                coord.longitude = currentAnn.coordinate.longitude + scaleY;
+                currentAnn.coordinate = coord;
             }
-
-            if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
-                [tmpArray addObject:currentAnn];
+            scaleX = scaleX + distanceFromObject;
+            if(scaleX > distanceFromObject)
+                scaleX = -1 * distanceFromObject;
+            scaleY = scaleY + distanceFromObject;
+            if(scaleY > distanceFromObject)
+                scaleY = -1 * distanceFromObject;
         }
+        
+        if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
+            [arrayOfAnnotations addObject:currentAnn];
     }
-    return tmpArray;
+
+    return arrayOfAnnotations;
 }
 
 - (NSArray*)getPinsByCategory:(int)filterNumber
 {
-    // fetch objects from db
-    NSMutableArray *tmpArray = [[NSMutableArray alloc]init];
-    Category *selectedCategory = [self.categoryObjects objectAtIndex:filterNumber];
-    NSSet *dbAllObjInSelCategory = selectedCategory.discountobject;
-    
+    NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
+    CDCategory *category = [self.categories objectAtIndex:filterNumber];
+    NSArray *allObjectsFromCategory = [category valueForKey:@"discountObjects"];
     Annotation *currentAnn;
-    for(DiscountObject *object in dbAllObjInSelCategory)
-    {
+    for (CDDiscountObject *object in allObjectsFromCategory) {
         currentAnn = [self createAnnotationFromData:object];
-        [tmpArray addObject:currentAnn];
+        [arrayOfAnnotations addObject:currentAnn];
     }
-    return  tmpArray;
+    return arrayOfAnnotations;
 }
 
 - (NSArray*)fillPicker
 {
-
-    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"Category"
-                              inManagedObjectContext:managedObjectContext]];
-    categoryObjects = [managedObjectContext executeFetchRequest:fetch error:nil];
     NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
 
     [fetchArr addObject:@"Усі категорії"];
-    for ( Category *object in categoryObjects)
+    for ( CDCategory *object in self.categories)
     {
-
         [fetchArr addObject:(NSString*)object.name];
     }
     return [NSArray arrayWithArray:fetchArr];
@@ -585,7 +593,6 @@ numberOfRowsInComponent:(NSInteger)component
         annotationView.image = newAnnotation.pintype;
         return annotationView;
     }
-    
     return nil;
 }
 
@@ -611,8 +618,12 @@ numberOfRowsInComponent:(NSInteger)component
         [calloutView dismissCalloutAnimated];
     
     [self.mapView removeOverlays:self.mapView.overlays];
-    [self getDirections];
     
+    if(self.geoLocationIsOn)
+    {
+        [self getDirections];
+    }
+
     Annotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
     [self.mapView setCenterCoordinate:selectedAnnotation.coordinate animated:YES];
     [self performSelector:@selector(popupMapCalloutView:) withObject:view afterDelay:0.5];
@@ -626,12 +637,10 @@ numberOfRowsInComponent:(NSInteger)component
 #pragma mark - custom callout
 
 - (void)popupMapCalloutView:(CustomAnnotationView *)annotationView {
-   
     if(![[self.mapView.selectedAnnotations objectAtIndex:0]isKindOfClass:[MKUserLocation class]])
     {
         NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
         Annotation *selectedAnnotation = selectedAnnotations.count > 0 ? [selectedAnnotations objectAtIndex:0] : nil;
-        
         if(!annotationView.isClusterPin){
             calloutView.title = selectedAnnotation.title;
             calloutView.subtitle = selectedAnnotation.subtitle;
@@ -652,14 +661,7 @@ numberOfRowsInComponent:(NSInteger)component
                 [self zoomCluster:selectedAnnotation];
         }
     }
-}
 
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = self.selectedObject;
-    dvc.managedObjectContext = self.managedObjectContext;
 }
 
 - (void)disclosureTapped {
@@ -687,74 +689,44 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)gotoLocation
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    CLLocationCoordinate2D coordinate;
     NSString *city = [userDefaults objectForKey:@"cityName"];
     if(!city)
-    {
         city = @"Львів";
-    }
+    coordinate = [self getCoordinateOfCity:city];
+    if(self.geoLocationIsOn
+       && self.mapView.userLocation.coordinate.latitude != 0.0)
+        coordinate = self.mapView.userLocation.coordinate;
 
-    //for offline maps
-    NSDictionary *cityCoords = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSValue valueWithCGPoint:CGPointMake(48.467003,35.036259)], @"Дніпропетровськ",
-    [NSValue valueWithCGPoint:CGPointMake(48.917222,24.707222)], @"Івано-Франківськ",
-    [NSValue valueWithCGPoint:CGPointMake(50.450100,30.523400)], @"Київ",
-    [NSValue valueWithCGPoint:CGPointMake(50.748716,25.330406)], @"Луцьк",
-    [NSValue valueWithCGPoint:CGPointMake(49.839826,24.028675)], @"Львів",
-    [NSValue valueWithCGPoint:CGPointMake(46.471767,30.719800)], @"Одеса",
-    [NSValue valueWithCGPoint:CGPointMake(50.628999,26.246517)], @"Рівне",
-    [NSValue valueWithCGPoint:CGPointMake(44.953212,34.101952)], @"Сімферополь",
-    [NSValue valueWithCGPoint:CGPointMake(48.287171,25.957920)], @"Чернівці",
-    nil];
-    
-    CLLocationCoordinate2D coordinate;
-    CGPoint tmpPoint = [[cityCoords objectForKey:city] CGPointValue];
-    coordinate.latitude = tmpPoint.x;
-    coordinate.longitude = tmpPoint.y;
     MKCoordinateRegion newRegion;
     newRegion.center.latitude = coordinate.latitude;
     newRegion.center.longitude = coordinate.longitude;
     newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
     newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
     [self.mapView setRegion:newRegion animated:YES];
+
 }
 
-- (IBAction) getLocation:(id)sender {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    if(geoLocationIsON)
+- (CLLocationCoordinate2D) getCoordinateOfCity:(NSString *) name
+{
+    CLLocationCoordinate2D coordinate;
+    for (CDCity *cityObject in self.cities)
     {
-        if([CLLocationManager authorizationStatus]!=kCLAuthorizationStatusDenied)
+        if([cityObject.name isEqualToString:name])
         {
-            if(self.mapView.showsUserLocation)
-            {
-                self.mapView.showsUserLocation = FALSE;
-                [location stopUpdatingLocation];
-            }
-            else
-            {
-                self.mapView.showsUserLocation = TRUE;
-                if(!self.location)
-                {
-                    self.location = [[CLLocationManager alloc]init];
-                    location.delegate = self;
-                }
-                location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-                location.distanceFilter = kCLDistanceFilterNone;
-                [location startUpdatingLocation];
-            }
-        }
-        else
-        {
-            [self gotoLocation];
+            coordinate.latitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"latitude"] doubleValue]
+                                                          :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"latitude"] doubleValue]];
+            coordinate.longitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"longitude"] doubleValue]
+                                                           :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"longitude"] doubleValue]];
         }
     }
-    else
-    {
-        [self gotoLocation];
-    }
+    return coordinate;
 }
 
+- (double) averageOfTwoPoints:(double)firstPoint :(double)secondPoint
+{
+    return (firstPoint + secondPoint)/2;
+}
 
 - (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
     MKCoordinateRegion region;
@@ -794,7 +766,6 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 
-
 - (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
     
     if(selectedIndex != [selectIndex integerValue])
@@ -808,6 +779,14 @@ numberOfRowsInComponent:(NSInteger)component
             self.annArray = [[self getPinsByCategory:self.selectedIndex - 1] mutableCopy];
         [self.mapView addAnnotations:self.annArray];
     }
+}
+
+#pragma mark - segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DetailsViewController *dvc = [segue destinationViewController];
+    dvc.discountObject = self.selectedObject;
 }
 
 @end

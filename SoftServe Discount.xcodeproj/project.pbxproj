@@ -83,7 +83,6 @@
 		4B52A024181EACD5002F3898 /* OCMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B52A020181EACD5002F3898 /* OCMapView.m */; };
 		4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5AF78318152E9C009BDF5D /* MenuViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4B5C8E1C181FE02A005D1A8D /* JPJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5C8E1B181FE02A005D1A8D /* JPJsonParser.m */; };
-		4B5C8E27181FE036005D1A8D /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5C8E1F181FE036005D1A8D /* CDDiscountObject.m */; };
 		4B5C8E28181FE036005D1A8D /* CDCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5C8E21181FE036005D1A8D /* CDCity.m */; };
 		4B5C8E29181FE036005D1A8D /* CDCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5C8E23181FE036005D1A8D /* CDCategory.m */; };
 		4B5C8E2A181FE036005D1A8D /* CDCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5C8E25181FE036005D1A8D /* CDCoreDataManager.m */; };
@@ -93,6 +92,8 @@
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
+		5730538E1822A1F900F34367 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5730538D1822A1F900F34367 /* CDDiscountObject.m */; };
+		573053911822A1FA00F34367 /* CDFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = 573053901822A1FA00F34367 /* CDFavorites.m */; };
 		901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 901488AB16D7AEF200B25D72 /* CustomPicker.m */; };
 		9017FB2B16DE1A0E004EB853 /* IconConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9017FB2A16DE1A0E004EB853 /* IconConverter.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
@@ -248,8 +249,6 @@
 		4B5AF78318152E9C009BDF5D /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		4B5C8E1A181FE02A005D1A8D /* JPJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPJsonParser.h; sourceTree = "<group>"; };
 		4B5C8E1B181FE02A005D1A8D /* JPJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPJsonParser.m; sourceTree = "<group>"; };
-		4B5C8E1E181FE036005D1A8D /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
-		4B5C8E1F181FE036005D1A8D /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
 		4B5C8E20181FE036005D1A8D /* CDCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCity.h; sourceTree = "<group>"; };
 		4B5C8E21181FE036005D1A8D /* CDCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCity.m; sourceTree = "<group>"; };
 		4B5C8E22181FE036005D1A8D /* CDCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCategory.h; sourceTree = "<group>"; };
@@ -264,6 +263,10 @@
 		4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4BE0043D180563E600DA17C2 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = SOURCE_ROOT; };
 		4BE0043E180563E600DA17C2 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = SOURCE_ROOT; };
+		5730538C1822A1F900F34367 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
+		5730538D1822A1F900F34367 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
+		5730538F1822A1FA00F34367 /* CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFavorites.h; sourceTree = "<group>"; };
+		573053901822A1FA00F34367 /* CDFavorites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFavorites.m; sourceTree = "<group>"; };
 		901488AA16D7AEF200B25D72 /* CustomPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomPicker.h; path = ImageAnnotation/CustomPicker.h; sourceTree = SOURCE_ROOT; };
 		901488AB16D7AEF200B25D72 /* CustomPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomPicker.m; path = ImageAnnotation/CustomPicker.m; sourceTree = SOURCE_ROOT; };
 		9017FB2916DE1A0E004EB853 /* IconConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconConverter.h; path = ImageAnnotation/IconConverter.h; sourceTree = SOURCE_ROOT; };
@@ -386,8 +389,8 @@
 			children = (
 				4B5C8E17181FDFEC005D1A8D /* NewCoreData */,
 				4B529FE8181EA894002F3898 /* TableViews */,
-				BB1FED901819BC8100ABE71E /* CoreData */,
 				434CAFA416D4D8380000CE60 /* Details */,
+				BB1FED901819BC8100ABE71E /* CoreData */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				4BA195EE18100F9900F1496B /* LoadScreenViewController.h */,
 				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
@@ -608,8 +611,10 @@
 			isa = PBXGroup;
 			children = (
 				4B5C8E2B181FE03F005D1A8D /* NewModel.xcdatamodeld */,
-				4B5C8E1E181FE036005D1A8D /* CDDiscountObject.h */,
-				4B5C8E1F181FE036005D1A8D /* CDDiscountObject.m */,
+				5730538F1822A1FA00F34367 /* CDFavorites.h */,
+				573053901822A1FA00F34367 /* CDFavorites.m */,
+				5730538C1822A1F900F34367 /* CDDiscountObject.h */,
+				5730538D1822A1F900F34367 /* CDDiscountObject.m */,
 				4B5C8E20181FE036005D1A8D /* CDCity.h */,
 				4B5C8E21181FE036005D1A8D /* CDCity.m */,
 				4B5C8E22181FE036005D1A8D /* CDCategory.h */,
@@ -989,6 +994,7 @@
 				BB1FEDAA1819BC8100ABE71E /* _DiscountObject.m in Sources */,
 				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,
 				BB1FEDA41819BC8100ABE71E /* City.m in Sources */,
+				5730538E1822A1F900F34367 /* CDDiscountObject.m in Sources */,
 				4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */,
 				4B5C8E1C181FE02A005D1A8D /* JPJsonParser.m in Sources */,
 				4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */,
@@ -999,11 +1005,11 @@
 				BB1FEDA51819BC8100ABE71E /* Contacts.m in Sources */,
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
-				4B5C8E27181FE036005D1A8D /* CDDiscountObject.m in Sources */,
 				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
 				4B52A022181EACD5002F3898 /* OCAnnotation.m in Sources */,
 				4B52A023181EACD5002F3898 /* OCDistance.m in Sources */,
 				4B5C8E2A181FE036005D1A8D /* CDCoreDataManager.m in Sources */,
+				573053911822A1FA00F34367 /* CDFavorites.m in Sources */,
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B5C8E29181FE036005D1A8D /* CDCategory.m in Sources */,
 				BBAFE5711816A7F700FA1C6E /* MKPolyline.m in Sources */,
@@ -1202,7 +1208,7 @@
 				4B5C8E2C181FE03F005D1A8D /* NewModel 2.xcdatamodel */,
 				4B5C8E2D181FE03F005D1A8D /* NewModel.xcdatamodel */,
 			);
-			currentVersion = 4B5C8E2D181FE03F005D1A8D /* NewModel.xcdatamodel */;
+			currentVersion = 4B5C8E2C181FE03F005D1A8D /* NewModel 2.xcdatamodel */;
 			path = NewModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

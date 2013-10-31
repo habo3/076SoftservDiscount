@@ -27,56 +27,61 @@
     // Configure the view for the selected state
 }
 
--(void) initViews
+- (id) initPlaceCellWithTable:(UITableView *)tableView withIdentifer:(NSString *)identifer
+{
+    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if (cell == nil) {
+        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+    }
+    return cell;
+}
+
+- (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation:(CLLocation *)currentLocation
+{
+    [self initViews];
+    self.nameLabel.text = object.name;
+    self.addressLabel.text = object.address;
+    self.discountImage.image = [UIImage imageNamed:@"zeroCellBackgroundImg.png"] ;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
+    if(geoLocationIsON)
+    {
+        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[[object.geoPoint valueForKey:@"latitude" ] doubleValue]
+                                                                longitude:[[object.geoPoint valueForKey:@"longitude" ] doubleValue]];
+        double distance = [currentLocation distanceFromLocation:objectLocation];
+        if (distance > 999){
+            self.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
+        }
+        else {
+            self.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
+        }
+    }
+    else
+    {
+        self.detailsDistanceBackground.hidden = YES;
+        self.distanceLabel.hidden = YES;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+        NSString *http = @"http://softserve.ua";
+        NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+            self.discountImage.layer.borderWidth = 1.0f;
+            self.discountImage.image = image;
+        });
+    });
+
+    
+    return self;
+}
+
+- (void)initViews
 {
     self.rectangleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
     self.rectangleView.layer.borderWidth = 1.0f;
     self.rectangleView.layer.cornerRadius = 10;
-    
-    self.circleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
-    self.circleView.layer.borderWidth = 1.0f;
-    self.circleView.layer.cornerRadius = self.circleView.bounds.size.width/2;
 }
-//
-//-(PlaceCell *) getCustomCellFromDiscountObject:(DiscountObject *)object onTableView:(UITableView *)tableView withCurrentLocation: (CLLocation *)currentLocation
-//{
-//    NSString *cellIdentifer = @"Cell";
-//    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
-//    if (cell == nil) {
-//        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-//    }
-//    [self initViews];
-//    cell.nameLabel.text = object.name ;
-//    cell.addressLabel.text = object.address;
-//    
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
-//    if(geoLocationIsON)
-//    {
-//        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-//                                                                longitude:[object.geoLongitude doubleValue]];
-//        double distance = [currentLocation distanceFromLocation:objectLocation];
-//        if (distance > 999){
-//            cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-//        }
-//        else {
-//            cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
-//        }
-//    }
-//    else
-//    {
-//        cell.detailsDistanceBackground.hidden = YES;
-//        cell.distanceLabel.hidden = YES;
-//    }
-//    Category *dbCategory = [object.categories anyObject];
-//    NSString *symbol = dbCategory.fontSymbol;
-//    NSString *tmpText = [IconConverter ConvertIconText:symbol];
-//    UIFont *font = [UIFont fontWithName:@"icons" size:20];
-//    cell.iconLabel.textColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-//    cell.iconLabel.font = font;
-//    cell.iconLabel.text = tmpText;
-//    cell.iconLabel.textAlignment = UITextAlignmentCenter;
-//    return cell;
-//}
 
 @end

@@ -10,6 +10,7 @@
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
 #import "CDCity.h"
+#import "CDFavorites.h"
 
 @implementation CDCoreDataManager
 
@@ -22,6 +23,61 @@
 {
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContextNew];
 }
+
+#pragma mark - Add to Favorites
+
+-(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDFavorites"];
+    [fetchRequest setFetchLimit:1];
+    
+    if ([discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
+        NSLog(@"Deleted from Favorites");
+        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+        NSMutableSet *mutableSetOfFavorites = [NSMutableSet setWithSet:[[result objectAtIndex:0] valueForKey:@"discountObjects"]];
+        [mutableSetOfFavorites removeObject:discountObject];
+        
+        CDFavorites *favorites = [result objectAtIndex:0];
+        favorites.discountObjects = mutableSetOfFavorites;
+        
+        [self.managedObjectContex save:nil];
+        discountObject.isInFavorites = @NO;
+    }
+    else
+    {
+        NSLog(@"Added to Favorites");
+        
+        if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+            CDFavorites *newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];
+            [self.managedObjectContex save:nil];
+        }
+        
+        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+        
+        NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[[result objectAtIndex:0] valueForKey:@"discountObjects"]];
+        [temp addObject:discountObject];
+        
+        CDFavorites *favorites = [result objectAtIndex:0];
+        favorites.discountObjects = temp;
+        
+        discountObject.isInFavorites = @YES;
+        [self.managedObjectContex save:nil];
+        
+    }
+}
+
+-(NSArray*)discountObjectsFromFavorites
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDFavorites"];
+    [fetchRequest setFetchLimit:1];
+    NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    if ([self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {        
+        CDFavorites *favoritesSet = [result objectAtIndex:0];
+        return [favoritesSet.discountObjects allObjects];
+    }
+    return nil;
+}
+
 #pragma mark - Discount Objects manipulations
 -(void)saveDiscountObjectsToCoreData
 {
@@ -84,6 +140,7 @@
                     }
                 }
             }
+            newDiscountObject.isInFavorites = @NO;
             [self.managedObjectContex save:nil];
             // TODO counter
         }
@@ -167,6 +224,11 @@
     {
         return NO;
     }
+    
+    if ([[[object valueForKey:@"discount"] valueForKey:@"from" ] isKindOfClass:[NSNull class]] || [[[object valueForKey:@"discount"] valueForKey:@"to" ] isKindOfClass:[NSNull class]])
+    {
+        return NO;
+    }
     return YES;
 }
 #pragma mark - Refresh CoreData
@@ -200,6 +262,19 @@
     for (NSManagedObject * city in cities) {
         [self.managedObjectContex deleteObject:city];
     }
+    
+    //Delete Favorites
+    
+    NSFetchRequest * allFavorites = [[NSFetchRequest alloc] init];
+    [allFavorites setEntity:[NSEntityDescription entityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex]];
+    [allFavorites setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    
+    NSArray * favorites = [self.managedObjectContex executeFetchRequest:allFavorites error:Nil];
+    
+    for (NSManagedObject * obj in favorites) {
+        [self.managedObjectContex deleteObject:obj];
+    }
+
 }
 #pragma mark - Now useless
 -(void)makeRelationsBetweenCategoriesAndObjectsAndCities
