@@ -269,14 +269,23 @@
 
 - (void)getDirections
 {
-    float latitude, longitude;
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:49.841906 longitude:24.021422];
-    latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
-    longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    NSString *city = [userDefaults objectForKey:@"cityName"];
+    CLLocationCoordinate2D coordinate;
+    if(geoLocationIsON)
+        coordinate = self.mapView.userLocation.coordinate;
+    else
+        coordinate = [self getCoordinateOfCity:city];
     
+    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
+                                              longitude:coordinate.longitude];
+    
+    float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
+    float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
     CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
-    CLLocationCoordinate2D endCoordinate;
     
+    CLLocationCoordinate2D endCoordinate;
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLResponse *response = nil;
@@ -672,27 +681,37 @@ numberOfRowsInComponent:(NSInteger)component
     {
         city = @"Львів";
     }
+    CLLocationCoordinate2D coordinate = [self getCoordinateOfCity:city];
+    MKCoordinateRegion newRegion;
+    newRegion.center.latitude = coordinate.latitude;
+    newRegion.center.longitude = coordinate.longitude;
+    newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
+    [self.mapView setRegion:newRegion animated:YES];
+}
+
+- (CLLocationCoordinate2D) getCoordinateOfCity:(NSString *) name
+{
+    CLLocationCoordinate2D coordinate;
     for (CDCity *cityObject in self.cities)
     {
-        if([cityObject.name isEqualToString:city])
+        if([cityObject.name isEqualToString:name])
         {
-            CLLocationCoordinate2D coordinate;
-            coordinate.latitude = ([[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"latitude"] doubleValue] +
-                                   [[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"latitude"] doubleValue])/2;
-            coordinate.longitude = ([[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"longitude"] doubleValue] +
-                                    [[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"longitude"] doubleValue])/2;
-            MKCoordinateRegion newRegion;
-            newRegion.center.latitude = coordinate.latitude;
-            newRegion.center.longitude = coordinate.longitude;
-            newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
-            newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
-            [self.mapView setRegion:newRegion animated:YES];
+            coordinate.latitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"latitude"] doubleValue]
+                                                          :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"latitude"] doubleValue]];
+            coordinate.longitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"longitude"] doubleValue]
+                                                           :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"longitude"] doubleValue]];
         }
     }
+    return coordinate;
+}
+
+- (double) averageOfTwoPoints:(double)firstPoint :(double)secondPoint
+{
+    return (firstPoint + secondPoint)/2;
 }
 
 - (IBAction) getLocation:(id)sender {
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
     if(geoLocationIsON)
