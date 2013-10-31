@@ -83,6 +83,7 @@
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     //Sending event to analytics service
@@ -96,12 +97,12 @@
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         locationManager.distanceFilter = 10;
-        [self reloadTableWithDistancesValues];
         [locationManager startUpdatingLocation];
+        [self reloadTableWithDistancesValues];
     }
     else
     {
-//        self.objectsFound = [FavoritesViewController sortByName:objectsFound]; Sorting by name when geoLocationOFF
+        //        self.objectsFound = [FavoritesViewController sortByName:objectsFound]; Sorting by name when geoLocationOFF
         [self.tableView reloadData];
     }
     [super viewWillAppear:animated];

@@ -36,7 +36,7 @@
 @property (strong, nonatomic) NSArray *discountObjects;
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSArray *cities;
-
+@property (nonatomic) BOOL geoLocationIsOn;
 @end
 
 @implementation MapViewController
@@ -51,7 +51,7 @@
 @synthesize selectedIndex;
 @synthesize filterButton;
 @synthesize selectedObject;
-
+@synthesize geoLocationIsOn = _geoLocationIsOn;
 @synthesize coreDataManager = _coreDataManager;
 @synthesize discountObjects = _discountObjects;
 @synthesize categories = _categories;
@@ -86,7 +86,8 @@
 {
     [super viewDidLoad];
     [self setNavigationTitle];
-    [self setControllerButtons];
+    
+    [self setFilterButton];
     self.mapView.delegate = self;
     self.mapView.clusterSize = 0.05;
     self.pickerView.hidden=TRUE;
@@ -97,12 +98,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
-        [self getLocation:self];
+        [self gotoLocation];
         [userDefaults removeObjectForKey:@"firstLaunch"];
-        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined)
-        {
-            [self getLocation:self];
-        }
     }
     self.calloutView.delegate = self;
     self.calloutView = [CustomCalloutView new];
@@ -117,8 +114,7 @@
     self.calloutView.rightAccessoryView = disclosureButton;
     self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView addAnnotations:self.annArray];
-    [self gotoLocation];
+    [self.mapView addAnnotations:self.annArray];    
 }
 
 - (void)viewDidUnload
@@ -133,6 +129,16 @@
     [Flurry logEvent:@"MapLoaded"];
     [self.navigationController.navigationBar addSubview:filterButton];
     [super viewDidAppear:animated];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.geoLocationIsOn = [[userDefaults objectForKey:@"geoLocation"] boolValue];
+    if(self.geoLocationIsOn && self.mapView.userLocation)
+    {
+        [self setGeoButton];
+        self.mapView.showsUserLocation = YES;
+    }
+    else
+        [self gotoLocation];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -158,9 +164,8 @@
     [navigationTitle sizeToFit];
 }
 
--(void)setControllerButtons
+-(void)setFilterButton
 {
-    //filterButton
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     CGRect filterFrame = CGRectMake(self.navigationController.navigationBar.frame.size.width - filterButtonImage.size.width-5 , self.navigationController.navigationBar.frame.size.height- filterButtonImage.size.height-8, filterButtonImage.size.width,filterButtonImage.size.height);
@@ -169,15 +174,18 @@
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
     [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
-        
-    //geoButton
+}
+
+- (void) setGeoButton
+{
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
     UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height- geoButtonImage.size.height-25, geoButtonImage.size.width,geoButtonImage.size.height);
+    CGRect geoFrame = CGRectMake(5, self.mapView.frame.size.height-self.navigationController.navigationBar.frame.size.height
+                                 - geoButtonImage.size.height + 40, geoButtonImage.size.width,geoButtonImage.size.height);
     geoButton.frame = geoFrame;
     
     [geoButton setBackgroundImage:geoButtonImage forState:UIControlStateNormal];
-    [geoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [geoButton addTarget:self action:@selector(gotoLocation) forControlEvents:UIControlEventTouchUpInside];
     geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
 }
@@ -269,15 +277,8 @@
 
 - (void)getDirections
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    NSString *city = [userDefaults objectForKey:@"cityName"];
     CLLocationCoordinate2D coordinate;
-    if(geoLocationIsON)
-        coordinate = self.mapView.userLocation.coordinate;
-    else
-        coordinate = [self getCoordinateOfCity:city];
-    
+    coordinate = self.mapView.userLocation.coordinate;
     CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
                                               longitude:coordinate.longitude];
     
@@ -294,6 +295,10 @@
     if (!error) {
         NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
         if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
+            [userDefaults synchronize];
+            self.geoLocationIsOn = NO;
             [[[UIAlertView alloc] initWithTitle:@"Error"
                                         message:@"Could not route path from your current location"
                                        delegate:nil
@@ -608,7 +613,11 @@ numberOfRowsInComponent:(NSInteger)component
         [calloutView dismissCalloutAnimated];
     
     [self.mapView removeOverlays:self.mapView.overlays];
-    [self getDirections];
+    
+    if(self.geoLocationIsOn)
+    {
+        [self getDirections];
+    }
     
     Annotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
     [self.mapView setCenterCoordinate:selectedAnnotation.coordinate animated:YES];
@@ -676,18 +685,22 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)gotoLocation
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    CLLocationCoordinate2D coordinate;
     NSString *city = [userDefaults objectForKey:@"cityName"];
     if(!city)
-    {
         city = @"Львів";
-    }
-    CLLocationCoordinate2D coordinate = [self getCoordinateOfCity:city];
+    coordinate = [self getCoordinateOfCity:city];
+    if(self.geoLocationIsOn
+       && self.mapView.userLocation.coordinate.latitude != 0.0)
+        coordinate = self.mapView.userLocation.coordinate;
+
     MKCoordinateRegion newRegion;
     newRegion.center.latitude = coordinate.latitude;
     newRegion.center.longitude = coordinate.longitude;
     newRegion.span.latitudeDelta = MAP_SPAN_DELTA;
     newRegion.span.longitudeDelta = MAP_SPAN_DELTA;
     [self.mapView setRegion:newRegion animated:YES];
+
 }
 
 - (CLLocationCoordinate2D) getCoordinateOfCity:(NSString *) name
@@ -709,42 +722,6 @@ numberOfRowsInComponent:(NSInteger)component
 - (double) averageOfTwoPoints:(double)firstPoint :(double)secondPoint
 {
     return (firstPoint + secondPoint)/2;
-}
-
-- (IBAction) getLocation:(id)sender {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue];
-    if(geoLocationIsON)
-    {
-        if([CLLocationManager authorizationStatus]!=kCLAuthorizationStatusDenied)
-        {
-            if(self.mapView.showsUserLocation)
-            {
-                self.mapView.showsUserLocation = FALSE;
-                [location stopUpdatingLocation];
-            }
-            else
-            {
-                self.mapView.showsUserLocation = TRUE;
-                if(!self.location)
-                {
-                    self.location = [[CLLocationManager alloc]init];
-                    location.delegate = self;
-                }
-                location.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-                location.distanceFilter = kCLDistanceFilterNone;
-                [location startUpdatingLocation];
-            }
-        }
-        else
-        {
-            [self gotoLocation];
-        }
-    }
-    else
-    {
-        [self gotoLocation];
-    }
 }
 
 - (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
