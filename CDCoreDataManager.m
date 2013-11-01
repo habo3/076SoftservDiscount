@@ -32,7 +32,7 @@
     [fetchRequest setFetchLimit:1];
     
     if ([discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
-        NSLog(@"Deleted from Favorites");
+//        NSLog(@"Deleted from Favorites");
         NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
         NSMutableSet *mutableSetOfFavorites = [NSMutableSet setWithSet:[[result objectAtIndex:0] valueForKey:@"discountObjects"]];
         [mutableSetOfFavorites removeObject:discountObject];
@@ -45,7 +45,7 @@
     }
     else
     {
-        NSLog(@"Added to Favorites");
+//        NSLog(@"Added to Favorites");
         
         if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
             CDFavorites *newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];

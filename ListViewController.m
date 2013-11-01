@@ -109,12 +109,8 @@
     }
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
-    
-    NSArray *objFormFavorites = [self.coreDataManager discountObjectsFromFavorites];
-    
-    for (NSManagedObject *obj in objFormFavorites) {
-        NSLog(@"%@",[obj valueForKey:@"name"]);
-    }
+   
+
 }
 
 -(void) viewWillDisappear:(BOOL)animated

@@ -103,10 +103,7 @@
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
     
     _discountImage.image = image;
-    
-    
-    NSLog(@"isFarorite: %@",self.discountObject.isInFavorites);
-    
+    [self isObjectInFavoritesButtonController];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -276,7 +273,23 @@
     //        NSLog(@"Couldn't save: %@", [err localizedDescription]);
     //    }
     
+    
+    
     [self.coreDataManager addDiscountObjectToFavoritesWithObject:self.discountObject];
+    
+    [self isObjectInFavoritesButtonController];
+    
+}
+
+-(void)isObjectInFavoritesButtonController
+{
+    if ([self.discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
+        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
+    }
 }
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

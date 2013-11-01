@@ -93,7 +93,7 @@
     favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];  
     
     //set backgound image if no Favorites available
-    if (!favoriteObjects.count) {
+    if (!self.discountObjects.count) {
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     }
     [self.tableView reloadData];
