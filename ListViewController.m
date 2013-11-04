@@ -17,7 +17,7 @@
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
 #import <UIKit/UIKit.h>
-
+#import "ActionSheetStringPicker.h"
 #define CELL_HEIGHT 80.0
 
 @interface ListViewController ()
@@ -28,6 +28,7 @@
 @property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
+@property (nonatomic) NSInteger selectedIndex;
 
 @end
 
@@ -38,6 +39,7 @@
 @synthesize geoLocationIsON;
 @synthesize discountObjects = _discountObjects;
 @synthesize coreDataManager = _coreDataManager;
+@synthesize selectedIndex = _selectedIndex;
 //@synthesize filterPicker = _filterPicker;
 
 -(CDCoreDataManager *)coreDataManager
@@ -131,9 +133,36 @@
 }
 #pragma mark - filter
 
--(void) filterCategory:(UIControl *)sender
-{
-//    _filterPicker.hidden = false;
+-(void) filterCategory:(UIControl *)sender{
+    NSArray *categories = [self.coreDataManager categoriesFromCoreData];
+    NSString *categoryNameWithDetails = [NSString stringWithFormat:@"%@ \t % i",@"Усі категорії", [self getAllObjects].count];
+    NSMutableArray *names = [[NSMutableArray alloc] initWithObjects:categoryNameWithDetails, nil];
+    for (CDCategory *category in categories) {
+        categoryNameWithDetails = [NSString stringWithFormat:@"%@ \t % i",category.name, [[category valueForKey:@"discountObjects"] allObjects].count];
+        [names addObject:categoryNameWithDetails];
+    }
+    [ActionSheetStringPicker showPickerWithTitle:@"" rows:names initialSelection:self.selectedIndex target:self successAction:@selector(animalWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+    
+    
+    /* Example ActionSheetPicker using customButtons
+     self.actionSheetPicker = [[ActionSheetPicker alloc] initWithTitle@"Select Animal" rows:self.animals initialSelection:self.selectedIndex target:self successAction:@selector(itemWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender
+     
+     [self.actionSheetPicker addCustomButtonWithTitle:@"Special" value:[NSNumber numberWithInt:1]];
+     self.actionSheetPicker.hideCancel = YES;
+     [self.actionSheetPicker showActionSheetPicker];
+     */
+}
+
+- (void)animalWasSelected:(NSNumber *)selectedIndex element:(id)element {
+    if(self.selectedIndex != [selectedIndex integerValue])
+    {
+        self.selectedIndex = [selectedIndex integerValue];
+        if(self.selectedIndex == 0)
+            self.discountObjects = [self getAllObjects];
+        else
+            self.discountObjects = [[self getObjectsByCategory:self.selectedIndex - 1] allObjects];
+        [self.tableView reloadData];
+    }
 }
 
 - (NSArray*)getAllObjects
@@ -141,38 +170,11 @@
     return [self.coreDataManager discountObjectsFromCoreData];
 }
 
-- (NSArray*)getObjectsByCategory:(NSInteger)filterNumber
+- (NSSet *)getObjectsByCategory:(NSInteger)filterNumber
 {
     NSArray *categories = [self.coreDataManager categoriesFromCoreData];
-    for (CDCategory *category in categories) {
-        if ([[category valueForKey:@"id"] integerValue] == filterNumber  ) {
-            return [category valueForKey:@"discountObjects"];
-        }
-    }
-    return nil;
+    return [[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"];
 }
-
-// Just test
-//- (NSInteger)numberOfComponentsInPickerView:
-//(UIPickerView *)pickerView
-//{
-//    return 1;
-//}
-//- (NSInteger)pickerView:(UIPickerView *)pickerView
-//numberOfRowsInComponent:(NSInteger)component
-//{
-//    return 5;
-//}
-//- (NSString *)pickerView:(UIPickerView *)pickerView
-//             titleForRow:(NSInteger)row
-//            forComponent:(NSInteger)component
-//{
-//    return @"dsdsd";
-//}
-//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-//    
-//    
-//}
 
 #pragma mark - tableView
 
@@ -226,6 +228,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifer = @"Cell";
+
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
     PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];

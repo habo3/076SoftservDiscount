@@ -97,12 +97,9 @@
     if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
         self.webSite.text = [self.discountObject.site objectAtIndex:0];
     }
+
+    [self loadLogo];
     
-    NSString *http = @"http://softserve.ua";
-    NSString *imageUrl = [http stringByAppendingString:[self.discountObject.logo valueForKey:@"src"]];
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
-    
-    _discountImage.image = image;
     [self isObjectInFavoritesButtonController];
 }
 
@@ -134,6 +131,20 @@
 }
 
 #pragma mark - design of view
+
+-(void)loadLogo
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+        NSString *http = @"http://softserve.ua";
+        NSString *imageUrl = [http stringByAppendingString:[self.discountObject.logo valueForKey:@"src"]];
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _discountImage.image = image;
+        });
+    });
+    
+}
 
 -(void) setNavigationTitle
 {
@@ -188,6 +199,7 @@
 
 - (void) initMapView
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
     self.mapView.delegate = self;
     Annotation *myAnn = [[Annotation alloc]init];
     CLLocationCoordinate2D tmpCoord;
@@ -196,15 +208,19 @@
     myAnn.coordinate = tmpCoord;
     self.pintype = [self makePin];
     myAnn.pintype = self.pintype;
-    [self.mapView addAnnotation:myAnn];
-    
     // set display region
     MKCoordinateRegion newRegion;
     newRegion.center = tmpCoord;
-    newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
-    newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
+        newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
+        newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
+             dispatch_async(dispatch_get_main_queue(), ^{
+    [self.mapView addAnnotation:myAnn];
+    
+
     
     [self.mapView setRegion:newRegion];
+             });
+    });
 }
 
 
