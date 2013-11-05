@@ -48,7 +48,7 @@
     [CustomViewMaker customNavigationBarForView:self];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.delegate = self;
-    _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
+    self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
     [self initFilterButton];
 }
 

@@ -38,7 +38,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults valueForKey:@"SavedDB"]) {
+    if (![userDefaults valueForKey:@"SavedDB"]) {
         [self.activityIndicator startAnimating];
     
         BOOL downloadedDataBase = NO;

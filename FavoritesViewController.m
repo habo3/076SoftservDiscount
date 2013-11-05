@@ -20,7 +20,6 @@
 
 @interface FavoritesViewController ()
 
-@property (strong, nonatomic) NSArray *favoriteObjects;
 @property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
@@ -28,7 +27,6 @@
 
 @implementation FavoritesViewController
 
-@synthesize favoriteObjects;
 @synthesize currentLocation;
 @synthesize geoLocationIsON;
 @synthesize selectedRow;
@@ -41,6 +39,7 @@
 -(void)viewDidLoad
 {
     [CustomViewMaker customNavigationBarForView:self];
+    self.discountObjects = [[self.coreDataManager discountObjectsFromFavorites] copy];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -51,8 +50,7 @@
     [Flurry logEvent:@"FavoritesViewLoaded"];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
-    
+    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     if(geoLocationIsON)
     {
         locationManager = [[CLLocationManager alloc] init];
@@ -60,13 +58,32 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         locationManager.distanceFilter = 10;
         [locationManager startUpdatingLocation];
+        [self reloadTableWithDistancesValues];
     }
     else
     {
-        self.favoriteObjects = [Sortings sortDiscountObjectByName:favoriteObjects];
+        self.discountObjects = [Sortings sortDiscountObjectByName:self.discountObjects];
         [self.tableView reloadData];
     }
-
+//
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
+//    
+//    if(geoLocationIsON)
+//    {
+//        locationManager = [[CLLocationManager alloc] init];
+//        locationManager.delegate = self;
+//        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+//        locationManager.distanceFilter = 10;
+//        [locationManager startUpdatingLocation];
+//        [self reloadTableWithDistancesValues];
+//    }
+//    else
+//    {
+//        self.discountObjects = [Sortings sortDiscountObjectByName:self.discountObjects];
+//        [self.tableView reloadData];
+//    }
+//
     if (!self.discountObjects.count)
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     [self.tableView reloadData];
@@ -81,11 +98,6 @@
 -(CDCoreDataManager *)coreDataManager
 {
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
-}
-
--(NSArray *)discountObjects
-{
-    return [self.coreDataManager discountObjectsFromFavorites];
 }
 
 #pragma mark - tableView
