@@ -104,7 +104,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedRow = indexPath.row;
-    [self performSegueWithIdentifier:@"detailsList" sender:self];
+    [self performSegueWithIdentifier:@"detailsFavorites" sender:self];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

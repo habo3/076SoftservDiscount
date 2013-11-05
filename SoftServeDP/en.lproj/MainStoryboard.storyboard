@@ -209,7 +209,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Обране" id="R3B-K0-KOo"/>
                     <connections>
-                        <segue destination="fza-nt-l4I" kind="push" identifier="detailsList" id="NEW-CF-46l"/>
+                        <segue destination="fza-nt-l4I" kind="push" identifier="detailsFavorites" id="NEW-CF-46l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y8G-Iy-O7j" userLabel="First Responder" sceneMemberID="firstResponder"/>

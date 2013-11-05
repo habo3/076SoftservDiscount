@@ -37,38 +37,38 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    if ([userDefaults valueForKey:@"SavedDB"]) {
-    [self.activityIndicator startAnimating];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults valueForKey:@"SavedDB"]) {
+        [self.activityIndicator startAnimating];
     
-    BOOL downloadedDataBase = NO;
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    JPJsonParser *objects, *cities, *categories;
+        BOOL downloadedDataBase = NO;
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        JPJsonParser *objects, *cities, *categories;
     
-    self.statusLabel.text = @"Downloading Data Base";
-    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
-    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
-    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
+        self.statusLabel.text = @"Downloading Data Base";
+        objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
+        cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
+        categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
     
-    while (!downloadedDataBase) {
-        self.statusLabel.text = objects.status;
-        [runLoop runUntilDate:[NSDate date]];
-        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
+        while (!downloadedDataBase) {
+            self.statusLabel.text = objects.status;
+            [runLoop runUntilDate:[NSDate date]];
+            if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
             downloadedDataBase = YES;
+        }
+    
+        self.coreDataManager.discountObject = objects.parsedData;
+        NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+    
+        self.coreDataManager.cities = cities.parsedData;
+        self.coreDataManager.categories = categories.parsedData;
+    
+        [self.coreDataManager deleteAllData];
+        [self.coreDataManager saveCategoriesToCoreData];
+        [self.coreDataManager saveCitiesToCoreData];
+        [self.coreDataManager saveDiscountObjectsToCoreData];
+        [userDefaults setObject:@YES forKey:@"SavedDB"];
     }
-    
-    self.coreDataManager.discountObject = objects.parsedData;
-    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
-    
-    self.coreDataManager.cities = cities.parsedData;
-    self.coreDataManager.categories = categories.parsedData;
-    
-    [self.coreDataManager deleteAllData];
-    [self.coreDataManager saveCategoriesToCoreData];
-    [self.coreDataManager saveCitiesToCoreData];
-    [self.coreDataManager saveDiscountObjectsToCoreData];
-//        [userDefaults setObject:@YES forKey:@"SavedDB"];
-//    }
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 

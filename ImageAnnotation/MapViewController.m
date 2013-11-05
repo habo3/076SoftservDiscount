@@ -279,7 +279,8 @@
     CLLocationCoordinate2D coordinate;
     coordinate = self.mapView.userLocation.coordinate;
     CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
-                                                          longitude:coordinate.longitude];    
+                                                          longitude:coordinate.longitude];
+    
     float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
     float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
     CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
@@ -416,38 +417,38 @@
 {
     NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
     Annotation *currentAnn;
-    
-    for (CDDiscountObject *object in self.discountObjects)
-    {
-        double scaleX, scaleY, distanceFromObject;
-        distanceFromObject = 0.00006;
-        scaleX = 0.0;
-        scaleY = distanceFromObject;
-        currentAnn = [self createAnnotationFromData:object];
-        for(Annotation *ann in arrayOfAnnotations)
-        {
-            if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
-               && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
-               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
-               && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
+    for (CDCategory *category in self.categories) {
+        NSArray *allObjectsFromCategory = [category valueForKey:@"discountObjects"];
+        for (CDDiscountObject *object in allObjectsFromCategory) {
+            double scaleX, scaleY, distanceFromObject;
+            distanceFromObject = 0.00006;
+            scaleX = 0.0;
+            scaleY = distanceFromObject;
+            currentAnn = [self createAnnotationFromData:object];
+            for(Annotation *ann in arrayOfAnnotations)
             {
-                CLLocationCoordinate2D coord;
-                coord.latitude = currentAnn.coordinate.latitude + scaleX;
-                coord.longitude = currentAnn.coordinate.longitude + scaleY;
-                currentAnn.coordinate = coord;
+                if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
+                   && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
+                   && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
+                   && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
+                {
+                    CLLocationCoordinate2D coord;
+                    coord.latitude = currentAnn.coordinate.latitude + scaleX;
+                    coord.longitude = currentAnn.coordinate.longitude + scaleY;
+                    currentAnn.coordinate = coord;
+                }
+                scaleX = scaleX + distanceFromObject;
+                if(scaleX > distanceFromObject)
+                    scaleX = -1 * distanceFromObject;
+                scaleY = scaleY + distanceFromObject;
+                if(scaleY > distanceFromObject)
+                    scaleY = -1 * distanceFromObject;
             }
-            scaleX = scaleX + distanceFromObject;
-            if(scaleX > distanceFromObject)
-                scaleX = -1 * distanceFromObject;
-            scaleY = scaleY + distanceFromObject;
-            if(scaleY > distanceFromObject)
-                scaleY = -1 * distanceFromObject;
+            
+            if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
+                [arrayOfAnnotations addObject:currentAnn];
         }
-        
-        if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
-            [arrayOfAnnotations addObject:currentAnn];
     }
-
     return arrayOfAnnotations;
 }
 

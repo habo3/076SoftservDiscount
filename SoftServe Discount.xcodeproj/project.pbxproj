@@ -503,10 +503,10 @@
 		4B529FE8181EA894002F3898 /* TableViews */ = {
 			isa = PBXGroup;
 			children = (
+				4B529FEB181EA9A9002F3898 /* Images */,
 				4B7A163C182908230042FB2D /* PlaceCell */,
 				C0A9EBBE16D9705600DE9FC5 /* Favorites */,
 				4325F4DF16CBA8F4002C7B75 /* List */,
-				4B529FEB181EA9A9002F3898 /* Images */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";

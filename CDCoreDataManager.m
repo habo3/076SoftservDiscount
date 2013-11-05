@@ -156,6 +156,7 @@
     NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
     return result;
 }
+
 #pragma mark - City Objects manipulations
 -(void)saveCitiesToCoreData
 {
