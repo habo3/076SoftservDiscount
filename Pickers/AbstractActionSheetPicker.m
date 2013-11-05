@@ -112,7 +112,7 @@
     return nil;
 }
 
-- (void)notifyTarget:(id)target didSucceedWithAction:(SEL)successAction origin:(id)origin {    
+- (void)notifyTarget:(id)target didSucceedWithAction:(SEL)successAction origin:(id)origin {
     NSAssert(NO, @"This is an abstract class, you must use a subclass of AbstractActionSheetPicker (like ActionSheetStringPicker)");
 }
 
@@ -128,18 +128,19 @@
 #pragma mark - Actions
 
 - (void)showActionSheetPicker {
-    UIView *masterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 260)];    
+    UIView *masterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewSize.width, 260)];
     UIToolbar *pickerToolbar = [self createPickerToolbarWithTitle:self.title];
     [pickerToolbar setBarStyle:UIBarStyleBlackTranslucent];
     [masterView addSubview:pickerToolbar];
     self.pickerView = [self configuredPickerView];
+    self.pickerView.backgroundColor=[UIColor whiteColor];
     NSAssert(_pickerView != NULL, @"Picker view failed to instantiate, perhaps you have invalid component data.");
     [masterView addSubview:_pickerView];
     [self presentPickerForView:masterView];
 }
 
 - (IBAction)actionPickerDone:(id)sender {
-    [self notifyTarget:self.target didSucceedWithAction:self.successAction origin:[self storedOrigin]];    
+    [self notifyTarget:self.target didSucceedWithAction:self.successAction origin:[self storedOrigin]];
     [self dismissPicker];
 }
 
@@ -152,11 +153,11 @@
 #if __IPHONE_4_1 <= __IPHONE_OS_VERSION_MAX_ALLOWED
     if (self.actionSheet)
 #else
-    if (self.actionSheet && [self.actionSheet isVisible])
+        if (self.actionSheet && [self.actionSheet isVisible])
 #endif
-        [_actionSheet dismissWithClickedButtonIndex:0 animated:YES];
-    else if (self.popOverController && self.popOverController.popoverVisible)
-        [_popOverController dismissPopoverAnimated:YES];
+            [_actionSheet dismissWithClickedButtonIndex:0 animated:YES];
+        else if (self.popOverController && self.popOverController.popoverVisible)
+            [_popOverController dismissPopoverAnimated:YES];
     self.actionSheet = nil;
     self.popOverController = nil;
     self.selfReference = nil;
@@ -200,7 +201,7 @@
     NSInteger index = 0;
     for (NSDictionary *buttonDetails in self.customButtons) {
         NSString *buttonTitle = [buttonDetails objectForKey:@"buttonTitle"];
-      //NSInteger buttonValue = [[buttonDetails objectForKey:@"buttonValue"] intValue];
+        //NSInteger buttonValue = [[buttonDetails objectForKey:@"buttonValue"] intValue];
         UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(customButtonPressed:)];
         button.tag = index;
         [barItems addObject:button];
@@ -208,16 +209,18 @@
     }
     if (NO == self.hideCancel) {
         UIBarButtonItem *cancelBtn = [self createButtonWithType:UIBarButtonSystemItemCancel target:self action:@selector(actionPickerCancel:)];
+        cancelBtn.tintColor=[UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:50.0/255.0 alpha:1.0];
         [barItems addObject:cancelBtn];
     }
     UIBarButtonItem *flexSpace = [self createButtonWithType:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [barItems addObject:flexSpace];
     if (title){
         UIBarButtonItem *labelButton = [self createToolbarLabelWithTitle:title];
-        [barItems addObject:labelButton];    
+        [barItems addObject:labelButton];
         [barItems addObject:flexSpace];
     }
     UIBarButtonItem *doneButton = [self createButtonWithType:UIBarButtonSystemItemDone target:self action:@selector(actionPickerDone:)];
+    doneButton.tintColor=[UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:50.0/255.0 alpha:1.0];
     [barItems addObject:doneButton];
     [pickerToolbar setItems:barItems animated:YES];
     return pickerToolbar;
@@ -225,17 +228,17 @@
 
 - (UIBarButtonItem *)createToolbarLabelWithTitle:(NSString *)aTitle {
     UILabel *toolBarItemlabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 180,30)];
-    [toolBarItemlabel setTextAlignment:UITextAlignmentCenter];    
-    [toolBarItemlabel setTextColor:[UIColor whiteColor]];    
-    [toolBarItemlabel setFont:[UIFont boldSystemFontOfSize:16]];    
-    [toolBarItemlabel setBackgroundColor:[UIColor clearColor]];    
-    toolBarItemlabel.text = aTitle;    
+    [toolBarItemlabel setTextAlignment:UITextAlignmentCenter];
+    [toolBarItemlabel setTextColor:[UIColor whiteColor]];
+    [toolBarItemlabel setFont:[UIFont boldSystemFontOfSize:16]];
+    [toolBarItemlabel setBackgroundColor:[UIColor clearColor]];
+    toolBarItemlabel.text = aTitle;
     UIBarButtonItem *buttonLabel = [[UIBarButtonItem alloc]initWithCustomView:toolBarItemlabel];
     return buttonLabel;
 }
 
 - (UIBarButtonItem *)createButtonWithType:(UIBarButtonSystemItem)type target:(id)target action:(SEL)buttonAction {
-    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:type target:target action:buttonAction];
+    return  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:type target:target action:buttonAction];;
 }
 
 #pragma mark - Utilities and Accessors

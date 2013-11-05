@@ -110,7 +110,7 @@
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self
                                                                action:@selector(actionPickerDone:)];
-    UIColor * doneButtonColor = [UIColor colorWithRed :0.2 green:0.30 blue:0.46 alpha:1 ];
+    UIColor * doneButtonColor = [UIColor colorWithRed :0.2 green:0.30 blue:0.46 alpha:1.0 ];
     doneButton.tintColor = doneButtonColor;
     [barItems addObject:doneButton];
     

@@ -67,7 +67,7 @@
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+            self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;
             self.discountImage.layer.borderWidth = 1.0f;
             self.discountImage.image = image;
         });
@@ -79,7 +79,7 @@
 
 - (void)initViews
 {
-    self.rectangleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.rectangleView.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;
     self.rectangleView.layer.borderWidth = 1.0f;
     self.rectangleView.layer.cornerRadius = 10;
 }

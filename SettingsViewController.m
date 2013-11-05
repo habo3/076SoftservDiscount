@@ -14,6 +14,7 @@
 #import "CDCity.h"
 #import "CDCoreDataManager.h"
 #import "CustomViewMaker.h"
+#import "ActionSheetStringPicker.h"
 
 @interface SettingsViewController ()
 
@@ -208,11 +209,15 @@
 #pragma mark - selectPicker
 
 - (IBAction)selectCity:(id)sender {
-    [CustomPicker showPickerWithRows:self.cities initialSelection:self.selectedCityIndex target:self successAction:@selector(cityWasSelected:element:)];
+    NSArray *allCities = [self.coreDataManager citiesFromCoreData];
+    NSMutableArray *names = [NSMutableArray new] ;
+    for (CDCity *city in allCities) {
+        [names addObject:city.name];
+    }
+    [ActionSheetStringPicker showPickerWithTitle:@"" rows:names initialSelection:self.selectedCityIndex target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
 }
 
 - (void) cityWasSelected:(NSNumber *)selectIndex element:(id)element {
-
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if(selectedCityIndex != [selectIndex integerValue])
     {
@@ -225,7 +230,7 @@
 }
 
 - (IBAction)selectUpdatePeriod:(id)sender {
-    [CustomPicker showPickerWithRows:self.updatePeriods initialSelection:self.selectedUpdateIndex target:self successAction:@selector(periodWasSelected:element:)];
+    [ActionSheetStringPicker showPickerWithTitle:@"" rows:self.updatePeriods initialSelection:self.selectedUpdateIndex target:self successAction:@selector(periodWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
 }
 
 - (void)periodWasSelected:(NSNumber *)selectIndex element:(id)element {

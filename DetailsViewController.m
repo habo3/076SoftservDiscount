@@ -99,7 +99,7 @@
     //Sending event to analytics service
     [Flurry logEvent:@"DetailsViewLoaded"];
     
-    self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1].CGColor;
+    self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;
     self.discountImage.layer.borderWidth = 1.0f;
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

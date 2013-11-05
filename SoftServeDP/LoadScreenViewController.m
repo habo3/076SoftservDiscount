@@ -32,13 +32,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.activityIndicator.hidden = TRUE;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults valueForKey:@"SavedDB"]) {
+        self.activityIndicator.hidden = FALSE;
         [self.activityIndicator startAnimating];
     
         BOOL downloadedDataBase = NO;

@@ -307,9 +307,9 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     // Color Declarations
-    UIColor *fillColor = [UIColor colorWithRed: 1 green: 0.733 blue: 0.20 alpha: 1];
-    UIColor *shadowBlack = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.47];
-    UIColor *strokeColor = [UIColor colorWithWhite:1 alpha:0.9];
+    UIColor *fillColor = [UIColor colorWithRed: 1.0 green: 0.733 blue: 0.20 alpha: 1];
+    UIColor *shadowBlack = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 0.47];
+    UIColor *strokeColor = [UIColor colorWithWhite:1.0 alpha:0.9];
 
     CGFloat backgroundStrokeWidth = 2;
     

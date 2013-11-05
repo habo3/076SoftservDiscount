@@ -18,6 +18,7 @@
 #import "CDDiscountObject.h"
 #import "CDCity.h"
 #import "CustomViewMaker.h"
+#import "ActionSheetStringPicker.h"
 
 #define MAP_SPAN_DELTA 0.045
 
@@ -27,9 +28,6 @@
 @property (weak, nonatomic) IBOutlet OCMapView *mapView;
 @property (nonatomic) CustomCalloutView *calloutView;
 @property (nonatomic) NSMutableArray *annArray;
-@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
-@property (nonatomic) NSArray *dataSource; 
-@property (nonatomic) NSArray *categoryObjects;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
 @property (nonatomic,assign) CDDiscountObject *selectedObject;
@@ -43,12 +41,9 @@
 
 @synthesize calloutView, annArray;
 @synthesize coordinate = _coordinate;
-@synthesize pickerView;
 @synthesize mapView = _mapView;
 @synthesize location;
-@synthesize dataSource;
-@synthesize categoryObjects;
-@synthesize selectedIndex;
+@synthesize selectedIndex = _selectedIndex;
 @synthesize filterButton;
 @synthesize selectedObject;
 @synthesize geoLocationIsOn = _geoLocationIsOn;
@@ -67,9 +62,7 @@
     
     self.mapView.delegate = self;
     self.mapView.clusterSize = 0.05;
-    self.pickerView.hidden=TRUE;
     [self.mapView removeOverlays:self.mapView.overlays];
-    self.dataSource = [self fillPicker];
     self.annArray = [[NSMutableArray alloc] init];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -153,7 +146,7 @@
     filterButton.frame = filterFrame;
     
     [filterButton setBackgroundImage:filterButtonImage forState:UIControlStateNormal];
-    [filterButton addTarget:self action:@selector(filterCategory:) forControlEvents:UIControlEventTouchUpInside];
+    [filterButton addTarget:self action:@selector(filterButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     filterButton.backgroundColor = [UIColor clearColor];
 }
 
@@ -351,7 +344,7 @@
             viewForOverlay:(id<MKOverlay>)overlay {
     MKPolylineView *overlayView = [[MKPolylineView alloc] initWithOverlay:overlay];
     overlayView.lineWidth = 5;
-    UIColor *color = [UIColor colorWithRed: 87 / 255.0 green: 126 / 255.0 blue: 212 / 255.0 alpha: 1.];
+    UIColor *color = [UIColor colorWithRed: 87.0 / 255.0 green: 126.0 / 255.0 blue: 212.0 / 255.0 alpha: 1.0];
     overlayView.strokeColor = color;
     overlayView.fillColor = [color colorWithAlphaComponent:0.5f];
     return overlayView;
@@ -463,37 +456,6 @@
         [arrayOfAnnotations addObject:currentAnn];
     }
     return arrayOfAnnotations;
-}
-
-- (NSArray*)fillPicker
-{
-    NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-
-    [fetchArr addObject:@"Усі категорії"];
-    for ( CDCategory *object in self.categories)
-    {
-        [fetchArr addObject:(NSString*)object.name];
-    }
-    return [NSArray arrayWithArray:fetchArr];
-}
-
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)thePickerView
-numberOfRowsInComponent:(NSInteger)component
-{
-    return dataSource.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)thePickerView
-             titleForRow:(NSInteger)row
-            forComponent:(NSInteger)component
-{
-    return [dataSource objectAtIndex:row];
 }
 
 #pragma mark - MKMapViewPin
@@ -679,34 +641,32 @@ numberOfRowsInComponent:(NSInteger)component
     [aMapView setRegion:region animated:YES];
 }
 
-#pragma mark - filter 
+#pragma mark - filter
 
-- (IBAction)filterCategory:(UIControl *)sender
+- (NSArray*)fillPicker
 {
-    if(self.pickerView.isHidden){
-        self.pickerView.hidden=FALSE;}
-    else{
-        self.pickerView.hidden=TRUE;
-    }
+    NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
     
-}
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    [self.pickerView selectRow:row inComponent:component animated:YES];
-    if(row ==0)
-        self.annArray = [[self getAllPins] mutableCopy];
-    else
-        self.annArray = [[self getPinsByCategory:row-1] mutableCopy];
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView addAnnotations:self.annArray];
-}
-
-
-- (void)categoryWasSelected:(NSNumber *)selectIndex element:(id)element {
-    
-    if(selectedIndex != [selectIndex integerValue])
+    [fetchArr addObject:@"Усі категорії"];
+    for ( CDCategory *object in self.categories)
     {
-        self.selectedIndex = [selectIndex integerValue];
+        [fetchArr addObject:(NSString*)object.name];
+    }
+    return [NSArray arrayWithArray:fetchArr];
+}
+
+-(void) filterButtonClicked:(UIControl *)sender{
+
+    [ActionSheetStringPicker showPickerWithTitle:@"" rows:[self fillPicker]
+                                initialSelection:self.selectedIndex target:self
+                                   successAction:@selector(categoryWasSelected:element:)
+                                    cancelAction:@selector(actionPickerCancelled:) origin:sender];
+}
+
+- (void)categoryWasSelected:(NSNumber *)selectedIndex element:(id)element {
+    if(self.selectedIndex != [selectedIndex integerValue])
+    {
+        self.selectedIndex = [selectedIndex integerValue];
         [self.mapView removeAnnotations:self.mapView.annotations];
         
         if (self.selectedIndex<1)
