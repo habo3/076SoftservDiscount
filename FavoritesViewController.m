@@ -32,7 +32,6 @@
 
 @implementation FavoritesViewController
 
-@synthesize managedObjectContext;
 @synthesize favoriteObjects;
 @synthesize currentLocation;
 @synthesize geoLocationIsON;
@@ -59,8 +58,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    managedObjectContext = appDelegate.managedObjectContext;
     [super viewWillAppear:animated];
     
     //Sending event to analytics service
@@ -83,15 +80,6 @@
         [self.tableView reloadData];
     }
     //get favorite objects from DB
-    favoriteObjects = [[NSArray alloc] init];
-    NSFetchRequest *fetch=[[NSFetchRequest alloc] init];
-    [fetch setEntity:[NSEntityDescription entityForName:@"DiscountObject"
-                                 inManagedObjectContext:managedObjectContext]];
-    NSPredicate *findObjectWithFav = [NSPredicate predicateWithFormat:@"inFavorites = %@",[NSNumber numberWithBool:YES]];
-    [fetch setPredicate:findObjectWithFav];
-    NSError *err;
-    favoriteObjects = [managedObjectContext executeFetchRequest:fetch error:&err];  
-    
     //set backgound image if no Favorites available
     if (!self.discountObjects.count) {
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
@@ -114,57 +102,6 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
-
-//#pragma mark - Table view data source
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return self.discountObjects.count;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-////    
-////    NSString *cellIdentifer = @"FavoritesCell";
-////    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
-////    if (cell == nil) {
-////        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-////    }
-////    // Init style of rrectangleView and circleView
-////    [cell initViews];
-////    //here forms search object
-////    CDDiscountObject * object =[self.discountObjects objectAtIndex:indexPath.row];
-////    
-////    //set labels
-////    cell.nameLabel.text = object.name;
-////    cell.addressLabel.text = object.address;
-/////*
-////    //set location label if GPS available
-////    if(geoLocationIsON)
-////    {
-////            CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[object.geoLatitude doubleValue]
-////                                                                    longitude:[object.geoLongitude doubleValue]];
-////            double distance = [self.currentLocation distanceFromLocation:objectLocation];
-////            if (distance > 999){
-////                cell.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
-////            }
-////            else {
-////                cell.distanceLabel.text = [NSString stringWithFormat:@"%dм",(int)distance];
-////            }
-////    }
-////    else
-////    {
-////        cell.detailsDistanceBackground.hidden = YES;
-////        cell.distanceLabel.hidden =YES;
-////    }
-//// */
-////   return cell;
-//    
-//    NSString *cellIdentifer = @"Cell";
-//    CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
-//    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
-//    return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
-//}
-
 #pragma mark - tableView
 
 -(void) reloadTableWithDistancesValues {

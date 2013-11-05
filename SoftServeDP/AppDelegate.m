@@ -17,10 +17,6 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 @implementation AppDelegate
 
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
 @synthesize managedObjectContextNew = _managedObjectContextNew;
 @synthesize managedObjectModelNew = _managedObjectModelNew;
 @synthesize persistentStoreCoordinatorNew = _persistentStoreCoordinatorNew;
@@ -35,17 +31,6 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     {
         [userDefaults setObject:[NSNumber numberWithBool:NO]  forKey:@"sessionRequest"];
     }
-    if(![[userDefaults objectForKey:@"sessionRequest"]boolValue])
-    {
-        JSONParser *parser =[[JSONParser alloc] init ];
-        parser.managedObjectContext = self.managedObjectContext;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [parser updateDBWithOptions];
-        });
-    }
-    
-    
-    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -67,38 +52,6 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
         [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"geoLocation"];
         [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"firstLaunch"];
     }
-    
-    JSONParser *parser = [[JSONParser alloc] init ];
-    parser.managedObjectContext = self.managedObjectContext;
-    if (![userDefaults objectForKey:@"lastDBUpdate"]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [parser updateDB];
-        });
-        // set update frequency
-        [userDefaults setObject:[NSNumber numberWithInt:0] forKey:@"updatePeriod"];
-    }
-    else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [parser updateDBWithOptions];
-        });
-    }
-    
-#pragma mark - Input New Core Data
-//    
-//    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
-//    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
-//    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
-//    
-//    //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
-//    
-//    self.coreDataManager.discountObject = objects.arrayObjects;
-//    self.coreDataManager.cities = cities.dictionaryObjects;
-//    self.coreDataManager.categories = categories.dictionaryObjects;
-//    
-//    [self.coreDataManager deleteAllData];
-//    [self.coreDataManager saveCategoriesToCoreData];
-//    [self.coreDataManager saveCitiesToCoreData];
-//    [self.coreDataManager saveDiscountObjectsToCoreData];
 
     return YES;
 }
@@ -145,19 +98,6 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     
 }
 
-#pragma mark - Core Data stack
-
-- (void)saveContext
-{
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
 
 -(CDCoreDataManager *)coreDataManager
 {
@@ -167,50 +107,6 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     
     _coreDataManager = [[CDCoreDataManager alloc] init];
     return _coreDataManager;
-}
-
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    return _managedObjectContext;
-}
-
-- (NSManagedObjectModel *)managedObjectModel
-{
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    if (_persistentStoreCoordinator != nil)
-    {
-        return _persistentStoreCoordinator;
-    }
-    
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"SoftServeDP.sqlite"];
-    
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _persistentStoreCoordinator;
 }
 
 #pragma mark - New managed object context

@@ -16,7 +16,6 @@
     CLLocationManager *locationManager;
 }
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property (strong,nonatomic) NSArray *discountObjects;
