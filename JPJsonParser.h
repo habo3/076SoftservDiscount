@@ -1,22 +1,22 @@
 //
 //  JPJsonParser.h
-//  SoftServeDiscountSimpleList
+//  SoftServeDP
 //
-//  Created by Victor on 10/19/13.
-//  Copyright (c) 2013 Victor. All rights reserved.
+//  Created by Maxim on 11/01/13.
+//  Copyright (c) 2013 Maxim. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <Foundation/NSURLConnection.h>
 
 @interface JPJsonParser : NSObject
 
-@property (nonatomic, strong) NSArray *arrayObjects;
-@property (nonatomic, strong) NSDictionary *dictionaryObjects;
+@property (nonatomic, strong) id parsedData;
+@property (nonatomic) BOOL updatedDataBase;
 
--(id)initArrayWithUrl:(NSString*)url;
--(id)initDictionaryWithUrl:(NSString*)url;
+- (id)initWithUrl:(NSString *)url;
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName;
-+ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format;
++ (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString *)format;
 
 @end

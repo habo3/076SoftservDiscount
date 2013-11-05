@@ -84,21 +84,21 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     }
     
 #pragma mark - Input New Core Data
-    
-    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
-    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
-    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
-    
-    //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
-    
-    self.coreDataManager.discountObject = objects.arrayObjects;
-    self.coreDataManager.cities = cities.dictionaryObjects;
-    self.coreDataManager.categories = categories.dictionaryObjects;
-    
-    [self.coreDataManager deleteAllData];
-    [self.coreDataManager saveCategoriesToCoreData];
-    [self.coreDataManager saveCitiesToCoreData];
-    [self.coreDataManager saveDiscountObjectsToCoreData];
+//    
+//    JPJsonParser *objects = [[JPJsonParser alloc] initArrayWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
+//    JPJsonParser *cities = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
+//    JPJsonParser *categories = [[JPJsonParser alloc] initDictionaryWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
+//    
+//    //    CDCoreDataManager *coreManager = [[CDCoreDataManager alloc] init];
+//    
+//    self.coreDataManager.discountObject = objects.arrayObjects;
+//    self.coreDataManager.cities = cities.dictionaryObjects;
+//    self.coreDataManager.categories = categories.dictionaryObjects;
+//    
+//    [self.coreDataManager deleteAllData];
+//    [self.coreDataManager saveCategoriesToCoreData];
+//    [self.coreDataManager saveCitiesToCoreData];
+//    [self.coreDataManager saveDiscountObjectsToCoreData];
 
     return YES;
 }

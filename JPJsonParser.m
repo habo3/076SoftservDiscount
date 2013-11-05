@@ -1,46 +1,70 @@
 //
 //  JPJsonParser.m
-//  SoftServeDiscountSimpleList
+//  SoftServeDP
 //
-//  Created by Victor on 10/19/13.
-//  Copyright (c) 2013 Victor. All rights reserved.
+//  Created by Maxim on 11/01/13.
+//  Copyright (c) 2013 Maxim. All rights reserved.
 //
 
 #import "JPJsonParser.h"
 
+@interface JPJsonParser ()
+
+@property (nonatomic, strong) NSMutableData *responseData;
+
+- (void)downloadDataBase:(NSString *)url;
+- (void)parseDownloadedData;
+
+@end
+
 @implementation JPJsonParser
 
-@synthesize arrayObjects = _arrayObjects;
-@synthesize dictionaryObjects = _dictionaryObjects;
-
--(id)initArrayWithUrl:(NSString*)url
+- (id)initWithUrl:(NSString*)url
 {
     self = [super init];
-    if (self)
-    {
-        _arrayObjects = [self parseDictionaryFromUrl:url];
+    if (self) {
+        [self downloadDataBase:url];
     }
     return self;
 }
 
--(id)initDictionaryWithUrl:(NSString*)url
+- (void)downloadDataBase:(NSString *)url
 {
-    self = [super init];
-    if (self)
-    {
-        _dictionaryObjects = [self parseDictionaryFromUrl:url];
-    }
-    return self;
+    self.updatedDataBase = NO;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection)
+        NSLog(@"Downloading Data Base object");
+    else
+        NSLog(@"Error downloading Data Base object");
 }
 
--(id)parseDictionaryFromUrl:(NSString*)myUrl
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSURL *url = [NSURL URLWithString:myUrl];
-    NSData *data = [NSData dataWithContentsOfURL:url];
+    NSLog(@"Responce. Expected len: %@", [NSNumber numberWithLongLong: [response expectedContentLength]]);
+    self.responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [self.responseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [self parseDownloadedData];
+}
+
+- (void)parseDownloadedData
+{
     NSError *error;
-    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    return [json objectForKey:@"list"];
+    NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
+    self.parsedData = [json objectForKey:@"list"];
+    NSArray *arr = self.parsedData;
+    self.updatedDataBase = YES;
+    NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[arr count]]);
 }
+
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName
 {

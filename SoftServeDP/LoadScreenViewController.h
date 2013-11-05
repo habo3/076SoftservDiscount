@@ -2,14 +2,15 @@
 //  LoadScreenViewController.h
 //  SoftServe Discount
 //
-//  Created by agavrish on 17.10.13.
+//  Created by Maxim on 3.11.13.
 //  Copyright (c) 2013 Bogdan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+@class CDCoreDataManager;
 @interface LoadScreenViewController : UIViewController
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) CDCoreDataManager *coreDataManager;
 
 @end

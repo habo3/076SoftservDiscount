@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="XS7-Iu-hKz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="guX-Pt-h5j">
     <dependencies>
         <deployment version="1296" defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -803,6 +803,23 @@
             </objects>
             <point key="canvasLocation" x="2329" y="-106"/>
         </scene>
+        <!--Load Screen View Controller-->
+        <scene sceneID="fSS-uK-z6g">
+            <objects>
+                <viewController id="guX-Pt-h5j" customClass="LoadScreenViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NEh-aX-j1R">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="XS7-Iu-hKz" kind="modal" identifier="Menu" modalTransitionStyle="flipHorizontal" id="Pyu-pd-i5D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oSZ-ob-OBo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="400" y="-8"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="ROn-74-93b">
             <objects>
@@ -822,7 +839,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="eaG-Rh-p7D" kind="relationship" relationship="rootViewController" id="DXk-hJ-Z3x"/>
+                        <segue destination="eaG-Rh-p7D" kind="relationship" relationship="rootViewController" id="YUs-66-78s"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TcR-pc-nHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
