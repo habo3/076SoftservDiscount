@@ -142,7 +142,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
         return _persistentStoreCoordinatorNew;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NewModel2.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NewModel3.sqlite"];
     
     NSError *error = nil;
     _persistentStoreCoordinatorNew = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModelNew]];

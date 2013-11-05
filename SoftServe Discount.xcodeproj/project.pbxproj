@@ -288,6 +288,7 @@
 		5730538D1822A1F900F34367 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
 		5730538F1822A1FA00F34367 /* CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFavorites.h; sourceTree = "<group>"; };
 		573053901822A1FA00F34367 /* CDFavorites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFavorites.m; sourceTree = "<group>"; };
+		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		901488AA16D7AEF200B25D72 /* CustomPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomPicker.h; path = ImageAnnotation/CustomPicker.h; sourceTree = SOURCE_ROOT; };
 		901488AB16D7AEF200B25D72 /* CustomPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomPicker.m; path = ImageAnnotation/CustomPicker.m; sourceTree = SOURCE_ROOT; };
 		9017FB2916DE1A0E004EB853 /* IconConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconConverter.h; path = ImageAnnotation/IconConverter.h; sourceTree = SOURCE_ROOT; };
@@ -1290,9 +1291,10 @@
 			isa = XCVersionGroup;
 			children = (
 				4B5C8E2C181FE03F005D1A8D /* NewModel 2.xcdatamodel */,
+				57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */,
 				4B5C8E2D181FE03F005D1A8D /* NewModel.xcdatamodel */,
 			);
-			currentVersion = 4B5C8E2C181FE03F005D1A8D /* NewModel 2.xcdatamodel */;
+			currentVersion = 57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */;
 			path = NewModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

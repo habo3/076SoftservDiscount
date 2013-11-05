@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CDCategory, CDCity;
+@class CDCategory, CDCity,CDFavorites;
 
 @interface CDDiscountObject : NSManagedObject
 
@@ -36,6 +36,7 @@
 @property (nonatomic, retain) NSNumber * isInFavorites;
 @property (nonatomic, retain) NSSet *categorys;
 @property (nonatomic, retain) CDCity *cities;
+@property (nonatomic, retain) CDFavorites *favorite;
 @end
 
 @interface CDDiscountObject (CoreDataGeneratedAccessors)

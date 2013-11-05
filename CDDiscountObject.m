@@ -9,6 +9,7 @@
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
 #import "CDCity.h"
+#import "CDFavorites.h"
 
 
 @implementation CDDiscountObject
@@ -36,5 +37,6 @@
 @dynamic isInFavorites;
 @dynamic categorys;
 @dynamic cities;
+@dynamic favorite;
 
 @end

@@ -48,7 +48,8 @@
 //        NSLog(@"Added to Favorites");
         
         if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
-            CDFavorites *newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];
+            CDFavorites *newFavorites;
+            newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];
             [self.managedObjectContex save:nil];
         }
         
