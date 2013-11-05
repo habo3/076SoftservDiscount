@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "MenuViewController.h"
-#import "JSONParser.h"
 #import "Flurry.h"
 #import "CDCoreDataManager.h"
 #import "JPJsonParser.h"

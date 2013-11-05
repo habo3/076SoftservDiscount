@@ -12,6 +12,8 @@
 #import "CDCoreDataManager.h"
 
 @interface LoadScreenViewController ()
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @end
 
@@ -35,15 +37,19 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [self.activityIndicator startAnimating];
+    
     BOOL downloadedDataBase = NO;
     NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
     JPJsonParser *objects, *cities, *categories;
     
+    self.statusLabel.text = @"Downloading Data Base";
     objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
     cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
     categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
     
     while (!downloadedDataBase) {
+        self.statusLabel.text = objects.status;
         [runLoop runUntilDate:[NSDate date]];
         if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
             downloadedDataBase = YES;

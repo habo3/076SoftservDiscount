@@ -18,12 +18,10 @@
 #import "CDDiscountObject.h"
 #import "CDFavorites.h"
 #import "CDCoreDataManager.h"
+#import "Sortings.h"
 
-#define CELL_HEIGHT 80.0
+@interface FavoritesViewController ()
 
-@interface FavoritesViewController (){
-    int numberOfRowClicked;
-}
 @property (strong, nonatomic) NSArray *favoriteObjects;
 @property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
@@ -37,27 +35,18 @@
 @synthesize geoLocationIsON;
 @synthesize selectedRow;
 
-
 @synthesize discountObjects = _discountObjects;
 @synthesize coreDataManager = _coreDataManager;
 
--(CDCoreDataManager *)coreDataManager
-{
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
-}
-
--(NSArray *)discountObjects
-{
-    return [self.coreDataManager discountObjectsFromFavorites];
-}
+#pragma mark - General
 
 -(void)viewDidLoad
 {
     [self setNavigationTitle];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    
+-(void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
     //Sending event to analytics service
@@ -76,17 +65,20 @@
     }
     else
     {
-        self.favoriteObjects = [FavoritesViewController sortByName:favoriteObjects];
+        self.favoriteObjects = [Sortings sortDiscountObjectByName:favoriteObjects];
         [self.tableView reloadData];
     }
-    //get favorite objects from DB
-    //set backgound image if no Favorites available
-    if (!self.discountObjects.count) {
+
+    if (!self.discountObjects.count)
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
-    }
     [self.tableView reloadData];
-    
 }
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
+
+#pragma mark - customizing view
 
 -(void) setNavigationTitle
 {
@@ -99,62 +91,35 @@
     [navigationTitle sizeToFit];
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
+#pragma mark - CoreData
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
 }
+
+-(NSArray *)discountObjects
+{
+    return [self.coreDataManager discountObjectsFromFavorites];
+}
+
 #pragma mark - tableView
 
--(void) reloadTableWithDistancesValues {
-    NSMutableArray *mutableArray = [_discountObjects mutableCopy];
-    NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
-        CDDiscountObject *objectA = (CDDiscountObject *)a;
-        CDDiscountObject *objectB = (CDDiscountObject *)b;
-        
-        CGFloat aLatitude = [[objectA.geoPoint valueForKey:@"latitude"] floatValue];
-        CGFloat aLongitude = [[objectA.geoPoint valueForKey:@"longitude"] floatValue];
-        CLLocation *objectALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
-        
-        CGFloat bLatitude = [[objectB.geoPoint valueForKey:@"latitude"] floatValue];
-        CGFloat bLongitude = [[objectB.geoPoint valueForKey:@"longitude"] floatValue];
-        CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
-        
-        CLLocationDistance distanceA = [objectALocation distanceFromLocation:currentLocation];
-        CLLocationDistance distanceB = [objectBLocation distanceFromLocation:currentLocation];
-        if (distanceA < distanceB) {
-            return NSOrderedAscending;
-        } else if (distanceA > distanceB) {
-            return NSOrderedDescending;
-        } else {
-            return NSOrderedSame;
-        }
-    }];
-    _discountObjects = OrderedObjectsByDistance;
+- (void) reloadTableWithDistancesValues
+{
+    self.discountObjects = [Sortings sortDiscountObjectByDistance:self.discountObjects toLocation:currentLocation];
     [self.tableView reloadData];
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.discountObjects count];
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return  CELL_HEIGHT;
-}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     selectedRow = indexPath.row;
     [self performSegueWithIdentifier:@"detailsList" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,8 +131,7 @@
 }
 
 
-#pragma mark - Table view delegate
-
+#pragma mark - Location Manager
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
@@ -184,47 +148,13 @@
     [self reloadTableWithDistancesValues];
 }
 
-+(NSArray *)sortByName: (NSArray *)array
-{
-    NSMutableArray *myMutableArray = [array mutableCopy];
-    NSMutableCharacterSet *trimChars = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
-    [trimChars addCharactersInString:@"\"\'"];
-    [myMutableArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        DiscountObject *d1 = obj1;
-        DiscountObject *d2 = obj2;
-        NSString *trimmedName1 = [d1.name stringByTrimmingCharactersInSet:trimChars];
-        NSString *trimmedName2 = [d2.name stringByTrimmingCharactersInSet:trimChars];
-        return [trimmedName1 compare:trimmedName2];
-    }];
-    return myMutableArray;
-}
 
-+(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location {
-    
-    NSMutableArray *mutableArray = [array mutableCopy];
-    NSArray *OrderedObjectsByDistance = [mutableArray sortedArrayUsingComparator:^(id a,id b) {
-        DiscountObject *objectA = (DiscountObject *)a;
-        DiscountObject *objectB = (DiscountObject *)b;
-        
-        CGFloat aLatitude = objectA.geoLatitude.floatValue;
-        CGFloat aLongitude = objectA.geoLongitude.floatValue;
-        CLLocation *objectALocation = [[CLLocation alloc] initWithLatitude:aLatitude longitude:aLongitude];
-        
-        CGFloat bLatitude = objectB.geoLatitude.floatValue;
-        CGFloat bLongitude = objectB.geoLongitude.floatValue;
-        CLLocation *objectBLocation = [[CLLocation alloc] initWithLatitude:bLatitude longitude:bLongitude];
-        
-        CLLocationDistance distanceA = [objectALocation distanceFromLocation:location];
-        CLLocationDistance distanceB = [objectBLocation distanceFromLocation:location];
-        if (distanceA < distanceB) {
-            return NSOrderedAscending;
-        } else if (distanceA > distanceB) {
-            return NSOrderedDescending;
-        } else {
-            return NSOrderedSame;
-        }
-    }];
-    return OrderedObjectsByDistance;
+#pragma mark - segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DetailsViewController *dvc = [segue destinationViewController];
+    dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
 }
 
 @end

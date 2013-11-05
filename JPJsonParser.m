@@ -11,6 +11,7 @@
 @interface JPJsonParser ()
 
 @property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, strong) NSNumber* downloadSize;
 
 - (void)downloadDataBase:(NSString *)url;
 - (void)parseDownloadedData;
@@ -31,27 +32,40 @@
 - (void)downloadDataBase:(NSString *)url
 {
     self.updatedDataBase = NO;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if (connection)
+    if (connection) {
+        self.status = @"Connecting to server";
         NSLog(@"Downloading Data Base object");
-    else
+    } else {
+        self.status = @"Error: connecting to server";
         NSLog(@"Error downloading Data Base object");
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"Responce. Expected len: %@", [NSNumber numberWithLongLong: [response expectedContentLength]]);
+    self.downloadSize = [NSNumber numberWithLongLong: [response expectedContentLength]];
+    NSLog(@"Responce. Expected len: %@", self.downloadSize);
+    self.status = [NSString stringWithFormat: @"Responce. Expected len: %@ bytes", self.downloadSize];
     self.responseData = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseData appendData:data];
+    
+    self.status = [NSString stringWithFormat: @"Downloaded: %.1f %%", self.responseData.length * 100. / self.downloadSize.intValue];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    self.status = error.localizedDescription;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    self.status = @"Parsing";
     [self parseDownloadedData];
 }
 

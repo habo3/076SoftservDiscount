@@ -20,7 +20,5 @@
 @property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property (strong,nonatomic) NSArray *discountObjects;
 
-+(NSArray *)sortByDistance: (NSArray *)array toLocation: (CLLocation *)location;
-+(NSArray *)sortByName: (NSArray *)array;
 
 @end

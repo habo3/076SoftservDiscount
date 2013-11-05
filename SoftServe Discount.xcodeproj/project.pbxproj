@@ -93,6 +93,7 @@
 		4B6D5D0B1827E30B00896059 /* ActionSheetDistancePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D5D031827E30B00896059 /* ActionSheetDistancePicker.m */; };
 		4B6D5D0C1827E30B00896059 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D5D051827E30B00896059 /* ActionSheetStringPicker.m */; };
 		4B6D5D0D1827E30B00896059 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D5D071827E30B00896059 /* DistancePickerView.m */; };
+		4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7A16391828FEC10042FB2D /* Sortings.m */; };
 		4BA195F018100F9900F1496B /* LoadScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA195EF18100F9900F1496B /* LoadScreenViewController.m */; };
 		4BC4D7FE180C480E00A8C666 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FD180C480E00A8C666 /* Security.framework */; };
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
@@ -130,7 +131,6 @@
 		C0896E2F16DA8EA400D73C1E /* disclosureButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */; };
 		C096279F16B557A00030988C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C096279D16B557040030988C /* CoreData.framework */; };
 		C09627A716B679A20030988C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C09627A616B679A20030988C /* SettingsViewController.m */; };
-		C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C09627A816B680650030988C /* Model.xcdatamodeld */; };
 		C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A9EB5716D35A0300DE9FC5 /* DetailsViewController.m */; };
 		C0A9EB6A16D3A52200DE9FC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A9EB6916D3A52200DE9FC5 /* QuartzCore.framework */; };
 		C0A9EB7A16D3E67800DE9FC5 /* emptyPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0A9EB7916D3E67800DE9FC5 /* emptyPin@2x.png */; };
@@ -143,7 +143,6 @@
 		C0A9EBBC16D94F4400DE9FC5 /* backButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C0A9EBBA16D94F4400DE9FC5 /* backButton.png */; };
 		C0A9EBBD16D94F4400DE9FC5 /* backButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0A9EBBB16D94F4400DE9FC5 /* backButton@2x.png */; };
 		C0A9EBC116D9708F00DE9FC5 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A9EBC016D9708F00DE9FC5 /* FavoritesViewController.m */; };
-		C0CAE60016C69B92007D010C /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAE5FF16C69B92007D010C /* JSONParser.m */; };
 		E79C44F9180EC7F00017964D /* libFlurry_4.2.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E79C44F8180EC7F00017964D /* libFlurry_4.2.4.a */; };
 		FB44448C16F8CA68003B9AD6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB44448B16F8CA68003B9AD6 /* FacebookSDK.framework */; };
 		FB44448E16F8CAAA003B9AD6 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB44448D16F8CAAA003B9AD6 /* Accounts.framework */; };
@@ -277,6 +276,8 @@
 		4B6D5D051827E30B00896059 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
 		4B6D5D061827E30B00896059 /* DistancePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerView.h; sourceTree = "<group>"; };
 		4B6D5D071827E30B00896059 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
+		4B7A16381828FEC10042FB2D /* Sortings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortings.h; sourceTree = "<group>"; };
+		4B7A16391828FEC10042FB2D /* Sortings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sortings.m; sourceTree = "<group>"; };
 		4BA195EE18100F9900F1496B /* LoadScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenViewController.h; path = SoftServeDP/LoadScreenViewController.h; sourceTree = "<group>"; };
 		4BA195EF18100F9900F1496B /* LoadScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenViewController.m; path = SoftServeDP/LoadScreenViewController.m; sourceTree = "<group>"; };
 		4BC4D7FD180C480E00A8C666 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -331,7 +332,6 @@
 		C096279D16B557040030988C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C09627A516B679A20030988C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		C09627A616B679A20030988C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		C09627A916B680650030988C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		C0A9EB5616D35A0300DE9FC5 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		C0A9EB5716D35A0300DE9FC5 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		C0A9EB6916D3A52200DE9FC5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -346,8 +346,6 @@
 		C0A9EBBB16D94F4400DE9FC5 /* backButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backButton@2x.png"; sourceTree = "<group>"; };
 		C0A9EBBF16D9708F00DE9FC5 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
 		C0A9EBC016D9708F00DE9FC5 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
-		C0CAE5FE16C69B92007D010C /* JSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONParser.h; sourceTree = "<group>"; };
-		C0CAE5FF16C69B92007D010C /* JSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONParser.m; sourceTree = "<group>"; };
 		E79C44F7180EC7F00017964D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		E79C44F8180EC7F00017964D /* libFlurry_4.2.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.2.4.a; sourceTree = "<group>"; };
 		FB44448B16F8CA68003B9AD6 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -407,15 +405,14 @@
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
+				4B7A16361828FE820042FB2D /* Supporting Classes */,
 				4B5C8E17181FDFEC005D1A8D /* NewCoreData */,
 				4B529FE8181EA894002F3898 /* TableViews */,
 				434CAFA416D4D8380000CE60 /* Details */,
 				BB1FED901819BC8100ABE71E /* CoreData */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
-				4BA195EE18100F9900F1496B /* LoadScreenViewController.h */,
-				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
+				4B7A163D1829082C0042FB2D /* LoadScreen */,
 				4B529FEC181EA9F2002F3898 /* Menu */,
-				C08CBB1016B70D1200E0EB0D /* DB */,
 				C096279B16B555C90030988C /* SettingsViewController */,
 				90487C4716A8407C0090F60E /* Map */,
 				432CC5DA16A467E000A50F1D /* Main */,
@@ -533,11 +530,10 @@
 		4B529FE8181EA894002F3898 /* TableViews */ = {
 			isa = PBXGroup;
 			children = (
+				4B7A163C182908230042FB2D /* PlaceCell */,
 				C0A9EBBE16D9705600DE9FC5 /* Favorites */,
 				4325F4DF16CBA8F4002C7B75 /* List */,
 				4B529FEB181EA9A9002F3898 /* Images */,
-				4373562616CBC09F00B30B81 /* PlaceCell.h */,
-				4373562716CBC09F00B30B81 /* PlaceCell.m */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";
@@ -673,6 +669,51 @@
 			);
 			path = Pickers;
 			sourceTree = SOURCE_ROOT;
+		};
+		4B7A16361828FE820042FB2D /* Supporting Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4B7A163B182908020042FB2D /* CustomViews */,
+				4B7A16371828FE930042FB2D /* Sortings */,
+			);
+			name = "Supporting Classes";
+			sourceTree = "<group>";
+		};
+		4B7A16371828FE930042FB2D /* Sortings */ = {
+			isa = PBXGroup;
+			children = (
+				4B7A16381828FEC10042FB2D /* Sortings.h */,
+				4B7A16391828FEC10042FB2D /* Sortings.m */,
+			);
+			name = Sortings;
+			sourceTree = "<group>";
+		};
+		4B7A163B182908020042FB2D /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
+				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
+			);
+			name = CustomViews;
+			sourceTree = "<group>";
+		};
+		4B7A163C182908230042FB2D /* PlaceCell */ = {
+			isa = PBXGroup;
+			children = (
+				4373562616CBC09F00B30B81 /* PlaceCell.h */,
+				4373562716CBC09F00B30B81 /* PlaceCell.m */,
+			);
+			name = PlaceCell;
+			sourceTree = "<group>";
+		};
+		4B7A163D1829082C0042FB2D /* LoadScreen */ = {
+			isa = PBXGroup;
+			children = (
+				4BA195EE18100F9900F1496B /* LoadScreenViewController.h */,
+				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
+			);
+			name = LoadScreen;
+			sourceTree = "<group>";
 		};
 		9017FB2716DE1705004EB853 /* CustomView */ = {
 			isa = PBXGroup;
@@ -814,16 +855,6 @@
 			name = MKPolyline;
 			sourceTree = "<group>";
 		};
-		C08CBB1016B70D1200E0EB0D /* DB */ = {
-			isa = PBXGroup;
-			children = (
-				C0CAE5FE16C69B92007D010C /* JSONParser.h */,
-				C0CAE5FF16C69B92007D010C /* JSONParser.m */,
-				C09627A816B680650030988C /* Model.xcdatamodeld */,
-			);
-			name = DB;
-			sourceTree = "<group>";
-		};
 		C096279B16B555C90030988C /* SettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -837,8 +868,6 @@
 		C0A9EBBE16D9705600DE9FC5 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
-				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
 				C0A9EBBF16D9708F00DE9FC5 /* FavoritesViewController.h */,
 				C0A9EBC016D9708F00DE9FC5 /* FavoritesViewController.m */,
 			);
@@ -1058,7 +1087,6 @@
 				BB1FEDA51819BC8100ABE71E /* Contacts.m in Sources */,
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
-				C09627AA16B680650030988C /* Model.xcdatamodeld in Sources */,
 				4B52A022181EACD5002F3898 /* OCAnnotation.m in Sources */,
 				4B52A023181EACD5002F3898 /* OCDistance.m in Sources */,
 				4B5C8E2A181FE036005D1A8D /* CDCoreDataManager.m in Sources */,
@@ -1067,7 +1095,7 @@
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B5C8E29181FE036005D1A8D /* CDCategory.m in Sources */,
 				BBAFE5711816A7F700FA1C6E /* MKPolyline.m in Sources */,
-				C0CAE60016C69B92007D010C /* JSONParser.m in Sources */,
+				4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */,
 				C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */,
 				4B52A021181EACD5002F3898 /* OCAlgorithms.m in Sources */,
 				C0A9EBC116D9708F00DE9FC5 /* FavoritesViewController.m in Sources */,
@@ -1266,17 +1294,6 @@
 			);
 			currentVersion = 4B5C8E2C181FE03F005D1A8D /* NewModel 2.xcdatamodel */;
 			path = NewModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		C09627A816B680650030988C /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C09627A916B680650030988C /* Model.xcdatamodel */,
-			);
-			currentVersion = C09627A916B680650030988C /* Model.xcdatamodel */;
-			name = Model.xcdatamodeld;
-			path = SoftServeDP/Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

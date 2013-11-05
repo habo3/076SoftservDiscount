@@ -13,10 +13,12 @@
 
 @property (nonatomic, strong) id parsedData;
 @property (nonatomic) BOOL updatedDataBase;
+@property (nonatomic, strong) NSString *status;
 
 - (id)initWithUrl:(NSString *)url;
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName;
 + (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString *)format;
+
 
 @end
