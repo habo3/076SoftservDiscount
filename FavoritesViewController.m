@@ -8,17 +8,15 @@
 
 
 #import "FavoritesViewController.h"
-#import "DiscountObject.h"
 #import <QuartzCore/QuartzCore.h>
-#import "Category.h"
 #import "DetailsViewController.h"
 #import "AppDelegate.h"
-#import "IconConverter.h"
 #import "PlaceCell.h"
 #import "CDDiscountObject.h"
 #import "CDFavorites.h"
 #import "CDCoreDataManager.h"
 #import "Sortings.h"
+#import "CustomViewMaker.h"
 
 @interface FavoritesViewController ()
 
@@ -42,7 +40,7 @@
 
 -(void)viewDidLoad
 {
-    [self setNavigationTitle];
+    [CustomViewMaker customNavigationBarForView:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -76,19 +74,6 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-}
-
-#pragma mark - customizing view
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
 }
 
 #pragma mark - CoreData

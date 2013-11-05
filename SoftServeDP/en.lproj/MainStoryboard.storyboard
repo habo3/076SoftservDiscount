@@ -928,13 +928,13 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HUX-cO-uzf">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HUX-cO-uzf">
                                 <rect key="frame" x="20" y="399" width="280" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" id="e3S-sA-prx">
                                 <rect key="frame" x="150" y="371" width="20" height="20"/>
@@ -961,39 +961,22 @@
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
         <image name="detailsDistanceBackground.png" width="53" height="12"/>
-        <image name="detailsDistanceBackground.png" width="53" height="12"/>
-        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
-        <image name="disclosureButton.png" width="24" height="24"/>
         <image name="disclosureButton.png" width="24" height="24"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuIconFavorites.png" width="20" height="20"/>
         <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
-        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
         <image name="menuIconList.png" width="20" height="14"/>
-        <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconMap.png" width="16" height="20"/>
         <image name="menuIconMapSelected.png" width="16" height="20"/>
-        <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
-        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
-        <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
         <image name="settingsPin.png" width="11" height="14"/>

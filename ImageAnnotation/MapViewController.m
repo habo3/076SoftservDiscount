@@ -10,7 +10,6 @@
 #import "Annotation.h"
 #import "CustomPicker.h"
 #import "DetailsViewController.h"
-#import "IconConverter.h"
 #import "OCMapView.h"
 #import "OCAnnotation.h"
 #import "AppDelegate.h"
@@ -18,6 +17,7 @@
 #import "CDCategory.h"
 #import "CDDiscountObject.h"
 #import "CDCity.h"
+#import "CustomViewMaker.h"
 
 #define MAP_SPAN_DELTA 0.045
 
@@ -57,37 +57,14 @@
 @synthesize categories = _categories;
 @synthesize cities = _cities;
 
-
-#pragma mark - custom getters for new DB
-
--(CDCoreDataManager *)coreDataManager
-{
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
-}
-
--(NSArray *)discountObjects
-{
-    return [self.coreDataManager discountObjectsFromCoreData];
-}
-
--(NSArray *)categories
-{
-    return [self.coreDataManager categoriesFromCoreData];
-}
-
--(NSArray *)cities
-{
-    return [self.coreDataManager citiesFromCoreData];
-}
-
 #pragma mark - View
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setNavigationTitle];
+    [CustomViewMaker customNavigationBarForView:self];
+    [self initFilterButton];
     
-    [self setFilterButton];
     self.mapView.delegate = self;
     self.mapView.clusterSize = 0.05;
     self.pickerView.hidden=TRUE;
@@ -101,17 +78,9 @@
         [self gotoLocation];
         [userDefaults removeObjectForKey:@"firstLaunch"];
     }
-    self.calloutView.delegate = self;
-    self.calloutView = [CustomCalloutView new];
-    // button for callout
-    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
-    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect frame = CGRectMake(0.0, 0.0, 32 ,32);
-    disclosureButton.frame = frame;
-    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
-    disclosureButton.backgroundColor = [UIColor clearColor];
-    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
-    self.calloutView.rightAccessoryView = disclosureButton;
+    
+    [self initCallout];
+    
     self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
@@ -135,7 +104,7 @@
     self.geoLocationIsOn = [[userDefaults objectForKey:@"geoLocation"] boolValue];
     if(self.geoLocationIsOn)
     {
-        [self setGeoButton];
+        [self initGeoButton];
         self.mapView.showsUserLocation = YES;
     }
     else
@@ -152,20 +121,31 @@
     return toInterfaceOrientation!= UIInterfaceOrientationPortraitUpsideDown;
 }
 
-#pragma mark - customizing view
+#pragma mark - CoreData
 
--(void) setNavigationTitle
+-(CDCoreDataManager *)coreDataManager
 {
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
 }
 
--(void)setFilterButton
+-(NSArray *)discountObjects
+{
+    return [self.coreDataManager discountObjectsFromCoreData];
+}
+
+-(NSArray *)categories
+{
+    return [self.coreDataManager categoriesFromCoreData];
+}
+
+-(NSArray *)cities
+{
+    return [self.coreDataManager citiesFromCoreData];
+}
+
+#pragma mark - customizing view
+
+-(void) initFilterButton
 {
     UIImage *filterButtonImage = [UIImage imageNamed:@"filterButton.png"];
     filterButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -177,7 +157,7 @@
     filterButton.backgroundColor = [UIColor clearColor];
 }
 
-- (void) setGeoButton
+- (void) initGeoButton
 {
     UIImage *geoButtonImage = [UIImage imageNamed:@"geoButton.png"];
     UIButton *geoButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -190,8 +170,27 @@
     geoButton.backgroundColor = [UIColor clearColor];
     [self.mapView addSubview:geoButton];
 }
-#pragma mark - PathMaker
 
+-(void) initCallout
+{
+    self.calloutView.delegate = self;
+    self.calloutView = [CustomCalloutView new];
+    [self initDisclosureButton];
+}
+
+-(void) initDisclosureButton
+{
+    UIImage *image = [UIImage   imageNamed:@"annDetailButton.png"];
+    UIButton *disclosureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect frame = CGRectMake(0.0, 0.0, 32 ,32);
+    disclosureButton.frame = frame;
+    [disclosureButton setBackgroundImage:image forState:UIControlStateNormal];
+    disclosureButton.backgroundColor = [UIColor clearColor];
+    [disclosureButton addTarget:self action:@selector(disclosureTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.calloutView.rightAccessoryView = disclosureButton;
+}
+
+#pragma mark - PathMaker
 
 -(void)centerMapForCoordinateArray:(CLLocationCoordinate2D *)routes andCount:(int)count
 {
@@ -277,78 +276,74 @@
 
 - (void)getDirections
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
-        CLLocationCoordinate2D coordinate;
-        coordinate = self.mapView.userLocation.coordinate;
-        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
-                                                              longitude:coordinate.longitude];
-        
-        float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
-        float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
-        CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
-        
-        CLLocationCoordinate2D endCoordinate;
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        NSURLResponse *response = nil;
-        NSError *error = nil;
-        NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (!error) {
-            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
-            if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
-                [userDefaults synchronize];
-                self.geoLocationIsOn = NO;
-                [[[UIAlertView alloc] initWithTitle:@"Error"
-                                            message:@"Could not route path from your current location"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Close"
-                                  otherButtonTitles:nil, nil] show];
-                return;
-            }
-            int points_count = 0;
-            if ([[responseDict objectForKey:@"routes"] count])
-                points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
-            
-            
-            if (!points_count) {
-                [[[UIAlertView alloc] initWithTitle:@"Error"
-                                            message:@"Could not route path from your current location"
-                                           delegate:nil
-                                  cancelButtonTitle:@"Close"
-                                  otherButtonTitles:nil, nil] show];
-                return;
-            }
-            CLLocationCoordinate2D points[points_count * 3];
-            
-            MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.mapView addOverlay:polyline];
-            });
-            int j = 0;
-            NSArray *steps = nil;
-            if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
-                steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
-            for (int i = 0; i < points_count; i++) {
-                
-                double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
-                double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
-                if (st_lat > 0.0f && st_lon > 0.0f) {
-                    points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
-                    j++;
-                }
-                double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
-                double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
-                if(j < points_count)
-                    points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
-                endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
-                j++;
-                
-            }
+    CLLocationCoordinate2D coordinate;
+    coordinate = self.mapView.userLocation.coordinate;
+    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
+                                                          longitude:coordinate.longitude];    
+    float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
+    float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
+    CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
+    
+    CLLocationCoordinate2D endCoordinate;
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (!error) {
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
+        if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
+            [userDefaults synchronize];
+            self.geoLocationIsOn = NO;
+            [[[UIAlertView alloc] initWithTitle:@"Error"
+                                        message:@"Could not route path from your current location"
+                                       delegate:nil
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles:nil, nil] show];
+            return;
         }
-    });
+        int points_count = 0;
+        if ([[responseDict objectForKey:@"routes"] count])
+            points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
+        
+        
+        if (!points_count) {
+            [[[UIAlertView alloc] initWithTitle:@"Error"
+                                        message:@"Could not route path from your current location"
+                                       delegate:nil
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles:nil, nil] show];
+            return;
+        }
+        CLLocationCoordinate2D points[points_count * 3];
+        
+        MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
+        
+        [self.mapView addOverlay:polyline];
+        int j = 0;
+        NSArray *steps = nil;
+        if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
+            steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
+        for (int i = 0; i < points_count; i++) {
+            
+            double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
+            double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
+            if (st_lat > 0.0f && st_lon > 0.0f) {
+                points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
+                j++;
+            }
+            double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
+            double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
+            if(j < points_count)
+                points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
+            endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
+            j++;
+            
+        }
+    }
+
 }
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView
@@ -394,13 +389,12 @@
     NSString *discount = [dbDiscountFrom stringByAppendingString:dbDiscountTo];
     
     // creating new image
-    UIImage *myNewImage = [self setText:discount
+    UIImage *myNewImage = [CustomViewMaker setText:discount
                                withFont: nil
                                andColor:[UIColor blackColor]
                                 onImage:emptyImage];
-    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
-                             andColor:[UIColor whiteColor] onImage:emptyPinImage];
-    
+    UIImage *pinImage = [CustomViewMaker setText:dbCategory.fontSymbol withFont:font
+                             andColor:[UIColor whiteColor] onImage:emptyPinImage];    
     
     myAnnotation= [[Annotation alloc]init];
     
@@ -501,65 +495,6 @@ numberOfRowsInComponent:(NSInteger)component
     return [dataSource objectAtIndex:row];
 }
 
-#pragma mark - TextOnImage
-
-- (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
-{
-    NSString *tmpText = @"";
-    CGRect rect = CGRectZero;
-    
-    double margin = 3.0;
-    float fontsize = (startImage.size.width - 2 * margin);
-
-    
-    if([font isKindOfClass:[UIFont class]])
-    {
-        // size of custom text in image
-        float ownHeight;
-        float ownWidth;
-        fontsize = fontsize/3;
-        font = [font fontWithSize:fontsize];
-        if([startImage isEqual:[UIImage imageNamed:@"cluster"]])
-        {
-            tmpText = text;
-
-            ownWidth = (0.652 - text.length * 0.08) * startImage.size.width;
-            ownHeight = 0.48 * startImage.size.height;
-        }
-        else
-        {
-            tmpText = [IconConverter ConvertIconText:text];
-            ownWidth = 0.49 * startImage.size.width;
-            ownHeight = 0.4 * startImage.size.height;
-        }
-        rect = CGRectMake(ownWidth - font.pointSize/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
-    }
-    else
-    {
-        fontsize = text.length > 5 ? 7.5 : 9;
-        
-        font = [UIFont systemFontOfSize:fontsize];
-        font = [UIFont boldSystemFontOfSize:fontsize];
-        margin = (startImage.size.width - font.pointSize * text.length/1.85)/2;
-        rect = CGRectMake(margin, (startImage.size.height - font.pointSize)/2, startImage.size.width, startImage.size.height);
-        tmpText = text;
-    }
-    
-    //work with image
-    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-    
-    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
-    [color set];
-    
-    //draw text on image and save result
-    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return resultImage;
-}
-
-
 #pragma mark - MKMapViewPin
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -582,7 +517,7 @@ numberOfRowsInComponent:(NSInteger)component
         UIFont *font = [UIFont fontWithName:@"Arial-BoldMT" size:10.0];
         UIImage *image = [UIImage imageNamed:@"cluster"];
         NSString *text = [[NSString alloc] initWithFormat:@"%i",[newAnn.annotationsInCluster count] ];
-        annotationView.image = [self setText:text withFont:font andColor:[UIColor whiteColor] onImage: image];
+        annotationView.image = [CustomViewMaker setText:text withFont:font andColor:[UIColor whiteColor] onImage: image];
         return annotationView;
     }
     else  if ([annotation isKindOfClass:[Annotation class]])

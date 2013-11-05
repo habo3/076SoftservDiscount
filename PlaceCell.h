@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
-#import "IconConverter.h"
 #import <CoreLocation/CLLocation.h>
 #import <CoreLocation/CLLocationManager.h>
 

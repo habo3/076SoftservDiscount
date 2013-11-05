@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DiscountObject.h"
-#import "Category.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "Flurry.h"

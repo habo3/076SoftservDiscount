@@ -11,7 +11,6 @@
 #import "PlaceCell.h"
 #import "DetailsViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "IconConverter.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
 #import "CDDiscountObject.h"
@@ -19,6 +18,7 @@
 #import <UIKit/UIKit.h>
 #import "ActionSheetStringPicker.h"
 #import "Sortings.h"
+#import "CustomViewMaker.h"
 
 @interface ListViewController ()
 
@@ -45,7 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setNavigationTitle];
+    [CustomViewMaker customNavigationBarForView:self];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.delegate = self;
     _discountObjects = [self.coreDataManager discountObjectsFromCoreData];
@@ -98,19 +98,6 @@
 {
     NSArray *categories = [self.coreDataManager categoriesFromCoreData];
     return [[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"];
-}
-
-#pragma mark - customizing view
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
 }
 
 #pragma mark - filter

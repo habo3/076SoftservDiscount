@@ -9,11 +9,11 @@
 #import "SettingsViewController.h"
 #import "AppDelegate.h"
 #import "DetailsViewController.h"
-#import "DiscountObject.h"
 #import "DetailsViewController.h"
 #import "CustomPicker.h"
 #import "CDCity.h"
 #import "CDCoreDataManager.h"
+#import "CustomViewMaker.h"
 
 @interface SettingsViewController ()
 
@@ -77,7 +77,9 @@
 #pragma mark - view
 
 - (void)viewDidLoad {
-    [self setNavigationTitle];
+    
+    [super viewDidLoad];
+    [CustomViewMaker customNavigationBarForView:self];
     self.updatePeriods = [NSArray arrayWithObjects:
                           @"8 годин",
                           @"12 годин",
@@ -167,20 +169,6 @@
     [self setChangeCity:nil];
     [super viewDidUnload];
 }
-
-#pragma mark - custom View
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
-}
-
 
 #pragma mark - UI
 - (IBAction)autoUpdateSwitch:(UISwitch *)sender {

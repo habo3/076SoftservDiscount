@@ -65,12 +65,12 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    self.status = @"Parsing";
     [self parseDownloadedData];
 }
 
 - (void)parseDownloadedData
 {
+    self.status = @"Parsing";
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
     self.parsedData = [json objectForKey:@"list"];

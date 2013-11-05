@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "CustomViewMaker.h"
 
 @interface MenuViewController()
 
@@ -24,24 +25,13 @@
 
 -(void) viewDidLoad
 {
-    [self setNavigationTitle];
+    [CustomViewMaker customNavigationBarForView:self];
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:255/255.0 green:196/255.0 blue:18/255.0 alpha:1]];
     if([[[UIDevice currentDevice] systemVersion] isEqualToString:@"7.0"])
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGold.png"] forBarMetrics:UIBarMetricsDefault];
 
-}
-
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[[UILabel alloc] init] autorelease];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning

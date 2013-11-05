@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DetailsViewController.h"
 #import "Annotation.h"
-#import "IconConverter.h"
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "CDDiscountObject.h"
@@ -17,6 +16,8 @@
 #import <Social/SLComposeViewController.h>
 #import <Social/SLServiceTypes.h>
 #import "CDCoreDataManager.h"
+#import "CustomViewMaker.h"
+
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
 @interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate>
@@ -38,9 +39,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *discountImage;
 
-
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius;
-
 @end
 
 @implementation DetailsViewController
@@ -51,21 +49,15 @@
 @synthesize discountImage = _discountImage;
 @synthesize coreDataManager = _coreDataManager;
 
--(CDCoreDataManager *)coreDataManager
-{
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
-}
-
+#pragma mark - General
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self setNavigationTitle];
-    [self initMapView];
-    
+    [CustomViewMaker customNavigationBarForView:self];
+    [self initMapView];    
     // round upper corners in first cell
-    [DetailsViewController roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
-    [DetailsViewController roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
+    [CustomViewMaker roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
+    [CustomViewMaker roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
     // set labels value
     NSString *discountFrom;
@@ -76,7 +68,6 @@
     self.discount.text = [NSString stringWithFormat:@"%@%@%%", discountFrom, [[self.discountObject.discount valueForKey:@"to"] stringValue]];
     self.discount.font = [UIFont boldSystemFontOfSize: self.discount.text.length > 5 ? 10.0 : 13.0];
     self.name.text = self.discountObject.name;
-//    self.category.text = [[self.discountObject.categorys valueForKey:@"name"] stringValue]; getCryticalEror
     self.category.text = [[self.discountObject.categorys anyObject] valueForKey:@"name"];
     
     NSString *categoriesText = [[NSMutableString alloc] init];
@@ -130,6 +121,13 @@
     }
 }
 
+#pragma mark - CoreData
+
+-(CDCoreDataManager *)coreDataManager
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+}
+
 #pragma mark - design of view
 
 -(void)loadLogo
@@ -146,60 +144,10 @@
     
 }
 
--(void) setNavigationTitle
-{
-    UILabel *navigationTitle = [[UILabel alloc] init];
-    navigationTitle.backgroundColor = [UIColor clearColor];
-    navigationTitle.font = [UIFont boldSystemFontOfSize:20.0];
-    navigationTitle.textColor = [UIColor blackColor];
-    self.navigationItem.titleView = navigationTitle;
-    navigationTitle.text = self.navigationItem.title;
-    [navigationTitle sizeToFit];
-}
-
-+(void)roundView:(UIView *)view onCorner:(UIRectCorner)rectCorner radius:(float)radius
-{
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                   byRoundingCorners:rectCorner
-                                                         cornerRadii:CGSizeMake(radius, radius)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    [view.layer setMask:maskLayer];
-}
-//Need to be carried out in customClass
-- (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage
-{
-    CGRect rect = CGRectZero;
-    
-    // size of custom text in image
-    double margin = 3.0;
-    float fontsize = (startImage.size.width - 2 * margin)/3;
-    font = [font fontWithSize:fontsize];
-    NSString *tmpText = [IconConverter ConvertIconText:text];
-    
-    // own const for pin text (height position)
-    float ownHeight = 0.4*startImage.size.height;
-    rect = CGRectMake((startImage.size.width - font.pointSize)/2, ownHeight - font.pointSize/2, startImage.size.width, startImage.size.height);
-    
-    //work with image
-    UIGraphicsBeginImageContextWithOptions(startImage.size,NO, 0.0);
-    [startImage drawInRect:CGRectMake(0,0,startImage.size.width,startImage.size.height)];
-    
-    //draw text on image and save result
-    [color set];
-    [tmpText drawInRect:CGRectIntegral(rect) withFont:font];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return resultImage;
-}
-
 #pragma mark - MapView
 
 - (void) initMapView
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
     self.mapView.delegate = self;
     Annotation *myAnn = [[Annotation alloc]init];
     CLLocationCoordinate2D tmpCoord;
@@ -208,21 +156,15 @@
     myAnn.coordinate = tmpCoord;
     self.pintype = [self makePin];
     myAnn.pintype = self.pintype;
-    // set display region
+    
     MKCoordinateRegion newRegion;
     newRegion.center = tmpCoord;
-        newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
-        newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
-             dispatch_async(dispatch_get_main_queue(), ^{
+    newRegion.span.latitudeDelta = DETAIL_MAP_SPAN_DELTA;
+    newRegion.span.longitudeDelta = DETAIL_MAP_SPAN_DELTA;
+
     [self.mapView addAnnotation:myAnn];
-    
-
-    
     [self.mapView setRegion:newRegion];
-             });
-    });
 }
-
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
@@ -248,12 +190,13 @@
     NSSet *dbCategories = self.discountObject.categorys;
     CDCategory *dbCategory = [dbCategories anyObject];
     UIFont *font = [UIFont fontWithName:@"icons" size:10];    
-    UIImage *pinImage = [self setText:dbCategory.fontSymbol withFont:font
+    UIImage *pinImage = [CustomViewMaker setText:dbCategory.fontSymbol withFont:font
                              andColor:[UIColor whiteColor] onImage:[UIImage imageNamed: @"emptyPin"]];    
     return pinImage;
 }
 
 #pragma mark - Location
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
@@ -288,7 +231,6 @@
     //    if (![self.managedObjectContext save:&err]) {
     //        NSLog(@"Couldn't save: %@", [err localizedDescription]);
     //    }
-    
     
     
     [self.coreDataManager addDiscountObjectToFavoritesWithObject:self.discountObject];

@@ -94,6 +94,7 @@
 		4B6D5D0C1827E30B00896059 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D5D051827E30B00896059 /* ActionSheetStringPicker.m */; };
 		4B6D5D0D1827E30B00896059 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D5D071827E30B00896059 /* DistancePickerView.m */; };
 		4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7A16391828FEC10042FB2D /* Sortings.m */; };
+		4B7A16401829165C0042FB2D /* CustomViewMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7A163F1829165C0042FB2D /* CustomViewMaker.m */; };
 		4BA195F018100F9900F1496B /* LoadScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA195EF18100F9900F1496B /* LoadScreenViewController.m */; };
 		4BC4D7FE180C480E00A8C666 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FD180C480E00A8C666 /* Security.framework */; };
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
@@ -102,7 +103,6 @@
 		5730538E1822A1F900F34367 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5730538D1822A1F900F34367 /* CDDiscountObject.m */; };
 		573053911822A1FA00F34367 /* CDFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = 573053901822A1FA00F34367 /* CDFavorites.m */; };
 		901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 901488AB16D7AEF200B25D72 /* CustomPicker.m */; };
-		9017FB2B16DE1A0E004EB853 /* IconConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9017FB2A16DE1A0E004EB853 /* IconConverter.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
@@ -115,15 +115,6 @@
 		906B72E916DD44A9009A287E /* searchBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 906B72E816DD44A9009A287E /* searchBarBG.png */; };
 		90820E6F16CE583500BBD714 /* icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90820E6E16CE583500BBD714 /* icons.ttf */; };
 		90820E7116CE92C200BBD714 /* emptyPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90820E7016CE92C200BBD714 /* emptyPin.png */; };
-		BB1FEDA31819BC8100ABE71E /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED931819BC8100ABE71E /* Category.m */; };
-		BB1FEDA41819BC8100ABE71E /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED951819BC8100ABE71E /* City.m */; };
-		BB1FEDA51819BC8100ABE71E /* Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED971819BC8100ABE71E /* Contacts.m */; };
-		BB1FEDA61819BC8100ABE71E /* DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED991819BC8100ABE71E /* DiscountObject.m */; };
-		BB1FEDA71819BC8100ABE71E /* _Category.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED9C1819BC8100ABE71E /* _Category.m */; };
-		BB1FEDA81819BC8100ABE71E /* _City.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FED9E1819BC8100ABE71E /* _City.m */; };
-		BB1FEDA91819BC8100ABE71E /* _Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FEDA01819BC8100ABE71E /* _Contacts.m */; };
-		BB1FEDAA1819BC8100ABE71E /* _DiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BB1FEDA21819BC8100ABE71E /* _DiscountObject.m */; };
-		BBAFE5711816A7F700FA1C6E /* MKPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = BBAFE5701816A7F700FA1C6E /* MKPolyline.m */; };
 		C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B716DAD0FE00262BD9 /* filterButton.png */; };
 		C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */; };
 		C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */; };
@@ -278,6 +269,8 @@
 		4B6D5D071827E30B00896059 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
 		4B7A16381828FEC10042FB2D /* Sortings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortings.h; sourceTree = "<group>"; };
 		4B7A16391828FEC10042FB2D /* Sortings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sortings.m; sourceTree = "<group>"; };
+		4B7A163E1829165C0042FB2D /* CustomViewMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomViewMaker.h; sourceTree = "<group>"; };
+		4B7A163F1829165C0042FB2D /* CustomViewMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomViewMaker.m; sourceTree = "<group>"; };
 		4BA195EE18100F9900F1496B /* LoadScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenViewController.h; path = SoftServeDP/LoadScreenViewController.h; sourceTree = "<group>"; };
 		4BA195EF18100F9900F1496B /* LoadScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenViewController.m; path = SoftServeDP/LoadScreenViewController.m; sourceTree = "<group>"; };
 		4BC4D7FD180C480E00A8C666 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -288,11 +281,9 @@
 		5730538D1822A1F900F34367 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
 		5730538F1822A1FA00F34367 /* CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFavorites.h; sourceTree = "<group>"; };
 		573053901822A1FA00F34367 /* CDFavorites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFavorites.m; sourceTree = "<group>"; };
-		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		901488AA16D7AEF200B25D72 /* CustomPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomPicker.h; path = ImageAnnotation/CustomPicker.h; sourceTree = SOURCE_ROOT; };
 		901488AB16D7AEF200B25D72 /* CustomPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomPicker.m; path = ImageAnnotation/CustomPicker.m; sourceTree = SOURCE_ROOT; };
-		9017FB2916DE1A0E004EB853 /* IconConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconConverter.h; path = ImageAnnotation/IconConverter.h; sourceTree = SOURCE_ROOT; };
-		9017FB2A16DE1A0E004EB853 /* IconConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconConverter.m; path = ImageAnnotation/IconConverter.m; sourceTree = SOURCE_ROOT; };
 		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
 		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -306,24 +297,6 @@
 		906B72E816DD44A9009A287E /* searchBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBG.png; sourceTree = "<group>"; };
 		90820E6E16CE583500BBD714 /* icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icons.ttf; sourceTree = "<group>"; };
 		90820E7016CE92C200BBD714 /* emptyPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyPin.png; sourceTree = SOURCE_ROOT; };
-		BB1FED921819BC8100ABE71E /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
-		BB1FED931819BC8100ABE71E /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
-		BB1FED941819BC8100ABE71E /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		BB1FED951819BC8100ABE71E /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
-		BB1FED961819BC8100ABE71E /* Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contacts.h; sourceTree = "<group>"; };
-		BB1FED971819BC8100ABE71E /* Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contacts.m; sourceTree = "<group>"; };
-		BB1FED981819BC8100ABE71E /* DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscountObject.h; sourceTree = "<group>"; };
-		BB1FED991819BC8100ABE71E /* DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscountObject.m; sourceTree = "<group>"; };
-		BB1FED9B1819BC8100ABE71E /* _Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Category.h; sourceTree = "<group>"; };
-		BB1FED9C1819BC8100ABE71E /* _Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Category.m; sourceTree = "<group>"; };
-		BB1FED9D1819BC8100ABE71E /* _City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _City.h; sourceTree = "<group>"; };
-		BB1FED9E1819BC8100ABE71E /* _City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _City.m; sourceTree = "<group>"; };
-		BB1FED9F1819BC8100ABE71E /* _Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Contacts.h; sourceTree = "<group>"; };
-		BB1FEDA01819BC8100ABE71E /* _Contacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Contacts.m; sourceTree = "<group>"; };
-		BB1FEDA11819BC8100ABE71E /* _DiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DiscountObject.h; sourceTree = "<group>"; };
-		BB1FEDA21819BC8100ABE71E /* _DiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DiscountObject.m; sourceTree = "<group>"; };
-		BBAFE5701816A7F700FA1C6E /* MKPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPolyline.m; sourceTree = SOURCE_ROOT; };
-		BBAFE5721816A7FD00FA1C6E /* MKPolyline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKPolyline.h; sourceTree = SOURCE_ROOT; };
 		C076B3B716DAD0FE00262BD9 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
 		C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+setUIColor.h"; sourceTree = "<group>"; };
@@ -410,7 +383,6 @@
 				4B5C8E17181FDFEC005D1A8D /* NewCoreData */,
 				4B529FE8181EA894002F3898 /* TableViews */,
 				434CAFA416D4D8380000CE60 /* Details */,
-				BB1FED901819BC8100ABE71E /* CoreData */,
 				432CC5EC16A467E000A50F1D /* MainStoryboard.storyboard */,
 				4B7A163D1829082C0042FB2D /* LoadScreen */,
 				4B529FEC181EA9F2002F3898 /* Menu */,
@@ -694,6 +666,8 @@
 			children = (
 				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
 				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
+				4B7A163E1829165C0042FB2D /* CustomViewMaker.h */,
+				4B7A163F1829165C0042FB2D /* CustomViewMaker.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -743,24 +717,12 @@
 			children = (
 				4B6D5CF81827E2EC00896059 /* ActionSheetPicker */,
 				4B52A016181EACD5002F3898 /* OCMapView */,
-				BBAFE5731816A80100FA1C6E /* MKPolyline */,
 				9017FB2816DE1842004EB853 /* Annotation */,
-				9017FB2D16DE2051004EB853 /* IconConverter */,
 				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 				9017FB2716DE1705004EB853 /* CustomView */,
 				90487C4916A8407C0090F60E /* MapViewController */,
 			);
 			name = Code;
-			sourceTree = "<group>";
-		};
-		9017FB2D16DE2051004EB853 /* IconConverter */ = {
-			isa = PBXGroup;
-			children = (
-				9017FB2916DE1A0E004EB853 /* IconConverter.h */,
-				9017FB2A16DE1A0E004EB853 /* IconConverter.m */,
-			);
-			name = IconConverter;
-			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
 		90487C4716A8407C0090F60E /* Map */ = {
@@ -806,54 +768,6 @@
 			);
 			name = CustomPicker;
 			path = ImageAnnotation;
-			sourceTree = "<group>";
-		};
-		BB1FED901819BC8100ABE71E /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				BB1FED911819BC8100ABE71E /* Human */,
-				BB1FED9A1819BC8100ABE71E /* Machine */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		BB1FED911819BC8100ABE71E /* Human */ = {
-			isa = PBXGroup;
-			children = (
-				BB1FED921819BC8100ABE71E /* Category.h */,
-				BB1FED931819BC8100ABE71E /* Category.m */,
-				BB1FED941819BC8100ABE71E /* City.h */,
-				BB1FED951819BC8100ABE71E /* City.m */,
-				BB1FED961819BC8100ABE71E /* Contacts.h */,
-				BB1FED971819BC8100ABE71E /* Contacts.m */,
-				BB1FED981819BC8100ABE71E /* DiscountObject.h */,
-				BB1FED991819BC8100ABE71E /* DiscountObject.m */,
-			);
-			path = Human;
-			sourceTree = "<group>";
-		};
-		BB1FED9A1819BC8100ABE71E /* Machine */ = {
-			isa = PBXGroup;
-			children = (
-				BB1FED9B1819BC8100ABE71E /* _Category.h */,
-				BB1FED9C1819BC8100ABE71E /* _Category.m */,
-				BB1FED9D1819BC8100ABE71E /* _City.h */,
-				BB1FED9E1819BC8100ABE71E /* _City.m */,
-				BB1FED9F1819BC8100ABE71E /* _Contacts.h */,
-				BB1FEDA01819BC8100ABE71E /* _Contacts.m */,
-				BB1FEDA11819BC8100ABE71E /* _DiscountObject.h */,
-				BB1FEDA21819BC8100ABE71E /* _DiscountObject.m */,
-			);
-			path = Machine;
-			sourceTree = "<group>";
-		};
-		BBAFE5731816A80100FA1C6E /* MKPolyline */ = {
-			isa = PBXGroup;
-			children = (
-				BBAFE5721816A7FD00FA1C6E /* MKPolyline.h */,
-				BBAFE5701816A7F700FA1C6E /* MKPolyline.m */,
-			);
-			name = MKPolyline;
 			sourceTree = "<group>";
 		};
 		C096279B16B555C90030988C /* SettingsViewController */ = {
@@ -1065,16 +979,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB1FEDA61819BC8100ABE71E /* DiscountObject.m in Sources */,
 				901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */,
 				4B6D5D0C1827E30B00896059 /* ActionSheetStringPicker.m in Sources */,
-				BB1FEDA81819BC8100ABE71E /* _City.m in Sources */,
 				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
 				4B52A024181EACD5002F3898 /* OCMapView.m in Sources */,
+				4B7A16401829165C0042FB2D /* CustomViewMaker.m in Sources */,
 				4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */,
-				BB1FEDAA1819BC8100ABE71E /* _DiscountObject.m in Sources */,
 				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,
-				BB1FEDA41819BC8100ABE71E /* City.m in Sources */,
 				5730538E1822A1F900F34367 /* CDDiscountObject.m in Sources */,
 				4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */,
 				4B5C8E1C181FE02A005D1A8D /* JPJsonParser.m in Sources */,
@@ -1082,10 +993,8 @@
 				4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */,
 				432CC5E116A467E000A50F1D /* main.m in Sources */,
 				432CC5E516A467E000A50F1D /* AppDelegate.m in Sources */,
-				BB1FEDA91819BC8100ABE71E /* _Contacts.m in Sources */,
 				4B5C8E28181FE036005D1A8D /* CDCity.m in Sources */,
 				4B6D5D0B1827E30B00896059 /* ActionSheetDistancePicker.m in Sources */,
-				BB1FEDA51819BC8100ABE71E /* Contacts.m in Sources */,
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
 				4B52A022181EACD5002F3898 /* OCAnnotation.m in Sources */,
@@ -1095,17 +1004,13 @@
 				573053911822A1FA00F34367 /* CDFavorites.m in Sources */,
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B5C8E29181FE036005D1A8D /* CDCategory.m in Sources */,
-				BBAFE5711816A7F700FA1C6E /* MKPolyline.m in Sources */,
 				4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */,
 				C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */,
 				4B52A021181EACD5002F3898 /* OCAlgorithms.m in Sources */,
 				C0A9EBC116D9708F00DE9FC5 /* FavoritesViewController.m in Sources */,
 				4B5C8E2E181FE03F005D1A8D /* NewModel.xcdatamodeld in Sources */,
-				BB1FEDA31819BC8100ABE71E /* Category.m in Sources */,
-				BB1FEDA71819BC8100ABE71E /* _Category.m in Sources */,
 				4B6D5D091827E30B00896059 /* ActionSheetCustomPicker.m in Sources */,
 				C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */,
-				9017FB2B16DE1A0E004EB853 /* IconConverter.m in Sources */,
 				4BA195F018100F9900F1496B /* LoadScreenViewController.m in Sources */,
 				4B6D5D0D1827E30B00896059 /* DistancePickerView.m in Sources */,
 			);

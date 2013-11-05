@@ -37,6 +37,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    if ([userDefaults valueForKey:@"SavedDB"]) {
     [self.activityIndicator startAnimating];
     
     BOOL downloadedDataBase = NO;
@@ -56,7 +58,7 @@
     }
     
     self.coreDataManager.discountObject = objects.parsedData;
-    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:[[(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataManager].discountObject count]]);
+    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
     
     self.coreDataManager.cities = cities.parsedData;
     self.coreDataManager.categories = categories.parsedData;
@@ -65,6 +67,8 @@
     [self.coreDataManager saveCategoriesToCoreData];
     [self.coreDataManager saveCitiesToCoreData];
     [self.coreDataManager saveDiscountObjectsToCoreData];
+//        [userDefaults setObject:@YES forKey:@"SavedDB"];
+//    }
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 

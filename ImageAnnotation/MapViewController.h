@@ -23,9 +23,8 @@
 
 @property (nonatomic,retain) IBOutlet CLLocationManager *location;
 
-- (UIImage *)setText:(NSString*)text withFont:(UIFont*)font andColor:(UIColor*)color onImage:(UIImage*)startImage;
-
 - (NSArray*)fillPicker;
+
 @end
 
 
