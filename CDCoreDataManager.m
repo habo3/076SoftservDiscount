@@ -21,7 +21,7 @@
 
 -(NSManagedObjectContext *)managedObjectContex
 {
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContextNew];
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
 + (CDCoreDataManager *)sharedInstance

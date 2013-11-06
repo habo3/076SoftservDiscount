@@ -16,9 +16,9 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 @implementation AppDelegate
 
-@synthesize managedObjectContextNew = _managedObjectContextNew;
-@synthesize managedObjectModelNew = _managedObjectModelNew;
-@synthesize persistentStoreCoordinatorNew = _persistentStoreCoordinatorNew;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 @synthesize coreDataManager = _coreDataManager;
 
@@ -105,49 +105,49 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 #pragma mark - New managed object context
 
--(NSManagedObjectContext *)managedObjectContextNew
+-(NSManagedObjectContext *)managedObjectContext
 {
-    if (_managedObjectContextNew != nil) {
-        return _managedObjectContextNew;
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
     }
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinatorNew];
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        _managedObjectContextNew = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContextNew setPersistentStoreCoordinator:coordinator];
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
-    return _managedObjectContextNew;
+    return _managedObjectContext;
 }
 
-- (NSManagedObjectModel *)managedObjectModelNew
+- (NSManagedObjectModel *)managedObjectModel
 {
-    if (_managedObjectModelNew != nil) {
-        return _managedObjectModelNew;
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
     }
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"NewModel" withExtension:@"momd"];
     //NSLog(@"%@",modelURL);
-    _managedObjectModelNew = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModelNew;
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModel;
 }
 
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinatorNew
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-    if (_persistentStoreCoordinatorNew != nil)
+    if (_persistentStoreCoordinator != nil)
     {
-        return _persistentStoreCoordinatorNew;
+        return _persistentStoreCoordinator;
     }
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"NewModel3.sqlite"];
     
     NSError *error = nil;
-    _persistentStoreCoordinatorNew = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModelNew]];
-    if (![_persistentStoreCoordinatorNew addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
     {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     
-    return _persistentStoreCoordinatorNew;
+    return _persistentStoreCoordinator;
 }
 
 #pragma mark - Application's Documents directory
