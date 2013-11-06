@@ -39,7 +39,6 @@
 -(void)viewDidLoad
 {
     [CustomViewMaker customNavigationBarForView:self];
-    self.discountObjects = [[self.coreDataManager discountObjectsFromFavorites] copy];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -48,6 +47,8 @@
     
     //Sending event to analytics service
     [Flurry logEvent:@"FavoritesViewLoaded"];
+    
+    self.discountObjects = [[self.coreDataManager discountObjectsFromFavorites] copy];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);

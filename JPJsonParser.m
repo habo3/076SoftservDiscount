@@ -65,6 +65,10 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDate *currentDate = [[NSDate alloc] init];
+    int lastUpdate = [currentDate timeIntervalSince1970];
+    [userDefaults setValue:[NSNumber numberWithInt:lastUpdate] forKey:@"DataBaseUpdate"];
     [self parseDownloadedData];
 }
 

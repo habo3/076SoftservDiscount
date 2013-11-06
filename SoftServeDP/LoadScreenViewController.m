@@ -35,43 +35,57 @@
     self.activityIndicator.hidden = TRUE;
 }
 
+- (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
+{
+    BOOL downloadedDataBase = NO;
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    JPJsonParser *objects, *cities, *categories;
+    
+    self.statusLabel.text = @"Downloading Data Base";
+    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+    
+    while (!downloadedDataBase) {
+        self.statusLabel.text = objects.status;
+        [runLoop runUntilDate:[NSDate date]];
+        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
+            downloadedDataBase = YES;
+    }
+    
+    if (!lastUpdate) {
+        [self.coreDataManager deleteAllData];
+    }
+    
+    if ([[categories parsedData] count]) {
+        self.coreDataManager.categories = categories.parsedData;
+        [self.coreDataManager saveCategoriesToCoreData];
+    }
+    if ([[cities parsedData] count]) {
+        self.coreDataManager.cities = cities.parsedData;
+        [self.coreDataManager saveCitiesToCoreData];
+    }
+    if ([[objects parsedData] count]) {
+        self.coreDataManager.discountObject = objects.parsedData;
+        [self.coreDataManager saveDiscountObjectsToCoreData];
+    }
+    
+    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if (![userDefaults valueForKey:@"SavedDB"]) {
-        self.activityIndicator.hidden = FALSE;
-        [self.activityIndicator startAnimating];
-    
-        BOOL downloadedDataBase = NO;
-        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-        JPJsonParser *objects, *cities, *categories;
-    
-        self.statusLabel.text = @"Downloading Data Base";
-        objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object"]];
-        cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city"]];
-        categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category"]];
-    
-        while (!downloadedDataBase) {
-            self.statusLabel.text = objects.status;
-            [runLoop runUntilDate:[NSDate date]];
-            if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
-            downloadedDataBase = YES;
-        }
-    
-        self.coreDataManager.discountObject = objects.parsedData;
-        NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
-    
-        self.coreDataManager.cities = cities.parsedData;
-        self.coreDataManager.categories = categories.parsedData;
-    
-        [self.coreDataManager deleteAllData];
-        [self.coreDataManager saveCategoriesToCoreData];
-        [self.coreDataManager saveCitiesToCoreData];
-        [self.coreDataManager saveDiscountObjectsToCoreData];
-        [userDefaults setObject:@YES forKey:@"SavedDB"];
+    self.activityIndicator.hidden = FALSE;
+    [self.activityIndicator startAnimating];
+    if (![userDefaults objectForKey:@"DataBaseUpdate"]) {
+        [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
     }
+    int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+    [self downloadDataBaseWithUpdateTime:lastUpdate];
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
