@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "DetailsViewController.h"
 #import "DetailsViewController.h"
-#import "CustomPicker.h"
 #import "CDCity.h"
 #import "CDCoreDataManager.h"
 #import "CustomViewMaker.h"
@@ -67,7 +66,7 @@
 
 -(CDCoreDataManager *)coreDataManager
 {
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+    return [CDCoreDataManager sharedInstance];
 }
 
 -(SettingsViewController *)init {

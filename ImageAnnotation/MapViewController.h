@@ -12,7 +12,6 @@
 #import "CustomCalloutView.h"
 #import "Annotation.h"
 #import "CustomAnnotationView.h"
-#import "CustomPicker.h"
 #import "Flurry.h"
 
 @class CDCoreDataManager;

@@ -102,7 +102,6 @@
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
 		5730538E1822A1F900F34367 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5730538D1822A1F900F34367 /* CDDiscountObject.m */; };
 		573053911822A1FA00F34367 /* CDFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = 573053901822A1FA00F34367 /* CDFavorites.m */; };
-		901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 901488AB16D7AEF200B25D72 /* CustomPicker.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
@@ -282,8 +281,6 @@
 		5730538F1822A1FA00F34367 /* CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFavorites.h; sourceTree = "<group>"; };
 		573053901822A1FA00F34367 /* CDFavorites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFavorites.m; sourceTree = "<group>"; };
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
-		901488AA16D7AEF200B25D72 /* CustomPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomPicker.h; path = ImageAnnotation/CustomPicker.h; sourceTree = SOURCE_ROOT; };
-		901488AB16D7AEF200B25D72 /* CustomPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CustomPicker.m; path = ImageAnnotation/CustomPicker.m; sourceTree = SOURCE_ROOT; };
 		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
 		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -621,6 +618,7 @@
 				4B6D5CFA1827E30B00896059 /* Pickers */,
 			);
 			name = ActionSheetPicker;
+			path = ../../ImageAnnotation;
 			sourceTree = "<group>";
 		};
 		4B6D5CFA1827E30B00896059 /* Pickers */ = {
@@ -664,10 +662,9 @@
 		4B7A163B182908020042FB2D /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
-				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
-				4B7A163E1829165C0042FB2D /* CustomViewMaker.h */,
-				4B7A163F1829165C0042FB2D /* CustomViewMaker.m */,
+				4B6D5CF81827E2EC00896059 /* ActionSheetPicker */,
+				57DB7231182A729B006E2018 /* CALayer */,
+				57DB7230182A728F006E2018 /* CustomViewMaker */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -688,6 +685,24 @@
 				4BA195EF18100F9900F1496B /* LoadScreenViewController.m */,
 			);
 			name = LoadScreen;
+			sourceTree = "<group>";
+		};
+		57DB7230182A728F006E2018 /* CustomViewMaker */ = {
+			isa = PBXGroup;
+			children = (
+				4B7A163F1829165C0042FB2D /* CustomViewMaker.m */,
+				4B7A163E1829165C0042FB2D /* CustomViewMaker.h */,
+			);
+			name = CustomViewMaker;
+			sourceTree = "<group>";
+		};
+		57DB7231182A729B006E2018 /* CALayer */ = {
+			isa = PBXGroup;
+			children = (
+				C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */,
+				C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */,
+			);
+			name = CALayer;
 			sourceTree = "<group>";
 		};
 		9017FB2716DE1705004EB853 /* CustomView */ = {
@@ -715,10 +730,8 @@
 		9017FB2C16DE2033004EB853 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				4B6D5CF81827E2EC00896059 /* ActionSheetPicker */,
 				4B52A016181EACD5002F3898 /* OCMapView */,
 				9017FB2816DE1842004EB853 /* Annotation */,
-				9083FAF816D4DDD900BA3C24 /* CustomPicker */,
 				9017FB2716DE1705004EB853 /* CustomView */,
 				90487C4916A8407C0090F60E /* MapViewController */,
 			);
@@ -758,16 +771,6 @@
 				4325F4CC16CBA54E002C7B75 /* annDetailButton.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		9083FAF816D4DDD900BA3C24 /* CustomPicker */ = {
-			isa = PBXGroup;
-			children = (
-				901488AA16D7AEF200B25D72 /* CustomPicker.h */,
-				901488AB16D7AEF200B25D72 /* CustomPicker.m */,
-			);
-			name = CustomPicker;
-			path = ImageAnnotation;
 			sourceTree = "<group>";
 		};
 		C096279B16B555C90030988C /* SettingsViewController */ = {
@@ -979,7 +982,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				901488AC16D7BFDC00B25D72 /* CustomPicker.m in Sources */,
 				4B6D5D0C1827E30B00896059 /* ActionSheetStringPicker.m in Sources */,
 				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
 				4B52A024181EACD5002F3898 /* OCMapView.m in Sources */,

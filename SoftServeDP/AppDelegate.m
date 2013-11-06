@@ -100,12 +100,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 -(CDCoreDataManager *)coreDataManager
 {
-    if (_coreDataManager != Nil) {
-        return _coreDataManager;
-    }
-    
-    _coreDataManager = [[CDCoreDataManager alloc] init];
-    return _coreDataManager;
+    return [CDCoreDataManager sharedInstance];
 }
 
 #pragma mark - New managed object context

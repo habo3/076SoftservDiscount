@@ -86,7 +86,7 @@
 
 -(CDCoreDataManager *)coreDataManager
 {
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+    return [CDCoreDataManager sharedInstance];
 }
 
 - (NSArray*)getAllObjects

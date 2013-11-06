@@ -125,7 +125,7 @@
 
 -(CDCoreDataManager *)coreDataManager
 {
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+    return [CDCoreDataManager sharedInstance];
 }
 
 #pragma mark - design of view

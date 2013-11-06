@@ -8,7 +8,6 @@
 
 #import "MapViewController.h"
 #import "Annotation.h"
-#import "CustomPicker.h"
 #import "DetailsViewController.h"
 #import "OCMapView.h"
 #import "OCAnnotation.h"
@@ -118,7 +117,7 @@
 
 -(CDCoreDataManager *)coreDataManager
 {
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] coreDataManager];
+    return [CDCoreDataManager sharedInstance];
 }
 
 -(NSArray *)discountObjects

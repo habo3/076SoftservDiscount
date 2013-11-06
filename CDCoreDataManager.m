@@ -24,6 +24,21 @@
     return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContextNew];
 }
 
++ (CDCoreDataManager *)sharedInstance
+{
+    static CDCoreDataManager *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[super alloc] initUniqueInstance];
+        // Do any other initialisation stuff here
+    });
+    return sharedInstance;
+}
+
+-(instancetype) initUniqueInstance {
+    return [super init];
+}
+
 #pragma mark - Add to Favorites
 
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject
