@@ -141,7 +141,7 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="sb3-Xg-e38">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.92156869173049927" green="0.92156869173049927" blue="0.94509810209274292" alpha="1" colorSpace="deviceRGB"/>
                         <color key="separatorColor" red="0.91377762019999997" green="0.91241572999999998" blue="0.93620455989999996" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -195,7 +195,7 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.92156869173049927" green="0.92156869173049927" blue="0.94509810209274292" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
                                     <outlet property="addressLabel" destination="zfG-44-B3z" id="xUg-cm-nid"/>
                                     <outlet property="buttonImage" destination="DzX-df-aSH" id="W27-7Z-nhj"/>
@@ -825,8 +825,8 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="Kjq-iZ-atG">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.90196084976196289" green="0.90196084976196289" blue="0.92941182851791382" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="sectionIndexTrackingBackgroundColor" red="0.93725496530532837" green="0.93725496530532837" blue="0.95686280727386475" alpha="1" colorSpace="deviceRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="80" id="Y8t-Hb-q7P" customClass="PlaceCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="80"/>
@@ -878,7 +878,7 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.90196084976196289" green="0.90196084976196289" blue="0.92941182851791382" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
                                     <outlet property="addressLabel" destination="TU0-7F-MMc" id="lFB-gI-FBa"/>
                                     <outlet property="buttonImage" destination="f1D-ak-OFv" id="hAr-EQ-6qR"/>
@@ -950,22 +950,39 @@
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
         <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
+        <image name="disclosureButton.png" width="24" height="24"/>
         <image name="disclosureButton.png" width="24" height="24"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuIconFavorites.png" width="20" height="20"/>
         <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
+        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
         <image name="menuIconList.png" width="20" height="14"/>
+        <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconMap.png" width="16" height="20"/>
         <image name="menuIconMapSelected.png" width="16" height="20"/>
+        <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
+        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
+        <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
         <image name="settingsPin.png" width="11" height="14"/>
@@ -979,6 +996,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ofp-CS-vnj"/>
+        <segue reference="GmE-of-QXz"/>
     </inferredMetricsTieBreakers>
 </document>
