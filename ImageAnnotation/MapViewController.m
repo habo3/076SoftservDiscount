@@ -268,74 +268,82 @@
 
 - (void)getDirections
 {
-    CLLocationCoordinate2D coordinate;
-    coordinate = self.mapView.userLocation.coordinate;
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
-                                                          longitude:coordinate.longitude];
-    
-    float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
-    float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
-    CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
-    
-    CLLocationCoordinate2D endCoordinate;
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (!error) {
-        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
-        if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
-            [userDefaults synchronize];
-            self.geoLocationIsOn = NO;
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        int points_count = 0;
-        if ([[responseDict objectForKey:@"routes"] count])
-            points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+        CLLocationCoordinate2D coordinate;
+        coordinate = self.mapView.userLocation.coordinate;
+        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude
+                                                              longitude:coordinate.longitude];
         
+        float latitude = [self.mapView.selectedAnnotations.firstObject coordinate].latitude;
+        float longitude =  [self.mapView.selectedAnnotations.firstObject coordinate].longitude;
+        CLLocation *keyPlace = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
         
-        if (!points_count) {
-            [[[UIAlertView alloc] initWithTitle:@"Error"
-                                        message:@"Could not route path from your current location"
-                                       delegate:nil
-                              cancelButtonTitle:@"Close"
-                              otherButtonTitles:nil, nil] show];
-            return;
-        }
-        CLLocationCoordinate2D points[points_count * 3];
-        
-        MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
-        
-        [self.mapView addOverlay:polyline];
-        int j = 0;
-        NSArray *steps = nil;
-        if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
-            steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
-        for (int i = 0; i < points_count; i++) {
-            
-            double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
-            double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
-            if (st_lat > 0.0f && st_lon > 0.0f) {
-                points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
-                j++;
+        CLLocationCoordinate2D endCoordinate;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&sensor=false&mode=driving", userLocation.coordinate.latitude, userLocation.coordinate.longitude, keyPlace.coordinate.latitude, keyPlace.coordinate.longitude]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *responseData =  [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (!error) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
+            if ([[responseDict valueForKey:@"status"] isEqualToString:@"ZERO_RESULTS"]) {
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
+                [userDefaults synchronize];
+                self.geoLocationIsOn = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Помилка"
+                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Закрити"
+                                  otherButtonTitles:nil, nil] show];
+                });
+                return;
             }
-            double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
-            double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
-            if(j < points_count)
-                points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
-            endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
-            j++;
+            int points_count = 0;
+            if ([[responseDict objectForKey:@"routes"] count])
+                points_count = [[[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"] count];
             
+            
+            if (!points_count) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Помилка"
+                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження"
+                                           delegate:nil
+                                  cancelButtonTitle:@"Закрити"
+                                  otherButtonTitles:nil, nil] show];
+                });
+                return;
+            }
+            CLLocationCoordinate2D points[points_count * 3];
+            
+            MKPolyline *polyline = [self polylineWithEncodedString:[[[[responseDict objectForKey:@"routes"] objectAtIndex:0]objectForKey:@"overview_polyline"] objectForKey:@"points"]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.mapView addOverlay:polyline];
+            });
+            int j = 0;
+            NSArray *steps = nil;
+            if (points_count && [[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] count])
+                steps = [[[[[responseDict objectForKey:@"routes"] objectAtIndex:0] objectForKey:@"legs"] objectAtIndex:0] objectForKey:@"steps"];
+            for (int i = 0; i < points_count; i++) {
+                
+                double st_lat = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lat"] doubleValue];
+                double st_lon = [[[[steps objectAtIndex:i] objectForKey:@"start_location"] valueForKey:@"lng"] doubleValue];
+                if (st_lat > 0.0f && st_lon > 0.0f) {
+                    points[j] = CLLocationCoordinate2DMake(st_lat, st_lon);
+                    j++;
+                }
+                double end_lat = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lat"] doubleValue];
+                double end_lon = [[[[steps objectAtIndex:i] objectForKey:@"end_location"] valueForKey:@"lng"] doubleValue];
+                if(j < points_count)
+                    points[j] = CLLocationCoordinate2DMake(end_lat, end_lon);
+                endCoordinate = CLLocationCoordinate2DMake(end_lat, end_lon);
+                j++;
+                
+            }
         }
-    }
+    });
 
 }
 
@@ -644,14 +652,14 @@
 
 - (NSArray*)fillPicker
 {
-    NSMutableArray *fetchArr = [[NSMutableArray alloc]init];
-    
-    [fetchArr addObject:@"Усі категорії"];
-    for ( CDCategory *object in self.categories)
-    {
-        [fetchArr addObject:(NSString*)object.name];
+    NSArray *categories = [self.coreDataManager categoriesFromCoreData];
+    NSString *categoryNameWithDetails = [NSString stringWithFormat:@"%@ \t % i",@"Усі категорії", [self getAllPins].count];
+    NSMutableArray *names = [[NSMutableArray alloc] initWithObjects:categoryNameWithDetails, nil];
+    for (CDCategory *category in categories) {
+        categoryNameWithDetails = [NSString stringWithFormat:@"%@ \t % i",category.name, [[category valueForKey:@"discountObjects"] allObjects].count];
+        [names addObject:categoryNameWithDetails];
     }
-    return [NSArray arrayWithArray:fetchArr];
+    return names;
 }
 
 -(void) filterButtonClicked:(UIControl *)sender{
