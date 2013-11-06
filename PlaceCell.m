@@ -62,7 +62,8 @@
         self.distanceLabel.hidden = YES;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
-        NSString *http = @"http://softserve.ua";
+        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
         NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
         

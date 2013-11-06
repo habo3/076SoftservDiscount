@@ -46,6 +46,8 @@
 	<string>1.0</string>
 	<key>FacebookAppID</key>
 	<string>467238413349100</string>
+	<key>WebSite</key>
+	<string>http://softserve.ua</string>
 	<key>FlurryApiKey</key>
 	<string>M4VRTFXWPZD3SC6NPWG6</string>
 	<key>LSRequiresIPhoneOS</key>

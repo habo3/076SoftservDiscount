@@ -88,8 +88,8 @@
 + (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString*)format
 {
     NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [dictRoot objectForKey:@"WebSite"], @"/discount/api/v1/"];
     NSString *apiKey = [NSString stringWithString:[dictRoot objectForKey:@"APIKey"]];
-    NSString *url = @"http://softserve.ua/discount/api/v1/";
     return [NSString stringWithFormat: @"%@%@%@%@%@", url, objectName, @"/list/", apiKey, format];
 }
 
