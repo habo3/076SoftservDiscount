@@ -254,6 +254,7 @@
 }
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+
 {
     NSString *objectAddress = self.discountObject.address;
     NSString *objectName = self.discountObject.name;
@@ -262,62 +263,33 @@
     if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
         [shareString appendFormat:@" тел. %@", [self.discountObject.phone objectAtIndex:0]];
     }
+    
     if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
         [shareString appendFormat:@" email . %@", [self.discountObject.email objectAtIndex:0]];
     }
+    
     if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
+        
         [shareString appendFormat:@" site %@", [self.discountObject.site objectAtIndex:0]];
     }
-    
+
+    SLComposeViewController *composeController = [[SLComposeViewController alloc]init];
     if(buttonIndex == 0) {
-        
-        SLComposeViewController *fbController=[SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];    
-        
-
-            SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
-                
-                [fbController dismissViewControllerAnimated:YES completion:nil];
-                
-                switch(result){
-                    case SLComposeViewControllerResultCancelled:
-                    default:
-                    {
-                        NSLog(@"Cancelled.....");
-                        
-                    }
-                        break;
-                    case SLComposeViewControllerResultDone:
-                    {
-                        NSLog(@"Posted....");
-                    }
-                        break;
-                }};
-            
-            [fbController addImage:[UIImage imageNamed:@"1.jpg"]];
-            [fbController setInitialText:@"Check out this article."];
-            [fbController addURL:[NSURL URLWithString:@"http://soulwithmobiletechnology.blogspot.com/"]];
-            [fbController setCompletionHandler:completionHandler];
-            [self presentViewController:fbController animated:YES completion:nil];
-
-    } else if(buttonIndex == 1) {
-        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-        {
-            SLComposeViewController *tweetSheetOBJ = [SLComposeViewController
-                                                      composeViewControllerForServiceType:SLServiceTypeTwitter];
-            [tweetSheetOBJ setInitialText:@"Learn iOS programming at weblineindia.com!"];
-            [self presentViewController:tweetSheetOBJ animated:YES completion:nil];
-        }
-    } else if (buttonIndex ==2) {
-        NSMutableString *emailString = [[NSMutableString alloc] initWithString: @"mailto:?body="];
-        //MAIL URL  @"mailto:?subject=TITLE!&body=
-        [emailString appendString:shareString];
-        NSString *email = [emailString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+        composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
     }
+    else if(buttonIndex == 1) {
+        composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+    }
+        [composeController addImage:[self.discountImage image]];
+        [composeController setInitialText:shareString];
+        [composeController addURL:[NSURL URLWithString:[self.webSite text]]];
+        [self presentViewController:composeController
+                           animated:YES completion:nil];
+    
 }
 
 - (IBAction)shareAction {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Share" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook", @"Twitter", @"Email", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Share" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook", @"Twitter", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
 }
