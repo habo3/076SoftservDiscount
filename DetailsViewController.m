@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIImageView *distanceBackground;
 @property (strong, nonatomic) CDCoreDataManager *coreDataManager;
-
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIImageView *discountImage;
 
 @end
@@ -139,6 +139,8 @@
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            if(image)
+                self.activityIndicatorView.hidden = YES;
             _discountImage.image = image;
         });
     });

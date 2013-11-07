@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hpq-9w-CZg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hpq-9w-CZg">
     <dependencies>
         <deployment version="1296" defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Table View Controller - Новини-->
@@ -193,10 +193,15 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" id="lfN-a1-2hM">
+                                            <rect key="frame" x="24" y="30" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.92156869173049927" green="0.92156869173049927" blue="0.94509810209274292" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
+                                    <outlet property="activityIndicatorView" destination="lfN-a1-2hM" id="0H9-3i-wcO"/>
                                     <outlet property="addressLabel" destination="zfG-44-B3z" id="xUg-cm-nid"/>
                                     <outlet property="buttonImage" destination="DzX-df-aSH" id="W27-7Z-nhj"/>
                                     <outlet property="detailsDistanceBackground" destination="V8R-nv-mNo" id="Yve-He-4dO"/>
@@ -481,6 +486,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="85" height="65"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" id="DO8-4s-3bt">
+                                                            <rect key="frame" x="32" y="23" width="20" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </activityIndicatorView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96964533046922374" green="0.97284731657608692" blue="0.97076318987724364" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
@@ -659,6 +668,7 @@
                         <barButtonItem key="backBarButtonItem" title="Назад" id="FTe-GW-jkd"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="DO8-4s-3bt" id="Nq4-9U-0Fj"/>
                         <outlet property="address" destination="gEQ-o7-UPd" id="2E3-Do-6D6"/>
                         <outlet property="category" destination="yLX-f8-rpe" id="UEV-gh-uoS"/>
                         <outlet property="discount" destination="l5K-gQ-gq4" id="Tvs-6b-1yJ"/>
@@ -788,10 +798,15 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" id="Ug9-re-XJM">
+                                            <rect key="frame" x="24" y="30" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.90196084976196289" green="0.90196084976196289" blue="0.92941182851791382" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
+                                    <outlet property="activityIndicatorView" destination="Ug9-re-XJM" id="tek-gP-4gG"/>
                                     <outlet property="addressLabel" destination="TU0-7F-MMc" id="lFB-gI-FBa"/>
                                     <outlet property="buttonImage" destination="f1D-ak-OFv" id="hAr-EQ-6qR"/>
                                     <outlet property="detailsDistanceBackground" destination="NoJ-fd-Cw5" id="pv8-ZF-M92"/>
@@ -829,10 +844,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HUX-cO-uzf">
-                                <rect key="frame" x="20" y="399" width="280" height="27"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HUX-cO-uzf">
+                                <rect key="frame" x="20" y="384" width="280" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

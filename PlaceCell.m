@@ -8,6 +8,11 @@
 
 #import "PlaceCell.h"
 
+@interface PlaceCell ()
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
+@end
 
 @implementation PlaceCell
 
@@ -41,7 +46,6 @@
     [self initViews];
     self.nameLabel.text = object.name;
     self.addressLabel.text = object.address;
-    self.discountImage.image = [UIImage imageNamed:@"zeroCellBackgroundImg.png"] ;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     if(geoLocationIsON)
@@ -67,9 +71,11 @@
         NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;
             self.discountImage.layer.borderWidth = 1.0f;
+            if(image)
+                self.activityIndicatorView.hidden = YES;
             self.discountImage.image = image;
         });
     });

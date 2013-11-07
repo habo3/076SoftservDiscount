@@ -12,5 +12,6 @@
 @interface LoadScreenViewController : UIViewController
 
 @property (nonatomic, strong) CDCoreDataManager *coreDataManager;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end

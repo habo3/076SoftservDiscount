@@ -27,6 +27,7 @@
 -(void)deleteAllData;
 -(void)makeRelationsBetweenCategoriesAndObjectsAndCities;
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
+-(BOOL)isCoreDataEntityExist;
 
 -(NSArray*)discountObjectsFromCoreData;
 -(NSArray*)citiesFromCoreData;

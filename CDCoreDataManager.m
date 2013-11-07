@@ -248,6 +248,19 @@
     }
     return YES;
 }
+
+#pragma mark - IsCoreDataExist
+
+-(BOOL)isCoreDataEntityExist
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
+    [fetchRequest setFetchLimit:1];
+    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - Refresh CoreData
 -(void)deleteAllData
 {

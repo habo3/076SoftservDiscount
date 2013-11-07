@@ -32,7 +32,8 @@
 - (void)downloadDataBase:(NSString *)url
 {
     self.updatedDataBase = NO;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (connection) {
         self.status = @"Connecting to server";
@@ -53,14 +54,17 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [self.responseData appendData:data];
-    
+    [self.responseData appendData:data];    
     self.status = [NSString stringWithFormat: @"Downloaded: %.1f %%", self.responseData.length * 100. / self.downloadSize.intValue];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    self.status = error.localizedDescription;
+    [[[UIAlertView alloc] initWithTitle:@"Connection problems"
+                                message:error.localizedDescription
+                               delegate:self
+                      cancelButtonTitle:nil
+                      otherButtonTitles:nil] show];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection

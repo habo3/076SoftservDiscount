@@ -18,7 +18,13 @@
 @end
 
 
+
 @implementation LoadScreenViewController
+
+-(NSManagedObjectContext *)managedObjectContex
+{
+    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContext];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,16 +79,30 @@
     NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
 }
 
+-(BOOL) isinternetAvailable
+{
+    NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
+    return ( URLString != NULL ) ? YES : NO;
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.activityIndicator.hidden = FALSE;
     [self.activityIndicator startAnimating];
-//    if (![userDefaults objectForKey:@"DataBaseUpdate"]) {
+    if(![self.coreDataManager isCoreDataEntityExist])
+    {
         [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
-//    }
-    int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
-    [self downloadDataBaseWithUpdateTime:lastUpdate];
+        int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+        [self downloadDataBaseWithUpdateTime:lastUpdate];
+    }
+    
+    if([self isinternetAvailable] && [self.coreDataManager isCoreDataEntityExist])
+    {
+        int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+        [self downloadDataBaseWithUpdateTime:lastUpdate];
+    }
+    
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
