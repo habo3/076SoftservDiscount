@@ -27,7 +27,7 @@
 {
     [CustomViewMaker customNavigationBarForView:self];
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:255.0/255.0 green:196.0/255.0 blue:18.0/255.0 alpha:1.0]];
-    if([[[UIDevice currentDevice] systemVersion] isEqualToString:@"7.0"])
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGold.png"] forBarMetrics:UIBarMetricsDefault];
