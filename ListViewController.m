@@ -39,7 +39,6 @@
 @synthesize coreDataManager = _coreDataManager;
 @synthesize selectedIndex = _selectedIndex;
 
-
 #pragma mark - General
 
 - (void)viewDidLoad
@@ -124,15 +123,6 @@
         [names addObject:categoryNameWithDetails];
     }
     [ActionSheetStringPicker showPickerWithTitle:@"" rows:names initialSelection:self.selectedIndex target:self successAction:@selector(categoryWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
-    
-    
-    /* Example ActionSheetPicker using customButtons
-     self.actionSheetPicker = [[ActionSheetPicker alloc] initWithTitle@"Select Animal" rows:self.animals initialSelection:self.selectedIndex target:self successAction:@selector(itemWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender
-     
-     [self.actionSheetPicker addCustomButtonWithTitle:@"Special" value:[NSNumber numberWithInt:1]];
-     self.actionSheetPicker.hideCancel = YES;
-     [self.actionSheetPicker showActionSheetPicker];
-     */
 }
 
 - (void)categoryWasSelected:(NSNumber *)selectedIndex element:(id)element {
@@ -148,6 +138,8 @@
 }
 
 #pragma mark - tableView
+
+
 
 - (void) reloadTableWithDistancesValues
 {

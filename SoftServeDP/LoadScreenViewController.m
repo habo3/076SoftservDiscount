@@ -78,9 +78,9 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.activityIndicator.hidden = FALSE;
     [self.activityIndicator startAnimating];
-    if (![userDefaults objectForKey:@"DataBaseUpdate"]) {
+//    if (![userDefaults objectForKey:@"DataBaseUpdate"]) {
         [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
-    }
+//    }
     int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
     [self downloadDataBaseWithUpdateTime:lastUpdate];
     [self performSegueWithIdentifier:@"Menu" sender:self];

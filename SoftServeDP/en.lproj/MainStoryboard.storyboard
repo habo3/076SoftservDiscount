@@ -245,9 +245,9 @@
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="n5f-MA-sud">
-                                                <rect key="frame" x="223" y="25" width="51" height="31"/>
+                                                <rect key="frame" x="251" y="25" width="51" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="onTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="onTintColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                                                 <connections>
                                                     <action selector="geoLocationSwitch:" destination="Bwc-fC-5m8" eventType="valueChanged" id="Xzj-km-Bja"/>
                                                 </connections>
@@ -257,102 +257,20 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.85258895990000005" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="settingsUpdate.png" id="QXU-Tx-LD9">
-                                                <rect key="frame" x="18" y="82" width="13" height="18"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UpdateLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hb2-Or-lAR">
-                                                <rect key="frame" x="38" y="80" width="236" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <color key="textColor" white="0.50199589416058399" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </label>
-                                            <view contentMode="scaleToFill" id="rbR-gv-Buf">
-                                                <rect key="frame" x="12" y="107" width="296" height="83"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Id4-dc-svN">
-                                                        <rect key="frame" x="225" y="4" width="51" height="31"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <color key="onTintColor" red="1" green="0.5316576918" blue="0.074056998200000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="autoUpdateSwitch:" destination="Bwc-fC-5m8" eventType="valueChanged" id="I3P-Lr-niC"/>
-                                                        </connections>
-                                                    </switch>
-                                                    <view contentMode="scaleToFill" id="T1V-DO-PWx" userLabel="View - InsideRectangleDivider">
-                                                        <rect key="frame" x="0.0" y="41" width="295" height="1"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.85258895985401473" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </view>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AutomaticUpdateLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="doZ-7O-mHg">
-                                                        <rect key="frame" x="13" y="9" width="173" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" white="0.50017107664233573" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tmr-C4-Bkb">
-                                                        <rect key="frame" x="0.0" y="43" width="295" height="41"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                        <state key="normal">
-                                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="selectUpdatePeriod:" destination="Bwc-fC-5m8" eventType="touchUpInside" id="3Mj-tk-Jne"/>
-                                                        </connections>
-                                                    </button>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PLV" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gg4-Zp-ARO">
-                                                        <rect key="frame" x="194" y="52" width="60" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UpdatePeriodLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oNb-0r-Wap">
-                                                        <rect key="frame" x="12" y="52" width="174" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" white="0.50017107664233573" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="settingsDisclosure.png" id="KIl-CC-lXg">
-                                                        <rect key="frame" x="271" y="54" width="17" height="17"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                        <integer key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="self.layer.borderUIColor">
-                                                        <color key="value" white="0.75342153280000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
                                             <view contentMode="scaleToFill" id="iBb-dW-BjQ" userLabel="View - SectionDivider">
-                                                <rect key="frame" x="-1" y="201" width="320" height="1"/>
+                                                <rect key="frame" x="0.0" y="65" width="320" height="1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.85258895990000005" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CityLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zpG-Y4-oBN">
-                                                <rect key="frame" x="38" y="217" width="235" height="21"/>
+                                                <rect key="frame" x="39" y="81" width="235" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="textColor" white="0.50199589416058399" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <view contentMode="scaleToFill" id="ppL-vV-Dr7">
-                                                <rect key="frame" x="12" y="244" width="296" height="43"/>
+                                                <rect key="frame" x="13" y="108" width="296" height="43"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="U0z-KV-O6e">
@@ -374,7 +292,7 @@
                                                         <rect key="frame" x="14" y="11" width="225" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="settingsDisclosure.png" id="OOZ-VV-lh3">
@@ -396,23 +314,23 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" id="O6n-P6-rNG" userLabel="View - SectionDivider">
-                                                <rect key="frame" x="-1" y="298" width="320" height="1"/>
+                                                <rect key="frame" x="0.0" y="162" width="320" height="1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.85258895990000005" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="settingsSSIcon.png" id="rna-q7-WiE">
-                                                <rect key="frame" x="17" y="311" width="14" height="15"/>
+                                                <rect key="frame" x="18" y="175" width="14" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AboutLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Nm-Lx-SVx">
-                                                <rect key="frame" x="38" y="307" width="235" height="21"/>
+                                                <rect key="frame" x="39" y="171" width="235" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="textColor" white="0.50199589416058399" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <view contentMode="scaleToFill" id="jtc-3f-eNO">
-                                                <rect key="frame" x="12" y="336" width="296" height="83"/>
+                                                <rect key="frame" x="13" y="200" width="296" height="83"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" id="jyk-kD-Xcr" userLabel="View - InsideRectangleDivider">
@@ -424,14 +342,14 @@
                                                         <rect key="frame" x="236" y="12" width="52" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VDBLN" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QDs-Xe-kQ8">
                                                         <rect key="frame" x="161" y="54" width="127" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VersionLabelText" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9iu-72-Xpy">
@@ -456,14 +374,14 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VersionDBLabelText" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="832-YZ-ASz">
-                                                <rect key="frame" x="26" y="390" width="145" height="21"/>
+                                                <rect key="frame" x="27" y="254" width="145" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" white="0.50299384124087587" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="settingsPin.png" id="DZ8-BC-3Wa">
-                                                <rect key="frame" x="19" y="221" width="11" height="14"/>
+                                                <rect key="frame" x="20" y="85" width="11" height="14"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                         </subviews>
@@ -477,17 +395,11 @@
                     <navigationItem key="navigationItem" title="Налаштування" id="9sw-LF-5Df"/>
                     <connections>
                         <outlet property="aboutLabel" destination="0Nm-Lx-SVx" id="k1T-NM-9Ko"/>
-                        <outlet property="automaticUpdateLabel" destination="doZ-7O-mHg" id="4IM-FQ-qHm"/>
-                        <outlet property="automaticUpdateSwitch" destination="Id4-dc-svN" id="DBH-KH-cFb"/>
                         <outlet property="changeCity" destination="U0z-KV-O6e" id="g0f-MV-XnZ"/>
-                        <outlet property="changeUpdatePeriod" destination="tmr-C4-Bkb" id="LIZ-cY-9Xc"/>
                         <outlet property="cityLabel" destination="zpG-Y4-oBN" id="Beg-UD-rYC"/>
                         <outlet property="geoLocationLabel" destination="nM8-6P-y6K" id="OHI-DD-DK6"/>
                         <outlet property="geoLocationSwitch" destination="n5f-MA-sud" id="rLX-cO-YHw"/>
-                        <outlet property="periodLabelValue" destination="Gg4-Zp-ARO" id="J35-aL-rn8"/>
                         <outlet property="selectedCityLabel" destination="STf-Ke-CUh" id="DOZ-rn-p3x"/>
-                        <outlet property="updateLabel" destination="hb2-Or-lAR" id="aOl-sD-G61"/>
-                        <outlet property="updatePeriodLabel" destination="oNb-0r-Wap" id="EmP-Ce-xKm"/>
                         <outlet property="versionDBLabelNumber" destination="QDs-Xe-kQ8" id="hbv-WI-jxs"/>
                         <outlet property="versionDBLabelText" destination="832-YZ-ASz" id="CsK-zI-jYa"/>
                         <outlet property="versionLabelNumber" destination="hKN-zK-ala" id="MIE-Nh-Xyn"/>
@@ -496,7 +408,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UAS-U1-dBM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2524" y="-663"/>
+            <point key="canvasLocation" x="1916" y="-677"/>
         </scene>
         <!--Details View Controller - DetailsViewController-->
         <scene sceneID="eSB-hS-hJ4">
@@ -970,7 +882,6 @@
         <image name="settingsGeolocation.png" width="14" height="12"/>
         <image name="settingsPin.png" width="11" height="14"/>
         <image name="settingsSSIcon.png" width="14" height="15"/>
-        <image name="settingsUpdate.png" width="13" height="18"/>
         <image name="shareButton.png" width="138" height="44"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
