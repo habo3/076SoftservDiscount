@@ -30,7 +30,7 @@
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGold.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGOld.png"] forBarMetrics:UIBarMetricsDefault];
 
 }
 

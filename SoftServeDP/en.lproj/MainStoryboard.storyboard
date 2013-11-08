@@ -250,7 +250,7 @@
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="n5f-MA-sud">
-                                                <rect key="frame" x="251" y="25" width="51" height="31"/>
+                                                <rect key="frame" x="232" y="25" width="51" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="onTintColor" red="1" green="0.73333334922790527" blue="0.19215688109397888" alpha="1" colorSpace="deviceRGB"/>
                                                 <connections>
