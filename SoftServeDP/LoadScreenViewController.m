@@ -12,8 +12,7 @@
 #import "CDCoreDataManager.h"
 
 @interface LoadScreenViewController ()
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 @end
 
@@ -38,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.activityIndicator.hidden = TRUE;
+    self.progressView.progress = 0.0;
 }
 
 - (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
@@ -47,13 +46,12 @@
     NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
     JPJsonParser *objects, *cities, *categories;
     
-    self.statusLabel.text = @"Downloading Data Base";
     objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     
     while (!downloadedDataBase) {
-        self.statusLabel.text = objects.status;
+          self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
         [runLoop runUntilDate:[NSDate date]];
         if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
             downloadedDataBase = YES;
@@ -79,17 +77,15 @@
     NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
 }
 
--(BOOL) isinternetAvailable
+-(BOOL)internetAvailable
 {
-    NSString *URLString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
-    return ( URLString != NULL ) ? YES : NO;
+    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
+    return (url != NULL) ? YES : NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.activityIndicator.hidden = FALSE;
-    [self.activityIndicator startAnimating];
     if(![self.coreDataManager isCoreDataEntityExist])
     {
         [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
@@ -97,7 +93,7 @@
         [self downloadDataBaseWithUpdateTime:lastUpdate];
     }
     
-    if([self isinternetAvailable] && [self.coreDataManager isCoreDataEntityExist])
+    if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist])
     {
         int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         [self downloadDataBaseWithUpdateTime:lastUpdate];

@@ -20,6 +20,8 @@
 
 @implementation JPJsonParser
 
+static BOOL notification = NO;
+
 - (id)initWithUrl:(NSString*)url
 {
     self = [super init];
@@ -32,14 +34,12 @@
 - (void)downloadDataBase:(NSString *)url
 {
     self.updatedDataBase = NO;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (connection) {
-        self.status = @"Connecting to server";
         NSLog(@"Downloading Data Base object");
     } else {
-        self.status = @"Error: connecting to server";
         NSLog(@"Error downloading Data Base object");
     }
 }
@@ -48,23 +48,25 @@
 {
     self.downloadSize = [NSNumber numberWithLongLong: [response expectedContentLength]];
     NSLog(@"Responce. Expected len: %@", self.downloadSize);
-    self.status = [NSString stringWithFormat: @"Responce. Expected len: %@ bytes", self.downloadSize];
     self.responseData = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [self.responseData appendData:data];    
-    self.status = [NSString stringWithFormat: @"Downloaded: %.1f %%", self.responseData.length * 100. / self.downloadSize.intValue];
+    [self.responseData appendData:data];
+    self.status = [NSNumber numberWithDouble:self.responseData.length * 90. / self.downloadSize.intValue];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [[[UIAlertView alloc] initWithTitle:@"Connection problems"
-                                message:error.localizedDescription
-                               delegate:self
-                      cancelButtonTitle:nil
-                      otherButtonTitles:nil] show];
+    if (!notification) {
+        [[[UIAlertView alloc] initWithTitle:@"Connection problems"
+                                    message:error.localizedDescription
+                                   delegate:self
+                          cancelButtonTitle:nil
+                          otherButtonTitles:nil] show];
+        notification = YES;
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -78,13 +80,12 @@
 
 - (void)parseDownloadedData
 {
-    self.status = @"Parsing";
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
+    self.status = [NSNumber numberWithDouble:[self.status doubleValue] + 10.];
     self.parsedData = [json objectForKey:@"list"];
-    NSArray *arr = self.parsedData;
     self.updatedDataBase = YES;
-    NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[arr count]]);
+    NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[self.parsedData count]]);
 }
 
 
