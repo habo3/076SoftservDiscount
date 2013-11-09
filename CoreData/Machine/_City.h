@@ -12,12 +12,14 @@ extern const struct CityAttributes {
 } CityAttributes;
 
 extern const struct CityRelationships {
+	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *discountObjects;
 } CityRelationships;
 
 extern const struct CityFetchedProperties {
 } CityFetchedProperties;
 
+@class CDContent;
 @class DiscountObject;
 
 @class NSObject;
@@ -82,6 +84,13 @@ extern const struct CityFetchedProperties {
 
 
 
+@property (nonatomic, strong) CDContent *content;
+
+//- (BOOL)validateContent:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) NSSet *discountObjects;
 
 - (NSMutableSet*)discountObjectsSet;
@@ -129,6 +138,11 @@ extern const struct CityFetchedProperties {
 - (void)setPrimitivePublishedValue:(BOOL)value_;
 
 
+
+
+
+- (CDContent*)primitiveContent;
+- (void)setPrimitiveContent:(CDContent*)value;
 
 
 

@@ -30,6 +30,7 @@ const struct DiscountObjectAttributes DiscountObjectAttributes = {
 const struct DiscountObjectRelationships DiscountObjectRelationships = {
 	.categorys = @"categorys",
 	.cities = @"cities",
+	.content = @"content",
 	.favorite = @"favorite",
 };
 
@@ -278,6 +279,10 @@ const struct DiscountObjectFetchedProperties DiscountObjectFetchedProperties = {
 	
 
 @dynamic cities;
+
+	
+
+@dynamic content;
 
 	
 

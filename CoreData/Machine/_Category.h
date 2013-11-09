@@ -14,12 +14,14 @@ extern const struct CategoryAttributes {
 } CategoryAttributes;
 
 extern const struct CategoryRelationships {
+	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *discountObjects;
 } CategoryRelationships;
 
 extern const struct CategoryFetchedProperties {
 } CategoryFetchedProperties;
 
+@class CDContent;
 @class DiscountObject;
 
 
@@ -106,6 +108,13 @@ extern const struct CategoryFetchedProperties {
 
 
 
+@property (nonatomic, strong) CDContent *content;
+
+//- (BOOL)validateContent:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) NSSet *discountObjects;
 
 - (NSMutableSet*)discountObjectsSet;
@@ -165,6 +174,11 @@ extern const struct CategoryFetchedProperties {
 - (void)setPrimitiveUpdated:(NSDecimalNumber*)value;
 
 
+
+
+
+- (CDContent*)primitiveContent;
+- (void)setPrimitiveContent:(CDContent*)value;
 
 
 

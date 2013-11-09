@@ -43,43 +43,32 @@
 
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDFavorites"];
-    [fetchRequest setFetchLimit:1];
+    CDFavorites *favorites = [self favoritesFromCoreData];
     
     if ([discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
-//        NSLog(@"Deleted from Favorites");
-        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-        NSMutableSet *mutableSetOfFavorites = [NSMutableSet setWithSet:[[result objectAtIndex:0] valueForKey:@"discountObjects"]];
-        [mutableSetOfFavorites removeObject:discountObject];
-        
-        CDFavorites *favorites = [result objectAtIndex:0];
-        favorites.discountObjects = mutableSetOfFavorites;
-        
-        [self.managedObjectContex save:nil];
+        [favorites.discountObjectsSet removeObject:discountObject];
         discountObject.isInFavorites = @NO;
     }
     else
     {
-//        NSLog(@"Added to Favorites");
-        
-        if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
-            CDFavorites *newFavorites;
-            newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];
-            [self.managedObjectContex save:nil];
-        }
-        
-        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-        
-        NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[[result objectAtIndex:0] valueForKey:@"discountObjects"]];
-        [temp addObject:discountObject];
-        
-        CDFavorites *favorites = [result objectAtIndex:0];
-        favorites.discountObjects = temp;
-        
+        [favorites.discountObjectsSet addObject:discountObject];
         discountObject.isInFavorites = @YES;
-        [self.managedObjectContex save:nil];
-        
     }
+    [self.managedObjectContex save:nil];
+}
+
+-(CDFavorites*)favoritesFromCoreData
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDFavorites"];
+    [fetchRequest setFetchLimit:1];
+    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+        CDFavorites *newFavorites;
+        newFavorites = [NSEntityDescription insertNewObjectForEntityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex];
+        newFavorites.content = [self contentFromCoreData];
+        [self.managedObjectContex save:nil];
+    }
+    NSArray *resultFavorites = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    return [resultFavorites objectAtIndex:0];
 }
 
 -(NSArray*)discountObjectsFromFavorites
@@ -94,86 +83,12 @@
     return nil;
 }
 
-//#pragma mark - Discount Objects manipulations
-//-(void)saveDiscountObjectsToCoreData
-//{
-//    NSArray *cities = [self citiesFromCoreData];
-//    NSArray *categories = [self categoriesFromCoreData];
-//    
-//    for (NSDictionary *object in _discountObject) {
-//        if ([self isDiscountObjectValid:object]) {
-//            CDDiscountObject *newDiscountObject = [NSEntityDescription insertNewObjectForEntityForName:@"CDDiscountObject" inManagedObjectContext:self.managedObjectContex];
-//            
-//            for (NSString *key in object) {
-//                if ([key isEqualToString:@"responsiblePersonInfo"]) {
-//                    continue;                    
-//                }
-//                if ([key isEqualToString:@"description"]) {
-//                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
-//                        [newDiscountObject setValue:[object valueForKey:key] forKey:@"descriptionn"];
-//                    }
-//                    continue;
-//                }
-//                if ([key isEqualToString:@"pulse"]) {
-//                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
-//                        [newDiscountObject setValue:[object valueForKey:key] forKey:key];
-//                    }
-//                    continue;
-//                }
-//                if ([key isEqualToString:@"id"]) {
-//                    [newDiscountObject setValue:[[object valueForKey:key] stringValue] forKey:key];
-//                    continue;
-//                }
-//                if ([key isEqualToString:@"category"]) {
-//                    NSMutableArray *tempCategory = [[NSMutableArray alloc] init];
-//                    for (NSNumber *idNumber in [object valueForKey:key]) {
-//                        [tempCategory addObject:[idNumber stringValue]];
-//                    }                    
-//                    [newDiscountObject setValue:tempCategory forKey:key];
-//                    continue;
-//                }
-//
-//                [newDiscountObject setValue:[object valueForKey:key] forKey:key];
-//                
-//            }
-//#pragma mark - makeRalations
-//            for (NSManagedObject *city in cities) {
-//                if ( [[city valueForKey:@"id"] isEqualToString:[object valueForKey:@"city"]]) {
-//                    //                NSLog(@"cityID: %@",[[city valueForKey:@"id"] stringValue]);
-//                    //                NSLog(@"objectCity: %@",[object valueForKey:@"city"]);
-//                    [newDiscountObject setValue:city forKey:@"cities"];
-//                }
-//            }
-//            for (NSString *objectCategory in [newDiscountObject valueForKey:@"category"]) { //[object valueForKey:@"category"]
-//                for (NSManagedObject *category in categories ) {
-//                    if ( [objectCategory isEqualToString:[category valueForKey:@"id"]]) {
-//                        //                    NSLog(@"CCC: %@", [category valueForKey:@"id"]);
-//                        //                    NSLog(@"DDD: %@", objectCategory);
-//                        NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[object valueForKey:@"categorys"]];
-//                        [temp addObject:category];
-//                        //[object setValue:temp forKey:@"categorys"];
-//                        [newDiscountObject setValue:temp forKey:@"categorys"];
-//                    }
-//                }
-//            }
-//            newDiscountObject.isInFavorites = @NO;
-//            [self.managedObjectContex save:nil];
-//            // TODO counter
-//        }
-//    }
-//}
 #pragma mark - Discount Objects manipulations
 -(void)saveDiscountObjectsToCoreData
 {
     NSArray *cities = [self citiesFromCoreData];
     NSArray *categories = [self categoriesFromCoreData];
-    
-//    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDContent"];
-//    [fetchRequest setFetchLimit:1];
-//    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
-//        CDContent *newContent;
-//        newContent = [NSEntityDescription insertNewObjectForEntityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex];
-//    }
+    CDContent *contentFromCoreData = [self contentFromCoreData];
     
     for (NSDictionary *object in _discountObject) {
         CDDiscountObject *newDiscountObject = [CDDiscountObject createWithDictionary:object andContext:self.managedObjectContex];
@@ -199,13 +114,9 @@
                 }
             }
             newDiscountObject.isInFavorites = @NO;
-            
-//            NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-//            NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[[resultContent objectAtIndex:0] valueForKey:@"discountObjects"]];
-//            [temp addObject:newDiscountObject];
-            
+            newDiscountObject.content = contentFromCoreData;
             [self.managedObjectContex save:nil];
-            // TODO counter
+            
         }
     }
 }
@@ -223,6 +134,7 @@
 #pragma mark - City Objects manipulations
 -(void)saveCitiesToCoreData
 {
+    CDContent *contentFromCoreData = [self contentFromCoreData];
     for (NSString *key in _cities.allKeys) {
         NSDictionary *tempCity = [_cities valueForKey:key];
         CDCategory *newCity = [NSEntityDescription insertNewObjectForEntityForName:@"CDCity" inManagedObjectContext:self.managedObjectContex];
@@ -232,9 +144,9 @@
                 continue;
             }
             [newCity setValue:[tempCity valueForKey:key] forKey:key];
-        }
+        }        
+        newCity.content = contentFromCoreData;
         [self.managedObjectContex save:nil];
-        // TODO counter
     }
 }
 
@@ -247,7 +159,8 @@
 }
 #pragma mark - Category Objects manipulations
 -(void)saveCategoriesToCoreData
-{    
+{
+    CDContent *contentFromCoreData = [self contentFromCoreData];
     for (NSString *key in _categories.allKeys) {
         NSDictionary *tempCategory = [_categories valueForKey:key];
         CDCategory *newCategory = [NSEntityDescription insertNewObjectForEntityForName:@"CDCategory" inManagedObjectContext:self.managedObjectContex];
@@ -258,8 +171,8 @@
             }
             [newCategory setValue:[tempCategory valueForKey:key] forKey:key];
         }
+        newCategory.content = contentFromCoreData;
         [self.managedObjectContex save:nil];
-        // TODO counter
     }
 }
 
@@ -310,50 +223,65 @@
 }
 
 #pragma mark - Refresh CoreData
--(void)deleteAllData
-{
-    NSFetchRequest *allDiscountObjects = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
-    allDiscountObjects.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"created" ascending:YES]];
-    
-    NSArray *discountObjects = [self.managedObjectContex executeFetchRequest:allDiscountObjects error:nil];
-    
-    for (NSManagedObject * obj in discountObjects) {
-        [self.managedObjectContex deleteObject:obj];
-    }
-    
-    NSFetchRequest * allCategories = [[NSFetchRequest alloc] init];
-    [allCategories setEntity:[NSEntityDescription entityForName:@"CDCategory" inManagedObjectContext:self.managedObjectContex]];
-    [allCategories setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    
-    NSArray * categories = [self.managedObjectContex executeFetchRequest:allCategories error:Nil];
-    
-    for (NSManagedObject * category in categories) {
-        [self.managedObjectContex deleteObject:category];
-    }
-    
-    NSFetchRequest * allCities = [[NSFetchRequest alloc] init];
-    [allCities setEntity:[NSEntityDescription entityForName:@"CDCity" inManagedObjectContext:self.managedObjectContex]];
-    [allCities setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    
-    NSArray * cities = [self.managedObjectContex executeFetchRequest:allCities error:Nil];
-    
-    for (NSManagedObject * city in cities) {
-        [self.managedObjectContex deleteObject:city];
-    }
-    
-    //Delete Favorites
-    
-    NSFetchRequest * allFavorites = [[NSFetchRequest alloc] init];
-    [allFavorites setEntity:[NSEntityDescription entityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex]];
-    [allFavorites setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    
-    NSArray * favorites = [self.managedObjectContex executeFetchRequest:allFavorites error:Nil];
-    
-    for (NSManagedObject * obj in favorites) {
-        [self.managedObjectContex deleteObject:obj];
-    }
+//-(void)deleteAllData
+//{
+//    NSFetchRequest *allDiscountObjects = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
+//    allDiscountObjects.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"created" ascending:YES]];
+//    
+//    NSArray *discountObjects = [self.managedObjectContex executeFetchRequest:allDiscountObjects error:nil];
+//    
+//    for (NSManagedObject * obj in discountObjects) {
+//        [self.managedObjectContex deleteObject:obj];
+//    }
+//    
+//    NSFetchRequest * allCategories = [[NSFetchRequest alloc] init];
+//    [allCategories setEntity:[NSEntityDescription entityForName:@"CDCategory" inManagedObjectContext:self.managedObjectContex]];
+//    [allCategories setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+//    
+//    NSArray * categories = [self.managedObjectContex executeFetchRequest:allCategories error:Nil];
+//    
+//    for (NSManagedObject * category in categories) {
+//        [self.managedObjectContex deleteObject:category];
+//    }
+//    
+//    NSFetchRequest * allCities = [[NSFetchRequest alloc] init];
+//    [allCities setEntity:[NSEntityDescription entityForName:@"CDCity" inManagedObjectContext:self.managedObjectContex]];
+//    [allCities setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+//    
+//    NSArray * cities = [self.managedObjectContex executeFetchRequest:allCities error:Nil];
+//    
+//    for (NSManagedObject * city in cities) {
+//        [self.managedObjectContex deleteObject:city];
+//    }
+//    
+//    //Delete Favorites
+//    
+//    NSFetchRequest * allFavorites = [[NSFetchRequest alloc] init];
+//    [allFavorites setEntity:[NSEntityDescription entityForName:@"CDFavorites" inManagedObjectContext:self.managedObjectContex]];
+//    [allFavorites setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+//    
+//    NSArray * favorites = [self.managedObjectContex executeFetchRequest:allFavorites error:Nil];
+//    
+//    for (NSManagedObject * obj in favorites) {
+//        [self.managedObjectContex deleteObject:obj];
+//    }
+//
+//}
 
+-(void)deleteAllCoreData
+{
+    NSFetchRequest * allContent = [[NSFetchRequest alloc] init];
+    [allContent setEntity:[NSEntityDescription entityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex]];
+    [allContent setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    
+    NSArray * content = [self.managedObjectContex executeFetchRequest:allContent error:Nil];
+    
+    for (NSManagedObject * obj in content) {
+        [self.managedObjectContex deleteObject:obj];
+    }
+    [self.managedObjectContex save:nil];
 }
+
 #pragma mark - Now useless
 -(void)makeRelationsBetweenCategoriesAndObjectsAndCities
 {
@@ -389,6 +317,23 @@
     //    NSManagedObject *obj1 = [result objectAtIndex:0];
     //    [obj1 setValue:@"texter96" forKey:@"skype"];
     [self.managedObjectContex save:nil];
+}
+
+#pragma mark - Get CDContent
+
+-(CDContent*)contentFromCoreData
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDContent"];
+    [fetchRequest setFetchLimit:1];
+    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+        CDContent *newContent;
+        newContent = [NSEntityDescription insertNewObjectForEntityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex];
+        [self.managedObjectContex save:nil];
+    }
+    
+    NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    
+    return [resultContent objectAtIndex:0];
 }
 
 @end

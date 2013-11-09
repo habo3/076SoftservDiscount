@@ -13,6 +13,7 @@ const struct CategoryAttributes CategoryAttributes = {
 };
 
 const struct CategoryRelationships CategoryRelationships = {
+	.content = @"content",
 	.discountObjects = @"discountObjects",
 };
 
@@ -117,6 +118,10 @@ const struct CategoryFetchedProperties CategoryFetchedProperties = {
 
 
 
+
+@dynamic content;
+
+	
 
 @dynamic discountObjects;
 

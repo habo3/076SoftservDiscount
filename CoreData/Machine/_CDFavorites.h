@@ -8,12 +8,14 @@ extern const struct CDFavoritesAttributes {
 } CDFavoritesAttributes;
 
 extern const struct CDFavoritesRelationships {
+	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *discountObjects;
 } CDFavoritesRelationships;
 
 extern const struct CDFavoritesFetchedProperties {
 } CDFavoritesFetchedProperties;
 
+@class CDContent;
 @class DiscountObject;
 
 
@@ -26,6 +28,13 @@ extern const struct CDFavoritesFetchedProperties {
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (CDFavoritesID*)objectID;
 
+
+
+
+
+@property (nonatomic, strong) CDContent *content;
+
+//- (BOOL)validateContent:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -50,6 +59,11 @@ extern const struct CDFavoritesFetchedProperties {
 @end
 
 @interface _CDFavorites (CoreDataGeneratedPrimitiveAccessors)
+
+
+
+- (CDContent*)primitiveContent;
+- (void)setPrimitiveContent:(CDContent*)value;
 
 
 

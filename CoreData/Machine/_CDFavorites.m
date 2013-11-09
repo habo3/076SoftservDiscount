@@ -7,6 +7,7 @@ const struct CDFavoritesAttributes CDFavoritesAttributes = {
 };
 
 const struct CDFavoritesRelationships CDFavoritesRelationships = {
+	.content = @"content",
 	.discountObjects = @"discountObjects",
 };
 
@@ -45,6 +46,10 @@ const struct CDFavoritesFetchedProperties CDFavoritesFetchedProperties = {
 
 
 
+
+@dynamic content;
+
+	
 
 @dynamic discountObjects;
 

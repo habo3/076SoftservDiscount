@@ -58,7 +58,7 @@
     }
     
     if (!lastUpdate) {
-        [self.coreDataManager deleteAllData];
+        [self.coreDataManager deleteAllCoreData];
     }
     
     if ([[categories parsedData] count]) {
@@ -114,7 +114,7 @@
 
 - (CDCoreDataManager *)coreDataManager
 {
-    return [(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataManager];
+    return [CDCoreDataManager sharedInstance];
 }
 
 

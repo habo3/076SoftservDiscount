@@ -11,6 +11,7 @@ const struct CityAttributes CityAttributes = {
 };
 
 const struct CityRelationships CityRelationships = {
+	.content = @"content",
 	.discountObjects = @"discountObjects",
 };
 
@@ -101,6 +102,10 @@ const struct CityFetchedProperties CityFetchedProperties = {
 
 
 
+
+@dynamic content;
+
+	
 
 @dynamic discountObjects;
 

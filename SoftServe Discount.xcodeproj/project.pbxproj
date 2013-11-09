@@ -101,6 +101,8 @@
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
 		57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723B182E3393006E2018 /* CDDiscountObject.m */; };
+		57DB723F182E384F006E2018 /* CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723E182E384F006E2018 /* CDContent.m */; };
+		57DB7242182E385F006E2018 /* _CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB7241182E385F006E2018 /* _CDContent.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
@@ -283,6 +285,10 @@
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		57DB723A182E3393006E2018 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
 		57DB723B182E3393006E2018 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
+		57DB723D182E384F006E2018 /* CDContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDContent.h; sourceTree = "<group>"; };
+		57DB723E182E384F006E2018 /* CDContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDContent.m; sourceTree = "<group>"; };
+		57DB7240182E385F006E2018 /* _CDContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CDContent.h; sourceTree = "<group>"; };
+		57DB7241182E385F006E2018 /* _CDContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CDContent.m; sourceTree = "<group>"; };
 		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
 		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -816,6 +822,8 @@
 		E7005C84182A7C5D00202A69 /* Human */ = {
 			isa = PBXGroup;
 			children = (
+				57DB723D182E384F006E2018 /* CDContent.h */,
+				57DB723E182E384F006E2018 /* CDContent.m */,
 				57DB723A182E3393006E2018 /* CDDiscountObject.h */,
 				57DB723B182E3393006E2018 /* CDDiscountObject.m */,
 				E7005C85182A7C5D00202A69 /* CDCategory.h */,
@@ -831,6 +839,8 @@
 		E7005C8D182A7C5D00202A69 /* Machine */ = {
 			isa = PBXGroup;
 			children = (
+				57DB7240182E385F006E2018 /* _CDContent.h */,
+				57DB7241182E385F006E2018 /* _CDContent.m */,
 				E7005C8E182A7C5D00202A69 /* _Category.h */,
 				E7005C8F182A7C5D00202A69 /* _Category.m */,
 				E7005C90182A7C5D00202A69 /* _CDFavorites.h */,
@@ -1027,7 +1037,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "cd ~/076SoftServDiscount\n/usr/bin/mogenerator --template-var arc=true -m NewModel.xcdatamodeld -M CoreData/Machine -H CoreData/Human\n";
+			shellScript = "cd ~/098SoftservDiscount_merge\n/usr/bin/mogenerator --template-var arc=true -m NewModel.xcdatamodeld -M CoreData/Machine -H CoreData/Human\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1058,6 +1068,8 @@
 				4B52A022181EACD5002F3898 /* OCAnnotation.m in Sources */,
 				4B52A023181EACD5002F3898 /* OCDistance.m in Sources */,
 				4B5C8E2A181FE036005D1A8D /* CDCoreDataManager.m in Sources */,
+				57DB7242182E385F006E2018 /* _CDContent.m in Sources */,
+				57DB723F182E384F006E2018 /* CDContent.m in Sources */,
 				4B6D5D081827E30B00896059 /* AbstractActionSheetPicker.m in Sources */,
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */,

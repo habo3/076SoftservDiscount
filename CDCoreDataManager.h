@@ -24,10 +24,10 @@
 -(void)saveDiscountObjectsToCoreData;
 -(void)saveCitiesToCoreData;
 -(void)saveCategoriesToCoreData;
--(void)deleteAllData;
 -(void)makeRelationsBetweenCategoriesAndObjectsAndCities;
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
 -(BOOL)isCoreDataEntityExist;
+-(void)deleteAllCoreData;
 
 -(NSArray*)discountObjectsFromCoreData;
 -(NSArray*)citiesFromCoreData;

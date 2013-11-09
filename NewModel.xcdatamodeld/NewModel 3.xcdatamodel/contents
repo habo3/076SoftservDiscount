@@ -3,33 +3,42 @@
     <entity name="CDCategory" representedClassName="Category" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="fontSymbol" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="published" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="updated" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="content" maxCount="1" deletionRule="Nullify" destinationEntity="CDContent" inverseName="catrgories" inverseEntity="CDContent" syncable="YES"/>
         <relationship name="discountObjects" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDDiscountObject" inverseName="categorys" inverseEntity="CDDiscountObject" syncable="YES"/>
     </entity>
     <entity name="CDCity" representedClassName="City" syncable="YES">
         <attribute name="bounds" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="published" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="content" maxCount="1" deletionRule="Nullify" destinationEntity="CDContent" inverseName="cities" inverseEntity="CDContent" syncable="YES"/>
         <relationship name="discountObjects" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDDiscountObject" inverseName="cities" inverseEntity="CDDiscountObject" syncable="YES"/>
     </entity>
+    <entity name="CDContent" representedClassName="CDContent" syncable="YES">
+        <attribute name="apiVersion" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="catrgories" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDCategory" inverseName="content" inverseEntity="CDCategory" syncable="YES"/>
+        <relationship name="cities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDCity" inverseName="content" inverseEntity="CDCity" syncable="YES"/>
+        <relationship name="discountObjects" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDDiscountObject" inverseName="content" inverseEntity="CDDiscountObject" syncable="YES"/>
+        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDFavorites" inverseName="content" inverseEntity="CDFavorites" syncable="YES"/>
+    </entity>
     <entity name="CDDiscountObject" representedClassName="DiscountObject" syncable="YES">
-        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address" attributeType="String" syncable="YES"/>
         <attribute name="attachments" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="category" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" attributeType="Transformable" indexed="YES" syncable="YES"/>
+        <attribute name="city" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="descriptionn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="discount" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="geoPoint" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="geoPoint" attributeType="Transformable" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="isInFavorites" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="logo" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="parent" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="published" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -40,15 +49,18 @@
         <attribute name="updated" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <relationship name="categorys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDCategory" inverseName="discountObjects" inverseEntity="CDCategory" syncable="YES"/>
         <relationship name="cities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDCity" inverseName="discountObjects" inverseEntity="CDCity" syncable="YES"/>
+        <relationship name="content" maxCount="1" deletionRule="Nullify" destinationEntity="CDContent" inverseName="discountObjects" inverseEntity="CDContent" syncable="YES"/>
         <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDFavorites" inverseName="discountObjects" inverseEntity="CDFavorites" syncable="YES"/>
     </entity>
     <entity name="CDFavorites" representedClassName="CDFavorites" syncable="YES">
+        <relationship name="content" maxCount="1" deletionRule="Nullify" destinationEntity="CDContent" inverseName="favorites" inverseEntity="CDContent" syncable="YES"/>
         <relationship name="discountObjects" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDDiscountObject" inverseName="favorite" inverseEntity="CDDiscountObject" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CDCategory" positionX="0" positionY="0" width="128" height="148"/>
-        <element name="CDCity" positionX="-549" positionY="189" width="128" height="118"/>
-        <element name="CDDiscountObject" positionX="-324" positionY="18" width="128" height="403"/>
-        <element name="CDFavorites" positionX="-657" positionY="41" width="128" height="58"/>
+        <element name="CDCategory" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDCity" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDContent" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDDiscountObject" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CDFavorites" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

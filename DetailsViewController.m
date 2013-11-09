@@ -92,6 +92,8 @@
     [self loadLogo];
     
     [self isObjectInFavoritesButtonController];
+    
+
 }
 
 - (void) viewWillAppear:(BOOL)animated

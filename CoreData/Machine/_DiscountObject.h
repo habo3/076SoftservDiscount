@@ -31,6 +31,7 @@ extern const struct DiscountObjectAttributes {
 extern const struct DiscountObjectRelationships {
 	__unsafe_unretained NSString *categorys;
 	__unsafe_unretained NSString *cities;
+	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *favorite;
 } DiscountObjectRelationships;
 
@@ -39,6 +40,7 @@ extern const struct DiscountObjectFetchedProperties {
 
 @class Category;
 @class City;
+@class CDContent;
 @class CDFavorites;
 
 
@@ -308,6 +310,13 @@ extern const struct DiscountObjectFetchedProperties {
 
 
 
+@property (nonatomic, strong) CDContent *content;
+
+//- (BOOL)validateContent:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) CDFavorites *favorite;
 
 //- (BOOL)validateFavorite:(id*)value_ error:(NSError**)error_;
@@ -470,6 +479,11 @@ extern const struct DiscountObjectFetchedProperties {
 
 - (City*)primitiveCities;
 - (void)setPrimitiveCities:(City*)value;
+
+
+
+- (CDContent*)primitiveContent;
+- (void)setPrimitiveContent:(CDContent*)value;
 
 
 
