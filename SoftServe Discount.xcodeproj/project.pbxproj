@@ -100,6 +100,7 @@
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
+		57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723B182E3393006E2018 /* CDDiscountObject.m */; };
 		9039DE7C16D2D8B300F9A279 /* geoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7A16D2D8B300F9A279 /* geoButton.png */; };
 		9039DE7D16D2D8B300F9A279 /* geoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */; };
 		90487C6C16A8433B0090F60E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487C6B16A8433B0090F60E /* MapKit.framework */; };
@@ -134,7 +135,6 @@
 		E7005C96182A7C5D00202A69 /* CDCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C86182A7C5D00202A69 /* CDCategory.m */; };
 		E7005C97182A7C5D00202A69 /* CDFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C88182A7C5D00202A69 /* CDFavorites.m */; };
 		E7005C98182A7C5D00202A69 /* CDCity.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C8A182A7C5D00202A69 /* CDCity.m */; };
-		E7005C99182A7C5D00202A69 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C8C182A7C5D00202A69 /* CDDiscountObject.m */; };
 		E7005C9A182A7C5D00202A69 /* _Category.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C8F182A7C5D00202A69 /* _Category.m */; };
 		E7005C9B182A7C5D00202A69 /* _CDFavorites.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C91182A7C5D00202A69 /* _CDFavorites.m */; };
 		E7005C9C182A7C5D00202A69 /* _City.m in Sources */ = {isa = PBXBuildFile; fileRef = E7005C93182A7C5D00202A69 /* _City.m */; };
@@ -281,6 +281,8 @@
 		4BE0043D180563E600DA17C2 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = SOURCE_ROOT; };
 		4BE0043E180563E600DA17C2 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = SOURCE_ROOT; };
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		57DB723A182E3393006E2018 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
+		57DB723B182E3393006E2018 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
 		9039DE7A16D2D8B300F9A279 /* geoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoButton.png; sourceTree = SOURCE_ROOT; };
 		9039DE7B16D2D8B300F9A279 /* geoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "geoButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		90487C6B16A8433B0090F60E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -324,8 +326,6 @@
 		E7005C88182A7C5D00202A69 /* CDFavorites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFavorites.m; sourceTree = "<group>"; };
 		E7005C89182A7C5D00202A69 /* CDCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCity.h; sourceTree = "<group>"; };
 		E7005C8A182A7C5D00202A69 /* CDCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCity.m; sourceTree = "<group>"; };
-		E7005C8B182A7C5D00202A69 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
-		E7005C8C182A7C5D00202A69 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
 		E7005C8E182A7C5D00202A69 /* _Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Category.h; sourceTree = "<group>"; };
 		E7005C8F182A7C5D00202A69 /* _Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Category.m; sourceTree = "<group>"; };
 		E7005C90182A7C5D00202A69 /* _CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CDFavorites.h; sourceTree = "<group>"; };
@@ -816,14 +816,14 @@
 		E7005C84182A7C5D00202A69 /* Human */ = {
 			isa = PBXGroup;
 			children = (
+				57DB723A182E3393006E2018 /* CDDiscountObject.h */,
+				57DB723B182E3393006E2018 /* CDDiscountObject.m */,
 				E7005C85182A7C5D00202A69 /* CDCategory.h */,
 				E7005C86182A7C5D00202A69 /* CDCategory.m */,
 				E7005C87182A7C5D00202A69 /* CDFavorites.h */,
 				E7005C88182A7C5D00202A69 /* CDFavorites.m */,
 				E7005C89182A7C5D00202A69 /* CDCity.h */,
 				E7005C8A182A7C5D00202A69 /* CDCity.m */,
-				E7005C8B182A7C5D00202A69 /* CDDiscountObject.h */,
-				E7005C8C182A7C5D00202A69 /* CDDiscountObject.m */,
 			);
 			path = Human;
 			sourceTree = "<group>";
@@ -1040,13 +1040,13 @@
 				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
 				4B52A024181EACD5002F3898 /* OCMapView.m in Sources */,
 				4B7A16401829165C0042FB2D /* CustomViewMaker.m in Sources */,
-				E7005C99182A7C5D00202A69 /* CDDiscountObject.m in Sources */,
 				4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */,
 				E7005C96182A7C5D00202A69 /* CDCategory.m in Sources */,
 				4325F4DE16CBA7FC002C7B75 /* CustomCalloutView.m in Sources */,
 				4325F4DC16CBA784002C7B75 /* CustomAnnotationView.m in Sources */,
 				E7005C9D182A7C5D00202A69 /* _DiscountObject.m in Sources */,
 				4B5C8E1C181FE02A005D1A8D /* JPJsonParser.m in Sources */,
+				57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */,
 				4B6D5D0A1827E30B00896059 /* ActionSheetDatePicker.m in Sources */,
 				4325F4DB16CBA745002C7B75 /* MapViewController.m in Sources */,
 				432CC5E116A467E000A50F1D /* main.m in Sources */,

@@ -94,48 +94,90 @@
     return nil;
 }
 
+//#pragma mark - Discount Objects manipulations
+//-(void)saveDiscountObjectsToCoreData
+//{
+//    NSArray *cities = [self citiesFromCoreData];
+//    NSArray *categories = [self categoriesFromCoreData];
+//    
+//    for (NSDictionary *object in _discountObject) {
+//        if ([self isDiscountObjectValid:object]) {
+//            CDDiscountObject *newDiscountObject = [NSEntityDescription insertNewObjectForEntityForName:@"CDDiscountObject" inManagedObjectContext:self.managedObjectContex];
+//            
+//            for (NSString *key in object) {
+//                if ([key isEqualToString:@"responsiblePersonInfo"]) {
+//                    continue;                    
+//                }
+//                if ([key isEqualToString:@"description"]) {
+//                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
+//                        [newDiscountObject setValue:[object valueForKey:key] forKey:@"descriptionn"];
+//                    }
+//                    continue;
+//                }
+//                if ([key isEqualToString:@"pulse"]) {
+//                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
+//                        [newDiscountObject setValue:[object valueForKey:key] forKey:key];
+//                    }
+//                    continue;
+//                }
+//                if ([key isEqualToString:@"id"]) {
+//                    [newDiscountObject setValue:[[object valueForKey:key] stringValue] forKey:key];
+//                    continue;
+//                }
+//                if ([key isEqualToString:@"category"]) {
+//                    NSMutableArray *tempCategory = [[NSMutableArray alloc] init];
+//                    for (NSNumber *idNumber in [object valueForKey:key]) {
+//                        [tempCategory addObject:[idNumber stringValue]];
+//                    }                    
+//                    [newDiscountObject setValue:tempCategory forKey:key];
+//                    continue;
+//                }
+//
+//                [newDiscountObject setValue:[object valueForKey:key] forKey:key];
+//                
+//            }
+//#pragma mark - makeRalations
+//            for (NSManagedObject *city in cities) {
+//                if ( [[city valueForKey:@"id"] isEqualToString:[object valueForKey:@"city"]]) {
+//                    //                NSLog(@"cityID: %@",[[city valueForKey:@"id"] stringValue]);
+//                    //                NSLog(@"objectCity: %@",[object valueForKey:@"city"]);
+//                    [newDiscountObject setValue:city forKey:@"cities"];
+//                }
+//            }
+//            for (NSString *objectCategory in [newDiscountObject valueForKey:@"category"]) { //[object valueForKey:@"category"]
+//                for (NSManagedObject *category in categories ) {
+//                    if ( [objectCategory isEqualToString:[category valueForKey:@"id"]]) {
+//                        //                    NSLog(@"CCC: %@", [category valueForKey:@"id"]);
+//                        //                    NSLog(@"DDD: %@", objectCategory);
+//                        NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[object valueForKey:@"categorys"]];
+//                        [temp addObject:category];
+//                        //[object setValue:temp forKey:@"categorys"];
+//                        [newDiscountObject setValue:temp forKey:@"categorys"];
+//                    }
+//                }
+//            }
+//            newDiscountObject.isInFavorites = @NO;
+//            [self.managedObjectContex save:nil];
+//            // TODO counter
+//        }
+//    }
+//}
 #pragma mark - Discount Objects manipulations
 -(void)saveDiscountObjectsToCoreData
 {
     NSArray *cities = [self citiesFromCoreData];
     NSArray *categories = [self categoriesFromCoreData];
     
+//    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDContent"];
+//    [fetchRequest setFetchLimit:1];
+//    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+//        CDContent *newContent;
+//        newContent = [NSEntityDescription insertNewObjectForEntityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex];
+//    }
+    
     for (NSDictionary *object in _discountObject) {
-        if ([self isDiscountObjectValid:object]) {
-            CDDiscountObject *newDiscountObject = [NSEntityDescription insertNewObjectForEntityForName:@"CDDiscountObject" inManagedObjectContext:self.managedObjectContex];
-            
-            for (NSString *key in object) {
-                if ([key isEqualToString:@"responsiblePersonInfo"]) {
-                    continue;                    
-                }
-                if ([key isEqualToString:@"description"]) {
-                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
-                        [newDiscountObject setValue:[object valueForKey:key] forKey:@"descriptionn"];
-                    }
-                    continue;
-                }
-                if ([key isEqualToString:@"pulse"]) {
-                    if (![[object valueForKey:key] isKindOfClass:[NSNull class]]) {
-                        [newDiscountObject setValue:[object valueForKey:key] forKey:key];
-                    }
-                    continue;
-                }
-                if ([key isEqualToString:@"id"]) {
-                    [newDiscountObject setValue:[[object valueForKey:key] stringValue] forKey:key];
-                    continue;
-                }
-                if ([key isEqualToString:@"category"]) {
-                    NSMutableArray *tempCategory = [[NSMutableArray alloc] init];
-                    for (NSNumber *idNumber in [object valueForKey:key]) {
-                        [tempCategory addObject:[idNumber stringValue]];
-                    }                    
-                    [newDiscountObject setValue:tempCategory forKey:key];
-                    continue;
-                }
-
-                [newDiscountObject setValue:[object valueForKey:key] forKey:key];
-                
-            }
+        CDDiscountObject *newDiscountObject = [CDDiscountObject createWithDictionary:object andContext:self.managedObjectContex];
+        if (newDiscountObject) {
 #pragma mark - makeRalations
             for (NSManagedObject *city in cities) {
                 if ( [[city valueForKey:@"id"] isEqualToString:[object valueForKey:@"city"]]) {
@@ -157,11 +199,17 @@
                 }
             }
             newDiscountObject.isInFavorites = @NO;
+            
+//            NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+//            NSMutableSet *temp = [[NSMutableSet alloc] initWithSet:[[resultContent objectAtIndex:0] valueForKey:@"discountObjects"]];
+//            [temp addObject:newDiscountObject];
+            
             [self.managedObjectContex save:nil];
             // TODO counter
         }
     }
 }
+
 
 -(NSArray*)discountObjectsFromCoreData
 {
