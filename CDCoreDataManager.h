@@ -24,7 +24,6 @@
 -(void)saveDiscountObjectsToCoreData;
 -(void)saveCitiesToCoreData;
 -(void)saveCategoriesToCoreData;
--(void)makeRelationsBetweenCategoriesAndObjectsAndCities;
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
 -(BOOL)isCoreDataEntityExist;
 -(void)deleteAllCoreData;

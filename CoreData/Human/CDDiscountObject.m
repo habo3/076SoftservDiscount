@@ -40,7 +40,7 @@
                 for (NSNumber *idNumber in [object valueForKey:key]) {
                     [tempCategory addObject:[idNumber stringValue]];
                 }
-                [newDiscountObject setValue:tempCategory forKey:key];
+                [newDiscountObject setValue:tempCategory forKey:key];                
                 continue;
             }
             

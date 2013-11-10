@@ -18,9 +18,9 @@ extern const struct CDContentRelationships {
 extern const struct CDContentFetchedProperties {
 } CDContentFetchedProperties;
 
-@class Category;
-@class City;
-@class DiscountObject;
+@class CDCategory;
+@class CDCity;
+@class CDDiscountObject;
 @class CDFavorites;
 
 
@@ -83,18 +83,18 @@ extern const struct CDContentFetchedProperties {
 
 - (void)addCatrgories:(NSSet*)value_;
 - (void)removeCatrgories:(NSSet*)value_;
-- (void)addCatrgoriesObject:(Category*)value_;
-- (void)removeCatrgoriesObject:(Category*)value_;
+- (void)addCatrgoriesObject:(CDCategory*)value_;
+- (void)removeCatrgoriesObject:(CDCategory*)value_;
 
 - (void)addCities:(NSSet*)value_;
 - (void)removeCities:(NSSet*)value_;
-- (void)addCitiesObject:(City*)value_;
-- (void)removeCitiesObject:(City*)value_;
+- (void)addCitiesObject:(CDCity*)value_;
+- (void)removeCitiesObject:(CDCity*)value_;
 
 - (void)addDiscountObjects:(NSSet*)value_;
 - (void)removeDiscountObjects:(NSSet*)value_;
-- (void)addDiscountObjectsObject:(DiscountObject*)value_;
-- (void)removeDiscountObjectsObject:(DiscountObject*)value_;
+- (void)addDiscountObjectsObject:(CDDiscountObject*)value_;
+- (void)removeDiscountObjectsObject:(CDDiscountObject*)value_;
 
 - (void)addFavorites:(NSSet*)value_;
 - (void)removeFavorites:(NSSet*)value_;

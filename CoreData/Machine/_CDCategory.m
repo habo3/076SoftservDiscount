@@ -1,44 +1,46 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to City.m instead.
+// Make changes to CDCategory.m instead.
 
-#import "_City.h"
+#import "_CDCategory.h"
 
-const struct CityAttributes CityAttributes = {
-	.bounds = @"bounds",
+const struct CDCategoryAttributes CDCategoryAttributes = {
+	.created = @"created",
+	.fontSymbol = @"fontSymbol",
 	.id = @"id",
 	.name = @"name",
 	.published = @"published",
+	.updated = @"updated",
 };
 
-const struct CityRelationships CityRelationships = {
+const struct CDCategoryRelationships CDCategoryRelationships = {
 	.content = @"content",
 	.discountObjects = @"discountObjects",
 };
 
-const struct CityFetchedProperties CityFetchedProperties = {
+const struct CDCategoryFetchedProperties CDCategoryFetchedProperties = {
 };
 
-@implementation CityID
+@implementation CDCategoryID
 @end
 
-@implementation _City
+@implementation _CDCategory
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"CDCity" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"CDCategory" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"CDCity";
+	return @"CDCategory";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"CDCity" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"CDCategory" inManagedObjectContext:moc_];
 }
 
-- (CityID*)objectID {
-	return (CityID*)[super objectID];
+- (CDCategoryID*)objectID {
+	return (CDCategoryID*)[super objectID];
 }
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
@@ -56,7 +58,14 @@ const struct CityFetchedProperties CityFetchedProperties = {
 
 
 
-@dynamic bounds;
+@dynamic created;
+
+
+
+
+
+
+@dynamic fontSymbol;
 
 
 
@@ -98,6 +107,13 @@ const struct CityFetchedProperties CityFetchedProperties = {
 - (void)setPrimitivePublishedValue:(BOOL)value_ {
 	[self setPrimitivePublished:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic updated;
+
 
 
 

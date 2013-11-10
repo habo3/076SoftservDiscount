@@ -1,6 +1,6 @@
-#import "_DiscountObject.h"
+#import "_CDDiscountObject.h"
 
-@interface CDDiscountObject : _DiscountObject {}
+@interface CDDiscountObject : _CDDiscountObject {}
 // Custom logic goes here.
 
 +(id)createWithDictionary:object andContext:managedObjectContext;

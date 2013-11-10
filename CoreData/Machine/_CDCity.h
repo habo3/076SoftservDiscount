@@ -1,64 +1,50 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Category.h instead.
+// Make changes to CDCity.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-extern const struct CategoryAttributes {
-	__unsafe_unretained NSString *created;
-	__unsafe_unretained NSString *fontSymbol;
+extern const struct CDCityAttributes {
+	__unsafe_unretained NSString *bounds;
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *published;
-	__unsafe_unretained NSString *updated;
-} CategoryAttributes;
+} CDCityAttributes;
 
-extern const struct CategoryRelationships {
+extern const struct CDCityRelationships {
 	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *discountObjects;
-} CategoryRelationships;
+} CDCityRelationships;
 
-extern const struct CategoryFetchedProperties {
-} CategoryFetchedProperties;
+extern const struct CDCityFetchedProperties {
+} CDCityFetchedProperties;
 
 @class CDContent;
-@class DiscountObject;
+@class CDDiscountObject;
+
+@class NSObject;
 
 
 
 
-
-
-
-
-@interface CategoryID : NSManagedObjectID {}
+@interface CDCityID : NSManagedObjectID {}
 @end
 
-@interface _Category : NSManagedObject {}
+@interface _CDCity : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (CategoryID*)objectID;
+- (CDCityID*)objectID;
 
 
 
 
 
-@property (nonatomic, strong) NSDecimalNumber* created;
+@property (nonatomic, strong) id bounds;
 
 
 
-//- (BOOL)validateCreated:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) NSString* fontSymbol;
-
-
-
-//- (BOOL)validateFontSymbol:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateBounds:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -98,16 +84,6 @@ extern const struct CategoryFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSDecimalNumber* updated;
-
-
-
-//- (BOOL)validateUpdated:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
 @property (nonatomic, strong) CDContent *content;
 
 //- (BOOL)validateContent:(id*)value_ error:(NSError**)error_;
@@ -125,26 +101,20 @@ extern const struct CategoryFetchedProperties {
 
 @end
 
-@interface _Category (CoreDataGeneratedAccessors)
+@interface _CDCity (CoreDataGeneratedAccessors)
 
 - (void)addDiscountObjects:(NSSet*)value_;
 - (void)removeDiscountObjects:(NSSet*)value_;
-- (void)addDiscountObjectsObject:(DiscountObject*)value_;
-- (void)removeDiscountObjectsObject:(DiscountObject*)value_;
+- (void)addDiscountObjectsObject:(CDDiscountObject*)value_;
+- (void)removeDiscountObjectsObject:(CDDiscountObject*)value_;
 
 @end
 
-@interface _Category (CoreDataGeneratedPrimitiveAccessors)
+@interface _CDCity (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSDecimalNumber*)primitiveCreated;
-- (void)setPrimitiveCreated:(NSDecimalNumber*)value;
-
-
-
-
-- (NSString*)primitiveFontSymbol;
-- (void)setPrimitiveFontSymbol:(NSString*)value;
+- (id)primitiveBounds;
+- (void)setPrimitiveBounds:(id)value;
 
 
 
@@ -166,12 +136,6 @@ extern const struct CategoryFetchedProperties {
 
 - (BOOL)primitivePublishedValue;
 - (void)setPrimitivePublishedValue:(BOOL)value_;
-
-
-
-
-- (NSDecimalNumber*)primitiveUpdated;
-- (void)setPrimitiveUpdated:(NSDecimalNumber*)value;
 
 
 

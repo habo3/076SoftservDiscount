@@ -1,5 +1,5 @@
-#import "_City.h"
+#import "_CDCity.h"
 
-@interface CDCity : _City {}
+@interface CDCity : _CDCity {}
 // Custom logic goes here.
 @end

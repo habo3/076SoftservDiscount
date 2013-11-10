@@ -1,5 +1,5 @@
-#import "_Category.h"
+#import "_CDCategory.h"
 
-@interface CDCategory : _Category {}
+@interface CDCategory : _CDCategory {}
 // Custom logic goes here.
 @end

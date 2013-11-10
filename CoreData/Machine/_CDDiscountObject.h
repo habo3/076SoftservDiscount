@@ -1,10 +1,10 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to DiscountObject.h instead.
+// Make changes to CDDiscountObject.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-extern const struct DiscountObjectAttributes {
+extern const struct CDDiscountObjectAttributes {
 	__unsafe_unretained NSString *address;
 	__unsafe_unretained NSString *attachments;
 	__unsafe_unretained NSString *category;
@@ -26,20 +26,20 @@ extern const struct DiscountObjectAttributes {
 	__unsafe_unretained NSString *site;
 	__unsafe_unretained NSString *skype;
 	__unsafe_unretained NSString *updated;
-} DiscountObjectAttributes;
+} CDDiscountObjectAttributes;
 
-extern const struct DiscountObjectRelationships {
+extern const struct CDDiscountObjectRelationships {
 	__unsafe_unretained NSString *categorys;
 	__unsafe_unretained NSString *cities;
 	__unsafe_unretained NSString *content;
 	__unsafe_unretained NSString *favorite;
-} DiscountObjectRelationships;
+} CDDiscountObjectRelationships;
 
-extern const struct DiscountObjectFetchedProperties {
-} DiscountObjectFetchedProperties;
+extern const struct CDDiscountObjectFetchedProperties {
+} CDDiscountObjectFetchedProperties;
 
-@class Category;
-@class City;
+@class CDCategory;
+@class CDCity;
 @class CDContent;
 @class CDFavorites;
 
@@ -65,14 +65,14 @@ extern const struct DiscountObjectFetchedProperties {
 @class NSObject;
 
 
-@interface DiscountObjectID : NSManagedObjectID {}
+@interface CDDiscountObjectID : NSManagedObjectID {}
 @end
 
-@interface _DiscountObject : NSManagedObject {}
+@interface _CDDiscountObject : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (DiscountObjectID*)objectID;
+- (CDDiscountObjectID*)objectID;
 
 
 
@@ -303,7 +303,7 @@ extern const struct DiscountObjectFetchedProperties {
 
 
 
-@property (nonatomic, strong) City *cities;
+@property (nonatomic, strong) CDCity *cities;
 
 //- (BOOL)validateCities:(id*)value_ error:(NSError**)error_;
 
@@ -327,16 +327,16 @@ extern const struct DiscountObjectFetchedProperties {
 
 @end
 
-@interface _DiscountObject (CoreDataGeneratedAccessors)
+@interface _CDDiscountObject (CoreDataGeneratedAccessors)
 
 - (void)addCategorys:(NSSet*)value_;
 - (void)removeCategorys:(NSSet*)value_;
-- (void)addCategorysObject:(Category*)value_;
-- (void)removeCategorysObject:(Category*)value_;
+- (void)addCategorysObject:(CDCategory*)value_;
+- (void)removeCategorysObject:(CDCategory*)value_;
 
 @end
 
-@interface _DiscountObject (CoreDataGeneratedPrimitiveAccessors)
+@interface _CDDiscountObject (CoreDataGeneratedPrimitiveAccessors)
 
 
 - (NSString*)primitiveAddress;
@@ -477,8 +477,8 @@ extern const struct DiscountObjectFetchedProperties {
 
 
 
-- (City*)primitiveCities;
-- (void)setPrimitiveCities:(City*)value;
+- (CDCity*)primitiveCities;
+- (void)setPrimitiveCities:(CDCity*)value;
 
 
 

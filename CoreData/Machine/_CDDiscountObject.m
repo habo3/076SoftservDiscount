@@ -1,9 +1,9 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to DiscountObject.m instead.
+// Make changes to CDDiscountObject.m instead.
 
-#import "_DiscountObject.h"
+#import "_CDDiscountObject.h"
 
-const struct DiscountObjectAttributes DiscountObjectAttributes = {
+const struct CDDiscountObjectAttributes CDDiscountObjectAttributes = {
 	.address = @"address",
 	.attachments = @"attachments",
 	.category = @"category",
@@ -27,20 +27,20 @@ const struct DiscountObjectAttributes DiscountObjectAttributes = {
 	.updated = @"updated",
 };
 
-const struct DiscountObjectRelationships DiscountObjectRelationships = {
+const struct CDDiscountObjectRelationships CDDiscountObjectRelationships = {
 	.categorys = @"categorys",
 	.cities = @"cities",
 	.content = @"content",
 	.favorite = @"favorite",
 };
 
-const struct DiscountObjectFetchedProperties DiscountObjectFetchedProperties = {
+const struct CDDiscountObjectFetchedProperties CDDiscountObjectFetchedProperties = {
 };
 
-@implementation DiscountObjectID
+@implementation CDDiscountObjectID
 @end
 
-@implementation _DiscountObject
+@implementation _CDDiscountObject
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
@@ -56,8 +56,8 @@ const struct DiscountObjectFetchedProperties DiscountObjectFetchedProperties = {
 	return [NSEntityDescription entityForName:@"CDDiscountObject" inManagedObjectContext:moc_];
 }
 
-- (DiscountObjectID*)objectID {
-	return (DiscountObjectID*)[super objectID];
+- (CDDiscountObjectID*)objectID {
+	return (CDDiscountObjectID*)[super objectID];
 }
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {

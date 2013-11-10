@@ -16,7 +16,7 @@ extern const struct CDFavoritesFetchedProperties {
 } CDFavoritesFetchedProperties;
 
 @class CDContent;
-@class DiscountObject;
+@class CDDiscountObject;
 
 
 @interface CDFavoritesID : NSManagedObjectID {}
@@ -53,8 +53,8 @@ extern const struct CDFavoritesFetchedProperties {
 
 - (void)addDiscountObjects:(NSSet*)value_;
 - (void)removeDiscountObjects:(NSSet*)value_;
-- (void)addDiscountObjectsObject:(DiscountObject*)value_;
-- (void)removeDiscountObjectsObject:(DiscountObject*)value_;
+- (void)addDiscountObjectsObject:(CDDiscountObject*)value_;
+- (void)removeDiscountObjectsObject:(CDDiscountObject*)value_;
 
 @end
 

@@ -1,46 +1,44 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Category.m instead.
+// Make changes to CDCity.m instead.
 
-#import "_Category.h"
+#import "_CDCity.h"
 
-const struct CategoryAttributes CategoryAttributes = {
-	.created = @"created",
-	.fontSymbol = @"fontSymbol",
+const struct CDCityAttributes CDCityAttributes = {
+	.bounds = @"bounds",
 	.id = @"id",
 	.name = @"name",
 	.published = @"published",
-	.updated = @"updated",
 };
 
-const struct CategoryRelationships CategoryRelationships = {
+const struct CDCityRelationships CDCityRelationships = {
 	.content = @"content",
 	.discountObjects = @"discountObjects",
 };
 
-const struct CategoryFetchedProperties CategoryFetchedProperties = {
+const struct CDCityFetchedProperties CDCityFetchedProperties = {
 };
 
-@implementation CategoryID
+@implementation CDCityID
 @end
 
-@implementation _Category
+@implementation _CDCity
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"CDCategory" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"CDCity" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"CDCategory";
+	return @"CDCity";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"CDCategory" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"CDCity" inManagedObjectContext:moc_];
 }
 
-- (CategoryID*)objectID {
-	return (CategoryID*)[super objectID];
+- (CDCityID*)objectID {
+	return (CDCityID*)[super objectID];
 }
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
@@ -58,14 +56,7 @@ const struct CategoryFetchedProperties CategoryFetchedProperties = {
 
 
 
-@dynamic created;
-
-
-
-
-
-
-@dynamic fontSymbol;
+@dynamic bounds;
 
 
 
@@ -107,13 +98,6 @@ const struct CategoryFetchedProperties CategoryFetchedProperties = {
 - (void)setPrimitivePublishedValue:(BOOL)value_ {
 	[self setPrimitivePublished:[NSNumber numberWithBool:value_]];
 }
-
-
-
-
-
-@dynamic updated;
-
 
 
 
