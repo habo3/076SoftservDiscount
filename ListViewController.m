@@ -27,7 +27,10 @@
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
 @property (nonatomic) NSInteger selectedIndex;
-
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property(nonatomic, copy) NSString *currentSearchString;
+@property (nonatomic, copy) NSArray *tempObjects;
+@property (nonatomic, copy) NSArray *filteredObjects;
 @end
 
 @implementation ListViewController
@@ -38,6 +41,7 @@
 @synthesize discountObjects = _discountObjects;
 @synthesize coreDataManager = _coreDataManager;
 @synthesize selectedIndex = _selectedIndex;
+@synthesize searchBar = _searchBar;
 
 #pragma mark - General
 
@@ -49,6 +53,7 @@
     self.tableView.delegate = self;
     self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
     [self initFilterButton];
+    _tempObjects = _discountObjects;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -139,7 +144,24 @@
 
 #pragma mark - tableView
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if(!self.searchBar)
+    {
+        UISearchBar *tempSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
+        _searchBar = tempSearchBar;
+        _searchBar.showsCancelButton = YES;
+        self.searchBar.delegate = self;
+        [_searchBar sizeToFit];
+    }
+    return _searchBar;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 40.0f;
+    }
+    return 0.1f;
+}
 
 - (void) reloadTableWithDistancesValues
 {
@@ -165,6 +187,32 @@
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
     PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
+}
+
+#pragma mark - searching
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.tableView reloadData];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+
+    _searchBar.text = nil;
+    _discountObjects = _tempObjects;
+    [self.tableView reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+       _discountObjects = _tempObjects;
+    if ([searchText isEqualToString:@""]);
+    
+    else {
+        _discountObjects = [_discountObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS [cd] %@", searchText]];
+    }
+    //[self.tableView reloadData];  for static keyboard
 }
 
 #pragma mark - Location Manager
