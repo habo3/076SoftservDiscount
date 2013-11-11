@@ -543,6 +543,17 @@
                                                     <rect key="frame" x="27" y="0.0" width="287" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Imw-Qh-phP">
+                                                    <rect key="frame" x="27" y="1" width="287" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.90196084980000002" green="0.90196084980000002" blue="0.92941182850000004" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" backgroundImage="transparent.png">
+                                                        <color key="titleShadowColor" red="0.9803922176361084" green="0.9803922176361084" blue="0.9803922176361084" alpha="1" colorSpace="deviceRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="callNumber" destination="fza-nt-l4I" eventType="touchUpInside" id="lWy-zd-L2g"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="20" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qtu-Z4-dMS">
                                                     <rect key="frame" x="53" y="0.0" width="267" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -554,16 +565,6 @@
                                                     <rect key="frame" x="38" y="6" width="10" height="11"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Imw-Qh-phP">
-                                                    <rect key="frame" x="38" y="-4" width="243" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="callNumber" destination="fza-nt-l4I" eventType="touchUpInside" id="lWy-zd-L2g"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -603,6 +604,17 @@
                                                     <rect key="frame" x="27" y="0.0" width="287" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="maS-lo-e3r">
+                                                    <rect key="frame" x="27" y="1" width="287" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.9215686917" green="0.9215686917" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" backgroundImage="transparent.png">
+                                                        <color key="titleShadowColor" red="0.9803922176361084" green="0.9803922176361084" blue="0.9803922176361084" alpha="1" colorSpace="deviceRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="redirectToWebSite" destination="fza-nt-l4I" eventType="touchUpInside" id="4ve-dE-yN6"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fRp-4s-BK9">
                                                     <rect key="frame" x="53" y="0.0" width="267" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -613,16 +625,6 @@
                                                     <rect key="frame" x="38" y="6" width="11" height="9"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="maS-lo-e3r">
-                                                    <rect key="frame" x="57" y="-4" width="243" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="redirectToWebSite" destination="fza-nt-l4I" eventType="touchUpInside" id="4ve-dE-yN6"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -911,6 +913,7 @@
         <image name="settingsPin.png" width="11" height="14"/>
         <image name="settingsSSIcon.png" width="14" height="15"/>
         <image name="shareButton.png" width="138" height="44"/>
+        <image name="transparent.png" width="2" height="2"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
