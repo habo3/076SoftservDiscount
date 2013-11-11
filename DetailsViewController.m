@@ -80,20 +80,31 @@
     self.address.text = self.discountObject.address;
     
     if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
+        self.phone.textColor = [UIColor blueColor];
         self.phone.text = [self.discountObject.phone objectAtIndex:0];
     }
     if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
         self.email.text = [self.discountObject.email objectAtIndex:0];
     }
     if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
+        self.webSite.textColor = [UIColor blueColor];
         self.webSite.text = [self.discountObject.site objectAtIndex:0];
     }
-
     [self loadLogo];
-    
     [self isObjectInFavoritesButtonController];
-    
+}
 
+- (IBAction)callNumber {
+    if(self.discountObject.phone != nil)
+    {
+        NSURL *url = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:self.phone.text]];
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
+
+- (IBAction)redirectToWebSite {
+    if(self.discountObject.site != nil)
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"http://" stringByAppendingString:self.webSite.text]]];
 }
 
 - (void) viewWillAppear:(BOOL)animated

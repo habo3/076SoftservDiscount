@@ -99,8 +99,6 @@
         [self initGeoButton];
         self.mapView.showsUserLocation = YES;
     }
-    else
-        [self gotoLocation];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
