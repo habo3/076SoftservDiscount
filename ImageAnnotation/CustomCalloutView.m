@@ -20,17 +20,17 @@
 
 
 #define CALLOUT_MIN_WIDTH 75 
-#define CALLOUT_HEIGHT 70 
+#define CALLOUT_HEIGHT 80
 #define CALLOUT_DEFAULT_WIDTH 153 
 #define TITLE_MARGIN 17 
-#define TITLE_TOP 11 
-#define TITLE_SUB_TOP 3 
-#define TITLE_HEIGHT 32 
-#define SUBTITLE_TOP 25 
-#define SUBTITLE_HEIGHT 12 
+#define TITLE_TOP 15
+#define TITLE_SUB_TOP 5
+#define TITLE_HEIGHT 32
+#define SUBTITLE_TOP 36
+#define SUBTITLE_HEIGHT 12
 #define TITLE_ACCESSORY_MARGIN 6 
 #define ACCESSORY_MARGIN 14 
-#define ACCESSORY_TOP 8 
+#define ACCESSORY_TOP 13
 #define ACCESSORY_HEIGHT 32 
 #define BETWEEN_ACCESSORIES_MARGIN 7 
 #define ANCHOR_MARGIN 37 
@@ -61,13 +61,13 @@
 
         return self.titleView;
     else {
-        if (!titleLabel) {
-
+        if (!titleLabel)
+        {
             titleLabel = [UILabel new];
             titleLabel.$height = TITLE_HEIGHT;
             titleLabel.opaque = NO;
             titleLabel.backgroundColor = [UIColor clearColor];
-            titleLabel.font = [UIFont boldSystemFontOfSize:12];
+            titleLabel.font = [UIFont boldSystemFontOfSize:11];
             titleLabel.textColor = [UIColor blackColor];
         }
         return titleLabel;
@@ -117,7 +117,8 @@
         return TITLE_MARGIN;
 }
 
-- (CGFloat)calloutHeight {
+- (CGFloat)calloutHeight
+{
 
     return CALLOUT_HEIGHT;
 }
@@ -174,7 +175,11 @@
     [self rebuildSubviews];
     
     // set title/subtitle
+    titleLabel.numberOfLines = 2;
+    titleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
     titleLabel.text = self.title;
+    subtitleLabel.numberOfLines = 2;
+    subtitleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
     subtitleLabel.text = self.subtitle;
     
     // sizing
