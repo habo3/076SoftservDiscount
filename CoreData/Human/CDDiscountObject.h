@@ -5,4 +5,6 @@
 
 +(id)createWithDictionary:object andContext:managedObjectContext;
 
++(CDDiscountObject*)checkDiscountExistForDictionary:(NSDictionary*)object andContext:managedObjectContext;
+
 @end
