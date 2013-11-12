@@ -15,6 +15,7 @@
 #import "CDCoreDataManager.h"
 #import "CDDiscountObject.h"
 #import "CDCategory.h"
+#import "CDCity.h"
 #import <UIKit/UIKit.h>
 #import "ActionSheetStringPicker.h"
 #import "Sortings.h"
@@ -31,6 +32,7 @@
 @property(nonatomic, copy) NSString *currentSearchString;
 @property (nonatomic, copy) NSArray *tempObjects;
 @property (nonatomic, copy) NSArray *filteredObjects;
+@property (nonatomic)CDCity* currentCity;
 @end
 
 @implementation ListViewController
@@ -51,10 +53,20 @@
     [CustomViewMaker customNavigationBarForView:self];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.delegate = self;
-    self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
+    if(!geoLocationIsON)
+    {
+        self.discountObjects=[self.currentCity.discountObjects allObjects];
+    }
+    else
+    {self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
+    }
     [self initFilterButton];
     _tempObjects = _discountObjects;
 }
+
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -102,6 +114,22 @@
 {
     NSArray *categories = [self.coreDataManager categoriesFromCoreData];
     return [[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"];
+}
+
+-(CDCity *)currentCity
+{
+    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+    NSString *city = [userDefaults objectForKey:@"cityName"];
+    NSArray *allcities=[self.coreDataManager citiesFromCoreData];
+    CDCity *myCity;
+    
+    for(NSUInteger i=0;i<allcities.count;i++)
+    {
+        
+        if( [city isEqualToString:[[allcities objectAtIndex:i] name]])
+            myCity=[allcities objectAtIndex:i] ;
+    }
+    return myCity;
 }
 
 #pragma mark - filter
