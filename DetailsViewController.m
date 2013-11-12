@@ -84,6 +84,7 @@
         self.phone.text = [self.discountObject.phone objectAtIndex:0];
     }
     if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
+        self.email.textColor = [UIColor orangeColor];
         self.email.text = [self.discountObject.email objectAtIndex:0];
     }
     if ( !(self.discountObject.site == nil || [self.discountObject.site count] == 0 ) ) {
@@ -99,6 +100,13 @@
     {
         NSURL *url = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:self.phone.text]];
         [[UIApplication sharedApplication] openURL:url];
+    }
+}
+- (IBAction)sendMail {
+    if(self.discountObject.email != nil)
+    {
+        NSString *url = [NSString stringWithFormat:@"mailto:?to=%@",self.email.text];
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
     }
 }
 
@@ -232,23 +240,19 @@
 }
 
 #pragma mark - favorites and Share
+
+
+- (IBAction)complaintButton:(id)sender
+{
+    NSString *body = [@"В даному закладі знижка не надається." stringByAppendingString: self.name.text];
+    NSString *url = [NSString stringWithFormat:@"mailto:?to=hr@softserveinc.com&subject=SoftServeDiscount-Скарга&body=%@", body];
+    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+}
+
+
 - (IBAction)favoriteButton
 {
-    //    if ([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-    //        discountObject.inFavorites = [NSNumber numberWithBool:NO];
-    //        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButton.png"] forState:UIControlStateNormal];
-    //    }
-    //    else if (([discountObject.inFavorites isEqualToNumber:[NSNumber numberWithBool:NO]])|| (!discountObject.inFavorites)) {
-    //        discountObject.inFavorites = [NSNumber numberWithBool:YES];
-    //        [self.favoritesButton setBackgroundImage:[UIImage imageNamed:@"favoritesButtonHighlited.png"] forState:UIControlStateNormal];
-    //    }
-    //
-    //    NSError* err;
-    //    if (![self.managedObjectContext save:&err]) {
-    //        NSLog(@"Couldn't save: %@", [err localizedDescription]);
-    //    }
-    
-    
+   
     [self.coreDataManager addDiscountObjectToFavoritesWithObject:self.discountObject];
     
     [self isObjectInFavoritesButtonController];

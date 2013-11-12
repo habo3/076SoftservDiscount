@@ -10,15 +10,18 @@
 #import "JPJsonParser.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
+#import "CDCity.h"
+#import "ActionSheetStringPicker.h"
 
 @interface LoadScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (nonatomic, strong) NSMutableArray *citiesNames;
 
 @end
 
-
-
 @implementation LoadScreenViewController
+
+@synthesize citiesNames = _citiesNames;
 
 -(NSManagedObjectContext *)managedObjectContex
 {
@@ -98,10 +101,36 @@
         int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         [self downloadDataBaseWithUpdateTime:lastUpdate];
     }
+
+    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск" message:@"Програма була запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Вибрати місто", nil];
+        [alert show];
+        [userDefaults removeObjectForKey:@"firstLaunch"];
+    }
+    else
+        [self performSegueWithIdentifier:@"Menu" sender:self];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    NSArray *allCities = [self.coreDataManager citiesFromCoreData];
+    for (CDCity *city in allCities) {
+        [self.citiesNames addObject:city.name];
+    }
+        [self performSegueWithIdentifier:@"Menu" sender:self];
+//    [ActionSheetStringPicker showPickerWithTitle:@"" rows:[self.citiesNames copy] initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+}
+
+- (void) cityWasSelected:(NSNumber *)selectedIndex element:(id)element {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInt: selectedIndex] forKey:@"selectedCity"];
+    [userDefaults setObject:[self.citiesNames objectAtIndex:selectedIndex] forKey:@"cityName"];
+    [userDefaults synchronize];
     
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
-
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

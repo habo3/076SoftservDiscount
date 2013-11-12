@@ -543,9 +543,10 @@
                                                     <rect key="frame" x="27" y="0.0" width="287" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Imw-Qh-phP">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Imw-Qh-phP">
                                                     <rect key="frame" x="27" y="1" width="287" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="tintColor" red="0.90196084980000002" green="0.90196084980000002" blue="0.92941182850000004" alpha="1" colorSpace="deviceRGB"/>
                                                     <state key="normal" backgroundImage="transparent.png">
                                                         <color key="titleShadowColor" red="0.9803922176361084" green="0.9803922176361084" blue="0.9803922176361084" alpha="1" colorSpace="deviceRGB"/>
@@ -590,6 +591,18 @@
                                                     <rect key="frame" x="37" y="6" width="11" height="11"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lWD-2O-voE">
+                                                    <rect key="frame" x="27" y="-1" width="287" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="tintColor" red="0.90196084980000002" green="0.90196084980000002" blue="0.92941182850000004" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" backgroundImage="transparent.png">
+                                                        <color key="titleShadowColor" red="0.98039221759999995" green="0.98039221759999995" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="sendMail" destination="fza-nt-l4I" eventType="touchUpInside" id="6l8-sz-naw"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -604,9 +617,10 @@
                                                     <rect key="frame" x="27" y="0.0" width="287" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="maS-lo-e3r">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="maS-lo-e3r">
                                                     <rect key="frame" x="27" y="1" width="287" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="tintColor" red="0.9215686917" green="0.9215686917" blue="0.9450981021" alpha="1" colorSpace="deviceRGB"/>
                                                     <state key="normal" backgroundImage="transparent.png">
                                                         <color key="titleShadowColor" red="0.9803922176361084" green="0.9803922176361084" blue="0.9803922176361084" alpha="1" colorSpace="deviceRGB"/>
@@ -649,11 +663,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5PN-U0-hXm">
-                                                    <rect key="frame" x="41" y="0.0" width="132" height="34"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5PN-U0-hXm">
+                                                    <rect key="frame" x="27" y="0.0" width="95" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <state key="normal" title="             В списку обраного" backgroundImage="favoritesButton.png">
+                                                    <state key="normal" title="            До обраного" backgroundImage="favoritesButton.png">
                                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -662,16 +676,28 @@
                                                         <action selector="favoritesButton" destination="fza-nt-l4I" eventType="touchUpInside" id="UW2-cn-tf6"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="l9X-Ue-5rB">
-                                                    <rect key="frame" x="173" y="0.0" width="127" height="34"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="l9X-Ue-5rB">
+                                                    <rect key="frame" x="218" y="0.0" width="95" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <state key="normal" title="           Поділися з друзями" backgroundImage="shareButton.png">
+                                                    <state key="normal" title="            Поділитися" backgroundImage="shareButton.png">
                                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="shareAction" destination="fza-nt-l4I" eventType="touchUpInside" id="Q3H-mL-xX2"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KtV-wf-TDe">
+                                                    <rect key="frame" x="122" y="1" width="95" height="33"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <state key="normal" title="          Поскаржитись  " backgroundImage="shareButton.png">
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="complaintButton:" destination="fza-nt-l4I" eventType="touchUpInside" id="sNj-qq-Bxy"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -892,27 +918,46 @@
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
         <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
+        <image name="disclosureButton.png" width="24" height="24"/>
         <image name="disclosureButton.png" width="24" height="24"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuIconFavorites.png" width="20" height="20"/>
         <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
+        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
         <image name="menuIconList.png" width="20" height="14"/>
+        <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconMap.png" width="16" height="20"/>
         <image name="menuIconMapSelected.png" width="16" height="20"/>
+        <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
+        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
         <image name="settingsPin.png" width="11" height="14"/>
         <image name="settingsSSIcon.png" width="14" height="15"/>
         <image name="shareButton.png" width="138" height="44"/>
+        <image name="shareButton.png" width="138" height="44"/>
+        <image name="transparent.png" width="2" height="2"/>
+        <image name="transparent.png" width="2" height="2"/>
         <image name="transparent.png" width="2" height="2"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

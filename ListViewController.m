@@ -183,7 +183,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifer = @"Cell";
-
+    
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
     PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
@@ -198,7 +198,7 @@
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-
+    
     _searchBar.text = nil;
     _discountObjects = _tempObjects;
     [self.tableView reloadData];
@@ -206,7 +206,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-       _discountObjects = _tempObjects;
+    _discountObjects = _tempObjects;
     if ([searchText isEqualToString:@""]);
     
     else {

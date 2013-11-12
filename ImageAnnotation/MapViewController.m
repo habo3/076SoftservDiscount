@@ -64,13 +64,6 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     self.annArray = [[NSMutableArray alloc] init];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
-    {
-        [self gotoLocation];
-        [userDefaults removeObjectForKey:@"firstLaunch"];
-    }
-    
     [self initCallout];
     
     self.annArray = [[self getAllPins] mutableCopy];

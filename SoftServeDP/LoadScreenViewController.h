@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class CDCoreDataManager;
-@interface LoadScreenViewController : UIViewController
+@interface LoadScreenViewController : UIViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) CDCoreDataManager *coreDataManager;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
