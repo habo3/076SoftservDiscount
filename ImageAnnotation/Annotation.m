@@ -16,7 +16,6 @@
 @synthesize pintype;
 @synthesize leftImage;
 @synthesize object;
-@synthesize identeficator = _identeficator;
 
 - (BOOL)isEqual:(Annotation*)annotation;
 {
@@ -27,7 +26,6 @@
     return (self.coordinate.latitude == annotation.coordinate.latitude &&
             self.coordinate.longitude == annotation.coordinate.longitude &&
             [self.title isEqualToString:annotation.title] &&
-            [self.identeficator isEqualToString:annotation.identeficator] &&
             [self.subtitle isEqualToString:annotation.subtitle] &&
             [self.pintype isEqual:annotation.pintype] &&
             [self.leftImage isEqual:annotation.leftImage] &&

@@ -13,7 +13,6 @@
 
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *subtitle;
-@property (nonatomic, strong) NSString *identeficator;
 @property (nonatomic) UIImage *pintype;
 @property (nonatomic) UIView *leftImage;
 @property (nonatomic,assign) CDDiscountObject *object;
