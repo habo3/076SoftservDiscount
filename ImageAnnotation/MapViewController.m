@@ -284,7 +284,7 @@
                 self.geoLocationIsOn = NO;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[[UIAlertView alloc] initWithTitle:@"Помилка"
-                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження"
+                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження. Відлісковування геолокації вимкунто! Щоб знову відслідковувати геолокацію перейдіть в налаштування."
                                            delegate:nil
                                   cancelButtonTitle:@"Закрити"
                                   otherButtonTitles:nil, nil] show];
@@ -299,7 +299,7 @@
             if (!points_count) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[[UIAlertView alloc] initWithTitle:@"Помилка"
-                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження"
+                                            message:@"Неможливо прокласти шлях з вашого поточного місця знаходження. Відлісковування геолокації вимкунто! Щоб знову відслідковувати геолокацію перейдіть в налаштування."
                                            delegate:nil
                                   cancelButtonTitle:@"Закрити"
                                   otherButtonTitles:nil, nil] show];

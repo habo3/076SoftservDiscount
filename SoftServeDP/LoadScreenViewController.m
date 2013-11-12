@@ -40,6 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.citiesNames = [[NSMutableArray alloc] init];
     self.progressView.progress = 0.0;
 }
 
@@ -106,29 +107,28 @@
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск" message:@"Програма була запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Вибрати місто", nil];
         [alert show];
-        [userDefaults removeObjectForKey:@"firstLaunch"];
     }
     else
         [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
+#pragma mark - Alert
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     NSArray *allCities = [self.coreDataManager citiesFromCoreData];
     for (CDCity *city in allCities) {
         [self.citiesNames addObject:city.name];
     }
-        [self performSegueWithIdentifier:@"Menu" sender:self];
-//    [ActionSheetStringPicker showPickerWithTitle:@"" rows:[self.citiesNames copy] initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+
+    [ActionSheetStringPicker showPickerWithTitle:@"" rows:self.citiesNames initialSelection:0 target:self successAction:@selector(cityWasSelected:) cancelAction:@selector(actionPickerCancelled:) origin:self.view];
 }
 
-- (void) cityWasSelected:(NSNumber *)selectedIndex element:(id)element {
+- (void) cityWasSelected:(NSNumber *)selectedIndex{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:[NSNumber numberWithInt: selectedIndex] forKey:@"selectedCity"];
-    [userDefaults setObject:[self.citiesNames objectAtIndex:selectedIndex] forKey:@"cityName"];
+    [userDefaults setObject:selectedIndex forKey:@"selectedCity"];
+    [userDefaults setObject:[self.citiesNames objectAtIndex:[selectedIndex intValue] ] forKey:@"cityName"];
     [userDefaults synchronize];
-    
+    [userDefaults removeObjectForKey:@"firstLaunch"];
     [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
