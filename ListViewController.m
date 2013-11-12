@@ -124,6 +124,10 @@
 {
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     NSString *city = [userDefaults objectForKey:@"cityName"];
+    
+    /** REFACTOR, oskryp: here you have no need to extract data and iterate in the way as below
+     * What you are really have to is to make fetch request to DB to select cities with specified name
+     */
     NSArray *allcities=[self.coreDataManager citiesFromCoreData];
     CDCity *myCity;
     
@@ -166,6 +170,12 @@
     if(self.selectedIndex != [selectedIndex integerValue])
     {
         self.selectedIndex = [selectedIndex integerValue];
+        
+        /* REFACTOR, oskryp: please read following https://developer.apple.com/library/ios/documentation/CoreData/Reference/NSFetchedResultsController_Class/Reference/Reference.html
+         * you need to rewrite UITableView delegate method to use FetchResultsController
+         * As a result you will get great performance benefit
+         */
+        
         if(self.selectedIndex == 0)
             self.discountObjects = [self getAllObjects];
         else
@@ -197,6 +207,13 @@
 {
     NSString *cellIdentifer = @"Cell";
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
+    
+    /* REFACTOR, oskryp: very cool PlaceCell creation :)
+     * now it allocates new class which allocates the same new class inside the constuctor!
+     * You need just put here what is located inside the initPlaceCellWithTable:tableView
+     * During dequeueReusableCell clear the image - during the scrolling you always see the previous image 
+     * which is replaced with new loaded new then
+     */
     PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
     
     if (tableView == self.searchDisplayController.searchResultsTableView)

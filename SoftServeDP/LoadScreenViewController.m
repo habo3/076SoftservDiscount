@@ -56,7 +56,7 @@
     
     while (!downloadedDataBase) {
           self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
-        [runLoop runUntilDate:[NSDate date]];
+        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
         if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
             downloadedDataBase = YES;
     }
@@ -105,7 +105,11 @@
 
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск" message:@"Програма була запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Вибрати місто", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
+                                                        message:@"Програма була запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням."
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"Вибрати місто", nil];
         [alert show];
     }
     else
