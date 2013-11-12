@@ -81,7 +81,7 @@
     
     if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
         self.phone.textColor = [UIColor orangeColor];
-        self.phone.text = [self.discountObject.phone objectAtIndex:0];
+        self.phone.text = [DetailsViewController ConvertPhoneToCallingFormat:[self.discountObject.phone objectAtIndex:0]];
     }
     if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
         self.email.textColor = [UIColor orangeColor];
@@ -94,6 +94,28 @@
     [self loadLogo];
     [self isObjectInFavoritesButtonController];
 }
+
++(NSString *)ConvertPhoneToCallingFormat:(NSString *)inputString
+{
+    NSScanner *scanner = [NSScanner scannerWithString:inputString];
+    NSMutableString *strippedString = [NSMutableString
+                                       stringWithCapacity:inputString.length];
+    NSCharacterSet *numbers = [NSCharacterSet
+                               characterSetWithCharactersInString:@"+0123456789"];
+    
+    while ([scanner isAtEnd] == NO) {
+        NSString *buffer;
+        if ([scanner scanCharactersFromSet:numbers intoString:&buffer]) {
+            [strippedString appendString:buffer];
+            
+        } else {
+            [scanner setScanLocation:([scanner scanLocation] + 1)];
+        }
+    }
+    
+    return  strippedString;
+}
+
 
 - (IBAction)callNumber {
     if(self.discountObject.phone != nil)
