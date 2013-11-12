@@ -28,11 +28,14 @@
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
 @property (nonatomic) NSInteger selectedIndex;
-@property (nonatomic, strong) UISearchBar *searchBar;
 @property(nonatomic, copy) NSString *currentSearchString;
 @property (nonatomic, copy) NSArray *tempObjects;
 @property (nonatomic, copy) NSArray *filteredObjects;
 @property (nonatomic)CDCity* currentCity;
+@property (strong, nonatomic) IBOutlet UITableView *searchBar;
+@property(nonatomic, strong) UISearchDisplayController *strongSearchDisplayController;
+
+
 @end
 
 @implementation ListViewController
@@ -55,7 +58,7 @@
     self.tableView.delegate = self;
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
-    if(!geoLocationIsON)
+    if(geoLocationIsON)
     {
         self.discountObjects=[self.currentCity.discountObjects allObjects];
     }
@@ -64,6 +67,7 @@
     }
     [self initFilterButton];
     _tempObjects = _discountObjects;
+    [self.strongSearchDisplayController displaysSearchBarInNavigationBar];
 }
 
 
@@ -170,32 +174,13 @@
     }
 }
 
-#pragma mark - tableView
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if(!self.searchBar)
-    {
-        UISearchBar *tempSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
-        _searchBar = tempSearchBar;
-        _searchBar.showsCancelButton = YES;
-        self.searchBar.delegate = self;
-        [_searchBar sizeToFit];
-    }
-    return _searchBar;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 40.0f;
-    }
-    return 0.1f;
-}
-
 - (void) reloadTableWithDistancesValues
 {
     self.discountObjects = [Sortings sortDiscountObjectByDistance:self.discountObjects toLocation:currentLocation];
     [self.tableView reloadData];
 }
+
+#pragma mark - tableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -211,37 +196,71 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifer = @"Cell";
-    
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
     PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+        cell.nameLabel.text =  object.name;
+        cell.addressLabel.text = object.address;
+        [cell initViews];
+        [cell setImageinCellFromObject:object];
+        [cell setDistanceLabelFromDiscountObject:object WithCurrentLocation:currentLocation];
+        NSLog(@"%@",cell.backgroundColor);
+        return cell;
+    }
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
 }
 
 #pragma mark - searching
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    _discountObjects = _tempObjects;
     [self.tableView reloadData];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    
-    _searchBar.text = nil;
     _discountObjects = _tempObjects;
     [self.tableView reloadData];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+#pragma mark - Search Delegate
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
 {
-    _discountObjects = _tempObjects;
-    if ([searchText isEqualToString:@""]);
-    
-    else {
-        _discountObjects = [_discountObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS [cd] %@", searchText]];
-    }
-    //[self.tableView reloadData];  for static keyboard
+    [controller setSearchResultsDelegate:[self.tableView delegate]];
 }
+
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    if (searchString.length > 0) { // Should always be the case
+        NSArray *objectsToSearch = _tempObjects;
+        NSLog(@"count %lu", (unsigned long)objectsToSearch.count);
+        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0) { // If the new search string starts with the last search string, reuse the already filtered array so searching is faster
+            objectsToSearch = _discountObjects;
+        }
+        _discountObjects = [objectsToSearch filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
+        NSLog(@"count %lu", (unsigned long)objectsToSearch.count);
+    } else {
+        _discountObjects = _tempObjects;
+    }
+    [controller.searchResultsTableView setBackgroundColor:[UIColor colorWithRed:0.877986 green:0.87686 blue:0.911683 alpha:1]];
+    [controller.searchResultsTableView setSeparatorColor:[UIColor colorWithRed:0.877986 green:0.87686 blue:0.911683 alpha:1]];
+    self.currentSearchString = searchString;
+    return YES;
+}
+
 
 #pragma mark - Location Manager
 

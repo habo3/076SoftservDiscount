@@ -41,17 +41,13 @@
     return cell;
 }
 
-- (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation:(CLLocation *)currentLocation
+-(void)setDistanceLabelFromDiscountObject:(CDDiscountObject *)object WithCurrentLocation:(CLLocation *)currentLocation
 {
-    [self initViews];
-    self.nameLabel.text = object.name;
-    self.addressLabel.text = object.address;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL geoLocationIsON = [[userDefaults objectForKey:@"geoLocation"]boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied);
     if(geoLocationIsON)
     {
-        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[[object.geoPoint valueForKey:@"latitude" ] doubleValue]
-                                                                longitude:[[object.geoPoint valueForKey:@"longitude" ] doubleValue]];
+        CLLocation *objectLocation = [[CLLocation alloc] initWithLatitude:[[object.geoPoint valueForKey:@"latitude" ] doubleValue]                                                                longitude:[[object.geoPoint valueForKey:@"longitude" ] doubleValue]];
         double distance = [currentLocation distanceFromLocation:objectLocation];
         if (distance > 999){
             self.distanceLabel.text = [NSString stringWithFormat:@"%.0fкм", distance/1000];
@@ -65,6 +61,11 @@
         self.detailsDistanceBackground.hidden = YES;
         self.distanceLabel.hidden = YES;
     }
+}
+
+-(void)setImageinCellFromObject:(CDDiscountObject*)object
+{
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
         NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
         NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
@@ -79,7 +80,15 @@
             self.discountImage.image = image;
         });
     });
+}
 
+- (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation:(CLLocation *)currentLocation
+{
+    [self initViews];
+    self.nameLabel.text = object.name;
+    self.addressLabel.text = object.address;
+    [self setDistanceLabelFromDiscountObject:object WithCurrentLocation:currentLocation];
+    [self setImageinCellFromObject:object];
     
     return self;
 }
