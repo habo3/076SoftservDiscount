@@ -52,6 +52,24 @@
     return nil;
 }
 
++(CDDiscountObject*)checkDiscountExistForDictionary:(NSDictionary*)object andContext:(id)managedObjectContext
+{
+    NSString* objectID = [NSString stringWithFormat:@"%@",[object valueForKey:@"id"]];
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"id LIKE %@", objectID];
+    [fetchRequest setFetchLimit:1];
+    
+    if([managedObjectContext countForFetchRequest:fetchRequest error:nil])//if object exist it`ll return it
+    {
+        NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        return result[0];
+    }
+    //if object does not exist it`ll create new object and return it
+    CDDiscountObject *newDiscountObject = [self createWithDictionary:object andContext:managedObjectContext];
+    newDiscountObject.isInFavoritesValue = NO;
+    return newDiscountObject;
+}
 
 #pragma mark - Check is Discount object valid
 +(BOOL)isDiscountObjectValid:(NSDictionary*)object
