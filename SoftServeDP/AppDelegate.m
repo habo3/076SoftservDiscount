@@ -48,7 +48,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults objectForKey:@"geoLocation"])
     {
-        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"geoLocation"];
+        [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"geoLocation"];
         [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"firstLaunch"];
     }
 
