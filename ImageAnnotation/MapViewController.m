@@ -29,7 +29,7 @@
 @property (nonatomic) NSMutableArray *annArray;
 @property (nonatomic) UIButton *filterButton;
 @property (nonatomic,assign) NSInteger selectedIndex;
-@property (nonatomic,assign) CDDiscountObject *selectedObject;
+@property (nonatomic,assign) NSString *selectedObjectID;
 @property (strong, nonatomic) NSArray *discountObjects;
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSArray *cities;
@@ -44,7 +44,7 @@
 @synthesize location;
 @synthesize selectedIndex = _selectedIndex;
 @synthesize filterButton;
-@synthesize selectedObject;
+@synthesize selectedObjectID = _selectedObjectID;
 @synthesize geoLocationIsOn = _geoLocationIsOn;
 @synthesize coreDataManager = _coreDataManager;
 @synthesize discountObjects = _discountObjects;
@@ -393,6 +393,7 @@
     tmpCoord.latitude = [dbLatitude doubleValue];
     tmpCoord.longitude =[dbLongitude doubleValue];
     myAnnotation.coordinate = tmpCoord;
+    myAnnotation.identeficator = discountObject.id;
     myAnnotation.object = discountObject;
     myAnnotation.title = dbTitle;
     myAnnotation.subtitle = dbSubtitle;
@@ -408,14 +409,21 @@
 {
     NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
     Annotation *currentAnn;
-    for (CDCategory *category in self.categories) {
-        NSArray *allObjectsFromCategory = [category valueForKey:@"discountObjects"];
-        for (CDDiscountObject *object in allObjectsFromCategory) {
+    NSArray *array = [self.coreDataManager discountObjectsFromCoreData];
+        for (CDDiscountObject *object in array) {
             double scaleX, scaleY, distanceFromObject;
             distanceFromObject = 0.00006;
             scaleX = 0.0;
             scaleY = distanceFromObject;
             currentAnn = [self createAnnotationFromData:object];
+            BOOL flag = TRUE;
+            for (Annotation *annotatio in arrayOfAnnotations) {
+                if([[annotatio.object valueForKey:@"id"] isEqual:[currentAnn.object valueForKey:@"id"]])
+                    flag = FALSE;
+                    
+            }
+            if(!flag)
+               [arrayOfAnnotations removeObject:currentAnn];
             for(Annotation *ann in arrayOfAnnotations)
             {
                 if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
@@ -439,7 +447,7 @@
             if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
                 [arrayOfAnnotations addObject:currentAnn];
         }
-    }
+
     return arrayOfAnnotations;
 }
 
@@ -508,7 +516,7 @@
 
 #pragma mark - MKMapView
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(CustomAnnotationView *)view {
 
     if (calloutView.window)
         [calloutView dismissCalloutAnimated];
@@ -542,7 +550,7 @@
             calloutView.subtitle = selectedAnnotation.subtitle;
 
             calloutView.leftAccessoryView = selectedAnnotation.leftImage;
-            self.selectedObject = selectedAnnotation.object;
+            self.selectedObjectID = selectedAnnotation.identeficator;
 
             ((CustomAnnotationView *)annotationView).calloutView = calloutView;
             [calloutView presentCalloutFromRect:annotationView.bounds
@@ -680,7 +688,13 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     DetailsViewController *dvc = [segue destinationViewController];
-    dvc.discountObject = self.selectedObject;
+    for (CDDiscountObject *object in self.discountObjects) {
+        if([object.id isEqualToString:self.selectedObjectID])
+        {
+            dvc.discountObject = object;
+            break;
+        }
+    }
 }
 
 @end
