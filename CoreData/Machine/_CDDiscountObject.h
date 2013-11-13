@@ -15,6 +15,7 @@ extern const struct CDDiscountObjectAttributes {
 	__unsafe_unretained NSString *email;
 	__unsafe_unretained NSString *geoPoint;
 	__unsafe_unretained NSString *id;
+	__unsafe_unretained NSString *image;
 	__unsafe_unretained NSString *isInFavorites;
 	__unsafe_unretained NSString *logo;
 	__unsafe_unretained NSString *name;
@@ -52,6 +53,7 @@ extern const struct CDDiscountObjectFetchedProperties {
 @class NSObject;
 @class NSObject;
 @class NSObject;
+
 
 
 @class NSObject;
@@ -173,6 +175,16 @@ extern const struct CDDiscountObjectFetchedProperties {
 
 
 //- (BOOL)validateId:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSData* image;
+
+
+
+//- (BOOL)validateImage:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -395,6 +407,12 @@ extern const struct CDDiscountObjectFetchedProperties {
 
 - (NSString*)primitiveId;
 - (void)setPrimitiveId:(NSString*)value;
+
+
+
+
+- (NSData*)primitiveImage;
+- (void)setPrimitiveImage:(NSData*)value;
 
 
 

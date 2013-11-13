@@ -27,6 +27,7 @@
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
 -(BOOL)isCoreDataEntityExist;
 -(void)deleteAllCoreData;
+-(UIImage*)checkImageInObjectExistForDiscountObject:(CDDiscountObject*)discountObject;
 
 -(NSArray*)discountObjectsFromCoreData;
 -(NSArray*)citiesFromCoreData;

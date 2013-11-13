@@ -176,18 +176,13 @@
 -(void)loadLogo
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
-        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
-        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
-        NSString *imageUrl = [http stringByAppendingString:[self.discountObject.logo valueForKey:@"src"]];
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
-        
+        UIImage *image = [self.coreDataManager checkImageInObjectExistForDiscountObject:self.discountObject];
         dispatch_async(dispatch_get_main_queue(), ^{
             if(image)
                 self.activityIndicatorView.hidden = YES;
-            _discountImage.image = image;
+                _discountImage.image = image;
         });
     });
-    
 }
 
 #pragma mark - MapView

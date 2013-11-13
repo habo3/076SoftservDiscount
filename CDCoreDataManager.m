@@ -186,6 +186,22 @@
     return YES;
 }
 
+#pragma mark - IsImageInObjectExist
+
+-(UIImage*)checkImageInObjectExistForDiscountObject:(CDDiscountObject*)discountObject
+{
+    if (discountObject.image == nil) { //       NSLog(@"NO image!");
+        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
+        NSString *imageUrl = [http stringByAppendingString:[discountObject.logo valueForKey:@"src"]];
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+        discountObject.image = UIImagePNGRepresentation(image);
+        [self.managedObjectContex save:nil];
+    }    
+    UIImage *objectImage = [UIImage imageWithData:discountObject.image];
+    return objectImage;
+}
+
 #pragma mark - Refresh CoreData
 
 -(void)deleteAllCoreData

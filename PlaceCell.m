@@ -7,10 +7,12 @@
 //
 
 #import "PlaceCell.h"
+#import "CDCoreDataManager.h"
 
 @interface PlaceCell ()
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 
 @end
 
@@ -54,14 +56,34 @@
     }
 }
 
+//-(void)setImageinCellFromObject:(CDDiscountObject*)object
+//{
+//    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+//        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+//        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
+//        NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
+//        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+//        
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;
+//            self.discountImage.layer.borderWidth = 1.0f;
+//            if(image)
+//                self.activityIndicatorView.hidden = YES;
+//            self.discountImage.image = image;
+//        });
+//    });
+//}
+
 -(void)setImageinCellFromObject:(CDDiscountObject*)object
 {
-    
+    self.coreDataManager = [CDCoreDataManager sharedInstance];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
-        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
-        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
-        NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+//        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+//        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
+//        NSString *imageUrl = [http stringByAppendingString:[object.logo valueForKey:@"src"]];
+//        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];        
+        UIImage *image = [self.coreDataManager checkImageInObjectExistForDiscountObject:object];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.discountImage.layer.borderColor = [UIColor colorWithRed:0.8039 green:0.8039 blue:0.8039 alpha:1.0].CGColor;

@@ -65,6 +65,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.coreDataManager checkImageInObjectExistForDiscountObject:self.discountObjects[1]];
     //Sending event to analytics service
     [Flurry logEvent:@"ListViewLoaded"];
     

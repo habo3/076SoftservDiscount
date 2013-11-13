@@ -14,6 +14,7 @@ const struct CDDiscountObjectAttributes CDDiscountObjectAttributes = {
 	.email = @"email",
 	.geoPoint = @"geoPoint",
 	.id = @"id",
+	.image = @"image",
 	.isInFavorites = @"isInFavorites",
 	.logo = @"logo",
 	.name = @"name",
@@ -144,6 +145,13 @@ const struct CDDiscountObjectFetchedProperties CDDiscountObjectFetchedProperties
 
 
 @dynamic id;
+
+
+
+
+
+
+@dynamic image;
 
 
 

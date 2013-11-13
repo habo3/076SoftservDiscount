@@ -1036,7 +1036,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		E7E22183180D5AF900F57A63 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1044,7 +1044,7 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd ~/098SoftservDiscount_merge\n/usr/bin/mogenerator --template-var arc=true -m NewModel.xcdatamodeld -M CoreData/Machine -H CoreData/Human\n";
 		};
