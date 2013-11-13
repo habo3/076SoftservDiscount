@@ -262,8 +262,10 @@
 - (IBAction)complaintButton:(id)sender
 {
     NSString *body = [@"В даному закладі знижка не надається." stringByAppendingString: self.name.text];
+
     NSString *url = [NSString stringWithFormat:@"mailto:?to=hr@softserveinc.com&subject=SoftServeDiscount-Скарга&body=%@", body];
-    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    NSURL *urlString = [NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [[UIApplication sharedApplication] openURL: urlString];
 }
 
 

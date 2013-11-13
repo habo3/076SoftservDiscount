@@ -65,13 +65,13 @@
     self.annArray = [[NSMutableArray alloc] init];
     
     [self initCallout];
-    
-    /* REFACTOR, oskryp: move array annotation creation and visualisation to
-     * dispatch operation to let it be launched later 
-     */
-    self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView addAnnotations:self.annArray];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+            self.annArray = [self getAllPins];
+            [self.mapView addAnnotations:self.annArray];
+    });
+
     [self gotoLocation];
 }
 
@@ -408,7 +408,7 @@
 
 #pragma mark - Picker section
 
-- (NSArray*)getAllPins
+- (NSMutableArray*)getAllPins
 {
     NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
     Annotation *currentAnn;
@@ -449,7 +449,7 @@
         }
 
     // REFACTOR, oskryp: return immutable array just here (as specified by your return type)
-    return [arrayOfAnnotations copy];
+    return arrayOfAnnotations;
 }
 
 - (NSArray*)getPinsByCategory:(int)filterNumber
