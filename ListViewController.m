@@ -20,6 +20,7 @@
 #import "ActionSheetStringPicker.h"
 #import "Sortings.h"
 #import "CustomViewMaker.h"
+#import "CDCity.h"
 
 @interface ListViewController ()
 
@@ -56,21 +57,11 @@
     [CustomViewMaker customNavigationBarForView:self];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.delegate = self;
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    BOOL geoLocationIsON = ([[userDefaults objectForKey:@"geoLocation"] boolValue]&&[CLLocationManager locationServicesEnabled] &&([CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied));
-    if(geoLocationIsON)
-    {
-        self.discountObjects=[self.currentCity.discountObjects allObjects];
-    }
-    else
-    {self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
-    }
     [self initFilterButton];
-    _tempObjects = _discountObjects;
+    self.discountObjects = [self.coreDataManager discountObjectsFromCoreData];
+    self.tempObjects = self.discountObjects;
     [self.strongSearchDisplayController displaysSearchBarInNavigationBar];
 }
-
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -90,16 +81,48 @@
     }
     else
     {
-        self.discountObjects = [Sortings sortDiscountObjectByName:self.discountObjects];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        CLLocationCoordinate2D coordinate;
+        NSString *city = [userDefaults objectForKey:@"cityName"];
+        if(!city)
+            city = @"Львів";
+        coordinate = [self getCoordinateOfCity:city];
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+        self.discountObjects = [Sortings sortDiscountObjectByDistance:self.discountObjects toLocation:location];
         [self.tableView reloadData];
     }
+
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:filterButton];
 }
 
+
 -(void) viewWillDisappear:(BOOL)animated
 {
     [filterButton removeFromSuperview];
+}
+
+#pragma mark - Working with Location
+- (CLLocationCoordinate2D) getCoordinateOfCity:(NSString *) name
+{
+    NSArray *cities = [self.coreDataManager citiesFromCoreData];
+    CLLocationCoordinate2D coordinate;
+    for (CDCity *cityObject in cities)
+    {
+        if([cityObject.name isEqualToString:name])
+        {
+            coordinate.latitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"latitude"] doubleValue]
+                                                          :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"latitude"] doubleValue]];
+            coordinate.longitude = [self averageOfTwoPoints:[[[cityObject.bounds valueForKey:@"southWest"] valueForKey:@"longitude"] doubleValue]
+                                                           :[[[cityObject.bounds valueForKey:@"northEast"] valueForKey:@"longitude"] doubleValue]];
+        }
+    }
+    return coordinate;
+}
+
+- (double) averageOfTwoPoints:(double)firstPoint :(double)secondPoint
+{
+    return (firstPoint + secondPoint)/2;
 }
 
 #pragma mark - CoreData
@@ -118,26 +141,6 @@
 {
     NSArray *categories = [self.coreDataManager categoriesFromCoreData];
     return [[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"];
-}
-
--(CDCity *)currentCity
-{
-    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-    NSString *city = [userDefaults objectForKey:@"cityName"];
-    
-    /** REFACTOR, oskryp: here you have no need to extract data and iterate in the way as below
-     * What you are really have to is to make fetch request to DB to select cities with specified name
-     */
-    NSArray *allcities=[self.coreDataManager citiesFromCoreData];
-    CDCity *myCity;
-    
-    for(NSUInteger i=0;i<allcities.count;i++)
-    {
-        
-        if( [city isEqualToString:[[allcities objectAtIndex:i] name]])
-            myCity=[allcities objectAtIndex:i] ;
-    }
-    return myCity;
 }
 
 #pragma mark - filter
@@ -207,15 +210,12 @@
 {
     NSString *cellIdentifer = @"Cell";
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
-    
-    /* REFACTOR, oskryp: very cool PlaceCell creation :)
-     * now it allocates new class which allocates the same new class inside the constuctor!
-     * You need just put here what is located inside the initPlaceCellWithTable:tableView
-     * During dequeueReusableCell clear the image - during the scrolling you always see the previous image 
-     * which is replaced with new loaded new then
-     */
-    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
-    
+
+    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+    if (cell == nil) {
+        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+    }
+
     if (tableView == self.searchDisplayController.searchResultsTableView)
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifer];
@@ -257,10 +257,10 @@
     [controller setSearchResultsDelegate:[self.tableView delegate]];
 }
 
-
-
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
+    if(searchString.length == 0)
+        self.discountObjects = self.tempObjects;
     if (searchString.length > 0) { // Should always be the case
         NSArray *objectsToSearch = _tempObjects;
         NSLog(@"count %lu", (unsigned long)objectsToSearch.count);
@@ -281,15 +281,15 @@
 
 #pragma mark - Location Manager
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
     [locationManager stopUpdatingLocation];
     self.currentLocation = newLocation;
     [self reloadTableWithDistancesValues];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{    
     [locationManager stopUpdatingLocation];
     self.currentLocation = [locations objectAtIndex:0];
     [self reloadTableWithDistancesValues];

@@ -124,7 +124,13 @@
         [self.citiesNames addObject:city.name];
     }
 
-    [ActionSheetStringPicker showPickerWithTitle:@"" rows:self.citiesNames initialSelection:0 target:self successAction:@selector(cityWasSelected:) cancelAction:@selector(actionPickerCancelled:) origin:self.view];
+    [ActionSheetStringPicker showPickerWithTitle:@""
+                                            rows:self.citiesNames
+                                initialSelection:0
+                                          target:self
+                                   successAction:@selector(cityWasSelected:)
+                                    cancelAction:@selector(actionPickerCancelled:)
+                                          origin:self.view];
 }
 
 - (void) cityWasSelected:(NSNumber *)selectedIndex{

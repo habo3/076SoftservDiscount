@@ -328,9 +328,23 @@
 }
 
 - (IBAction)shareAction {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Share" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook", @"Twitter", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Share" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook", @"Twitter", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Увага"
+                                                        message:@"Ця функція не підтримуєтсья версією вашої операційної системи."
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+
+
 }
 
 #pragma mark - Table view data source

@@ -105,7 +105,11 @@
 {
     NSString *cellIdentifer = @"Cell";
     CDDiscountObject * object = [self.discountObjects objectAtIndex:indexPath.row];
-    PlaceCell *cell = [[PlaceCell alloc] initPlaceCellWithTable:tableView withIdentifer:cellIdentifer];
+    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+    if (cell == nil) {
+        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+    }
+
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
 }
 

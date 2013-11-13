@@ -24,7 +24,6 @@
 
 - (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation: (CLLocation *)currentLocation;
 - (void)initViews;
-- (id)initPlaceCellWithTable:(UITableView *)tableView withIdentifer:(NSString *)identifer;
 -(void)setDistanceLabelFromDiscountObject:(CDDiscountObject *)object WithCurrentLocation:(CLLocation *)currentLocation;
 -(void)setImageinCellFromObject:(CDDiscountObject*)object;
 @end

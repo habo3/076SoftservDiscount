@@ -32,15 +32,6 @@
     // Configure the view for the selected state
 }
 
-- (id) initPlaceCellWithTable:(UITableView *)tableView withIdentifer:(NSString *)identifer
-{
-    PlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
-    if (cell == nil) {
-        cell = [[PlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
-    }
-    return cell;
-}
-
 -(void)setDistanceLabelFromDiscountObject:(CDDiscountObject *)object WithCurrentLocation:(CLLocation *)currentLocation
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
