@@ -71,14 +71,14 @@
     
     [super viewDidLoad];
     [CustomViewMaker customNavigationBarForView:self];
-
+    
     
     NSArray *arrayOfCities = [self.coreDataManager citiesFromCoreData];
     NSMutableArray *names = [[NSMutableArray alloc] init];
     for (CDCity *city in arrayOfCities) {
         [names addObject:city.name];
     }
-    self.cities = [names copy];    
+    self.cities = [names copy];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -93,7 +93,7 @@
     cityLabel.text = @"Місто за замовчуванням";
     aboutLabel.text = @"Про програму";
     versionLabelText.text = @"Версія";
-    versionLabelNumber.text = @"1.0";
+    versionLabelNumber.text = @"2.0";
     versionDBLabelText.text = @"Дата оновлення даних";
     versionDBLabelNumber.text = @"1.1.1";
 }
@@ -108,15 +108,16 @@
     selectedCityIndex = [[userDefaults objectForKey:@"selectedCity"] integerValue];
     selectedCityLabel.text = [self.cities objectAtIndex:selectedCityIndex];
     selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
-
-    NSDate *date = [userDefaults objectForKey:@"lastDBUpdate"];
+    
+    int lastUpdate = [[userDefaults objectForKey:@"DataBaseUpdate"] intValue];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:lastUpdate];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
     [dateFormatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
     versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
-
+    
     self.geoLocationSwitch.on = geoLocationIsON;
     self.updateDataSwitch.on=[[userDefaults objectForKey:@"updateData"]boolValue];
-
+    
     selectedCityLabel.text = [self.cities objectAtIndex: selectedCityIndex];
 }
 
