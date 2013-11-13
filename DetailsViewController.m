@@ -177,7 +177,7 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
         UIImage *image = [self.coreDataManager checkImageInObjectExistForDiscountObject:self.discountObject];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             if(image)
                 self.activityIndicatorView.hidden = YES;
                 _discountImage.image = image;

@@ -226,11 +226,9 @@
         [cell initViews];
         [cell setImageinCellFromObject:object];
         [cell setDistanceLabelFromDiscountObject:object WithCurrentLocation:currentLocation];
-        NSLog(@"%@",cell.backgroundColor);
         return cell;
     }
     return [cell customCellFromDiscountObject:object WithTableView:tableView WithCurrentLocation:self.currentLocation];
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,17 +261,16 @@
 {
     if(searchString.length == 0)
         self.discountObjects = self.tempObjects;
-    if (searchString.length > 0) { // Should always be the case
+    if (searchString.length > 0)
+    {
         NSArray *objectsToSearch = _tempObjects;
-        NSLog(@"count %lu", (unsigned long)objectsToSearch.count);
-        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0) { // If the new search string starts with the last search string, reuse the already filtered array so searching is faster
+        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0)
             objectsToSearch = _discountObjects;
-        }
+
         _discountObjects = [objectsToSearch filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
-        NSLog(@"count %lu", (unsigned long)objectsToSearch.count);
-    } else {
+    } else
         _discountObjects = _tempObjects;
-    }
+
     [controller.searchResultsTableView setBackgroundColor:[UIColor colorWithRed:0.877986 green:0.87686 blue:0.911683 alpha:1]];
     [controller.searchResultsTableView setSeparatorColor:[UIColor colorWithRed:0.877986 green:0.87686 blue:0.911683 alpha:1]];
     self.currentSearchString = searchString;
