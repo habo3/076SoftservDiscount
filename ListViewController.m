@@ -32,7 +32,7 @@
 @property(nonatomic, copy) NSString *currentSearchString;
 @property (nonatomic, copy) NSArray *tempObjects;
 @property (nonatomic, copy) NSArray *filteredObjects;
-@property (nonatomic)CDCity* currentCity;
+@property (nonatomic)CLLocation* currentCityLocation;
 @property (strong, nonatomic) IBOutlet UITableView *searchBar;
 @property(nonatomic, strong) UISearchDisplayController *strongSearchDisplayController;
 
@@ -88,8 +88,8 @@
         if(!city)
             city = @"Львів";
         coordinate = [self getCoordinateOfCity:city];
-        CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
-        self.discountObjects = [Sortings sortDiscountObjectByDistance:self.discountObjects toLocation:location];
+        self.currentCityLocation= [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+        self.discountObjects = [Sortings sortDiscountObjectByDistance:self.discountObjects toLocation:self.currentCityLocation];
         [self.tableView reloadData];
     }
 
@@ -136,13 +136,14 @@
 
 - (NSArray*)getAllObjects
 {
-    return [self.coreDataManager discountObjectsFromCoreData];
+    return  [Sortings sortDiscountObjectByDistance:[self.coreDataManager discountObjectsFromCoreData] toLocation:self.currentCityLocation];
+    
 }
 
-- (NSSet *)getObjectsByCategory:(NSInteger)filterNumber
+- (NSArray *)getObjectsByCategory:(NSInteger)filterNumber
 {
     NSArray *categories = [self.coreDataManager categoriesFromCoreData];
-    return [[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"];
+   return [Sortings sortDiscountObjectByDistance:[[categories objectAtIndex:filterNumber] valueForKey:@"discountObjects"] toLocation:self.currentCityLocation];
 }
 
 #pragma mark - filter
@@ -184,7 +185,7 @@
         if(self.selectedIndex == 0)
             self.discountObjects = [self getAllObjects];
         else
-            self.discountObjects = [[self getObjectsByCategory:self.selectedIndex - 1] allObjects];
+            self.discountObjects = [self getObjectsByCategory:self.selectedIndex - 1];
         [self.tableView reloadData];
     }
 }
