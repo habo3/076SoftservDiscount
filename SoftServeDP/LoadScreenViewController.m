@@ -83,7 +83,7 @@
 
 -(BOOL)internetAvailable
 {
-    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.google.com"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.yandex.com"] encoding:NSUTF8StringEncoding error:nil];
     return (url != NULL) ? YES : NO;
 }
 
@@ -93,11 +93,12 @@
     if(![self.coreDataManager isCoreDataEntityExist])
     {
         [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
+        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"updateData"];
         int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         [self downloadDataBaseWithUpdateTime:lastUpdate];
     }
     
-    if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist])
+    if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist] && [[userDefaults objectForKey:@"updateData"]boolValue])
     {
         int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         [self downloadDataBaseWithUpdateTime:lastUpdate];

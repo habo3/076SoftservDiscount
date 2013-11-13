@@ -28,6 +28,7 @@
 -(BOOL)isCoreDataEntityExist;
 -(void)deleteAllCoreData;
 -(UIImage*)checkImageInObjectExistForDiscountObject:(CDDiscountObject*)discountObject;
+-(void)saveData;
 
 -(NSArray*)discountObjectsFromCoreData;
 -(NSArray*)citiesFromCoreData;

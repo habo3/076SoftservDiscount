@@ -21,9 +21,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *geoLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *aboutLabel;
+@property (weak, nonatomic) IBOutlet UILabel *updateDataLabel;
 
 // section geoLocation
 @property (weak, nonatomic) IBOutlet UISwitch *geoLocationSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *updateDataSwitch;
 
 @property (nonatomic) NSArray *cities;
 @property (nonatomic) NSInteger selectedUpdateIndex;
@@ -42,7 +44,7 @@
 
 @implementation SettingsViewController
 
-@synthesize geoLocationLabel,cityLabel,aboutLabel;
+@synthesize geoLocationLabel,cityLabel,aboutLabel,updateDataLabel;
 @synthesize cities;
 @synthesize selectedCityIndex,selectedUpdateIndex;
 @synthesize selectedCityLabel;
@@ -87,7 +89,8 @@
     }
     
     geoLocationLabel.text = @"Геолокація";
-    cityLabel.text = @"Місто по замовчуванню";
+    updateDataLabel.text=@"Оновлення даних";
+    cityLabel.text = @"Місто за замовчуванням";
     aboutLabel.text = @"Про програму";
     versionLabelText.text = @"Версія";
     versionLabelNumber.text = @"1.0";
@@ -112,6 +115,7 @@
     versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
 
     self.geoLocationSwitch.on = geoLocationIsON;
+    self.updateDataSwitch.on=[[userDefaults objectForKey:@"updateData"]boolValue];
 
     selectedCityLabel.text = [self.cities objectAtIndex: selectedCityIndex];
 }
@@ -143,6 +147,19 @@
     }
     [userDefaults synchronize];
 }
+- (IBAction)updateDataSwitch:(UISwitch *)sender {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (!sender.on){
+        [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"updateData"];
+    }
+    else if (sender.on){
+        
+        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"updateData"];
+    }
+    [userDefaults synchronize];
+    
+}
+
 
 #pragma mark - selectPicker
 

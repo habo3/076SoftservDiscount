@@ -196,7 +196,6 @@
         NSString *imageUrl = [http stringByAppendingString:[discountObject.logo valueForKey:@"src"]];
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
         discountObject.image = UIImagePNGRepresentation(image);
-        [self.managedObjectContex save:nil];
     }    
     UIImage *objectImage = [UIImage imageWithData:discountObject.image];
     return objectImage;
@@ -225,6 +224,11 @@
     NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
     
     return [resultContent objectAtIndex:0];
+}
+
+-(void)saveData
+{
+    [self.managedObjectContex save:nil];    
 }
 
 @end

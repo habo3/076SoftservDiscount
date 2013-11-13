@@ -100,6 +100,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated
 {
+    [self.coreDataManager saveData];
     [filterButton removeFromSuperview];
 }
 
