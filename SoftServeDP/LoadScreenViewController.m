@@ -19,6 +19,7 @@
 @interface LoadScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) NSMutableArray *citiesNames;
+@property (nonatomic) BOOL downloadStarted;
 
 @end
 
@@ -45,6 +46,7 @@
     [super viewDidLoad];
     self.citiesNames = [[NSMutableArray alloc] init];
     self.progressView.progress = 0.0;
+    self.downloadStarted = NO;
 }
 
 - (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
@@ -93,20 +95,21 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if(![self.coreDataManager isCoreDataEntityExist])
-    {
-        [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
-        [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"updateData"];
-        int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
-        [self downloadDataBaseWithUpdateTime:lastUpdate];
+    if (!self.downloadStarted) {
+        self.downloadStarted = YES;
+        if(![self.coreDataManager isCoreDataEntityExist])
+        {
+            [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
+            [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"updateData"];
+            int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+            [self downloadDataBaseWithUpdateTime:lastUpdate];
+        }
+        else if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist] && [[userDefaults objectForKey:@"updateData"]boolValue])
+        {
+            int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+            [self downloadDataBaseWithUpdateTime:lastUpdate];
+        }
     }
-    
-    if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist] && [[userDefaults objectForKey:@"updateData"]boolValue])
-    {
-        int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
-        [self downloadDataBaseWithUpdateTime:lastUpdate];
-    }
-
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
