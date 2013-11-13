@@ -66,6 +66,9 @@
     
     [self initCallout];
     
+    /* REFACTOR, oskryp: move array annotation creation and visualisation to
+     * dispatch operation to let it be launched later 
+     */
     self.annArray = [[self getAllPins] mutableCopy];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView addAnnotations:self.annArray];
@@ -417,6 +420,13 @@
             scaleY = distanceFromObject;
             currentAnn = [self createAnnotationFromData:object];
             BOOL flag = TRUE;
+            
+            /* REFACTOR, oskryp: you are making N! compares just to 
+             * be sure there is no duplicates
+             * I believe you should do this at the beginning when retrieve
+             * objects from the DB
+             * That a terrific performace issue!
+             */
             for (Annotation *annotatio in arrayOfAnnotations) {
                 if([[annotatio.object valueForKey:@"id"] isEqual:[currentAnn.object valueForKey:@"id"]])
                     flag = FALSE;
@@ -424,6 +434,12 @@
             }
             if(!flag)
                [arrayOfAnnotations removeObject:currentAnn];
+            
+            /* REFACTOR, oskryp: again I believe it is possible
+             * to avoid loop with all items comparing 
+             * You just need incrementally update map frame
+             * and compare new items only with that frame
+             */
             for(Annotation *ann in arrayOfAnnotations)
             {
                 if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
@@ -448,6 +464,7 @@
                 [arrayOfAnnotations addObject:currentAnn];
         }
 
+    // REFACTOR, oskryp: return immutable array just here (as specified by your return type)
     return arrayOfAnnotations;
 }
 

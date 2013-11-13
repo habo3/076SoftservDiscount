@@ -911,6 +911,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Bogdan;
+				TargetAttributes = {
+					432CC5CF16A467E000A50F1D = {
+						DevelopmentTeam = PBLK7VB9B2;
+					};
+				};
 			};
 			buildConfigurationList = 432CC5CA16A467E000A50F1D /* Build configuration list for PBXProject "SoftServe Discount" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1177,6 +1182,8 @@
 		432CC5F516A467E000A50F1D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1194,6 +1201,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "SoftServe Discount";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1201,6 +1209,8 @@
 		432CC5F616A467E000A50F1D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1218,6 +1228,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "SoftServe Discount";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
