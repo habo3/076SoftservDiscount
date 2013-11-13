@@ -3,7 +3,7 @@
 //  ListView
 //
 //  Created by Developer on 2/12/13.
-//  Copyright (c) 2013 Bogdan. All rights reserved.
+//  Copyright (c) 2013 Andrew Gavrish. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

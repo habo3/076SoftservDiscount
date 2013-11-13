@@ -2,8 +2,8 @@
 //  SettingsViewController.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 28.01.13.
-//  Copyright (c) 2013 Bogdan. All rights reserved.
+//  Created by Andrew Gavrish on 28.01.13.
+//  Copyright (c) 2013 Andrew Gavrish. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
 #import "SettingsViewController.h"

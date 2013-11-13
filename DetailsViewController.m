@@ -2,8 +2,8 @@
 //  DetailsViewController.m
 //  SoftServeDP
 //
-//  Created by Bogdan on 19.02.13.
-//  Copyright (c) 2013 Bogdan. All rights reserved.
+//  Created by Andrew Gavrish on 19.02.13.
+//  Copyright (c) 2013 Andrew Gavrish. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -290,6 +290,8 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 
 {
+    if (buttonIndex == 2)
+        return;
     NSString *objectAddress = self.discountObject.address;
     NSString *objectName = self.discountObject.name;
     NSMutableString *shareString = [NSMutableString stringWithFormat:@"Партнер: %@, адреса: %@", objectName, objectAddress];

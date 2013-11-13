@@ -3,7 +3,7 @@
 //  SoftServe Discount
 //
 //  Created by Maxim on 3.11.13.
-//  Copyright (c) 2013 Bogdan. All rights reserved.
+//  Copyright (c) 2013 Andrew Gavrish. All rights reserved.
 //
 
 #import "LoadScreenViewController.h"
@@ -12,6 +12,9 @@
 #import "CDCoreDataManager.h"
 #import "CDCity.h"
 #import "ActionSheetStringPicker.h"
+#import "KxIntroView.h"
+#import "KxIntroViewController.h"
+#import "KxIntroViewPage.h"
 
 @interface LoadScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
@@ -140,7 +143,33 @@
     [userDefaults setObject:[self.citiesNames objectAtIndex:[selectedIndex intValue] ] forKey:@"cityName"];
     [userDefaults synchronize];
     [userDefaults removeObjectForKey:@"firstLaunch"];
+    [self performIntro];
     [self performSegueWithIdentifier:@"Menu" sender:self];
+}
+
+-(void) performIntro
+{
+    KxIntroViewPage *page0 = [KxIntroViewPage introViewPageWithTitle: @"Швидке навчання"
+                                                          withDetail: @"Це швидке навчання користування програмую, якщо ви бажаєте пропустити його нажміть вiдповідну кнопку. Для переходу до наступного кроку зробіть скрол вліво."
+                                                           withImage: [UIImage imageNamed:@"IntrolImage.png"]];
+    
+    KxIntroViewPage *page1 = [KxIntroViewPage introViewPageWithTitle: @"Карта"
+                                                          withDetail: @"На карті можна побачити всі заклади. які вснесені в базу, При кліці на заклад появляється коротка інформація про нього та, якщо ввімкнена Геолокація, прокладається маршрут від вашого поточного місця знаходження до даного закладу. На навігаційній панелі ви можете найти кнопку Назад та кнопку Філтрації. Також, при ввімкненій Геолокації, знизу відображається кнопка переходу до вашого місця знаходження "
+                                                           withImage: [UIImage imageNamed:@"IntroImageMap.jpg"]];
+    
+    KxIntroViewPage *page2 = [KxIntroViewPage introViewPageWithTitle: @"Список"
+                                                          withDetail: @"В списку ви можете побачити всі заклади, де надаються знижки в альтернативному вигляді. Тут присутній пошук, а також фільтрація."
+                                                           withImage: [UIImage imageNamed:@"IntroImageList.jpg"]];
+    
+    KxIntroViewPage *page3 = [KxIntroViewPage introViewPageWithTitle: @"Деталі"
+                                                          withDetail: @"Це вікно призначення для показу детальної інформації про даний заклад, Тут ви можете: побачити категорію закладу, логотип, контактну інформацію, добавити до обраного, поскаржитися, поділитися з друзями інформацією про нього. Також клік по телефону, електроній пошті, сайту відбудеться відповідна дія."
+                                                           withImage: [UIImage imageNamed:@"IntroDetailsImage1.jpg" ]];
+    
+    KxIntroViewController *vc = [[KxIntroViewController alloc ] initWithPages:@[ page0, page1, page2, page3]];
+    vc.introView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"IntroBackground.png"]];;
+    vc.introView.animatePageChanges = YES;
+    vc.introView.gradientBackground = NO;
+    [vc presentInViewController:self fullScreenLayout:YES];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
