@@ -35,11 +35,13 @@
 @property (nonatomic)CLLocation* currentCityLocation;
 @property (strong, nonatomic) IBOutlet UITableView *searchBar;
 @property(nonatomic, strong) UISearchDisplayController *strongSearchDisplayController;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *toTopButton;
 
 
 @end
 
 @implementation ListViewController
+@synthesize toTopButton;
 @synthesize filterButton;
 @synthesize selectedRow;
 @synthesize currentLocation;
@@ -278,6 +280,29 @@
     return YES;
 }
 
+#pragma mark - ReturnToTop
+
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    
+    if (targetContentOffset->y > 3500)
+    {
+        self.navigationController.toolbarHidden = NO;
+    }else{
+        self.navigationController.toolbarHidden = YES;
+    }
+}
+
+
+- (IBAction)tabBarButtonIsPressed:(id)sender
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+    [self.searchDisplayController.searchResultsTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.navigationController.toolbarHidden = YES;
+}
 
 #pragma mark - Location Manager
 
