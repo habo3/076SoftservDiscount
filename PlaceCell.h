@@ -21,6 +21,8 @@
 @property (strong, nonatomic) IBOutlet UIView *rectangleView;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonImage;
 @property (weak, nonatomic) IBOutlet UIImageView *discountImage;
+@property (strong, nonatomic) IBOutlet UILabel *cityLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *cityImage;
 
 - (PlaceCell *)customCellFromDiscountObject:(CDDiscountObject *)object WithTableView:(UITableView *)tableView WithCurrentLocation: (CLLocation *)currentLocation;
 - (void)initViews;

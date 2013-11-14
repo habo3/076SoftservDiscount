@@ -8,7 +8,7 @@
 
 #import "PlaceCell.h"
 #import "CDCoreDataManager.h"
-
+#import "CDCity.h"
 @interface PlaceCell ()
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
@@ -79,6 +79,13 @@
     self.addressLabel.text = object.address;
     [self setDistanceLabelFromDiscountObject:object WithCurrentLocation:currentLocation];
     [self setImageinCellFromObject:object];
+    if(object.cities.name)
+        self.cityLabel.text = object.cities.name;
+    else
+    {
+        self.cityLabel.hidden = YES;
+        self.cityImage.hidden = YES;
+    }
     
     return self;
 }

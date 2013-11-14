@@ -55,6 +55,8 @@
 		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
 		43EB025416DCE4910096431E /* noFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 43EB025316DCE4910096431E /* noFavorites.png */; };
+		4B28B03F18350ABD00FD4334 /* cityNameBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */; };
+		4B28B04018350ABD00FD4334 /* cityNameBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B28B03E18350ABD00FD4334 /* cityNameBackground.png */; };
 		4B2A9D89182D1AE800411028 /* navigationBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B2A9D87182D1AE800411028 /* navigationBarBG.png */; };
 		4B2A9D8A182D1AE800411028 /* navigationBarBGOld.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B2A9D88182D1AE800411028 /* navigationBarBGOld.png */; };
 		4B529FE7181EA833002F3898 /* menuBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B529FE6181EA833002F3898 /* menuBG.png */; };
@@ -227,6 +229,8 @@
 		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4373562916CBC0AA00B30B81 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		43EB025316DCE4910096431E /* noFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noFavorites.png; sourceTree = "<group>"; };
+		4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityNameBackground@2x.png"; sourceTree = "<group>"; };
+		4B28B03E18350ABD00FD4334 /* cityNameBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityNameBackground.png; sourceTree = "<group>"; };
 		4B2A9D87182D1AE800411028 /* navigationBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBG.png; sourceTree = "<group>"; };
 		4B2A9D88182D1AE800411028 /* navigationBarBGOld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBGOld.png; sourceTree = "<group>"; };
 		4B529FE6181EA833002F3898 /* menuBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menuBG.png; path = SoftServeDP/menuBG.png; sourceTree = "<group>"; };
@@ -560,6 +564,8 @@
 		4B529FEB181EA9A9002F3898 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */,
+				4B28B03E18350ABD00FD4334 /* cityNameBackground.png */,
 				43EB025316DCE4910096431E /* noFavorites.png */,
 				C0896E2C16DA8EA400D73C1E /* disclosureButton.png */,
 				C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */,
@@ -1032,6 +1038,7 @@
 				434CAFC916D520510000CE60 /* detailsClockPin.png in Resources */,
 				434CAFCA16D520510000CE60 /* detailsClockPin@2x.png in Resources */,
 				434CAFD116D52D860000CE60 /* detailsDistanceBackground.png in Resources */,
+				4B28B03F18350ABD00FD4334 /* cityNameBackground@2x.png in Resources */,
 				4B52A00C181EAAA0002F3898 /* menuIconMapSelected.png in Resources */,
 				434CAFD216D52D860000CE60 /* detailsDistanceBackground@2x.png in Resources */,
 				434CAFD616D53D5A0000CE60 /* detailsFooterButtonsPattern.png in Resources */,
@@ -1058,6 +1065,7 @@
 				4B52A012181EAAA0002F3898 /* menuIconSettings.png in Resources */,
 				4B529FEA181EA966002F3898 /* menuBGSelected.png in Resources */,
 				C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */,
+				4B28B04018350ABD00FD4334 /* cityNameBackground.png in Resources */,
 				4B52A00A181EAAA0002F3898 /* menuIconMap.png in Resources */,
 				C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */,
 				43EB025416DCE4910096431E /* noFavorites.png in Resources */,
