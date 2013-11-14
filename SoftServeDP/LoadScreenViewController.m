@@ -166,7 +166,7 @@
     
     KxIntroViewPage *page3 = [KxIntroViewPage introViewPageWithTitle: @"Деталі"
                                                           withDetail: @"Це вікно призначення для показу детальної інформації про даний заклад, Тут ви можете: побачити категорію закладу, логотип, контактну інформацію, добавити до обраного, поскаржитися, поділитися з друзями інформацією про нього. Також клік по телефону, електроній пошті, сайту відбудеться відповідна дія."
-                                                           withImage: [UIImage imageNamed:@"IntroDetailsImage1.jpg" ]];
+                                                           withImage: [UIImage imageNamed:@"IntroImageDetails.jpg" ]];
     
     KxIntroViewController *vc = [[KxIntroViewController alloc ] initWithPages:@[ page0, page1, page2, page3]];
     vc.introView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"IntroBackground.png"]];;
