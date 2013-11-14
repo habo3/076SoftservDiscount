@@ -97,19 +97,25 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (!self.downloadStarted) {
         self.downloadStarted = YES;
+        int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         if(![self.coreDataManager isCoreDataEntityExist])
         {
             [userDefaults setValue:[NSNumber numberWithInt:0] forKey:@"DataBaseUpdate"];
+            lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
             [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"updateData"];
-            int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
             [self downloadDataBaseWithUpdateTime:lastUpdate];
         }
         else if([self internetAvailable] && [self.coreDataManager isCoreDataEntityExist] && [[userDefaults objectForKey:@"updateData"]boolValue])
         {
-            int lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
             [self downloadDataBaseWithUpdateTime:lastUpdate];
         }
+        lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:lastUpdate];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
+        [dateFormatter setDateFormat:@"dd.MM.yy HH:mm"];
+        [userDefaults setObject:[dateFormatter stringFromDate:date] forKey:@"DataBaseUpdateDateFormat"];
     }
+    
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"

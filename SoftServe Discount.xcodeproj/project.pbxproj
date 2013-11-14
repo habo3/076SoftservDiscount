@@ -108,6 +108,7 @@
 		4BC4D7FE180C480E00A8C666 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FD180C480E00A8C666 /* Security.framework */; };
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
 		4BD0DD431831194B002541B4 /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BD0DD421831194B002541B4 /* transparent.png */; };
+		4BDF27CA1834E6FE00B40918 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4BDF27C91834E6FE00B40918 /* Settings.bundle */; };
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
 		57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723B182E3393006E2018 /* CDDiscountObject.m */; };
@@ -303,6 +304,7 @@
 		4BC4D7FD180C480E00A8C666 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4BD0DD421831194B002541B4 /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
+		4BDF27C91834E6FE00B40918 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4BE0043D180563E600DA17C2 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = SOURCE_ROOT; };
 		4BE0043E180563E600DA17C2 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = SOURCE_ROOT; };
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				432CC5DD16A467E000A50F1D /* InfoPlist.strings */,
 				432CC5E016A467E000A50F1D /* main.m */,
 				432CC5E216A467E000A50F1D /* SoftServe Discount-Prefix.pch */,
+				4BDF27C91834E6FE00B40918 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1060,6 +1063,7 @@
 				C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */,
 				43EB025416DCE4910096431E /* noFavorites.png in Resources */,
 				906B72E916DD44A9009A287E /* searchBarBG.png in Resources */,
+				4BDF27CA1834E6FE00B40918 /* Settings.bundle in Resources */,
 				4B2A9D8A182D1AE800411028 /* navigationBarBGOld.png in Resources */,
 				FB59A91E16EF52E80018BB83 /* settingsDisclosure.png in Resources */,
 				FB59A91F16EF52E80018BB83 /* settingsDisclosure@2x.png in Resources */,

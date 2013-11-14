@@ -109,11 +109,8 @@
     selectedCityLabel.text = [self.cities objectAtIndex:selectedCityIndex];
     selectedUpdateIndex = [[userDefaults objectForKey:@"selectedUpdate"] integerValue];
     
-    int lastUpdate = [[userDefaults objectForKey:@"DataBaseUpdate"] intValue];
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:lastUpdate];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
-    [dateFormatter setDateFormat:@"dd.MM.yyyy HH:mm:ss"];
-    versionDBLabelNumber.text = [dateFormatter stringFromDate:date];
+    NSString *updateDate = [userDefaults objectForKey:@"DataBaseUpdateDateFormat"];
+    versionDBLabelNumber.text = updateDate;
     
     self.geoLocationSwitch.on = geoLocationIsON;
     self.updateDataSwitch.on=[[userDefaults objectForKey:@"updateData"]boolValue];
