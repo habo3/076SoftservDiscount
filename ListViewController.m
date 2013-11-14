@@ -298,7 +298,7 @@
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView scrollToRowAtIndexPath:indexPath
-                          atScrollPosition:UITableViewScrollPositionTop
+                          atScrollPosition:UITableViewScrollPositionBottom
                                   animated:YES];
     [self.searchDisplayController.searchResultsTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     self.navigationController.toolbarHidden = YES;
