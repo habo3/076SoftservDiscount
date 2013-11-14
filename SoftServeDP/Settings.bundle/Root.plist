@@ -56,7 +56,7 @@
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>Title</key>
-			<string>Дата оновлення </string>
+			<string>Дата оновлення</string>
 			<key>Key</key>
 			<string>DataBaseUpdateDateFormat</string>
 		</dict>

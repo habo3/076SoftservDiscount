@@ -356,7 +356,6 @@
 		C0A9EBBB16D94F4400DE9FC5 /* backButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backButton@2x.png"; sourceTree = "<group>"; };
 		C0A9EBBF16D9708F00DE9FC5 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
 		C0A9EBC016D9708F00DE9FC5 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
-		E7005C82182A7A6E00202A69 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E7005C85182A7C5D00202A69 /* CDCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCategory.h; sourceTree = "<group>"; };
 		E7005C86182A7C5D00202A69 /* CDCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCategory.m; sourceTree = "<group>"; };
 		E7005C87182A7C5D00202A69 /* CDFavorites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFavorites.h; sourceTree = "<group>"; };
@@ -1174,7 +1173,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				432CC5DE16A467E000A50F1D /* en */,
-				E7005C82182A7A6E00202A69 /* uk */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
