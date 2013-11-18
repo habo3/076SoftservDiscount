@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Foundation/NSURLConnection.h>
+@class CDDiscountObject;
 
 @interface JPJsonParser : NSObject
 
@@ -19,6 +20,9 @@
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName;
 + (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString *)format;
+
++(id)getUserIDFromFacebook;
++(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject;
 
 
 @end

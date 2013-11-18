@@ -52,7 +52,7 @@
     return nil;
 }
 
-+(CDDiscountObject*)checkDiscountExistForDictionary:(NSDictionary*)object andContext:(id)managedObjectContext
++(CDDiscountObject*)checkDiscountExistForDictionary:(NSDictionary*)object andContext:(id)managedObjectContext elseCreateNew:(BOOL)createNew
 {
     NSString* objectID = [NSString stringWithFormat:@"%@",[object valueForKey:@"id"]];
     
@@ -65,10 +65,12 @@
         NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
         return result[0];
     }
-    //if object does not exist it`ll create new object and return it
-    CDDiscountObject *newDiscountObject = [self createWithDictionary:object andContext:managedObjectContext];
-    newDiscountObject.isInFavoritesValue = NO;
-    return newDiscountObject;
+    if (createNew) {//if object does not exist it`ll create new object and return it
+        CDDiscountObject *newDiscountObject = [self createWithDictionary:object andContext:managedObjectContext];
+        newDiscountObject.isInFavoritesValue = NO;
+        return newDiscountObject;
+    }
+    return nil;
 }
 
 #pragma mark - Check is Discount object valid

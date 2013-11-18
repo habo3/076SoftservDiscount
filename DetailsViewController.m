@@ -17,10 +17,11 @@
 #import <Social/SLServiceTypes.h>
 #import "CDCoreDataManager.h"
 #import "CustomViewMaker.h"
+#import "JPJsonParser.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
-@interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate>
+@interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate,FBLoginViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *discount;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -39,6 +40,8 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIImageView *discountImage;
 
+@property BOOL isFavoriteStateChanged;
+
 @end
 
 @implementation DetailsViewController
@@ -50,15 +53,40 @@
 @synthesize coreDataManager = _coreDataManager;
 
 #pragma mark - General
+
+-(void)faceBookTest
+{
+    NSString *accesToken = [[FBSession activeSession] accessToken];
+    NSLog(@"%@",accesToken);
+
+    NSString *http = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/get/b1d6f099e1b5913e86f0a9bb9fbc10e5?access_token=%@&auth=1&provider=facebook",accesToken];
+    
+    
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:http]] options:kNilOptions error:nil];
+    
+    NSLog(@"%@",json);
+    NSLog(@"id: %@",[json valueForKey:@"id"]);
+    
+    if (![[FBSession activeSession] accessToken]) {
+        NSLog(@"no access");
+    }
+    if ([json valueForKey:@"id"]) {
+        NSLog(@"i have ID");
+    }
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    [self faceBookTest];
     [CustomViewMaker customNavigationBarForView:self];
     [self initMapView];    
     // round upper corners in first cell
     [CustomViewMaker roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
     [CustomViewMaker roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
 
+    self.isFavoriteStateChanged = @NO;
     // set labels value
     NSString *discountFrom;
     if(![[self.discountObject.discount valueForKey:@"from"]  isEqualToNumber: [self.discountObject.discount valueForKey:@"to"]])
@@ -93,6 +121,8 @@
     }
     [self loadLogo];
     [self isObjectInFavoritesButtonController];
+    
+
 }
 
 +(NSString *)ConvertPhoneToCallingFormat:(NSString *)inputString
@@ -271,7 +301,7 @@
 
 - (IBAction)favoriteButton
 {
-   
+    self.isFavoriteStateChanged = @YES;
     [self.coreDataManager addDiscountObjectToFavoritesWithObject:self.discountObject];
     
     [self isObjectInFavoritesButtonController];
@@ -344,6 +374,15 @@
     }
 
 
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    if ([[FBSession activeSession] accessToken] && self.isFavoriteStateChanged) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
+            [JPJsonParser toggleUserFavoriteObject:self.discountObject];
+        });
+    }
 }
 
 #pragma mark - Table view data source

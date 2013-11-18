@@ -54,18 +54,24 @@
     BOOL downloadedDataBase = NO;
     NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
     JPJsonParser *objects, *cities, *categories;
+    JPJsonParser *favoriteObjects;
     
     objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
     
+    favoriteObjects = [[JPJsonParser alloc] initWithUrl:[NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/b1d6f099e1b5913e86f0a9bb9fbc10e5?id=%@",[JPJsonParser getUserIDFromFacebook]]];
+    
     while (!downloadedDataBase) {
           self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
         [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
+        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase && favoriteObjects.updatedDataBase)
             downloadedDataBase = YES;
     }
-    
+    NSLog(@"%@",favoriteObjects.parsedData);
+//    for (NSString *key in [favoriteObjects.parsedData allKeys]) {
+//        NSLog(@"favorite object ID: %@",key);
+//    }
     if (!lastUpdate) {
         [self.coreDataManager deleteAllCoreData];
     }
@@ -82,7 +88,9 @@
         self.coreDataManager.discountObject = objects.parsedData;
         [self.coreDataManager saveDiscountObjectsToCoreData];
     }
-    
+    if ([[favoriteObjects parsedData] count]) {
+        [self.coreDataManager addDiscountObjectToFavoritesWithDictionaryObjects:[favoriteObjects parsedData]];
+    }    
     NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
 }
 

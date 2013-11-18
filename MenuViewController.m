@@ -8,8 +8,9 @@
 
 #import "MenuViewController.h"
 #import "CustomViewMaker.h"
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface MenuViewController()
+@interface MenuViewController()<FBLoginViewDelegate>
 
 @end
 
@@ -31,7 +32,9 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGOld.png"] forBarMetrics:UIBarMetricsDefault];
-
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"userID: %@", [userDefaults valueForKey:@"userID"]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,3 +44,5 @@
 }
 
 @end
+
+

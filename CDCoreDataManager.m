@@ -41,21 +41,35 @@
 #pragma mark - Add to Favorites
     
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject
-    {
-        CDFavorites *favorites = [self favoritesFromCoreData];
-        
-        if ([discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
-            [favorites.discountObjectsSet removeObject:discountObject];
-            discountObject.isInFavorites = @NO;
-        }
-        else
-        {
-            [favorites.discountObjectsSet addObject:discountObject];
-            discountObject.isInFavorites = @YES;
-        }
-        [self.managedObjectContex save:nil];
-    }
+{
+    CDFavorites *favorites = [self favoritesFromCoreData];
     
+    if ([discountObject.isInFavorites isEqual:[NSNumber numberWithBool:YES]]) {
+        [favorites.discountObjectsSet removeObject:discountObject];
+        discountObject.isInFavorites = @NO;
+    }
+    else
+    {
+        [favorites.discountObjectsSet addObject:discountObject];
+        discountObject.isInFavorites = @YES;
+    }
+    [self.managedObjectContex save:nil];
+}
+
+-(void)addDiscountObjectToFavoritesWithDictionaryObjects:(NSDictionary*)favoriteObjects
+{
+    for (NSString *key in [favoriteObjects allKeys]) {
+        NSDictionary *objDict = [favoriteObjects valueForKey:key];
+        CDDiscountObject *favoriteObject = [CDDiscountObject checkDiscountExistForDictionary:objDict andContext:self.managedObjectContex elseCreateNew:NO];
+        if (favoriteObject) {
+            NSLog(@"%@",favoriteObject.isInFavorites);
+            if ([favoriteObject.isInFavorites isEqual:@NO] || !favoriteObject.isInFavorites) {
+                [self addDiscountObjectToFavoritesWithObject:favoriteObject];
+            }
+        }
+    }
+}
+
 -(CDFavorites*)favoritesFromCoreData
     {
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDFavorites"];
@@ -87,7 +101,7 @@
         CDContent *contentFromCoreData = [self contentFromCoreData];
         
         for (NSDictionary *object in _discountObject) {
-            CDDiscountObject *newDiscountObject = [CDDiscountObject checkDiscountExistForDictionary:object andContext:self.managedObjectContex];
+            CDDiscountObject *newDiscountObject = [CDDiscountObject checkDiscountExistForDictionary:object andContext:self.managedObjectContex elseCreateNew:YES];
             if (newDiscountObject) {
 #pragma mark - makeRalations
                 for (CDCity *city in cities) {
@@ -138,95 +152,96 @@
     }
     
 -(NSArray*)citiesFromCoreData
-    {
-        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDCity"];
-        fetchRequest.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-        return result;
-    }
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDCity"];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    return result;
+}
+
 #pragma mark - Category Objects manipulations
 -(void)saveCategoriesToCoreData
-    {
-        CDContent *contentFromCoreData = [self contentFromCoreData];
-        for (NSString *key in _categories.allKeys) {
-            NSDictionary *tempCategory = [_categories valueForKey:key];
-            CDCategory *newCategory = [NSEntityDescription insertNewObjectForEntityForName:@"CDCategory" inManagedObjectContext:self.managedObjectContex];
-            for (NSString *key in tempCategory) {
-                if ([key isEqualToString:@"id"]) {
-                    [newCategory setValue:[[tempCategory valueForKey:key] stringValue] forKey:key];
-                    continue;
-                }
-                [newCategory setValue:[tempCategory valueForKey:key] forKey:key];
+{
+    CDContent *contentFromCoreData = [self contentFromCoreData];
+    for (NSString *key in _categories.allKeys) {
+        NSDictionary *tempCategory = [_categories valueForKey:key];
+        CDCategory *newCategory = [NSEntityDescription insertNewObjectForEntityForName:@"CDCategory" inManagedObjectContext:self.managedObjectContex];
+        for (NSString *key in tempCategory) {
+            if ([key isEqualToString:@"id"]) {
+                [newCategory setValue:[[tempCategory valueForKey:key] stringValue] forKey:key];
+                continue;
             }
-            newCategory.content = contentFromCoreData;
+            [newCategory setValue:[tempCategory valueForKey:key] forKey:key];
         }
-        [self.managedObjectContex save:nil];
+        newCategory.content = contentFromCoreData;
     }
-    
+    [self.managedObjectContex save:nil];
+}
+
 -(NSArray*)categoriesFromCoreData
-    {
-        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDCategory"];
-        fetchRequest.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-        
-        NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-        return result;
-    }
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDCategory"];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     
+    NSArray *result = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    return result;
+}
+
 #pragma mark - IsCoreDataExist
     
 -(BOOL)isCoreDataEntityExist
-    {
-        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
-        [fetchRequest setFetchLimit:1];
-        if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
-            return NO;
-        }
-        return YES;
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
+    [fetchRequest setFetchLimit:1];
+    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+        return NO;
     }
-    
+    return YES;
+}
+
 #pragma mark - IsImageInObjectExist
     
 -(UIImage*)checkImageInObjectExistForDiscountObject:(CDDiscountObject*)discountObject
-    {
-        if (discountObject.image == nil) {
-            NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
-            NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
-            NSString *imageUrl = [http stringByAppendingString:[discountObject.logo valueForKey:@"src"]];
-            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
-            discountObject.image = UIImagePNGRepresentation(image);
-        }
-        UIImage *objectImage = [UIImage imageWithData:discountObject.image];
-        return objectImage;
+{
+    if (discountObject.image == nil) {
+        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+        NSString *http = [NSString stringWithString:[dictRoot objectForKey:@"WebSite"]];
+        NSString *imageUrl = [http stringByAppendingString:[discountObject.logo valueForKey:@"src"]];
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]]];
+        discountObject.image = UIImagePNGRepresentation(image);
     }
-    
+    UIImage *objectImage = [UIImage imageWithData:discountObject.image];
+    return objectImage;
+}
+
 #pragma mark - Refresh CoreData
-    
+
 -(void)deleteAllCoreData
-    {
-        [self.managedObjectContex deleteObject:(NSManagedObject*)[self contentFromCoreData]];
-        [self.managedObjectContex save:nil];
-    }
-    
+{
+    [self.managedObjectContex deleteObject:(NSManagedObject*)[self contentFromCoreData]];
+    [self.managedObjectContex save:nil];
+}
+
 #pragma mark - Get CDContent
     
 -(CDContent*)contentFromCoreData
-    {
-        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDContent"];
-        [fetchRequest setFetchLimit:1];
-        if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
-            CDContent *newContent;
-            newContent = [NSEntityDescription insertNewObjectForEntityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex];
-            [self.managedObjectContex save:nil];
-        }
-        
-        NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
-        
-        return [resultContent objectAtIndex:0];
+{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDContent"];
+    [fetchRequest setFetchLimit:1];
+    if (![self.managedObjectContex countForFetchRequest:fetchRequest error:nil]) {
+        CDContent *newContent;
+        newContent = [NSEntityDescription insertNewObjectForEntityForName:@"CDContent" inManagedObjectContext:self.managedObjectContex];
+        [self.managedObjectContex save:nil];
     }
     
+    NSArray *resultContent = [self.managedObjectContex executeFetchRequest:fetchRequest error:nil];
+    
+    return [resultContent objectAtIndex:0];
+}
+
 -(void)saveData
     {
-        [self.managedObjectContex save:nil];    
+        [self.managedObjectContex save:nil];
     }
     
     @end

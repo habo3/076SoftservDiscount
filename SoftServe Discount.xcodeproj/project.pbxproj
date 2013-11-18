@@ -113,6 +113,8 @@
 		4BDF27CA1834E6FE00B40918 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4BDF27C91834E6FE00B40918 /* Settings.bundle */; };
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
+		573289521838DDFB006B6E4A /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 573289511838DDFB006B6E4A /* FacebookSDKResources.bundle */; };
+		57328956183A1F4D006B6E4A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57328955183A1F4D006B6E4A /* LoginViewController.m */; };
 		57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723B182E3393006E2018 /* CDDiscountObject.m */; };
 		57DB723F182E384F006E2018 /* CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723E182E384F006E2018 /* CDContent.m */; };
 		57DB7242182E385F006E2018 /* _CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB7241182E385F006E2018 /* _CDContent.m */; };
@@ -311,6 +313,9 @@
 		4BDF27C91834E6FE00B40918 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4BE0043D180563E600DA17C2 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = SOURCE_ROOT; };
 		4BE0043E180563E600DA17C2 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = SOURCE_ROOT; };
+		573289511838DDFB006B6E4A /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKResources.bundle; path = FacebookSDK.framework/Resources/FacebookSDKResources.bundle; sourceTree = "<group>"; };
+		57328954183A1F4D006B6E4A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		57328955183A1F4D006B6E4A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		57DB723A182E3393006E2018 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
 		57DB723B182E3393006E2018 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
@@ -427,6 +432,7 @@
 		432CC5C516A467E000A50F1D = {
 			isa = PBXGroup;
 			children = (
+				57328953183A1F08006B6E4A /* Login */,
 				4B7A16361828FE820042FB2D /* Supporting Classes */,
 				4B5C8E17181FDFEC005D1A8D /* NewCoreData */,
 				4B529FE8181EA894002F3898 /* TableViews */,
@@ -453,6 +459,7 @@
 		432CC5D316A467E000A50F1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				573289511838DDFB006B6E4A /* FacebookSDKResources.bundle */,
 				E79C44F6180EC7F00017964D /* Flurry */,
 				4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */,
 				4BC4D7FD180C480E00A8C666 /* Security.framework */,
@@ -765,6 +772,15 @@
 			name = LoadScreen;
 			sourceTree = "<group>";
 		};
+		57328953183A1F08006B6E4A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				57328954183A1F4D006B6E4A /* LoginViewController.h */,
+				57328955183A1F4D006B6E4A /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		57DB7230182A728F006E2018 /* CustomViewMaker */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1025,7 @@
 				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
 				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
 				4B52A003181EAAA0002F3898 /* menuIconFavorites@2x.png in Resources */,
+				573289521838DDFB006B6E4A /* FacebookSDKResources.bundle in Resources */,
 				90820E7116CE92C200BBD714 /* emptyPin.png in Resources */,
 				4B52A013181EAAA0002F3898 /* menuIconSettings@2x.png in Resources */,
 				4B2A9D89182D1AE800411028 /* navigationBarBG.png in Resources */,
@@ -1141,6 +1158,7 @@
 				90487CA816A8531D0090F60E /* Annotation.m in Sources */,
 				C09627A716B679A20030988C /* SettingsViewController.m in Sources */,
 				4B52A022181EACD5002F3898 /* OCAnnotation.m in Sources */,
+				57328956183A1F4D006B6E4A /* LoginViewController.m in Sources */,
 				57DB7248182F8F33006E2018 /* _CDCity.m in Sources */,
 				57DB7245182F8F24006E2018 /* _CDCategory.m in Sources */,
 				4B52A023181EACD5002F3898 /* OCDistance.m in Sources */,
