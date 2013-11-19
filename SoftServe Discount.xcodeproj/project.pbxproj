@@ -131,6 +131,7 @@
 		906B72E916DD44A9009A287E /* searchBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 906B72E816DD44A9009A287E /* searchBarBG.png */; };
 		90820E6F16CE583500BBD714 /* icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90820E6E16CE583500BBD714 /* icons.ttf */; };
 		90820E7116CE92C200BBD714 /* emptyPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90820E7016CE92C200BBD714 /* emptyPin.png */; };
+		BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */; };
 		C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B716DAD0FE00262BD9 /* filterButton.png */; };
 		C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */; };
 		C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */; };
@@ -337,6 +338,8 @@
 		906B72E816DD44A9009A287E /* searchBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBG.png; sourceTree = "<group>"; };
 		90820E6E16CE583500BBD714 /* icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icons.ttf; sourceTree = "<group>"; };
 		90820E7016CE92C200BBD714 /* emptyPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyPin.png; sourceTree = SOURCE_ROOT; };
+		BB9067BC183B91BA00B6E1DF /* PhoneFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneFormatter.h; sourceTree = "<group>"; };
+		BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneFormatter.m; sourceTree = "<group>"; };
 		C076B3B716DAD0FE00262BD9 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
 		C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+setUIColor.h"; sourceTree = "<group>"; };
@@ -721,6 +724,7 @@
 		4B7A16361828FE820042FB2D /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BB9067BB183B919500B6E1DF /* PhoneFormatter */,
 				4B6326BA1833C4D800740885 /* IntroView */,
 				4B7A163B182908020042FB2D /* CustomViews */,
 				4B7A16371828FE930042FB2D /* Sortings */,
@@ -849,6 +853,15 @@
 				4325F4CC16CBA54E002C7B75 /* annDetailButton.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		BB9067BB183B919500B6E1DF /* PhoneFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				BB9067BC183B91BA00B6E1DF /* PhoneFormatter.h */,
+				BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */,
+			);
+			name = PhoneFormatter;
 			sourceTree = "<group>";
 		};
 		C096279B16B555C90030988C /* SettingsViewController */ = {
@@ -1152,6 +1165,7 @@
 				4B6D5D081827E30B00896059 /* AbstractActionSheetPicker.m in Sources */,
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */,
+				BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */,
 				E7005C98182A7C5D00202A69 /* CDCity.m in Sources */,
 				C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */,
 				E7005C97182A7C5D00202A69 /* CDFavorites.m in Sources */,

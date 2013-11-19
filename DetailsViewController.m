@@ -17,6 +17,8 @@
 #import <Social/SLServiceTypes.h>
 #import "CDCoreDataManager.h"
 #import "CustomViewMaker.h"
+#import "PhoneFormatter.h"
+#import "CDCity.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
@@ -81,7 +83,7 @@
     
     if ( !(self.discountObject.phone == nil || [self.discountObject.phone count] == 0 ) ) {
         self.phone.textColor = [UIColor orangeColor];
-        self.phone.text = [DetailsViewController ConvertPhoneToCallingFormat:[self.discountObject.phone objectAtIndex:0]];
+        self.phone.text = [PhoneFormatter numberForView:[self.discountObject.phone objectAtIndex:0]withCity:self.discountObject.cities.name];
     }
     if ( !(self.discountObject.email == nil || [self.discountObject.email count] == 0 ) ) {
         self.email.textColor = [UIColor orangeColor];
@@ -120,7 +122,9 @@
 - (IBAction)callNumber {
     if(self.discountObject.phone != nil)
     {
-        NSURL *url = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:self.phone.text]];
+        NSURL *url = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:
+                                           [PhoneFormatter numberForCall:[self.discountObject.phone objectAtIndex:0]
+                                                                withCity:self.discountObject.cities.name]]];
         [[UIApplication sharedApplication] openURL:url];
     }
 }
