@@ -110,6 +110,10 @@
 		4BC4D7FE180C480E00A8C666 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FD180C480E00A8C666 /* Security.framework */; };
 		4BC4D800180C484100A8C666 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */; };
 		4BD0DD431831194B002541B4 /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BD0DD421831194B002541B4 /* transparent.png */; };
+		4BDB97E5183E6349004BA4C1 /* toTopIconOrange.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BDB97E1183E6349004BA4C1 /* toTopIconOrange.png */; };
+		4BDB97E6183E6349004BA4C1 /* toTopIconOrange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BDB97E2183E6349004BA4C1 /* toTopIconOrange@2x.png */; };
+		4BDB97EB183E6732004BA4C1 /* complainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BDB97E9183E6732004BA4C1 /* complainButton.png */; };
+		4BDB97EC183E6732004BA4C1 /* complainButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BDB97EA183E6732004BA4C1 /* complainButton@2x.png */; };
 		4BDF27CA1834E6FE00B40918 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4BDF27C91834E6FE00B40918 /* Settings.bundle */; };
 		4BE0043F180563E600DA17C2 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043D180563E600DA17C2 /* cluster.png */; };
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
@@ -310,6 +314,10 @@
 		4BC4D7FD180C480E00A8C666 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4BC4D7FF180C484100A8C666 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4BD0DD421831194B002541B4 /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
+		4BDB97E1183E6349004BA4C1 /* toTopIconOrange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toTopIconOrange.png; sourceTree = "<group>"; };
+		4BDB97E2183E6349004BA4C1 /* toTopIconOrange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toTopIconOrange@2x.png"; sourceTree = "<group>"; };
+		4BDB97E9183E6732004BA4C1 /* complainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = complainButton.png; sourceTree = "<group>"; };
+		4BDB97EA183E6732004BA4C1 /* complainButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "complainButton@2x.png"; sourceTree = "<group>"; };
 		4BDF27C91834E6FE00B40918 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4BE0043D180563E600DA17C2 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = SOURCE_ROOT; };
 		4BE0043E180563E600DA17C2 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -535,6 +543,8 @@
 				434CAFD416D53D5A0000CE60 /* detailsFooterButtonsPattern.png */,
 				434CAFD516D53D5A0000CE60 /* detailsFooterButtonsPattern@2x.png */,
 				434CAFB316D500630000CE60 /* detailsLastCellBackground.png */,
+				4BDB97E9183E6732004BA4C1 /* complainButton.png */,
+				4BDB97EA183E6732004BA4C1 /* complainButton@2x.png */,
 				434CAFB416D500630000CE60 /* detailsLastCellBackground@2x.png */,
 				434CAFAF16D4F2220000CE60 /* detailsRow.png */,
 				434CAFB016D4F2220000CE60 /* detailsRow@2x.png */,
@@ -572,6 +582,8 @@
 			children = (
 				4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */,
 				4B28B03E18350ABD00FD4334 /* cityNameBackground.png */,
+				4BDB97E1183E6349004BA4C1 /* toTopIconOrange.png */,
+				4BDB97E2183E6349004BA4C1 /* toTopIconOrange@2x.png */,
 				43EB025316DCE4910096431E /* noFavorites.png */,
 				C0896E2C16DA8EA400D73C1E /* disclosureButton.png */,
 				C0896E2D16DA8EA400D73C1E /* disclosureButton@2x.png */,
@@ -1021,6 +1033,7 @@
 				906800DC16B01CEA0053F50C /* Default-568h@2x.png in Resources */,
 				906800DD16B01CEA0053F50C /* Default.png in Resources */,
 				906800DE16B01CEA0053F50C /* Default@2x.png in Resources */,
+				4BDB97E5183E6349004BA4C1 /* toTopIconOrange.png in Resources */,
 				9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */,
 				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
 				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
@@ -1049,6 +1062,7 @@
 				434CAFC116D51C9E0000CE60 /* detailsPhoneIcon.png in Resources */,
 				434CAFC216D51C9E0000CE60 /* detailsPhoneIcon@2x.png in Resources */,
 				434CAFC516D51F3B0000CE60 /* detailsSitePin.png in Resources */,
+				4BDB97EB183E6732004BA4C1 /* complainButton.png in Resources */,
 				4B6326C81833C4D800740885 /* IntroBackground.png in Resources */,
 				434CAFC616D51F3B0000CE60 /* detailsSitePin@2x.png in Resources */,
 				434CAFC916D520510000CE60 /* detailsClockPin.png in Resources */,
@@ -1069,6 +1083,7 @@
 				C0A9EBB216D7C43A00DE9FC5 /* shareButton.png in Resources */,
 				4B52A00F181EAAA0002F3898 /* menuIconNews@2x.png in Resources */,
 				4B6326CB1833C4D800740885 /* IntroImageList.jpg in Resources */,
+				4BDB97EC183E6732004BA4C1 /* complainButton@2x.png in Resources */,
 				C0A9EBB316D7C43A00DE9FC5 /* shareButton@2x.png in Resources */,
 				C0A9EBBC16D94F4400DE9FC5 /* backButton.png in Resources */,
 				4B52A006181EAAA0002F3898 /* menuIconList.png in Resources */,
@@ -1100,6 +1115,7 @@
 				FB59A92716EF59440018BB83 /* settingsSSIcon@2x.png in Resources */,
 				FB59A92A16EF5BB80018BB83 /* settingsUpdate.png in Resources */,
 				FB59A92B16EF5BB80018BB83 /* settingsUpdate@2x.png in Resources */,
+				4BDB97E6183E6349004BA4C1 /* toTopIconOrange@2x.png in Resources */,
 				FB59A92E16EF5E7F0018BB83 /* settingsGeolocation.png in Resources */,
 				4B52A015181EAAA0002F3898 /* menuIconSettingsSelected@2x.png in Resources */,
 				FB59A92F16EF5E7F0018BB83 /* settingsGeolocation@2x.png in Resources */,

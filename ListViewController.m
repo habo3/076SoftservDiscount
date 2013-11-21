@@ -326,6 +326,7 @@
 {
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
+    self.navigationController.toolbarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning

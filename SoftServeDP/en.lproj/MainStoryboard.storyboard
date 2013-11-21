@@ -127,7 +127,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="3VF-Qe-qoU">
-                        <rect key="frame" x="0.0" y="416" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -733,11 +733,11 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KtV-wf-TDe">
-                                                    <rect key="frame" x="122" y="1" width="95" height="33"/>
+                                                    <rect key="frame" x="122" y="0.0" width="95" height="33"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                                    <state key="normal" title="          Поскаржитись  " backgroundImage="shareButton.png">
-                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                                    <state key="normal" title="  Поскаржитись  " backgroundImage="complainButton.png">
+                                                        <color key="titleColor" red="0.98039221759999995" green="0.98039221759999995" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -819,7 +819,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="D0D-h1-u33">
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.29999999999999999" contentMode="scaleToFill" id="D0D-h1-u33">
                         <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
@@ -938,8 +938,9 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem title="Вгору" id="08v-PK-xH8">
-                            <color key="tintColor" red="0.97254908080000002" green="0.69019609689999994" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
+                        <barButtonItem tag="2" image="toTopIconOrangeGrad.png" id="08v-PK-xH8">
+                            <inset key="imageInsets" minX="130" minY="7" maxX="0.0" maxY="7"/>
+                            <color key="tintColor" red="1" green="0.73333334920000004" blue="0.19215688110000001" alpha="1" colorSpace="deviceRGB"/>
                             <connections>
                                 <action selector="tabBarButtonIsPressed:" destination="Cvh-bR-LRs" id="N2o-Ip-bUO"/>
                             </connections>
@@ -1001,25 +1002,43 @@
     <resources>
         <image name="Default.png" width="320" height="480"/>
         <image name="cityNameBackground.png" width="53" height="12"/>
+        <image name="cityNameBackground.png" width="53" height="12"/>
+        <image name="complainButton.png" width="138" height="44"/>
         <image name="detailsAdressPin.png" width="6" height="10"/>
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
         <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
+        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
+        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
+        <image name="disclosureButton.png" width="24" height="24"/>
         <image name="disclosureButton.png" width="24" height="24"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBG.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
+        <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuIconFavorites.png" width="20" height="20"/>
         <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
+        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
         <image name="menuIconList.png" width="20" height="14"/>
+        <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconMap.png" width="16" height="20"/>
         <image name="menuIconMapSelected.png" width="16" height="20"/>
+        <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
+        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
@@ -1027,6 +1046,9 @@
         <image name="settingsSSIcon.png" width="14" height="15"/>
         <image name="settingsUpdate.png" width="13" height="18"/>
         <image name="shareButton.png" width="138" height="44"/>
+        <image name="toTopIconOrangeGrad.png" width="160" height="42"/>
+        <image name="transparent.png" width="2" height="2"/>
+        <image name="transparent.png" width="2" height="2"/>
         <image name="transparent.png" width="2" height="2"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
