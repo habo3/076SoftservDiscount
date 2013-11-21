@@ -115,6 +115,7 @@
 		4BE00440180563E600DA17C2 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0043E180563E600DA17C2 /* cluster@2x.png */; };
 		573289521838DDFB006B6E4A /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 573289511838DDFB006B6E4A /* FacebookSDKResources.bundle */; };
 		57328956183A1F4D006B6E4A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57328955183A1F4D006B6E4A /* LoginViewController.m */; };
+		57328959183E1762006B6E4A /* NSOperationQueue+SharedQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 57328958183E1762006B6E4A /* NSOperationQueue+SharedQueue.m */; };
 		57DB723C182E3393006E2018 /* CDDiscountObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723B182E3393006E2018 /* CDDiscountObject.m */; };
 		57DB723F182E384F006E2018 /* CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB723E182E384F006E2018 /* CDContent.m */; };
 		57DB7242182E385F006E2018 /* _CDContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB7241182E385F006E2018 /* _CDContent.m */; };
@@ -316,6 +317,8 @@
 		573289511838DDFB006B6E4A /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKResources.bundle; path = FacebookSDK.framework/Resources/FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		57328954183A1F4D006B6E4A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		57328955183A1F4D006B6E4A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		57328957183E1762006B6E4A /* NSOperationQueue+SharedQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+SharedQueue.h"; sourceTree = "<group>"; };
+		57328958183E1762006B6E4A /* NSOperationQueue+SharedQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+SharedQueue.m"; sourceTree = "<group>"; };
 		57DB722F1829143C006E2018 /* NewModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "NewModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		57DB723A182E3393006E2018 /* CDDiscountObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDiscountObject.h; sourceTree = "<group>"; };
 		57DB723B182E3393006E2018 /* CDDiscountObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDiscountObject.m; sourceTree = "<group>"; };
@@ -484,6 +487,8 @@
 				432CC5E316A467E000A50F1D /* AppDelegate.h */,
 				432CC5E416A467E000A50F1D /* AppDelegate.m */,
 				432CC5DB16A467E000A50F1D /* Supporting Files */,
+				57328957183E1762006B6E4A /* NSOperationQueue+SharedQueue.h */,
+				57328958183E1762006B6E4A /* NSOperationQueue+SharedQueue.m */,
 			);
 			name = Main;
 			path = SoftServeDP;
@@ -1141,6 +1146,7 @@
 				4B6D5D0C1827E30B00896059 /* ActionSheetStringPicker.m in Sources */,
 				4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */,
 				4B6326CE1833C4D800740885 /* KxIntroView.m in Sources */,
+				57328959183E1762006B6E4A /* NSOperationQueue+SharedQueue.m in Sources */,
 				4B52A024181EACD5002F3898 /* OCMapView.m in Sources */,
 				4B7A16401829165C0042FB2D /* CustomViewMaker.m in Sources */,
 				4B6326D01833C4D800740885 /* KxIntroViewPage.m in Sources */,

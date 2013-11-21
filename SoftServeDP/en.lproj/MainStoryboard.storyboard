@@ -979,12 +979,12 @@
                                 <color key="backgroundColor" red="1" green="0.73333334920000004" blue="0.19215688110000001" alpha="1" colorSpace="deviceRGB"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="N1s-82-Nft" customClass="FBLoginView">
-                                <rect key="frame" x="92" y="377" width="136" height="50"/>
+                                <rect key="frame" x="92" y="106" width="136" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fJr-Oy-TzY">
-                                <rect key="frame" x="254" y="518" width="46" height="30"/>
+                                <rect key="frame" x="254" y="20" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Skip">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

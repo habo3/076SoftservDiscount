@@ -119,7 +119,7 @@ static BOOL notification = NO;
     return nil;
 }
 
-+(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
++(BOOL)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *toggleUrl = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/togglefavorite/b1d6f099e1b5913e86f0a9bb9fbc10e5?user=%@&object=%@",[userDefaults valueForKey:@"userID"],discountObject.id];
@@ -130,20 +130,25 @@ static BOOL notification = NO;
         if ([[FBSession activeSession] accessToken]) {
             json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
             
-            while (![json valueForKey:@"favorite"]) {
+            while ([[json valueForKey:@"favorite"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
                 json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
+                NSLog(@"is obj in Favorites: %@",[json valueForKey:@"favorite"]);
             }
         }
+        return [json valueForKey:@"favorite"];
     }
     if ([discountObject.isInFavorites isEqual:@YES]) {
         if ([[FBSession activeSession] accessToken]) {
             json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
             
-            while ([json valueForKey:@"favorite"]) {
+            while ([[json valueForKey:@"favorite"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
                 json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
+                NSLog(@"is obj in Favorites: %@",[json valueForKey:@"favorite"]);
             }
         }
+        return [json valueForKey:@"favorite"];
     }
+    return nil;
 }
 
 

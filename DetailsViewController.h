@@ -18,5 +18,4 @@
 @property (nonatomic,strong) CDDiscountObject *discountObject;
 @property (weak, nonatomic) UIImage *pintype;
 
-
 @end

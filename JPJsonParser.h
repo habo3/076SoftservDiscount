@@ -22,7 +22,7 @@
 + (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString *)format;
 
 +(id)getUserIDFromFacebook;
-+(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject;
++(BOOL)toggleUserFavoriteObject:(CDDiscountObject*)discountObject;
 
 
 @end

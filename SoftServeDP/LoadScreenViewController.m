@@ -89,6 +89,7 @@
         [self.coreDataManager saveDiscountObjectsToCoreData];
     }
     if ([[favoriteObjects parsedData] count]) {
+        [self.coreDataManager deleteAllFavorites];
         [self.coreDataManager addDiscountObjectToFavoritesWithDictionaryObjects:[favoriteObjects parsedData]];
     }    
     NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);

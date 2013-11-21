@@ -18,6 +18,7 @@
 #import "CDCoreDataManager.h"
 #import "CustomViewMaker.h"
 #import "JPJsonParser.h"
+#import "NSOperationQueue+SharedQueue.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
@@ -379,10 +380,16 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     if ([[FBSession activeSession] accessToken] && self.isFavoriteStateChanged) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, nil), ^{
-            [JPJsonParser toggleUserFavoriteObject:self.discountObject];
-        });
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
+                                                                            selector:@selector(toggleUserFavoriteObject:)
+                                                                              object:self.discountObject];
+        [[NSOperationQueue sharedOperationQueue] addOperation:operation];
     }
+}
+
+-(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
+{
+    [JPJsonParser toggleUserFavoriteObject:discountObject];
 }
 
 #pragma mark - Table view data source

@@ -22,6 +22,7 @@ extern NSString *const FBSessionStateChangedNotification;
 
 @property (readonly, strong, nonatomic) CDCoreDataManager *coreDataManager;
 
+
 - (NSURL *)applicationDocumentsDirectory;
 - (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
 - (void) closeSession;
