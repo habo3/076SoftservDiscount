@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Івано-Франківськ</key>
+	<string>034</string>
+	<key>Дніпропетровськ</key>
+	<string>056</string>
+	<key>Донецьк</key>
+	<string>062</string>
+	<key>Київ</key>
+	<string>044</string>
+	<key>Кривий Ріг</key>
+	<string>056</string>
+	<key>Львів</key>
+	<string>032</string>
+	<key>Мукачеве</key>
+	<string>031</string>
+	<key>Одеса</key>
+	<string>048</string>
+	<key>Полтава</key>
+	<string>053</string>
+	<key>Рівне</key>
+	<string>036</string>
+	<key>Севастополь</key>
+	<string>069</string>
+	<key>Ужгород</key>
+	<string>031</string>
+	<key>Харків</key>
+	<string>057</string>
+	<key>Чернівці</key>
+	<string>037</string>
+</dict>
+</plist>

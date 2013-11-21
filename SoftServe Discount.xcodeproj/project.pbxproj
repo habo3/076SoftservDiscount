@@ -132,6 +132,7 @@
 		90820E6F16CE583500BBD714 /* icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90820E6E16CE583500BBD714 /* icons.ttf */; };
 		90820E7116CE92C200BBD714 /* emptyPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90820E7016CE92C200BBD714 /* emptyPin.png */; };
 		BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */; };
+		BB9067C2183E609400B6E1DF /* Cities Formats.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C1183E609400B6E1DF /* Cities Formats.plist */; };
 		C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B716DAD0FE00262BD9 /* filterButton.png */; };
 		C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */; };
 		C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */; };
@@ -340,6 +341,7 @@
 		90820E7016CE92C200BBD714 /* emptyPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyPin.png; sourceTree = SOURCE_ROOT; };
 		BB9067BC183B91BA00B6E1DF /* PhoneFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneFormatter.h; sourceTree = "<group>"; };
 		BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneFormatter.m; sourceTree = "<group>"; };
+		BB9067C1183E609400B6E1DF /* Cities Formats.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Cities Formats.plist"; sourceTree = "<group>"; };
 		C076B3B716DAD0FE00262BD9 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
 		C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+setUIColor.h"; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 				906800DA16B01CEA0053F50C /* Default.png */,
 				906800DB16B01CEA0053F50C /* Default@2x.png */,
 				432CC5DC16A467E000A50F1D /* SoftServe Discount-Info.plist */,
+				BB9067C1183E609400B6E1DF /* Cities Formats.plist */,
 				432CC5DD16A467E000A50F1D /* InfoPlist.strings */,
 				432CC5E016A467E000A50F1D /* main.m */,
 				432CC5E216A467E000A50F1D /* SoftServe Discount-Prefix.pch */,
@@ -1106,6 +1109,7 @@
 				FB59A93316F0A6480018BB83 /* Icon.png in Resources */,
 				FBD39AA416FCA12500D66F85 /* iTunesArtwork in Resources */,
 				FBD39B04170053D500D66F85 /* iTunesArtwork@2x in Resources */,
+				BB9067C2183E609400B6E1DF /* Cities Formats.plist in Resources */,
 				4B6326CD1833C4D800740885 /* IntrolImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
