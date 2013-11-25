@@ -7,18 +7,19 @@
 //
 
 #import "LoadScreenViewController.h"
-#import "JPJsonParser.h"
 #import "AppDelegate.h"
 #import "CDCoreDataManager.h"
 #import "CDCity.h"
 #import "ActionSheetStringPicker.h"
-#import "KxIntroView.h"
-#import "KxIntroViewController.h"
-#import "KxIntroViewPage.h"
 
 @interface LoadScreenViewController ()
+{
+    int counterOfFinishedOperations;
+}
+
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) NSMutableArray *citiesNames;
+@property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic) BOOL downloadStarted;
 
 @end
@@ -45,45 +46,107 @@
 {
     [super viewDidLoad];
     self.citiesNames = [[NSMutableArray alloc] init];
-    self.progressView.progress = 0.0;
+    self.progressView.progress = 0.1;
+    counterOfFinishedOperations = 0;
+    self.queue.maxConcurrentOperationCount = 1;
     self.downloadStarted = NO;
+}
+
+-(void) startParsingObjectsWithName:(NSString *)name withLastUpdate:(int)lastUpdate
+{
+    NSString *url = [JPJsonParser getUrlWithObjectName:name WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    [self.queue addOperation:[[JPJsonParser alloc] initWithUrl:url withName:name delegate:self]];
 }
 
 - (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
 {
-    BOOL downloadedDataBase = NO;
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    JPJsonParser *objects, *cities, *categories;
-    
-    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-    
-    while (!downloadedDataBase) {
-          self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
-        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
-            downloadedDataBase = YES;
-    }
-    
-    if (!lastUpdate) {
+    if (!lastUpdate)
         [self.coreDataManager deleteAllCoreData];
-    }
+
+    [self startParsingObjectsWithName:@"object" withLastUpdate:lastUpdate];
+    [self startParsingObjectsWithName:@"city" withLastUpdate:lastUpdate];
+    [self startParsingObjectsWithName:@"category" withLastUpdate:lastUpdate];
     
-    if ([[categories parsedData] count]) {
-        self.coreDataManager.categories = categories.parsedData;
-        [self.coreDataManager saveCategoriesToCoreData];
+//    BOOL downloadedDataBase = NO;
+//    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+//    JPJsonParser *objects, *cities, *categories;
+//    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+//    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+//    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
+//    
+//    while (!downloadedDataBase) {
+//          self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
+//        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
+//            downloadedDataBase = YES;
+//    }
+//    
+//    if (!lastUpdate) {
+//        [self.coreDataManager deleteAllCoreData];
+//    }
+//    
+//    if ([[categories parsedData] count]) {
+//        self.coreDataManager.categories = categories.parsedData;
+//        [self.coreDataManager saveCategoriesToCoreData];
+//    }
+//    if ([[cities parsedData] count]) {
+//        self.coreDataManager.cities = cities.parsedData;
+//        [self.coreDataManager saveCitiesToCoreData];
+//    }
+//    if ([[objects parsedData] count]) {
+//        self.coreDataManager.discountObject = objects.parsedData;
+//        [self.coreDataManager saveDiscountObjectsToCoreData];
+//    }
+//    
+//    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+}
+- (void)JPJsonParserDidFinishWithSuccess:(NSArray *)objects
+{
+    counterOfFinishedOperations++;
+
+    if([objects lastObject])
+    {
+        JPJsonParser *downloader = [objects objectAtIndex:0];
+        
+        if([downloader.parsedData count])
+        {
+            if([downloader.name isEqualToString:@"city"])
+            {
+                self.coreDataManager.cities = downloader.parsedData;
+                [self.coreDataManager saveCitiesToCoreData];
+            }
+            if([downloader.name isEqualToString:@"object"])
+            {
+                self.coreDataManager.discountObject = downloader.parsedData;
+                [self.coreDataManager saveDiscountObjectsToCoreData];
+            }
+            if([downloader.name isEqualToString:@"category"])
+            {
+                self.coreDataManager.categories = downloader.parsedData;
+                [self.coreDataManager saveCategoriesToCoreData];
+            }
+        }
+        if(counterOfFinishedOperations == 3)
+        {
+            counterOfFinishedOperations = 0;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
+                                                                message:@"Програма запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням."
+                                                               delegate:self
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"Обрати місто", nil];
+                [alert show];
+            }
+            else
+                [self performSegueWithIdentifier:@"Menu" sender:self];
+        }
+        
+        self.progressView.progress = self.progressView.progress + 0.3;
     }
-    if ([[cities parsedData] count]) {
-        self.coreDataManager.cities = cities.parsedData;
-        [self.coreDataManager saveCitiesToCoreData];
-    }
-    if ([[objects parsedData] count]) {
-        self.coreDataManager.discountObject = objects.parsedData;
-        [self.coreDataManager saveDiscountObjectsToCoreData];
-    }
-    
-    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+    else
+        [self.queue cancelAllOperations];
 }
 
 -(BOOL)internetAvailable
@@ -115,17 +178,7 @@
         [dateFormatter setDateFormat:@"dd.MM.yy HH:mm"];
         [userDefaults setObject:[dateFormatter stringFromDate:date] forKey:@"DataBaseUpdateDateFormat"];
     }
-    
-    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
-                                                        message:@"Програма була запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням."
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"Вибрати місто", nil];
-        [alert show];
-    }
-    else
+    if(![[userDefaults objectForKey:@"firstLaunch"]boolValue])
         [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
@@ -151,34 +204,7 @@
     [userDefaults setObject:selectedIndex forKey:@"selectedCity"];
     [userDefaults setObject:[self.citiesNames objectAtIndex:[selectedIndex intValue] ] forKey:@"cityName"];
     [userDefaults synchronize];
-    [userDefaults removeObjectForKey:@"firstLaunch"];
-    [self performIntro];
     [self performSegueWithIdentifier:@"Menu" sender:self];
-}
-
--(void) performIntro
-{
-    KxIntroViewPage *page0 = [KxIntroViewPage introViewPageWithTitle: @"Швидке навчання"
-                                                          withDetail: @"Це швидке навчання користування програмую, якщо ви бажаєте пропустити його нажміть вiдповідну кнопку. Для переходу до наступного кроку зробіть скрол вліво."
-                                                           withImage: [UIImage imageNamed:@"IntrolImage.png"]];
-    
-    KxIntroViewPage *page1 = [KxIntroViewPage introViewPageWithTitle: @"Карта"
-                                                          withDetail: @"На карті можна побачити всі заклади. які вснесені в базу, При кліці на заклад появляється коротка інформація про нього та, якщо ввімкнена Геолокація, прокладається маршрут від вашого поточного місця знаходження до даного закладу. На навігаційній панелі ви можете найти кнопку Назад та кнопку Філтрації. Також, при ввімкненій Геолокації, знизу відображається кнопка переходу до вашого місця знаходження "
-                                                           withImage: [UIImage imageNamed:@"IntroImageMap.jpg"]];
-    
-    KxIntroViewPage *page2 = [KxIntroViewPage introViewPageWithTitle: @"Список"
-                                                          withDetail: @"В списку ви можете побачити всі заклади, де надаються знижки в альтернативному вигляді. Тут присутній пошук, а також фільтрація."
-                                                           withImage: [UIImage imageNamed:@"IntroImageList.jpg"]];
-    
-    KxIntroViewPage *page3 = [KxIntroViewPage introViewPageWithTitle: @"Деталі"
-                                                          withDetail: @"Це вікно призначення для показу детальної інформації про даний заклад, Тут ви можете: побачити категорію закладу, логотип, контактну інформацію, добавити до обраного, поскаржитися, поділитися з друзями інформацією про нього. Також клік по телефону, електроній пошті, сайту відбудеться відповідна дія."
-                                                           withImage: [UIImage imageNamed:@"IntroImageDetails.jpg" ]];
-    
-    KxIntroViewController *vc = [[KxIntroViewController alloc ] initWithPages:@[ page0, page1, page2, page3]];
-    vc.introView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"IntroBackground.png"]];;
-    vc.introView.animatePageChanges = YES;
-    vc.introView.gradientBackground = NO;
-    [vc presentInViewController:self fullScreenLayout:YES];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JPJsonParser.h"
 
 @class CDCoreDataManager;
-@interface LoadScreenViewController : UIViewController <UIAlertViewDelegate>
+@interface LoadScreenViewController : UIViewController <UIAlertViewDelegate, JPJsonParserDelegate>
 
 @property (nonatomic, strong) CDCoreDataManager *coreDataManager;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;

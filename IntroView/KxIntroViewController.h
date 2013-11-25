@@ -45,4 +45,6 @@
 - (void) presentInViewController: (UIViewController *) view
                 fullScreenLayout: (BOOL) fullScreenLayout;
 
++(void) performIntro:(UIViewController *)sender;
+
 @end

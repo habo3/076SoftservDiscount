@@ -1004,7 +1004,6 @@
     <resources>
         <image name="Default.png" width="320" height="480"/>
         <image name="cityNameBackground.png" width="53" height="12"/>
-        <image name="cityNameBackground.png" width="53" height="12"/>
         <image name="complainButton.png" width="138" height="44"/>
         <image name="complainButtonHighlighted.png" width="138" height="44"/>
         <image name="complainButtonHightighted.png" width="20" height="14"/>
@@ -1012,37 +1011,21 @@
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>
         <image name="detailsDistanceBackground.png" width="53" height="12"/>
-        <image name="detailsDistanceBackground.png" width="53" height="12"/>
-        <image name="detailsDistanceBackground.png" width="53" height="12"/>
         <image name="detailsLastCellBackground.png" width="287" height="10"/>
         <image name="detailsPhoneIcon.png" width="10" height="11"/>
         <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
-        <image name="detailsRow.png" width="287" height="1"/>
         <image name="detailsSitePin.png" width="11" height="9"/>
-        <image name="disclosureButton.png" width="24" height="24"/>
         <image name="disclosureButton.png" width="24" height="24"/>
         <image name="favoritesButton.png" width="139" height="44"/>
         <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBG.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
-        <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuBGSelected.png" width="560" height="100"/>
         <image name="menuIconFavorites.png" width="20" height="20"/>
         <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
-        <image name="menuIconFavoritesSelected.png" width="20" height="20"/>
         <image name="menuIconList.png" width="20" height="14"/>
-        <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconListSelected.png" width="20" height="14"/>
         <image name="menuIconMap.png" width="16" height="20"/>
         <image name="menuIconMapSelected.png" width="16" height="20"/>
-        <image name="menuIconMapSelected.png" width="16" height="20"/>
         <image name="menuIconSettings.png" width="21" height="21"/>
-        <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="menuIconSettingsSelected.png" width="21" height="21"/>
         <image name="settingsDisclosure.png" width="17" height="17"/>
         <image name="settingsGeolocation.png" width="14" height="12"/>
@@ -1051,8 +1034,6 @@
         <image name="settingsUpdate.png" width="13" height="18"/>
         <image name="shareButton.png" width="138" height="44"/>
         <image name="toTopIconOrange.png" width="160" height="42"/>
-        <image name="transparent.png" width="2" height="2"/>
-        <image name="transparent.png" width="2" height="2"/>
         <image name="transparent.png" width="2" height="2"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

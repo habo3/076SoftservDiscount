@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "CustomViewMaker.h"
+#import "KxIntroViewController.h"
 
 @interface MenuViewController()
 
@@ -31,7 +32,17 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGOld.png"] forBarMetrics:UIBarMetricsDefault];
+}
 
+-(void) viewDidAppear:(BOOL)animated
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];  
+    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
+    {
+        [KxIntroViewController performIntro:self];
+        [userDefaults removeObjectForKey:@"firstLaunch"];
+        [userDefaults synchronize];
+    }
 }
 
 - (void)didReceiveMemoryWarning

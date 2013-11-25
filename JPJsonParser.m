@@ -20,27 +20,34 @@
 
 @implementation JPJsonParser
 
+@synthesize delegate = _delegate;
+@synthesize name = _name;
+
 static BOOL notification = NO;
 
-- (id)initWithUrl:(NSString*)url
+- (id)initWithUrl:(NSString*)url withName:(NSString *)name delegate:(id <JPJsonParserDelegate>) delegate
 {
     self = [super init];
     if (self) {
+        self.delegate = delegate;
+        self.name = name;
         [self downloadDataBase:url];
     }
     return self;
 }
 
+
 - (void)downloadDataBase:(NSString *)url
 {
     self.updatedDataBase = NO;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (connection) {
         NSLog(@"Downloading Data Base object");
     } else {
         NSLog(@"Error downloading Data Base object");
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
     }
 }
 
@@ -65,6 +72,8 @@ static BOOL notification = NO;
                                    delegate:self
                           cancelButtonTitle:nil
                           otherButtonTitles:nil] show];
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
+
         notification = YES;
     }
 }
@@ -86,8 +95,8 @@ static BOOL notification = NO;
     self.parsedData = [json objectForKey:@"list"];
     self.updatedDataBase = YES;
     NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[self.parsedData count]]);
+    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@YES, nil] waitUntilDone:NO];
 }
-
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName
 {
