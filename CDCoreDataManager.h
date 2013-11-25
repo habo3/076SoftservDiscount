@@ -25,8 +25,10 @@
 -(void)saveCitiesToCoreData;
 -(void)saveCategoriesToCoreData;
 -(void)addDiscountObjectToFavoritesWithObject:(CDDiscountObject*)discountObject;
+-(void)addDiscountObjectToFavoritesWithDictionaryObjects:(NSDictionary*)favoriteObjects;
 -(BOOL)isCoreDataEntityExist;
 -(void)deleteAllCoreData;
+-(void)deleteAllFavorites;
 -(UIImage*)checkImageInObjectExistForDiscountObject:(CDDiscountObject*)discountObject;
 -(void)saveData;
 

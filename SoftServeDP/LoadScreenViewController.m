@@ -62,7 +62,7 @@
 {
     if (!lastUpdate)
         [self.coreDataManager deleteAllCoreData];
-
+    
     [self startParsingObjectsWithName:@"object" withLastUpdate:lastUpdate];
     [self startParsingObjectsWithName:@"city" withLastUpdate:lastUpdate];
     [self startParsingObjectsWithName:@"category" withLastUpdate:lastUpdate];
@@ -99,6 +99,8 @@
 //    }
 //    
 //    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:0 forKey:@"favoritesLastUpdate"];
 }
 - (void)JPJsonParserDidFinishWithSuccess:(NSArray *)objects
 {

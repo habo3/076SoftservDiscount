@@ -19,10 +19,12 @@
 #import "CustomViewMaker.h"
 #import "PhoneFormatter.h"
 #import "CDCity.h"
+#import "JPJsonParser.h"
+#import "NSOperationQueue+SharedQueue.h"
 
 #define DETAIL_MAP_SPAN_DELTA 0.002
 
-@interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate>
+@interface DetailsViewController ()<MKAnnotation,MKMapViewDelegate,FBLoginViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *discount;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -40,7 +42,7 @@
 @property (strong, nonatomic) CDCoreDataManager *coreDataManager;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIImageView *discountImage;
-
+@property BOOL isFavoriteStateChanged;
 @end
 
 @implementation DetailsViewController
@@ -60,7 +62,7 @@
     // round upper corners in first cell
     [CustomViewMaker roundView:self.zeroCellBackgroundView onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
     [CustomViewMaker roundView:self.zeroCellGrayBackgound onCorner:UIRectCornerTopRight|UIRectCornerTopLeft radius:5.0];
-
+    self.isFavoriteStateChanged = @NO;
     // set labels value
     NSString *discountFrom;
     if(![[self.discountObject.discount valueForKey:@"from"]  isEqualToNumber: [self.discountObject.discount valueForKey:@"to"]])
@@ -275,11 +277,9 @@
 
 - (IBAction)favoriteButton
 {
-   
+    self.isFavoriteStateChanged = @YES;
     [self.coreDataManager addDiscountObjectToFavoritesWithObject:self.discountObject];
-    
     [self isObjectInFavoritesButtonController];
-    
 }
 
 -(void)isObjectInFavoritesButtonController
@@ -348,6 +348,21 @@
     }
 
 
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    if ([[FBSession activeSession] accessToken] && self.isFavoriteStateChanged) {
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
+                                                                                selector:@selector(toggleUserFavoriteObject:)
+                                                                                  object:self.discountObject];
+        [[NSOperationQueue sharedOperationQueue] addOperation:operation];
+    }
+}
+
+-(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
+{
+    [JPJsonParser toggleUserFavoriteObject:discountObject];
 }
 
 #pragma mark - Table view data source

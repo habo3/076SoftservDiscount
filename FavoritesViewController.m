@@ -17,12 +17,15 @@
 #import "CDCoreDataManager.h"
 #import "Sortings.h"
 #import "CustomViewMaker.h"
+#import "JPJsonParser.h"
+#import "NSOperationQueue+SharedQueue.h"
 
 @interface FavoritesViewController ()
 
 @property (nonatomic) NSInteger selectedRow;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL geoLocationIsON;
+@property (strong, nonatomic) UIActivityIndicatorView *spinner;
 @end
 
 @implementation FavoritesViewController
@@ -69,6 +72,36 @@
     if (!self.discountObjects.count)
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     [self.tableView reloadData];
+    
+    ////////////////////////////
+    if ([[FBSession activeSession] accessToken] && [self isTimeToUpdate]) {
+        [self putActivity];
+        
+        NSBlockOperation *blockOperation1 = [NSBlockOperation blockOperationWithBlock:^{
+            [self downloadFavorites];
+            
+            NSDate *currentDate = [[NSDate alloc] init];
+            int lastUpdate = [currentDate timeIntervalSince1970];
+            [userDefaults setValue:[NSNumber numberWithInt:lastUpdate] forKey:@"favoritesLastUpdate"];
+            NSLog(@"%@",[userDefaults valueForKey:@"favoritesLastUpdate"]);
+        }];
+        [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation1];
+        NSBlockOperation *blockOperation2 = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.spinner.hidden = YES;
+                [self.spinner removeFromSuperview];
+                self.discountObjects = [self.coreDataManager discountObjectsFromFavorites];
+                if (self.discountObjects.count)
+                    self.tableView.backgroundView = nil;
+                [self.tableView reloadData];
+            });
+            
+            [userDefaults setValue:@YES forKey:@"isFavoritesDownloaded"];
+        }];
+        [blockOperation2 addDependency:blockOperation1];
+        
+        [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation2];
+    }
 }
 
 - (void)viewDidUnload {
@@ -139,5 +172,54 @@
     DetailsViewController *dvc = [segue destinationViewController];
     dvc.discountObject = [self.discountObjects objectAtIndex:selectedRow];
 }
+
+#pragma mark - Favorites Update
+-(BOOL)isTimeToUpdate
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDate *currentDate = [[NSDate alloc] init];
+    int lastUpdate = [currentDate timeIntervalSince1970];
+    
+    if (  (lastUpdate - [[userDefaults valueForKey:@"favoritesLastUpdate"] integerValue]) >= 600 ) {
+        return YES;
+    }
+    return NO;
+}
+
+-(void)downloadFavorites
+{
+    
+    BOOL downloadedDataBase = NO;
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    
+    JPJsonParser *favoriteObjects;
+    favoriteObjects = [[JPJsonParser alloc] initWithUrl:[NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/b1d6f099e1b5913e86f0a9bb9fbc10e5?id=%@",[JPJsonParser getUserIDFromFacebook]]];
+    if (favoriteObjects.updatedDataBase)
+        downloadedDataBase = YES;
+    
+    while (!downloadedDataBase) {
+        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        if (favoriteObjects.updatedDataBase)
+            downloadedDataBase = YES;
+    }
+    
+    if ([[favoriteObjects parsedData] count]) {
+        [self.coreDataManager deleteAllFavorites];
+        [self.coreDataManager addDiscountObjectToFavoritesWithDictionaryObjects:[favoriteObjects parsedData]];
+    }
+    
+}
+
+-(void)putActivity
+{
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.spinner setFrame:CGRectMake((self.view.frame.size.width/2)-(self.spinner.frame.size.width/2), (self.view.frame.size.height/2)-(self.spinner.frame.size.height/2), self.spinner.frame.size.width, self.spinner.frame.size.height)];
+    [self.spinner startAnimating];
+    
+    [self.view addSubview:self.spinner];
+    
+}
+
+
 
 @end
