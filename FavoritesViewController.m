@@ -74,7 +74,7 @@
     [self.tableView reloadData];
     
     ////////////////////////////
-    if ([[FBSession activeSession] accessToken] && [self isTimeToUpdate]) {
+    if ([[FBSession activeSession] accessToken] && ([self isTimeToUpdate] || ![self.discountObjects count]) ) {
         [self putActivity];
         
         NSBlockOperation *blockOperation1 = [NSBlockOperation blockOperationWithBlock:^{
