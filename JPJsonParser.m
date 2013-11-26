@@ -19,23 +19,17 @@
 @end
 
 @implementation JPJsonParser
-
 @synthesize delegate = _delegate;
 @synthesize name = _name;
 
 static BOOL notification = NO;
 
-- (id)initWithUrl:(NSString*)url withName:(NSString *)name delegate:(id <JPJsonParserDelegate>) delegate
+- (void) downloadDataBaseWithUrl:(NSString*)url withName:(NSString *)name withDelegate:(id<JPJsonParserDelegate>)delegate
 {
-    self = [super init];
-    if (self) {
-        self.delegate = delegate;
-        self.name = name;
-        [self downloadDataBase:url];
-    }
-    return self;
+    self.name = name;
+    self.delegate = delegate;
+    [self downloadDataBase:url];
 }
-
 
 - (void)downloadDataBase:(NSString *)url
 {
@@ -47,7 +41,8 @@ static BOOL notification = NO;
         NSLog(@"Downloading Data Base object");
     } else {
         NSLog(@"Error downloading Data Base object");
-        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
+        self.parsedData = nil;
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
     }
 }
 
@@ -72,8 +67,8 @@ static BOOL notification = NO;
                                    delegate:self
                           cancelButtonTitle:nil
                           otherButtonTitles:nil] show];
-        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
-
+        self.parsedData = nil;
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
         notification = YES;
     }
 }
@@ -95,7 +90,7 @@ static BOOL notification = NO;
     self.parsedData = [json objectForKey:@"list"];
     self.updatedDataBase = YES;
     NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[self.parsedData count]]);
-    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@YES, nil] waitUntilDone:NO];
+    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
 }
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName

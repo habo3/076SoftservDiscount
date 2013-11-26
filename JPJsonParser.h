@@ -11,24 +11,22 @@
 
 @protocol JPJsonParserDelegate;
 
-@interface JPJsonParser : NSOperation
-
-@property (nonatomic, assign) id <JPJsonParserDelegate> delegate;
+@interface JPJsonParser : NSObject
+@property (nonatomic, strong) id <JPJsonParserDelegate> delegate;
 @property (nonatomic, strong) id parsedData;
 @property (nonatomic) BOOL updatedDataBase;
 @property (nonatomic, strong) NSNumber *status;
 @property (nonatomic, strong) NSString *name;
 
-- (id)initWithUrl:(NSString*)url withName:(NSString *)name delegate:(id <JPJsonParserDelegate>) delegate;
+- (void) downloadDataBaseWithUrl:(NSString*)url withName:(NSString *)name withDelegate:(id<JPJsonParserDelegate>)delegate;
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName;
 + (NSString *)getUrlWithObjectName:(NSString *)objectName WithFormat:(NSString *)format;
-
 
 @end
 
 @protocol JPJsonParserDelegate <NSObject>
 
-- (void)JPJsonParserDidFinishWithSuccess:(NSArray *)objects;
+-(void) JPJsonParserDidFinish:(id<JPJsonParserDelegate>) sender;
 
 @end

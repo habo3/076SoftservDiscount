@@ -12,6 +12,9 @@
 #import "CDCity.h"
 #import "ActionSheetStringPicker.h"
 
+@interface NSString (sad)
+@property NSNumber *amas;
+@end
 @interface LoadScreenViewController ()
 {
     int counterOfFinishedOperations;
@@ -52,20 +55,46 @@
     self.downloadStarted = NO;
 }
 
--(void) startParsingObjectsWithName:(NSString *)name withLastUpdate:(int)lastUpdate
-{
-    NSString *url = [JPJsonParser getUrlWithObjectName:name WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    [self.queue addOperation:[[JPJsonParser alloc] initWithUrl:url withName:name delegate:self]];
-}
-
 - (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
 {
     if (!lastUpdate)
         [self.coreDataManager deleteAllCoreData];
 
-    [self startParsingObjectsWithName:@"object" withLastUpdate:lastUpdate];
-    [self startParsingObjectsWithName:@"city" withLastUpdate:lastUpdate];
-    [self startParsingObjectsWithName:@"category" withLastUpdate:lastUpdate];
+    NSString *url;
+    
+    url = [JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCities = [[DownloadOperation alloc] init];
+    [downloadCities performOperationWithURL:url withName:@"city" completion:^{
+        if([self checkFinishanable: downloadCities])
+        {
+            self.coreDataManager.cities = downloadCities.downloader.parsedData;
+            [self.coreDataManager saveCitiesToCoreData];
+        }
+    }];
+    [self.queue addOperation:downloadCities];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCategories = [[DownloadOperation alloc] init];
+    [downloadCategories performOperationWithURL:url withName:@"category" completion:^{
+        if([self checkFinishanable: downloadCategories])
+        {
+            self.coreDataManager.categories = downloadCategories.downloader.parsedData;
+            [self.coreDataManager saveCategoriesToCoreData];
+
+        }
+    }];
+    [self.queue addOperation:downloadCategories];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadObjects = [[DownloadOperation alloc] init];
+    [downloadObjects performOperationWithURL:url withName:@"object" completion:^{
+        if([self checkFinishanable: downloadObjects])
+        {
+            self.coreDataManager.discountObject = downloadObjects.downloader.parsedData;
+            [self.coreDataManager saveDiscountObjectsToCoreData];
+        }
+    }];
+    [self.queue addOperation:downloadObjects];
     
 //    BOOL downloadedDataBase = NO;
 //    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
@@ -100,32 +129,12 @@
 //    
 //    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
 }
-- (void)JPJsonParserDidFinishWithSuccess:(NSArray *)objects
+- (BOOL)checkFinishanable:(DownloadOperation *) downloadOperation
 {
-    counterOfFinishedOperations++;
-
-    if([objects lastObject])
+    if(downloadOperation.downloader.parsedData)
     {
-        JPJsonParser *downloader = [objects objectAtIndex:0];
+        counterOfFinishedOperations++;
         
-        if([downloader.parsedData count])
-        {
-            if([downloader.name isEqualToString:@"city"])
-            {
-                self.coreDataManager.cities = downloader.parsedData;
-                [self.coreDataManager saveCitiesToCoreData];
-            }
-            if([downloader.name isEqualToString:@"object"])
-            {
-                self.coreDataManager.discountObject = downloader.parsedData;
-                [self.coreDataManager saveDiscountObjectsToCoreData];
-            }
-            if([downloader.name isEqualToString:@"category"])
-            {
-                self.coreDataManager.categories = downloader.parsedData;
-                [self.coreDataManager saveCategoriesToCoreData];
-            }
-        }
         if(counterOfFinishedOperations == 3)
         {
             counterOfFinishedOperations = 0;
@@ -144,9 +153,11 @@
         }
         
         self.progressView.progress = self.progressView.progress + 0.3;
-    }
-    else
+        return YES;
+    } else {
         [self.queue cancelAllOperations];
+        return NO;
+    }
 }
 
 -(BOOL)internetAvailable

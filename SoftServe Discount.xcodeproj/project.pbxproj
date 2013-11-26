@@ -55,6 +55,7 @@
 		4373562C16CBC0D700B30B81 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562916CBC0AA00B30B81 /* ListViewController.m */; };
 		4373562D16CBC0DC00B30B81 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4373562716CBC09F00B30B81 /* PlaceCell.m */; };
 		43EB025416DCE4910096431E /* noFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 43EB025316DCE4910096431E /* noFavorites.png */; };
+		4B1F7B171844CE3E001F3F1A /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F7B161844CE3E001F3F1A /* DownloadOperation.m */; };
 		4B28B03F18350ABD00FD4334 /* cityNameBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */; };
 		4B28B04018350ABD00FD4334 /* cityNameBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B28B03E18350ABD00FD4334 /* cityNameBackground.png */; };
 		4B2A9D89182D1AE800411028 /* navigationBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B2A9D87182D1AE800411028 /* navigationBarBG.png */; };
@@ -237,6 +238,8 @@
 		4373562816CBC0AA00B30B81 /* ListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4373562916CBC0AA00B30B81 /* ListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		43EB025316DCE4910096431E /* noFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noFavorites.png; sourceTree = "<group>"; };
+		4B1F7B151844CE3E001F3F1A /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
+		4B1F7B161844CE3E001F3F1A /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
 		4B28B03D18350ABD00FD4334 /* cityNameBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityNameBackground@2x.png"; sourceTree = "<group>"; };
 		4B28B03E18350ABD00FD4334 /* cityNameBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityNameBackground.png; sourceTree = "<group>"; };
 		4B2A9D87182D1AE800411028 /* navigationBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBG.png; sourceTree = "<group>"; };
@@ -671,6 +674,8 @@
 			children = (
 				4B5C8E1A181FE02A005D1A8D /* JPJsonParser.h */,
 				4B5C8E1B181FE02A005D1A8D /* JPJsonParser.m */,
+				4B1F7B151844CE3E001F3F1A /* DownloadOperation.h */,
+				4B1F7B161844CE3E001F3F1A /* DownloadOperation.m */,
 			);
 			name = JSONParser;
 			sourceTree = "<group>";
@@ -1193,6 +1198,7 @@
 				4B6D5D081827E30B00896059 /* AbstractActionSheetPicker.m in Sources */,
 				4B5AF78418152E9C009BDF5D /* MenuViewController.m in Sources */,
 				4B7A163A1828FEC10042FB2D /* Sortings.m in Sources */,
+				4B1F7B171844CE3E001F3F1A /* DownloadOperation.m in Sources */,
 				BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */,
 				E7005C98182A7C5D00202A69 /* CDCity.m in Sources */,
 				C0A9EB5816D35A0300DE9FC5 /* DetailsViewController.m in Sources */,
