@@ -34,6 +34,7 @@
     self.citiesNames = [[NSMutableArray alloc] init];
     self.progressView.progress = 0.1;
     counterOfFinishedOperations = 0;
+    self.queue = [NSOperationQueue new];
     self.queue.maxConcurrentOperationCount = 1;
     self.downloadStarted = NO;
 }
@@ -78,7 +79,6 @@
         }
     }];
     [self.queue addOperation:downloadObjects];
-    
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setValue:0 forKey:@"favoritesLastUpdate"];
