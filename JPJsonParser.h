@@ -15,7 +15,6 @@
 @property (nonatomic, strong) id <JPJsonParserDelegate> delegate;
 @property (nonatomic, strong) id parsedData;
 @property (nonatomic) BOOL updatedDataBase;
-@property (nonatomic, strong) NSNumber *status;
 
 - (void) downloadDataBaseWithUrl:(NSString*)url withName:(NSString *)name withDelegate:(id<JPJsonParserDelegate>)delegate;
 

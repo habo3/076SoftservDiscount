@@ -14,7 +14,6 @@
 @interface DownloadOperation : NSOperation <JPJsonParserDelegate>
 
 @property (nonatomic, strong) JPJsonParser *downloader;
-@property (nonatomic, strong) CDCoreDataManager *coreDataManager;
 
 -(void) performOperationWithURL:(NSString *)url withName:(NSString *)name completion:(void (^)())completion;
 

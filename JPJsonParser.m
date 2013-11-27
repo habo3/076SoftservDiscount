@@ -54,7 +54,6 @@ static BOOL notification = NO;
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseData appendData:data];
-    self.status = [NSNumber numberWithDouble:self.responseData.length * 90. / self.downloadSize.intValue];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -84,7 +83,6 @@ static BOOL notification = NO;
 {
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
-    self.status = [NSNumber numberWithDouble:[self.status doubleValue] + 10.];
     self.parsedData = [json objectForKey:@"list"];
     self.updatedDataBase = YES;
     NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[self.parsedData count]]);

@@ -16,13 +16,7 @@
 @implementation DownloadOperation
 
 @synthesize downloader = _downloader;
-@synthesize coreDataManager = _coreDataManager;
 @synthesize completion = _completion;
-
-- (CDCoreDataManager *)coreDataManager
-{
-    return [CDCoreDataManager sharedInstance];
-}
 
 -(void) performOperationWithURL:(NSString *)url withName:(NSString *)name completion:(void(^)())completion;
 {
