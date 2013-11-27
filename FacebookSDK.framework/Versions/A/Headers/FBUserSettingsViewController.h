@@ -1,12 +1,12 @@
 /*
- * Copyright 2010 Facebook
+ * Copyright 2010-present Facebook.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +15,13 @@
  */
 
 #import <UIKit/UIKit.h>
+
+#import "FBSession.h"
 #import "FBViewController.h"
 
-@class FBSession;
-
 /*!
- @protocol 
- 
+ @protocol
+
  @abstract
  The `FBUserSettingsDelegate` protocol defines the methods called by a <FBUserSettingsViewController>.
  */
@@ -70,6 +70,8 @@
 
  @param sender          The view controller sending the message.
  @param error           The error encountered.
+ @discussion See https://developers.facebook.com/docs/technical-guides/iossdk/errors/
+ for error handling best practices.
  */
 - (void)loginViewController:(id)sender receivedError:(NSError *)error;
 
@@ -78,7 +80,7 @@
 
 /*!
  @class FBUserSettingsViewController
- 
+
  @abstract
  The `FBUserSettingsViewController` class provides a user interface exposing a user's
  Facebook-related settings. Currently, this is limited to whether they are logged in or out
@@ -94,7 +96,33 @@
  @abstract
  The permissions to request if the user logs in via this view.
  */
-@property (nonatomic, retain) NSArray *permissions;
+@property (nonatomic, copy) NSArray *permissions __attribute__((deprecated));
+
+/*!
+ @abstract
+ The read permissions to request if the user logs in via this view.
+
+ @discussion
+ Note, that if read permissions are specified, then publish permissions should not be specified.
+ */
+@property (nonatomic, copy) NSArray *readPermissions;
+
+/*!
+ @abstract
+ The publish permissions to request if the user logs in via this view.
+
+ @discussion
+ Note, that a defaultAudience value of FBSessionDefaultAudienceOnlyMe, FBSessionDefaultAudienceEveryone, or
+ FBSessionDefaultAudienceFriends should be set if publish permissions are specified. Additionally, when publish
+ permissions are specified, then read should not be specified.
+ */
+@property (nonatomic, copy) NSArray *publishPermissions;
+
+/*!
+ @abstract
+ The default audience to use, if publish permissions are requested at login time.
+ */
+@property (nonatomic, assign) FBSessionDefaultAudience defaultAudience;
 
 @end
 
