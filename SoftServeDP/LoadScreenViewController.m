@@ -28,20 +28,6 @@
 
 @synthesize citiesNames = _citiesNames;
 
--(NSManagedObjectContext *)managedObjectContex
-{
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,82 +38,58 @@
     self.downloadStarted = NO;
 }
 
--(void) startParsingObjectsWithName:(NSString *)name withLastUpdate:(int)lastUpdate
-{
-    NSString *url = [JPJsonParser getUrlWithObjectName:name WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    [self.queue addOperation:[[JPJsonParser alloc] initWithUrl:url withName:name delegate:self]];
-}
-
 - (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
 {
     if (!lastUpdate)
         [self.coreDataManager deleteAllCoreData];
     
-    [self startParsingObjectsWithName:@"object" withLastUpdate:lastUpdate];
-    [self startParsingObjectsWithName:@"city" withLastUpdate:lastUpdate];
-    [self startParsingObjectsWithName:@"category" withLastUpdate:lastUpdate];
+    NSString *url;
     
-//    BOOL downloadedDataBase = NO;
-//    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-//    JPJsonParser *objects, *cities, *categories;
-//    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    
-//    while (!downloadedDataBase) {
-//          self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
-//        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
-//            downloadedDataBase = YES;
-//    }
-//    
-//    if (!lastUpdate) {
-//        [self.coreDataManager deleteAllCoreData];
-//    }
-//    
-//    if ([[categories parsedData] count]) {
-//        self.coreDataManager.categories = categories.parsedData;
-//        [self.coreDataManager saveCategoriesToCoreData];
-//    }
-//    if ([[cities parsedData] count]) {
-//        self.coreDataManager.cities = cities.parsedData;
-//        [self.coreDataManager saveCitiesToCoreData];
-//    }
-//    if ([[objects parsedData] count]) {
-//        self.coreDataManager.discountObject = objects.parsedData;
-//        [self.coreDataManager saveDiscountObjectsToCoreData];
-//    }
-//    
-//    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
+    url = [JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCities = [[DownloadOperation alloc] init];
+    [downloadCities performOperationWithURL:url completion:^{
+        if([self checkFinishanable: downloadCities])
+        {
+            self.coreDataManager.cities = downloadCities.downloader.parsedData;
+            [self.coreDataManager saveCitiesToCoreData];
+        }
+    }];
+    [self.queue addOperation:downloadCities];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCategories = [[DownloadOperation alloc] init];
+    [downloadCategories performOperationWithURL:url completion:^{
+        if([self checkFinishanable: downloadCategories])
+        {
+            self.coreDataManager.categories = downloadCategories.downloader.parsedData;
+            [self.coreDataManager saveCategoriesToCoreData];
+            
+        }
+    }];
+    [self.queue addOperation:downloadCategories];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadObjects = [[DownloadOperation alloc] init];
+    [downloadObjects performOperationWithURL:url completion:^{
+        if([self checkFinishanable: downloadObjects])
+        {
+            self.coreDataManager.discountObject = downloadObjects.downloader.parsedData;
+            [self.coreDataManager saveDiscountObjectsToCoreData];
+        }
+    }];
+    [self.queue addOperation:downloadObjects];
+    
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setValue:0 forKey:@"favoritesLastUpdate"];
 }
-- (void)JPJsonParserDidFinishWithSuccess:(NSArray *)objects
-{
-    counterOfFinishedOperations++;
 
-    if([objects lastObject])
+- (BOOL)checkFinishanable:(DownloadOperation *) downloadOperation
+{
+    if(downloadOperation.downloader.parsedData)
     {
-        JPJsonParser *downloader = [objects objectAtIndex:0];
+        counterOfFinishedOperations++;
         
-        if([downloader.parsedData count])
-        {
-            if([downloader.name isEqualToString:@"city"])
-            {
-                self.coreDataManager.cities = downloader.parsedData;
-                [self.coreDataManager saveCitiesToCoreData];
-            }
-            if([downloader.name isEqualToString:@"object"])
-            {
-                self.coreDataManager.discountObject = downloader.parsedData;
-                [self.coreDataManager saveDiscountObjectsToCoreData];
-            }
-            if([downloader.name isEqualToString:@"category"])
-            {
-                self.coreDataManager.categories = downloader.parsedData;
-                [self.coreDataManager saveCategoriesToCoreData];
-            }
-        }
         if(counterOfFinishedOperations == 3)
         {
             counterOfFinishedOperations = 0;
@@ -144,11 +106,13 @@
             else
                 [self performSegueWithIdentifier:@"Menu" sender:self];
         }
-        
         self.progressView.progress = self.progressView.progress + 0.3;
-    }
-    else
+        return [downloadOperation.downloader.parsedData count]?YES:NO;
+        
+    } else {
         [self.queue cancelAllOperations];
+        return NO;
+    }
 }
 
 -(BOOL)internetAvailable
@@ -180,8 +144,6 @@
         [dateFormatter setDateFormat:@"dd.MM.yy HH:mm"];
         [userDefaults setObject:[dateFormatter stringFromDate:date] forKey:@"DataBaseUpdateDateFormat"];
     }
-    if(![[userDefaults objectForKey:@"firstLaunch"]boolValue])
-        [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
 #pragma mark - Alert

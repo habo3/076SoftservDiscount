@@ -10,6 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "CDDiscountObject.h"
 
+#import "JPJsonParser.h"
+
 @interface JPJsonParser ()
 
 @property (nonatomic, strong) NSMutableData *responseData;
@@ -21,11 +23,15 @@
 @end
 
 @implementation JPJsonParser
-
 @synthesize delegate = _delegate;
-@synthesize name = _name;
 
 static BOOL notification = NO;
+
+- (void) downloadDataBaseWithUrl:(NSString*)url withDelegate:(id<JPJsonParserDelegate>)delegate
+{
+    self.delegate = delegate;
+    [self downloadDataBase:url];
+}
 
 - (id)initWithUrl:(NSString*)url
 {
@@ -35,18 +41,6 @@ static BOOL notification = NO;
     }
     return self;
 }
-
-- (id)initWithUrl:(NSString*)url withName:(NSString *)name delegate:(id <JPJsonParserDelegate>) delegate
-{
-    self = [super init];
-    if (self) {
-        self.delegate = delegate;
-        self.name = name;
-        [self downloadDataBase:url];
-    }
-    return self;
-}
-
 
 - (void)downloadDataBase:(NSString *)url
 {
@@ -58,7 +52,8 @@ static BOOL notification = NO;
         NSLog(@"Downloading Data Base object");
     } else {
         NSLog(@"Error downloading Data Base object");
-        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
+        self.parsedData = nil;
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
     }
 }
 
@@ -72,7 +67,6 @@ static BOOL notification = NO;
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseData appendData:data];
-    self.status = [NSNumber numberWithDouble:self.responseData.length * 90. / self.downloadSize.intValue];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -83,8 +77,8 @@ static BOOL notification = NO;
                                    delegate:self
                           cancelButtonTitle:nil
                           otherButtonTitles:nil] show];
-        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@NO,nil] waitUntilDone:NO];
-
+        self.parsedData = nil;
+        [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
         notification = YES;
     }
 }
@@ -102,11 +96,10 @@ static BOOL notification = NO;
 {
     NSError *error;
     NSMutableDictionary *json = [NSJSONSerialization JSONObjectWithData:self.responseData options:kNilOptions error:&error];
-    self.status = [NSNumber numberWithDouble:[self.status doubleValue] + 10.];
     self.parsedData = [json objectForKey:@"list"];
     self.updatedDataBase = YES;
     NSLog(@"Parsed items: %@", [NSNumber numberWithUnsignedInt:[self.parsedData count]]);
-    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinishWithSuccess:) withObject:[NSArray arrayWithObjects:self,@YES, nil] waitUntilDone:NO];
+    [(NSObject *)self.delegate performSelectorOnMainThread:@selector(JPJsonParserDidFinish:) withObject:self waitUntilDone:NO];
 }
 
 + (NSString *)getUrlWithObjectName:(NSString *)objectName
@@ -121,6 +114,7 @@ static BOOL notification = NO;
     NSString *apiKey = [NSString stringWithString:[dictRoot objectForKey:@"APIKey"]];
     return [NSString stringWithFormat: @"%@%@%@%@%@", url, objectName, @"/list/", apiKey, format];
 }
+
 
 +(id)getUserIDFromFacebook
 {

@@ -29,7 +29,7 @@
  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 
 
 #import "KxIntroViewController.h"
@@ -52,7 +52,7 @@
         
         _introView = [[KxIntroView alloc] initWithPages:_pages];
         _introView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _introView.delegate = self;        
+        _introView.delegate = self;
     }
     return _introView;
 }
@@ -60,7 +60,7 @@
 - (id)initWithPages: (NSArray *) pages
 {
     self = [super initWithNibName:nil bundle:nil];
-    if (self) {        
+    if (self) {
         _pages = pages;
     }
     return self;
@@ -79,7 +79,7 @@
 
 - (void) presentInViewController: (UIViewController *) viewController
                 fullScreenLayout: (BOOL) fullScreenLayout
-{    
+{
     if (fullScreenLayout) {
         
         self.wantsFullScreenLayout = YES;
@@ -90,7 +90,7 @@
         }
     }
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [viewController presentViewController:self animated:NO completion:nil];    
+    [viewController presentViewController:self animated:NO completion:nil];
 }
 
 #pragma mark - KxIntroViewDelegate
@@ -104,16 +104,16 @@
     } else if (self.view.superview) {
         
         if (!finished) {
-        
+            
             [UIView animateWithDuration:0.2
                              animations:^
-            {
-                self.view.alpha = 0;
-            }
+             {
+                 self.view.alpha = 0;
+             }
                              completion:^(BOOL finished)
-            {
-                [self.view removeFromSuperview];
-            }];
+             {
+                 [self.view removeFromSuperview];
+             }];
             
         } else {
             
@@ -130,19 +130,19 @@
 +(void) performIntro:(UIViewController *) sender
 {
     KxIntroViewPage *page0 = [KxIntroViewPage introViewPageWithTitle: @"Швидке навчання"
-                                                          withDetail: @"Це швидке навчання користування програмую, якщо ви бажаєте пропустити його нажміть вiдповідну кнопку. Для переходу до наступного кроку зробіть скрол вліво."
+                                                          withDetail: @"Це швидке навчання користування програмую, якщо ви бажаєте пропустити його - нажміть вiдповідну кнопку. Для переходу до наступного кроку зробіть скрол вліво."
                                                            withImage: [UIImage imageNamed:@"IntrolImage.png"]];
     
     KxIntroViewPage *page1 = [KxIntroViewPage introViewPageWithTitle: @"Карта"
-                                                          withDetail: @"На карті можна побачити всі заклади. які вснесені в базу, При кліці на заклад появляється коротка інформація про нього та, якщо ввімкнена Геолокація, прокладається маршрут від вашого поточного місця знаходження до даного закладу. На навігаційній панелі ви можете найти кнопку Назад та кнопку Філтрації. Також, при ввімкненій Геолокації, знизу відображається кнопка переходу до вашого місця знаходження "
+                                                          withDetail: @"На карті можна побачити всі заклади, які вснесені в базу. При кліці на заклад появиться коротка інформація про нього та, якщо ввімкнена Геолокація, прокладеться маршрут від вашого поточного місця знаходження до даного закладу. На навігаційній панелі ви можете найти кнопку Назад та кнопку Філтрації. Також, при ввімкненій Геолокації, знизу відображається кнопка переходу до вашого місця знаходження "
                                                            withImage: [UIImage imageNamed:@"IntroImageMap.jpg"]];
     
     KxIntroViewPage *page2 = [KxIntroViewPage introViewPageWithTitle: @"Список"
-                                                          withDetail: @"В списку ви можете побачити всі заклади, де надаються знижки в альтернативному вигляді. Тут присутній пошук, а також фільтрація."
+                                                          withDetail: @"Тут находяться всі заклади, де надаються знижки, в альтернативному вигляді. Є можливість пошуку та фільтрації."
                                                            withImage: [UIImage imageNamed:@"IntroImageList.jpg"]];
     
     KxIntroViewPage *page3 = [KxIntroViewPage introViewPageWithTitle: @"Деталі"
-                                                          withDetail: @"Це вікно призначення для показу детальної інформації про даний заклад, Тут ви можете: побачити категорію закладу, логотип, контактну інформацію, добавити до обраного, поскаржитися, поділитися з друзями інформацією про нього. Також при кліці по телефону, електроній пошті, сайту відбудеться відповідна дія."
+                                                          withDetail: @"Це вікно призначене для показу детальної інформації про даний заклад, а саме: категорія закладу, логотип, контактна інформація. Також є можливість добавляти до обраного, поскаржитися, поділитися з друзями інформацією про заклад. Також при кліці по телефону, електроній пошті, сайту відбудеться відповідна дія."
                                                            withImage: [UIImage imageNamed:@"IntroImageDetails.jpg" ]];
     
     KxIntroViewController *vc = [[KxIntroViewController alloc ] initWithPages:@[ page0, page1, page2, page3]];

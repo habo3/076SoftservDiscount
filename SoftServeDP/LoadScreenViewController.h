@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "JPJsonParser.h"
+#import "DownloadOperation.h"
 
 @class CDCoreDataManager;
-@interface LoadScreenViewController : UIViewController <UIAlertViewDelegate, JPJsonParserDelegate>
+@interface LoadScreenViewController : UIViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) CDCoreDataManager *coreDataManager;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end
