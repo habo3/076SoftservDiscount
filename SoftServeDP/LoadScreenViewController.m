@@ -12,9 +12,6 @@
 #import "CDCity.h"
 #import "ActionSheetStringPicker.h"
 
-@interface NSString (sad)
-@property NSNumber *amas;
-@end
 @interface LoadScreenViewController ()
 {
     int counterOfFinishedOperations;
@@ -30,20 +27,6 @@
 @implementation LoadScreenViewController
 
 @synthesize citiesNames = _citiesNames;
-
--(NSManagedObjectContext *)managedObjectContex
-{
-    return [(AppDelegate*) [[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -95,40 +78,8 @@
         }
     }];
     [self.queue addOperation:downloadObjects];
-    
-//    BOOL downloadedDataBase = NO;
-//    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-//    JPJsonParser *objects, *cities, *categories;
-//    objects = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    cities = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    categories = [[JPJsonParser alloc] initWithUrl:[JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]]];
-//    
-//    while (!downloadedDataBase) {
-//          self.progressView.progress = ([objects.status doubleValue] + [cities.status doubleValue] + [categories.status doubleValue]) / 220;
-//        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//        if (objects.updatedDataBase && cities.updatedDataBase && categories.updatedDataBase)
-//            downloadedDataBase = YES;
-//    }
-//    
-//    if (!lastUpdate) {
-//        [self.coreDataManager deleteAllCoreData];
-//    }
-//    
-//    if ([[categories parsedData] count]) {
-//        self.coreDataManager.categories = categories.parsedData;
-//        [self.coreDataManager saveCategoriesToCoreData];
-//    }
-//    if ([[cities parsedData] count]) {
-//        self.coreDataManager.cities = cities.parsedData;
-//        [self.coreDataManager saveCitiesToCoreData];
-//    }
-//    if ([[objects parsedData] count]) {
-//        self.coreDataManager.discountObject = objects.parsedData;
-//        [self.coreDataManager saveDiscountObjectsToCoreData];
-//    }
-//    
-//    NSLog(@"AppDelegate items: %@", [NSNumber numberWithUnsignedInt:self.coreDataManager.discountObject.count]);
 }
+
 - (BOOL)checkFinishanable:(DownloadOperation *) downloadOperation
 {
     if(downloadOperation.downloader.parsedData)
@@ -151,9 +102,9 @@
             else
                 [self performSegueWithIdentifier:@"Menu" sender:self];
         }
-        
         self.progressView.progress = self.progressView.progress + 0.3;
-        return YES;
+        return [downloadOperation.downloader.parsedData count]?YES:NO;
+
     } else {
         [self.queue cancelAllOperations];
         return NO;
@@ -189,8 +140,6 @@
         [dateFormatter setDateFormat:@"dd.MM.yy HH:mm"];
         [userDefaults setObject:[dateFormatter stringFromDate:date] forKey:@"DataBaseUpdateDateFormat"];
     }
-    if(![[userDefaults objectForKey:@"firstLaunch"]boolValue])
-        [self performSegueWithIdentifier:@"Menu" sender:self];
 }
 
 #pragma mark - Alert

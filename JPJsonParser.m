@@ -20,13 +20,11 @@
 
 @implementation JPJsonParser
 @synthesize delegate = _delegate;
-@synthesize name = _name;
 
 static BOOL notification = NO;
 
 - (void) downloadDataBaseWithUrl:(NSString*)url withName:(NSString *)name withDelegate:(id<JPJsonParserDelegate>)delegate
 {
-    self.name = name;
     self.delegate = delegate;
     [self downloadDataBase:url];
 }

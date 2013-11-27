@@ -14,6 +14,5 @@
 @interface LoadScreenViewController : UIViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) CDCoreDataManager *coreDataManager;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end

@@ -740,8 +740,8 @@
                                                         <color key="titleColor" red="0.98039221759999995" green="0.98039221759999995" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected" backgroundImage="complainButtonHightighted.png"/>
-                                                    <state key="highlighted" backgroundImage="complainButtonHighlighted.png"/>
+                                                    <state key="selected" backgroundImage="complainButtonHighlited.png"/>
+                                                    <state key="highlighted" backgroundImage="complainButtonHighlited.png"/>
                                                     <connections>
                                                         <action selector="complaintButton:" destination="fza-nt-l4I" eventType="touchUpInside" id="sNj-qq-Bxy"/>
                                                     </connections>
@@ -1005,8 +1005,7 @@
         <image name="Default.png" width="320" height="480"/>
         <image name="cityNameBackground.png" width="53" height="12"/>
         <image name="complainButton.png" width="138" height="44"/>
-        <image name="complainButtonHighlighted.png" width="138" height="44"/>
-        <image name="complainButtonHightighted.png" width="20" height="14"/>
+        <image name="complainButtonHighlited.png" width="138" height="44"/>
         <image name="detailsAdressPin.png" width="6" height="10"/>
         <image name="detailsClockPin.png" width="11" height="11"/>
         <image name="detailsDiscountCloud.png" width="46" height="46"/>

@@ -138,8 +138,8 @@
 		90820E7116CE92C200BBD714 /* emptyPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90820E7016CE92C200BBD714 /* emptyPin.png */; };
 		BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */; };
 		BB9067C2183E609400B6E1DF /* Cities Formats.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C1183E609400B6E1DF /* Cities Formats.plist */; };
-		BB9067C5183E6B2C00B6E1DF /* complainButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C3183E6B2C00B6E1DF /* complainButtonHighlighted.png */; };
-		BB9067C6183E6B2C00B6E1DF /* complainButtonHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C4183E6B2C00B6E1DF /* complainButtonHighlighted@2x.png */; };
+		BB9067C5183E6B2C00B6E1DF /* complainButtonHighlited.png in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C3183E6B2C00B6E1DF /* complainButtonHighlited.png */; };
+		BB9067C6183E6B2C00B6E1DF /* complainButtonHighlited@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB9067C4183E6B2C00B6E1DF /* complainButtonHighlited@2x.png */; };
 		C076B3B916DAD0FE00262BD9 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B716DAD0FE00262BD9 /* filterButton.png */; };
 		C076B3BA16DAD0FE00262BD9 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */; };
 		C076B45016DD631800262BD9 /* CALayer+setUIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = C076B44F16DD631800262BD9 /* CALayer+setUIColor.m */; };
@@ -355,8 +355,8 @@
 		BB9067BC183B91BA00B6E1DF /* PhoneFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneFormatter.h; sourceTree = "<group>"; };
 		BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneFormatter.m; sourceTree = "<group>"; };
 		BB9067C1183E609400B6E1DF /* Cities Formats.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Cities Formats.plist"; sourceTree = "<group>"; };
-		BB9067C3183E6B2C00B6E1DF /* complainButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = complainButtonHighlighted.png; sourceTree = "<group>"; };
-		BB9067C4183E6B2C00B6E1DF /* complainButtonHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "complainButtonHighlighted@2x.png"; sourceTree = "<group>"; };
+		BB9067C3183E6B2C00B6E1DF /* complainButtonHighlited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = complainButtonHighlited.png; sourceTree = "<group>"; };
+		BB9067C4183E6B2C00B6E1DF /* complainButtonHighlited@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "complainButtonHighlited@2x.png"; sourceTree = "<group>"; };
 		C076B3B716DAD0FE00262BD9 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
 		C076B44E16DD631800262BD9 /* CALayer+setUIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+setUIColor.h"; sourceTree = "<group>"; };
@@ -545,8 +545,8 @@
 				C0A9EBB116D7C43A00DE9FC5 /* shareButton@2x.png */,
 				C0A9EBAC16D7AC5800DE9FC5 /* favoritesButtonHighlited.png */,
 				C0A9EBAD16D7AC5800DE9FC5 /* favoritesButtonHighlited@2x.png */,
-				BB9067C3183E6B2C00B6E1DF /* complainButtonHighlighted.png */,
-				BB9067C4183E6B2C00B6E1DF /* complainButtonHighlighted@2x.png */,
+				BB9067C3183E6B2C00B6E1DF /* complainButtonHighlited.png */,
+				BB9067C4183E6B2C00B6E1DF /* complainButtonHighlited@2x.png */,
 				C0A9EBA416D7A76800DE9FC5 /* favoritesButton.png */,
 				C0A9EBA516D7A76800DE9FC5 /* favoritesButton@2x.png */,
 				434CAFD416D53D5A0000CE60 /* detailsFooterButtonsPattern.png */,
@@ -1093,7 +1093,7 @@
 				C0A9EBAF16D7AC5900DE9FC5 /* favoritesButtonHighlited@2x.png in Resources */,
 				C0A9EBB216D7C43A00DE9FC5 /* shareButton.png in Resources */,
 				4B52A00F181EAAA0002F3898 /* menuIconNews@2x.png in Resources */,
-				BB9067C5183E6B2C00B6E1DF /* complainButtonHighlighted.png in Resources */,
+				BB9067C5183E6B2C00B6E1DF /* complainButtonHighlited.png in Resources */,
 				4B6326CB1833C4D800740885 /* IntroImageList.jpg in Resources */,
 				4BDB97EC183E6732004BA4C1 /* complainButton@2x.png in Resources */,
 				C0A9EBB316D7C43A00DE9FC5 /* shareButton@2x.png in Resources */,
@@ -1122,7 +1122,7 @@
 				FB59A92316EF54E00018BB83 /* settingsPin@2x.png in Resources */,
 				FB59A92616EF59440018BB83 /* settingsSSIcon.png in Resources */,
 				4B52A007181EAAA0002F3898 /* menuIconList@2x.png in Resources */,
-				BB9067C6183E6B2C00B6E1DF /* complainButtonHighlighted@2x.png in Resources */,
+				BB9067C6183E6B2C00B6E1DF /* complainButtonHighlited@2x.png in Resources */,
 				4B529FE7181EA833002F3898 /* menuBG.png in Resources */,
 				4B52A00B181EAAA0002F3898 /* menuIconMap@2x.png in Resources */,
 				FB59A92716EF59440018BB83 /* settingsSSIcon@2x.png in Resources */,
