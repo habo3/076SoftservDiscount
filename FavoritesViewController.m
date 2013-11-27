@@ -83,7 +83,6 @@
             NSDate *currentDate = [[NSDate alloc] init];
             int lastUpdate = [currentDate timeIntervalSince1970];
             [userDefaults setValue:[NSNumber numberWithInt:lastUpdate] forKey:@"favoritesLastUpdate"];
-            NSLog(@"%@",[userDefaults valueForKey:@"favoritesLastUpdate"]);
         }];
         [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation1];
         NSBlockOperation *blockOperation2 = [NSBlockOperation blockOperationWithBlock:^{

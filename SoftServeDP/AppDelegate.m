@@ -57,7 +57,7 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 -(void) closeSession
 {
-    [FBSession.activeSession closeAndClearTokenInformation];
+//    [FBSession.activeSession closeAndClearTokenInformation];
 }
 
 
