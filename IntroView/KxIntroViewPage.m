@@ -89,7 +89,7 @@
         _detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _detailLabel.font = [UIFont boldSystemFontOfSize:isPhone ? 12 : 18];
         _detailLabel.textColor = [UIColor whiteColor];
-        _detailLabel.textAlignment = NSTextAlignmentJustified;
+        _detailLabel.textAlignment = NSTextAlignmentLeft;
         _detailLabel.numberOfLines = 0;
         _detailLabel.opaque = NO;
         _detailLabel.backgroundColor = [UIColor clearColor];

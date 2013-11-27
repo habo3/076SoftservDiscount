@@ -54,6 +54,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];  
     if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
     {
+
         [KxIntroViewController performIntro:self];
         [userDefaults removeObjectForKey:@"firstLaunch"];
         [userDefaults synchronize];
