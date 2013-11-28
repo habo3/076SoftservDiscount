@@ -39,88 +39,6 @@
     self.downloadStarted = NO;
 }
 
-- (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
-{
-    if (!lastUpdate)
-        [self.coreDataManager deleteAllCoreData];
-    
-    NSString *url;
-    
-    url = [JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadCities = [[DownloadOperation alloc] init];
-    [downloadCities performOperationWithURL:url completion:^{
-        if([self checkFinishanable: downloadCities])
-        {
-            self.coreDataManager.cities = downloadCities.downloader.parsedData;
-            [self.coreDataManager saveCitiesToCoreData];
-        }
-    }];
-    [self.queue addOperation:downloadCities];
-    
-    url = [JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadCategories = [[DownloadOperation alloc] init];
-    [downloadCategories performOperationWithURL:url completion:^{
-        if([self checkFinishanable: downloadCategories])
-        {
-            self.coreDataManager.categories = downloadCategories.downloader.parsedData;
-            [self.coreDataManager saveCategoriesToCoreData];
-            
-        }
-    }];
-    [self.queue addOperation:downloadCategories];
-    
-    url = [JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadObjects = [[DownloadOperation alloc] init];
-    [downloadObjects performOperationWithURL:url completion:^{
-        if([self checkFinishanable: downloadObjects])
-        {
-            self.coreDataManager.discountObject = downloadObjects.downloader.parsedData;
-            [self.coreDataManager saveDiscountObjectsToCoreData];
-        }
-    }];
-    [self.queue addOperation:downloadObjects];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setValue:0 forKey:@"favoritesLastUpdate"];
-}
-
-- (BOOL)checkFinishanable:(DownloadOperation *) downloadOperation
-{
-    if(downloadOperation.downloader.parsedData)
-    {
-        counterOfFinishedOperations++;
-        
-        if(counterOfFinishedOperations == 3)
-        {
-            counterOfFinishedOperations = 0;
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
-                                                                message:@"Програма запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням."
-                                                               delegate:self
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"Обрати місто", nil];
-                [alert show];
-            }
-            else
-                [self performSegueWithIdentifier:@"Menu" sender:self];
-        }
-        self.progressView.progress = self.progressView.progress + 0.3;
-        return [downloadOperation.downloader.parsedData count]?YES:NO;
-        
-    } else {
-        [self.queue cancelAllOperations];
-        return NO;
-    }
-}
-
--(BOOL)internetAvailable
-{
-    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.yandex.com"] encoding:NSUTF8StringEncoding error:nil];
-    return (url != NULL) ? YES : NO;
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -144,6 +62,90 @@
         [dateFormatter setDateFormat:@"dd.MM.yy HH:mm"];
         [userDefaults setObject:[dateFormatter stringFromDate:date] forKey:@"DataBaseUpdateDateFormat"];
     }
+}
+
+- (void)downloadDataBaseWithUpdateTime:(int)lastUpdate
+{
+    if (!lastUpdate)
+        [self.coreDataManager deleteAllCoreData];
+    
+    NSString *url;
+    
+    url = [JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCities = [[DownloadOperation alloc] init];
+    [downloadCities performOperationWithURL:url completion:^{
+        if([self checkDownloadedInformation: downloadCities])
+        {
+            self.coreDataManager.cities = downloadCities.downloader.parsedData;
+            [self.coreDataManager saveCitiesToCoreData];
+        }
+    }];
+    [self.queue addOperation:downloadCities];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadCategories = [[DownloadOperation alloc] init];
+    [downloadCategories performOperationWithURL:url completion:^{
+        if([self checkDownloadedInformation: downloadCategories])
+        {
+            self.coreDataManager.categories = downloadCategories.downloader.parsedData;
+            [self.coreDataManager saveCategoriesToCoreData];
+            
+        }
+    }];
+    [self.queue addOperation:downloadCategories];
+    
+    url = [JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
+    DownloadOperation *downloadObjects = [[DownloadOperation alloc] init];
+    [downloadObjects performOperationWithURL:url completion:^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if([self checkDownloadedInformation: downloadObjects])
+            {
+                self.coreDataManager.discountObject = downloadObjects.downloader.parsedData;
+                [self.coreDataManager saveDiscountObjectsToCoreData];
+            }
+            [self performCityPicker];
+        });
+
+    }];
+    [self.queue addOperation:downloadObjects];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:0 forKey:@"favoritesLastUpdate"];
+}
+
+- (BOOL)checkDownloadedInformation:(DownloadOperation *) downloadOperation
+{
+    if(downloadOperation.downloader.parsedData)
+    {
+        self.progressView.progress = self.progressView.progress + 0.3;
+        return [downloadOperation.downloader.parsedData count]?YES:NO;        
+    } else {
+        [self.queue cancelAllOperations];
+        return NO;
+    }
+}
+
+-(void) performCityPicker
+{
+    self.progressView.progress = 1.0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([[userDefaults objectForKey:@"firstLaunch"]boolValue])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Перший запуск"
+                                                        message:@"Програма запущена вперше. Для зручності використання необхідно вибрати місто, яке буде використовуватися за замовчуванням."
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"Обрати місто", nil];
+        [alert show];
+    }
+    else
+        [self performSegueWithIdentifier:@"Menu" sender:self];
+}
+
+-(BOOL)internetAvailable
+{
+    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.yandex.com"] encoding:NSUTF8StringEncoding error:nil];
+    return (url != NULL) ? YES : NO;
 }
 
 #pragma mark - Alert
@@ -173,6 +175,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
 }
 
 - (void)didReceiveMemoryWarning
