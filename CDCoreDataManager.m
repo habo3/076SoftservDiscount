@@ -62,7 +62,6 @@
         NSDictionary *objDict = [favoriteObjects valueForKey:key];
         CDDiscountObject *favoriteObject = [CDDiscountObject checkDiscountExistForDictionary:objDict andContext:self.managedObjectContex elseCreateNew:NO];
         if (favoriteObject) {
-            NSLog(@"%@",favoriteObject.isInFavorites);
             if ([favoriteObject.isInFavorites isEqual:@NO] || !favoriteObject.isInFavorites) {
                 [self addDiscountObjectToFavoritesWithObject:favoriteObject];
             }

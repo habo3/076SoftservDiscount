@@ -19,6 +19,7 @@
 #import "CustomViewMaker.h"
 #import "JPJsonParser.h"
 #import "NSOperationQueue+SharedQueue.h"
+#import "DownloadOperation.h"
 
 @interface FavoritesViewController ()
 
@@ -47,7 +48,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     //Sending event to analytics service
     [Flurry logEvent:@"FavoritesViewLoaded"];
     
@@ -65,42 +65,15 @@
         [self reloadTableWithDistancesValues];
     }
     else
-    {
         self.discountObjects = [Sortings sortDiscountObjectByName:self.discountObjects];
-        [self.tableView reloadData];
-    }
     if (!self.discountObjects.count)
         self.tableView.backgroundView = [[UIImageView alloc]initWithImage: [UIImage imageNamed:@"noFavorites"]];
     [self.tableView reloadData];
     
-    ////////////////////////////
-    if ([[FBSession activeSession] accessToken] && ([self isTimeToUpdate] || ![self.discountObjects count]) ) {
-        [self putActivity];
-        
-        NSBlockOperation *blockOperation1 = [NSBlockOperation blockOperationWithBlock:^{
-            [self downloadFavorites];
-            
-            NSDate *currentDate = [[NSDate alloc] init];
-            int lastUpdate = [currentDate timeIntervalSince1970];
-            [userDefaults setValue:[NSNumber numberWithInt:lastUpdate] forKey:@"favoritesLastUpdate"];
-        }];
-        [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation1];
-        NSBlockOperation *blockOperation2 = [NSBlockOperation blockOperationWithBlock:^{
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                self.spinner.hidden = YES;
-                [self.spinner removeFromSuperview];
-                self.discountObjects = [self.coreDataManager discountObjectsFromFavorites];
-                if (self.discountObjects.count)
-                    self.tableView.backgroundView = nil;
-                [self.tableView reloadData];
-            });
-            
-            [userDefaults setValue:@YES forKey:@"isFavoritesDownloaded"];
-        }];
-        [blockOperation2 addDependency:blockOperation1];
-        
-        [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation2];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self downloadFavorites];
+    });
+
 }
 
 - (void)viewDidUnload {
@@ -187,38 +160,50 @@
 
 -(void)downloadFavorites
 {
-    
-    BOOL downloadedDataBase = NO;
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    
-    JPJsonParser *favoriteObjects;
-    favoriteObjects = [[JPJsonParser alloc] initWithUrl:[NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/b1d6f099e1b5913e86f0a9bb9fbc10e5?id=%@",[JPJsonParser getUserIDFromFacebook]]];
-    if (favoriteObjects.updatedDataBase)
-        downloadedDataBase = YES;
-    
-    while (!downloadedDataBase) {
-        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-        if (favoriteObjects.updatedDataBase)
-            downloadedDataBase = YES;
+    if ([[FBSession activeSession] accessToken] && ([self isTimeToUpdate] || ![self.discountObjects count]) )
+    {
+        [self putActivity];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *url = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/b1d6f099e1b5913e86f0a9bb9fbc10e5?id=%@",[JPJsonParser getUserIDFromFacebook]];
+        DownloadOperation *downloadFavorites = [[DownloadOperation alloc] init];
+        [downloadFavorites performOperationWithURL:url completion:^{
+            if ([downloadFavorites.downloader.parsedData count] && downloadFavorites.downloader.parsedData)
+            {
+                [self.coreDataManager deleteAllFavorites];
+                [self.coreDataManager addDiscountObjectToFavoritesWithDictionaryObjects:downloadFavorites.downloader.parsedData];
+                NSDate *currentDate = [[NSDate alloc] init];
+                int lastUpdate = [currentDate timeIntervalSince1970];
+                [userDefaults setValue:[NSNumber numberWithInt:lastUpdate] forKey:@"favoritesLastUpdate"];
+            }
+        }];
+        [[NSOperationQueue sharedOperationQueue] addOperation:downloadFavorites];
+        
+        NSBlockOperation *blockOperation2 = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.spinner.hidden = YES;
+                [self.spinner removeFromSuperview];
+                self.discountObjects = [self.coreDataManager discountObjectsFromFavorites];
+                if (self.discountObjects.count)
+                    self.tableView.backgroundView = nil;
+                self.discountObjects = [Sortings sortDiscountObjectByName:self.discountObjects];
+                [self.tableView reloadData];
+            });
+            
+            [userDefaults setValue:@YES forKey:@"isFavoritesDownloaded"];
+        }];
+        [blockOperation2 addDependency:downloadFavorites];
+        [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation2];
     }
-    
-    if ([[favoriteObjects parsedData] count]) {
-        [self.coreDataManager deleteAllFavorites];
-        [self.coreDataManager addDiscountObjectToFavoritesWithDictionaryObjects:[favoriteObjects parsedData]];
-    }
-    
 }
 
 -(void)putActivity
 {
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.spinner setFrame:CGRectMake((self.view.frame.size.width/2)-(self.spinner.frame.size.width/2), (self.view.frame.size.height/2)-(self.spinner.frame.size.height/2), self.spinner.frame.size.width, self.spinner.frame.size.height)];
+    [self.spinner setFrame:CGRectMake((self.navigationController.navigationBar.frame.size.width)-(self.spinner.frame.size.width) - 25, (self.navigationController.navigationBar.frame.size.height/2)-(self.spinner.frame.size.height/2), self.spinner.frame.size.width, self.spinner.frame.size.height)];
     [self.spinner startAnimating];
     
-    [self.view addSubview:self.spinner];
+    [self.navigationController.navigationBar addSubview:self.spinner];
     
 }
-
-
 
 @end
