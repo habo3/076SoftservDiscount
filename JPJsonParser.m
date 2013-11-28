@@ -118,9 +118,9 @@ static BOOL notification = NO;
 
 +(id)getUserIDFromFacebook
 {
-    if ([[FBSession activeSession] accessToken]) {
+    if ([[FBSession activeSession] accessTokenData].accessToken) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *http = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/get/b1d6f099e1b5913e86f0a9bb9fbc10e5?access_token=%@&auth=1&provider=facebook",[[FBSession activeSession] accessToken]];
+        NSString *http = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/get/b1d6f099e1b5913e86f0a9bb9fbc10e5?access_token=%@&auth=1&provider=facebook",[[FBSession activeSession] accessTokenData].accessToken];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:http]] options:kNilOptions error:nil];
         
         if ([json valueForKey:@"id"]) {
@@ -139,7 +139,7 @@ static BOOL notification = NO;
     
     if ([discountObject.isInFavorites isEqual:@NO] || !discountObject.isInFavorites) {
         
-        if ([[FBSession activeSession] accessToken]) {
+        if ([[FBSession activeSession] accessTokenData].accessToken) {
             json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
             
             while ([[json valueForKey:@"favorite"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
@@ -150,7 +150,7 @@ static BOOL notification = NO;
         return [json valueForKey:@"favorite"];
     }
     if ([discountObject.isInFavorites isEqual:@YES]) {
-        if ([[FBSession activeSession] accessToken]) {
+        if ([[FBSession activeSession] accessTokenData].accessToken) {
             json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:toggleUrl]] options:kNilOptions error:nil];
             
             while ([[json valueForKey:@"favorite"] isEqualToNumber:[NSNumber numberWithInt:0]]) {

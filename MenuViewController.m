@@ -40,7 +40,7 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGOld.png"] forBarMetrics:UIBarMetricsDefault];
     
     [self putFBButton];
-    if ([[FBSession activeSession] accessToken]) {
+    if ([[FBSession activeSession] accessTokenData].accessToken) {
         [self.facebookButton setTitle:@"Log Out" forState:UIControlStateNormal];
     }
     else
@@ -67,42 +67,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - FBLoginButton
-//-(void)putFBButton
-//{
-//    self.loginview =
-//    [[FBLoginView alloc] initWithPermissions:[NSArray arrayWithObject:@"publish_actions"]];
-//    
-//    self.loginview.frame = CGRectMake(35, self.view.bounds.size.height-150, 271, 101);
-//    for (id obj in self.loginview.subviews)
-//    {
-//        if ([obj isKindOfClass:[UIButton class]])
-//        {
-//            UIButton * loginButton =  obj;
-//            UIImage *loginImage = [UIImage imageNamed:@"facebookLoginButton.png"];
-//            loginImage = [self imageWithImage:loginImage scaledToSize:CGSizeMake(250, 60)];
-//            [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
-//            [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
-//            [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-//            [loginButton sizeToFit];
-//            
-//        }
-//        if ([obj isKindOfClass:[UILabel class]])
-//        {
-//            UILabel * loginLabel =  obj;
-//            
-//            loginLabel.text = [[FBSession activeSession] accessToken]?@"Log Out":@"Log in to facebook";
-//            loginLabel.textAlignment = UITextAlignmentCenter;
-//            loginLabel.frame = CGRectMake(0, 0, 250, 60);
-//        }
-//        NSLog(@"%@",obj);
-//    }
-//    
-//    self.loginview.delegate = self;
-//    [self.view addSubview:self.loginview];
-//    
-//}
-
 -(void)putFBButton
 {
     self.facebookButton =  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -123,7 +87,7 @@
 
 -(IBAction)loginFBButton:(id)sender
 {
-    if ([[FBSession activeSession] accessToken]) {
+    if ([[FBSession activeSession] accessTokenData].accessToken) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Logout from Facebook?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Log Out", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
         [actionSheet showInView:self.view];

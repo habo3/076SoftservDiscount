@@ -160,7 +160,7 @@
 
 -(void)downloadFavorites
 {
-    if ([[FBSession activeSession] accessToken] && ([self isTimeToUpdate] || ![self.discountObjects count]) )
+    if ([[FBSession activeSession] accessTokenData].accessToken && ([self isTimeToUpdate] || ![self.discountObjects count]) )
     {
         [self putActivity];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

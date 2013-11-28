@@ -352,7 +352,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    if ([[FBSession activeSession] accessToken] && self.isFavoriteStateChanged) {
+    if ([[FBSession activeSession] accessTokenData].accessToken && self.isFavoriteStateChanged) {
         NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                                 selector:@selector(toggleUserFavoriteObject:)
                                                                                   object:self.discountObject];
