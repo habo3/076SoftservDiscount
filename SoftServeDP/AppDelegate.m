@@ -85,15 +85,11 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 {
     NSArray *permissions = [[NSArray alloc] initWithObjects:@"publish_stream",nil];
 
-    return [FBSession openActiveSessionWithPermissions:permissions
-                                          allowLoginUI:allowLoginUI
-                                     completionHandler:^(FBSession *session,
-                                                         FBSessionState state,
-                                                         NSError *error) {
-                                         [self sessionStateChanged:session
-                                                             state:state
-                                                             error:error];
-                                     }];
+    return [FBSession openActiveSessionWithPublishPermissions:permissions defaultAudience:      FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:^(FBSession *session,                                                                                                                                                                FBSessionState state,                                                                                                                                                                NSError *error) {
+        [self sessionStateChanged:session
+                            state:state
+                            error:error];
+    }];
 }
 
 
