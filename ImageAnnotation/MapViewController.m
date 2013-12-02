@@ -426,10 +426,8 @@
              */
             for(Annotation *ann in arrayOfAnnotations)
             {
-                if((currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
-                   && (currentAnn.coordinate.latitude - ann.coordinate.latitude) > -0.0001
-                   && (currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001
-                   && (currentAnn.coordinate.longitude - ann.coordinate.longitude) > -0.0001)
+                if(ABS(currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
+                   && ABS(currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001)
                 {
                     CLLocationCoordinate2D coord;
                     coord.latitude = currentAnn.coordinate.latitude + scaleX;
@@ -447,8 +445,7 @@
             if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
                 [arrayOfAnnotations addObject:currentAnn];
         }
-
-    // REFACTOR, oskryp: return immutable array just here (as specified by your return type)
+    
     return arrayOfAnnotations;
 }
 
