@@ -56,6 +56,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.toolbar.backgroundColor = [UIColor whiteColor];
+    self.navigationController.toolbar.alpha = 1.0;
     [CustomViewMaker customNavigationBarForView:self];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.delegate = self;
@@ -104,6 +106,7 @@
 {
     [self.coreDataManager saveData];
     [filterButton removeFromSuperview];
+    self.navigationController.toolbarHidden = YES;
 }
 
 #pragma mark - Working with Location
