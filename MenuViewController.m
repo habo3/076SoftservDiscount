@@ -38,14 +38,13 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBG.png"] forBarMetrics:UIBarMetricsDefault];
     else
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBarBGOld.png"] forBarMetrics:UIBarMetricsDefault];
-    
-    [self putFBButton];
-    if ([[FBSession activeSession] accessTokenData].accessToken) {
-        [self.facebookButton setTitle:@"Log Out" forState:UIControlStateNormal];
-    }
-    else
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)
     {
-        [self.facebookButton setTitle:@"Log In" forState:UIControlStateNormal];
+        [self putFBButton];
+        if ([[FBSession activeSession] accessTokenData].accessToken)
+            [self.facebookButton setTitle:@"Log Out" forState:UIControlStateNormal];
+        else
+            [self.facebookButton setTitle:@"Log In" forState:UIControlStateNormal];
     }
 }
 

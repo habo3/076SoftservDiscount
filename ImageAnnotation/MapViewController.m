@@ -356,7 +356,6 @@
 - (Annotation*)createAnnotationFromData:(CDDiscountObject*)discountObject
 {
     CLLocationCoordinate2D tmpCoord;
-    
     // annotation for pins
     Annotation *myAnnotation = [[Annotation alloc]init];
     
@@ -410,6 +409,7 @@
 
 - (NSMutableArray*)getAllPins
 {
+    NSMutableDictionary *hash = [[NSMutableDictionary alloc] init];
     NSMutableArray *arrayOfAnnotations= [[NSMutableArray alloc]init];
     Annotation *currentAnn;
     NSArray *array = [self.coreDataManager discountObjectsFromCoreData];
@@ -419,21 +419,29 @@
             scaleX = 0.0;
             scaleY = distanceFromObject;
             currentAnn = [self createAnnotationFromData:object];
-            /* REFACTOR, oskryp: again I believe it is possible
-             * to avoid loop with all items comparing 
-             * You just need incrementally update map frame
-             * and compare new items only with that frame
-             */
-            for(Annotation *ann in arrayOfAnnotations)
+            NSString *key = [NSString stringWithFormat:@"%1.4f|%1.4f",currentAnn.coordinate.latitude, currentAnn.coordinate.longitude];
+            NSMutableArray *array = [hash valueForKey:key]?[hash valueForKey:key]:[[NSMutableArray alloc] init];
+            [array addObject:currentAnn];
+            [hash setValue:array forKey:key];
+            
+            if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
+                [arrayOfAnnotations addObject:currentAnn];
+        }
+    
+    for (NSString *key in [hash allKeys]) {
+        NSMutableArray *array = [[hash valueForKey:key] copy];
+        if([array count] > 1)
+        {
+            double distanceFromObject = 0.00006;
+            float scaleX = 0.0;
+            float scaleY = distanceFromObject;
+            for (int i = 1; i < [array count]; i++)
             {
-                if(ABS(currentAnn.coordinate.latitude - ann.coordinate.latitude) < 0.0001
-                   && ABS(currentAnn.coordinate.longitude - ann.coordinate.longitude) < 0.0001)
-                {
-                    CLLocationCoordinate2D coord;
-                    coord.latitude = currentAnn.coordinate.latitude + scaleX;
-                    coord.longitude = currentAnn.coordinate.longitude + scaleY;
-                    currentAnn.coordinate = coord;
-                }
+                Annotation *current = array[i];
+                CLLocationCoordinate2D coord;
+                coord.latitude = current.coordinate.latitude + scaleX;
+                coord.longitude = current.coordinate.longitude + scaleY;
+                current.coordinate = coord;
                 scaleX = scaleX + distanceFromObject;
                 if(scaleX > distanceFromObject)
                     scaleX = -1 * distanceFromObject;
@@ -441,11 +449,9 @@
                 if(scaleY > distanceFromObject)
                     scaleY = -1 * distanceFromObject;
             }
-            
-            if(currentAnn.coordinate.latitude != 0 && currentAnn.coordinate.longitude != 0)
-                [arrayOfAnnotations addObject:currentAnn];
         }
-    
+    }
+
     return arrayOfAnnotations;
 }
 

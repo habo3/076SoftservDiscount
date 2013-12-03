@@ -229,6 +229,13 @@
         cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifer];
         cell.nameLabel.text =  object.name;
         cell.addressLabel.text = object.address;
+        if(object.cities.name)
+            cell.cityLabel.text = object.cities.name;
+        else
+        {
+            cell.cityLabel.hidden = YES;
+            cell.cityImage.hidden = YES;
+        }
         [cell initViews];
         [cell setImageinCellFromObject:object];
         [cell setDistanceLabelFromDiscountObject:object WithCurrentLocation:currentLocation];
