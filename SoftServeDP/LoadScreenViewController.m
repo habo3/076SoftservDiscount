@@ -56,6 +56,8 @@
         {
             [self downloadDataBaseWithUpdateTime:lastUpdate];
         }
+        else
+            [self performSegueWithIdentifier:@"Menu" sender:self];
         lastUpdate = [[userDefaults valueForKey:@"DataBaseUpdate"] intValue];
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:lastUpdate];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc ]init];
