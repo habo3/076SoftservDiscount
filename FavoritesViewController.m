@@ -21,6 +21,8 @@
 #import "NSOperationQueue+SharedQueue.h"
 #import "DownloadOperation.h"
 
+#define UPDATE_FAVORITES_TIME 600
+
 @interface FavoritesViewController ()
 
 @property (nonatomic) NSInteger selectedRow;
@@ -152,7 +154,7 @@
     NSDate *currentDate = [[NSDate alloc] init];
     int lastUpdate = [currentDate timeIntervalSince1970];
     
-    if (  (lastUpdate - [[userDefaults valueForKey:@"favoritesLastUpdate"] integerValue]) >= 600 ) {
+    if (  (lastUpdate - [[userDefaults valueForKey:@"favoritesLastUpdate"] integerValue]) >=UPDATE_FAVORITES_TIME) {
         return YES;
     }
     return NO;
