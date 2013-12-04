@@ -14,7 +14,14 @@
 {
     if ([self isDiscountObjectValid:object]) {
         CDDiscountObject *newDiscountObject = [NSEntityDescription insertNewObjectForEntityForName:@"CDDiscountObject" inManagedObjectContext:managedObjectContext];
-        
+        return [self writeChangesWithDictionary:object andDiscountObject:newDiscountObject andContext:managedObjectContext];
+    }
+    return nil;
+}
+
++(CDDiscountObject*)writeChangesWithDictionary:(id)object andDiscountObject:(CDDiscountObject*)newDiscountObject andContext:(id)managedObjectContext
+{
+    if ([self isDiscountObjectValid:object]) {
         for (NSString *key in object) {
             if ([key isEqualToString:@"responsiblePersonInfo"]) {
                 continue;
@@ -43,9 +50,7 @@
                 [newDiscountObject setValue:tempCategory forKey:key];
                 continue;
             }
-            
             [newDiscountObject setValue:[object valueForKey:key] forKey:key];
-            
         }
         return newDiscountObject;
     }
@@ -63,7 +68,7 @@
     if([managedObjectContext countForFetchRequest:fetchRequest error:nil])//if object exist it`ll return it
     {
         NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        return result[0];
+        return [self writeChangesWithDictionary:object andDiscountObject:result[0] andContext:managedObjectContext];        
     }
     if (createNew) {//if object does not exist it`ll create new object and return it
         CDDiscountObject *newDiscountObject = [self createWithDictionary:object andContext:managedObjectContext];
