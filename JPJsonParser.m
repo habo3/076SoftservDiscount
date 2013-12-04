@@ -118,9 +118,10 @@ static BOOL notification = NO;
 
 +(id)getUserIDFromFacebook
 {
+    NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
     if ([[FBSession activeSession] accessTokenData].accessToken) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *http = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/get/b1d6f099e1b5913e86f0a9bb9fbc10e5?access_token=%@&auth=1&provider=facebook",[[FBSession activeSession] accessTokenData].accessToken];
+        NSString *http = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/get/%@?access_token=%@&auth=1&provider=facebook",[dictRoot objectForKey:@"APIKey"],[[FBSession activeSession] accessTokenData].accessToken];
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:http]] options:kNilOptions error:nil];
         
         if ([json valueForKey:@"id"]) {
@@ -133,8 +134,9 @@ static BOOL notification = NO;
 
 +(BOOL)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
 {
+    NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *toggleUrl = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/togglefavorite/b1d6f099e1b5913e86f0a9bb9fbc10e5?user=%@&object=%@",[userDefaults valueForKey:@"userID"],discountObject.id];
+    NSString *toggleUrl = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/togglefavorite/%@?user=%@&object=%@",[dictRoot objectForKey:@"APIKey"],[userDefaults valueForKey:@"userID"],discountObject.id];
     NSDictionary *json;
     
     if ([discountObject.isInFavorites isEqual:@NO] || !discountObject.isInFavorites) {
