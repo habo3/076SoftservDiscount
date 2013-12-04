@@ -162,7 +162,7 @@
 
 -(void)downloadFavorites
 {
-    if ([[FBSession activeSession] accessTokenData].accessToken && ([self isTimeToUpdate] || ![self.discountObjects count]) )
+    if ([[FBSession activeSession] accessTokenData].accessToken && ([self isTimeToUpdate] || ![self.discountObjects count]) && [self internetAvailable] )
     {
         [self putActivity];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -197,6 +197,12 @@
         [blockOperation2 addDependency:downloadFavorites];
         [[NSOperationQueue sharedOperationQueue] addOperation:blockOperation2];
     }
+}
+
+-(BOOL)internetAvailable
+{
+    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.yandex.com"] encoding:NSUTF8StringEncoding error:nil];
+    return (url != NULL) ? YES : NO;
 }
 
 -(void)putActivity

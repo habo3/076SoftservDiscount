@@ -93,7 +93,7 @@
     }
     else
     {
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] openSessionWithAllowLoginUI:YES];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] openSessionWithAllowLoginUI:YES];        
 //        NSLog(@"logIN");
         [self.facebookButton setTitle:@"Log Out" forState:UIControlStateNormal];
     }

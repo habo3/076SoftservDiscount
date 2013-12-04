@@ -352,7 +352,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    if ([[FBSession activeSession] accessTokenData].accessToken && self.isFavoriteStateChanged) {
+    if ([[FBSession activeSession] accessTokenData].accessToken && self.isFavoriteStateChanged && [self internetAvailable]) {
         NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                                 selector:@selector(toggleUserFavoriteObject:)
                                                                                   object:self.discountObject];
@@ -363,6 +363,12 @@
 -(void)toggleUserFavoriteObject:(CDDiscountObject*)discountObject
 {
     [JPJsonParser toggleUserFavoriteObject:discountObject];
+}
+
+-(BOOL)internetAvailable
+{
+    NSString *url = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.yandex.com"] encoding:NSUTF8StringEncoding error:nil];
+    return (url != NULL) ? YES : NO;
 }
 
 #pragma mark - Table view data source
