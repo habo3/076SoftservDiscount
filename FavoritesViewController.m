@@ -164,7 +164,8 @@
     {
         [self putActivity];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *url = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/b1d6f099e1b5913e86f0a9bb9fbc10e5?id=%@",[JPJsonParser getUserIDFromFacebook]];
+        NSDictionary *dictRoot = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"]];
+        NSString *url = [NSString stringWithFormat:@"http://softserve.ua/discount/api/v1/user/favorites/%@?id=%@",[dictRoot objectForKey:@"APIKey"],[JPJsonParser getUserIDFromFacebook]];
         DownloadOperation *downloadFavorites = [[DownloadOperation alloc] init];
         [downloadFavorites performOperationWithURL:url completion:^{
             if ([downloadFavorites.downloader.parsedData count] && downloadFavorites.downloader.parsedData)
