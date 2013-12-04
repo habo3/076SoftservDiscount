@@ -433,21 +433,15 @@
         if([array count] > 1)
         {
             double distanceFromObject = 0.00006;
-            float scaleX = 0.0;
-            float scaleY = distanceFromObject;
+            int n = 0;
             for (int i = 1; i < [array count]; i++)
             {
                 Annotation *current = array[i];
                 CLLocationCoordinate2D coord;
-                coord.latitude = current.coordinate.latitude + scaleX;
-                coord.longitude = current.coordinate.longitude + scaleY;
+                coord.latitude = current.coordinate.latitude + distanceFromObject*cos(n*M_PI/180);
+                coord.longitude = current.coordinate.longitude + distanceFromObject*sin(n*M_PI/180);
+                n += 360 / ([array count] - 1);
                 current.coordinate = coord;
-                scaleX = scaleX + distanceFromObject;
-                if(scaleX > distanceFromObject)
-                    scaleX = -1 * distanceFromObject;
-                scaleY = scaleY + distanceFromObject;
-                if(scaleY > distanceFromObject)
-                    scaleY = -1 * distanceFromObject;
             }
         }
     }
