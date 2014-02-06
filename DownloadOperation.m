@@ -40,7 +40,9 @@
     while( !isCompleted) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     }
-    self.completion();
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.completion();
+    });
 }
 
 @end

@@ -74,7 +74,7 @@
     NSString *url;
     
     url = [JPJsonParser getUrlWithObjectName:@"city" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadCities = [[DownloadOperation alloc] init];
+    DownloadOperation *downloadCities = [DownloadOperation new];
     [downloadCities performOperationWithURL:url completion:^{
         if([self checkDownloadedInformation: downloadCities])
         {
@@ -85,7 +85,7 @@
     [self.queue addOperation:downloadCities];
     
     url = [JPJsonParser getUrlWithObjectName:@"category" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadCategories = [[DownloadOperation alloc] init];
+    DownloadOperation *downloadCategories = [DownloadOperation new];
     [downloadCategories performOperationWithURL:url completion:^{
         if([self checkDownloadedInformation: downloadCategories])
         {
@@ -97,7 +97,7 @@
     [self.queue addOperation:downloadCategories];
     
     url = [JPJsonParser getUrlWithObjectName:@"object" WithFormat:[NSString stringWithFormat:@"?changed=%d", lastUpdate]];
-    DownloadOperation *downloadObjects = [[DownloadOperation alloc] init];
+    DownloadOperation *downloadObjects = [DownloadOperation new];
     [downloadObjects performOperationWithURL:url completion:^{
         dispatch_sync(dispatch_get_main_queue(), ^{
             if([self checkDownloadedInformation: downloadObjects])

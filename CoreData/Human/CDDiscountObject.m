@@ -62,15 +62,18 @@
     NSString* objectID = [NSString stringWithFormat:@"%@",[object valueForKey:@"id"]];
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"CDDiscountObject"];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"id LIKE %@", objectID];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"id == %@", objectID];
     [fetchRequest setFetchLimit:1];
     
-    if([managedObjectContext countForFetchRequest:fetchRequest error:nil])//if object exist it`ll return it
+    //if object exist it`ll return it
+    if([managedObjectContext countForFetchRequest:fetchRequest error:nil])
     {
         NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        return [self writeChangesWithDictionary:object andDiscountObject:result[0] andContext:managedObjectContext];        
+        return result.firstObject;
     }
-    if (createNew) {//if object does not exist it`ll create new object and return it
+    
+    //if object does not exist it`ll create new object and return it
+    if (createNew) {
         CDDiscountObject *newDiscountObject = [self createWithDictionary:object andContext:managedObjectContext];
         newDiscountObject.isInFavoritesValue = NO;
         return newDiscountObject;
