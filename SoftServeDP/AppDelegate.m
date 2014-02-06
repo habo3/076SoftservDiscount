@@ -110,15 +110,8 @@ NSString *const FBSessionStateChangedNotification = @"SoftServeDP:FBSessionState
 
 - (NSManagedObjectModel *)managedObjectModel
 {
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"NewModel" withExtension:@"momd"];
-    //NSLog(@"%@",modelURL);
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
+    return [[CDCoreDataManager sharedInstance] managedObjectModel];
 }
-
 
 #pragma mark - Application's Documents directory
 

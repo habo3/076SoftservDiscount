@@ -14,6 +14,7 @@
 
 @interface CDCoreDataManager() {
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
+    NSManagedObjectModel *_managedObjectModel;
 }
 @end
 
@@ -24,6 +25,7 @@
 @synthesize categories = _categories;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize managedObjectModel = _managedObjectModel;
 
 -(NSManagedObjectContext *)managedObjectContext
 {
@@ -33,7 +35,7 @@
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return _managedObjectContext;
@@ -58,6 +60,17 @@
     
     return _persistentStoreCoordinator;
 }
+
+- (NSManagedObjectModel *)managedObjectModel {
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"NewModel" withExtension:@"momd"];
+    //NSLog(@"%@",modelURL);
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModel;
+}
+
 
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
@@ -144,13 +157,9 @@
     int idx = 0;
     for (NSDictionary *object in _discountObject) {
         
-        __block CDDiscountObject *newDiscountObject = nil;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            newDiscountObject = [CDDiscountObject checkDiscountExistForDictionary:object
-                                                                       andContext:self.managedObjectContext
-                                                                    elseCreateNew:YES];
-        });
-        
+        CDDiscountObject *newDiscountObject = [CDDiscountObject checkDiscountExistForDictionary:object
+                                                                                     andContext:self.managedObjectContext
+                                                                                  elseCreateNew:YES];
         if (newDiscountObject) {
             for (CDCity *city in cities) {
                 if ( [[city valueForKey:@"id"] isEqualToString:[object valueForKey:@"city"]]) {
@@ -171,9 +180,7 @@
         ++idx;
         NSLog(@"%d", idx);
     }
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.managedObjectContext save:nil];
-    });
+    [self.managedObjectContext save:nil];
 }
 
 

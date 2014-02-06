@@ -138,7 +138,6 @@
 		906800DE16B01CEA0053F50C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800DB16B01CEA0053F50C /* Default@2x.png */; };
 		9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 906800FF16B0484F0053F50C /* emptyLeftImage.png */; };
 		906B72E916DD44A9009A287E /* searchBarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 906B72E816DD44A9009A287E /* searchBarBG.png */; };
-		90820E6F16CE583500BBD714 /* icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90820E6E16CE583500BBD714 /* icons.ttf */; };
 		90820E7116CE92C200BBD714 /* emptyPin.png in Resources */ = {isa = PBXBuildFile; fileRef = 90820E7016CE92C200BBD714 /* emptyPin.png */; };
 		AF9158FF1846951E00577FC9 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF9158FE1846951E00577FC9 /* FacebookSDK.framework */; };
 		BB9067BE183B91BA00B6E1DF /* PhoneFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9067BD183B91BA00B6E1DF /* PhoneFormatter.m */; };
@@ -347,7 +346,6 @@
 		906800DB16B01CEA0053F50C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		906800FF16B0484F0053F50C /* emptyLeftImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyLeftImage.png; sourceTree = SOURCE_ROOT; };
 		906B72E816DD44A9009A287E /* searchBarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchBarBG.png; sourceTree = "<group>"; };
-		90820E6E16CE583500BBD714 /* icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icons.ttf; sourceTree = "<group>"; };
 		90820E7016CE92C200BBD714 /* emptyPin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyPin.png; sourceTree = SOURCE_ROOT; };
 		AF9158FE1846951E00577FC9 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		BB9067BC183B91BA00B6E1DF /* PhoneFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneFormatter.h; sourceTree = "<group>"; };
@@ -509,7 +507,6 @@
 				C076B3B716DAD0FE00262BD9 /* filterButton.png */,
 				4BD0DD421831194B002541B4 /* transparent.png */,
 				C076B3B816DAD0FE00262BD9 /* filterButton@2x.png */,
-				90820E6E16CE583500BBD714 /* icons.ttf */,
 				906800D916B01CEA0053F50C /* Default-568h@2x.png */,
 				906800DA16B01CEA0053F50C /* Default.png */,
 				906800DB16B01CEA0053F50C /* Default@2x.png */,
@@ -1044,7 +1041,6 @@
 				4BDB97E5183E6349004BA4C1 /* toTopIconOrange.png in Resources */,
 				9068010016B0484F0053F50C /* emptyLeftImage.png in Resources */,
 				4325F4CD16CBA54E002C7B75 /* annDetailButton.png in Resources */,
-				90820E6F16CE583500BBD714 /* icons.ttf in Resources */,
 				4B52A003181EAAA0002F3898 /* menuIconFavorites@2x.png in Resources */,
 				90820E7116CE92C200BBD714 /* emptyPin.png in Resources */,
 				4B52A013181EAAA0002F3898 /* menuIconSettings@2x.png in Resources */,
